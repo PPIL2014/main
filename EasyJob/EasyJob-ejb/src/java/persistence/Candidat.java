@@ -53,8 +53,8 @@ public class Candidat implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     private Adresse adresse;
     
-    @OneToMany(mappedBy = "candidat")
-    private List<SuiviEntreprise> entreprises;
+    @OneToMany
+    private List<Entreprise> entreprises;
     
     @OneToMany(mappedBy = "destinataire", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<SuggestionAnnonce> suggestions;
@@ -301,14 +301,14 @@ public class Candidat implements Serializable {
     /**
      * @return the entreprises
      */
-    public List<SuiviEntreprise> getEntreprises() {
+    public List<Entreprise> getEntreprises() {
         return entreprises;
     }
 
     /**
      * @param entreprises the entreprises to set
      */
-    public void setEntreprises(List<SuiviEntreprise> entreprises) {
+    public void setEntreprises(List<Entreprise> entreprises) {
         this.entreprises = entreprises;
     }
 

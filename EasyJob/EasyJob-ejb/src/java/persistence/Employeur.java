@@ -47,8 +47,8 @@ public class Employeur implements Serializable {
     @ManyToOne
     private Entreprise entreprise;
     
-    @OneToMany(mappedBy="employeur")
-    private List<SuiviCandidat> candidats;
+    @OneToMany
+    private List<Candidat> candidats;
     
     @OneToMany(mappedBy = "destinataire", cascade = CascadeType.ALL)
     private List<SuggestionCandidat> suggestions;
@@ -213,14 +213,14 @@ public class Employeur implements Serializable {
     /**
      * @return the candidats
      */
-    public List<SuiviCandidat> getCandidats() {
+    public List<Candidat> getCandidats() {
         return candidats;
     }
 
     /**
      * @param candidats the candidats to set
      */
-    public void setCandidats(List<SuiviCandidat> candidats) {
+    public void setCandidats(List<Candidat> candidats) {
         this.candidats = candidats;
     }
 
