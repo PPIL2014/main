@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>EasyJob</title>
+        <link rel="stylesheet" href="YannCSS.css" />
+    </h:head>
+    <h:body>
+        Hello from Facelets
+        <div id="login">
+        <h:form >
+            <div class="row fl-controls-left">
+                <label class="fl-label" for="username"></label>
+            </div>
+            Connexion : <h:inputText value="ra" title="saisisez votre nom d'utilisateur"></h:inputText>
+            Mot de passe : <h:inputSecret value="ta" title="saisissez votre mot de passe"></h:inputSecret>
+            <h:commandButton value="valider" action="#{rmb.register()}"  />
+            <h:outputText value="#{rmb.totos}"/>
+        </h:form>
+        </div>
+    </h:body>
+</html>
+

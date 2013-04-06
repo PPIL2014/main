@@ -1,0 +1,23 @@
+/* 
+    Document   : YannCSS
+    Created on : 6 avr. 2013, 00:00:58
+    Author     : Yann
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+#login {
+    width: 70%;
+    border: 1px solid black;
+    padding: 7px;
+    float: left;
+    margin-bottom: 35px;
+    margin-right: 8px;
+    text-align: center;
+}
+
+
