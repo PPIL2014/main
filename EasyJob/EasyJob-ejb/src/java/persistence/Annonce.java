@@ -5,6 +5,7 @@
 package persistence;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -42,7 +43,7 @@ public class Annonce implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateEmission;
     
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.ALL)
     private Adresse lieu;
     
     @OneToMany(mappedBy="annonce", cascade = CascadeType.ALL)
@@ -52,7 +53,20 @@ public class Annonce implements Serializable {
     private Employeur employeur;
     
     
-
+    public Annonce() {  
+        this.candidatures = new ArrayList<CandidatureAnnonce>();      
+    }
+    
+    public Annonce(String titre, String description, String contrat, String etude, Employeur em) {
+        this.titre = titre;
+        this.description = description;
+        this.contrat = contrat;
+        this.etudes = etude;
+        this.employeur = em;
+        this.dateEmission = new Date();
+        this.candidatures = new ArrayList<CandidatureAnnonce>();
+    }
+    
     public Long getId() {
         return id;
     }

@@ -35,6 +35,10 @@ public class NotificationCandidat implements Serializable {
     
     @OneToOne
     private Entreprise entreprise;
+    
+    public NotificationCandidat() {
+        
+    }
 
     public Long getId() {
         return id;

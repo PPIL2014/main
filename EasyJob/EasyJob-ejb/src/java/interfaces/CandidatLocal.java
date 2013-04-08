@@ -12,7 +12,7 @@ import persistence.Candidat;
  * @author celie
  */
 @Local
-public interface CandidatMng {
+public interface CandidatLocal {
     
     public Candidat getCandidat(String mail); 
     

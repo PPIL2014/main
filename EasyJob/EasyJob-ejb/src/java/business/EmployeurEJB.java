@@ -4,14 +4,17 @@
  */
 package business;
 
+import interfaces.EmployeurLocal;
 import javax.ejb.Stateless;
+import javax.ejb.LocalBean;
 
 /**
  *
- * @author Yann
+ * @author celie
  */
 @Stateless
-public class ConnexionSessionBean implements ConnexionSessionBeanLocal {
+@LocalBean
+public class EmployeurEJB implements EmployeurLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")

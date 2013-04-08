@@ -36,6 +36,10 @@ public class NotificationEmployeur implements Serializable {
     @OneToOne
     private CandidatureAnnonce candidature;
     
+    
+    public NotificationEmployeur() {
+        
+    }
 
     public Long getId() {
         return id;

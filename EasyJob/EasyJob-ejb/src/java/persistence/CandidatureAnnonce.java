@@ -34,6 +34,9 @@ public class CandidatureAnnonce implements Serializable {
     @OneToOne
     private Candidat candidat;
     
+    public CandidatureAnnonce() {
+    }
+    
 
     public Long getId() {
         return id;

@@ -46,8 +46,8 @@ public class Candidat implements Serializable {
     private String sitWeb;
     private String niveauEtudes;
     private String domaineEtudes;
-    private String langues;
-    private ArrayList<String> experiences;
+    private List<String> langues;
+    private List<String> experiences;
     private int nbExperiences;
     
     @OneToOne(cascade = CascadeType.ALL)
@@ -63,6 +63,27 @@ public class Candidat implements Serializable {
     private List<NotificationCandidat> notifications;
     
 
+    
+    public Candidat() {
+        this.entreprises = new ArrayList<Entreprise>();
+        this.experiences = new ArrayList<String>();
+        this.notifications = new ArrayList<NotificationCandidat>();
+        this.suggestions = new ArrayList<SuggestionAnnonce>();
+    }
+    
+    public Candidat(String nom, String prenom, String tel, String secu, Date naissance, boolean confidentialite) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.telephone = tel;
+        this.numSecu = secu;
+        this.date_naissance = naissance;
+        this.confidentialite = confidentialite;
+        this.entreprises = new ArrayList<Entreprise>();
+        this.experiences = new ArrayList<String>();
+        this.notifications = new ArrayList<NotificationCandidat>();
+        this.suggestions = new ArrayList<SuggestionAnnonce>();
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -231,28 +252,28 @@ public class Candidat implements Serializable {
     /**
      * @return the langues
      */
-    public String getLangues() {
+    public List<String> getLangues() {
         return langues;
     }
 
     /**
      * @param langues the langues to set
      */
-    public void setLangues(String langues) {
+    public void setLangues(List<String> langues) {
         this.langues = langues;
     }
 
     /**
      * @return the experiences
      */
-    public ArrayList<String> getExperiences() {
+    public List<String> getExperiences() {
         return experiences;
     }
 
     /**
      * @param experiences the experiences to set
      */
-    public void setExperiences(ArrayList<String> experiences) {
+    public void setExperiences(List<String> experiences) {
         this.experiences = experiences;
     }
 

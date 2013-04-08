@@ -5,6 +5,7 @@
 package persistence;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,6 +33,10 @@ public class CandidatureSpontanee implements Serializable {
     @ManyToMany
     private List<Employeur> employeurs;
     
+    
+    public CandidatureSpontanee() {
+        this.employeurs = new ArrayList<Employeur>();
+    }
 
     public Long getId() {
         return id;

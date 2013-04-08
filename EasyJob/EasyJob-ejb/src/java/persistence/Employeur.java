@@ -5,6 +5,7 @@
 package persistence;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -59,6 +60,32 @@ public class Employeur implements Serializable {
     @ManyToMany(mappedBy = "destinataires", cascade = CascadeType.ALL)
     private List<NotificationCandidatureS> notificationsCS;
 
+    
+    public Employeur() {
+        this.annonces = new ArrayList<Annonce>();
+        this.candidats = new ArrayList<Candidat>();
+        this.candidatures = new ArrayList<CandidatureSpontanee>();
+        this.notifications = new ArrayList<NotificationEmployeur>();
+        this.notificationsCS = new ArrayList<NotificationCandidatureS>();
+        this.suggestions = new ArrayList<SuggestionCandidat>();
+    }
+    
+    public Employeur(String nom, String prenom, String mail, String mdp, boolean confidentialite, Entreprise en) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.mail = mail;
+        this.mdp = mdp;
+        this.confidentialite = confidentialite;
+        this.entreprise = en;
+        this.annonces = new ArrayList<Annonce>();
+        this.candidats = new ArrayList<Candidat>();
+        this.candidatures = new ArrayList<CandidatureSpontanee>();
+        this.notifications = new ArrayList<NotificationEmployeur>();
+        this.notificationsCS = new ArrayList<NotificationCandidatureS>();
+        this.suggestions = new ArrayList<SuggestionCandidat>();
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

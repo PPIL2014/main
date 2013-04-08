@@ -4,7 +4,7 @@
  */
 package business;
 
-import interfaces.CandidatMng;
+import interfaces.CandidatLocal;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import persistence.Candidat;
  * @author celie
  */
 @Stateless
-public class CandidatMngBean implements CandidatMng{
+public class CandidatEJB implements CandidatLocal{
     
     @PersistenceContext(unitName = "EasyJob-PU")
     private EntityManager em;

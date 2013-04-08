@@ -33,6 +33,11 @@ public class SuggestionCandidat implements Serializable {
     
     @ManyToOne
     private Employeur destinataire;
+    
+    
+    public SuggestionCandidat() {
+        
+    }
 
     public Long getId() {
         return id;

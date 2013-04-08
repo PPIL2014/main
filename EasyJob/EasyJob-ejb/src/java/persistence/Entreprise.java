@@ -5,6 +5,7 @@
 package persistence;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -25,17 +26,31 @@ public class Entreprise implements Serializable {
     private String nomEntreprise;
     private String domaine;
     private String telephone;
-    private String staut;
+    private String statut;
     private String siteWeb;
     private String description;
     private int nbEmployes;
     
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.ALL)
     private Adresse adresse;
     
     @OneToMany(mappedBy="entreprise", cascade = CascadeType.MERGE)
     private List<Employeur> employeurs;
 
+    
+    public Entreprise() {
+        this.employeurs = new ArrayList<Employeur>();
+    }
+    
+    public Entreprise(String nom, String domaine, String tel, String statut, Adresse adr) {
+        this.nomEntreprise = nom;
+        this.domaine = domaine;
+        this.telephone = tel;
+        this.statut = statut;
+        this.adresse = adr;
+        this.employeurs = new ArrayList<Employeur>();
+    }
+    
 
     @Override
     public int hashCode() {
@@ -105,17 +120,17 @@ public class Entreprise implements Serializable {
     }
 
     /**
-     * @return the staut
+     * @return the statut
      */
-    public String getStaut() {
-        return staut;
+    public String getStatut() {
+        return statut;
     }
 
     /**
-     * @param staut the staut to set
+     * @param statut the statut to set
      */
-    public void setStaut(String staut) {
-        this.staut = staut;
+    public void setStatut(String statut) {
+        this.statut = statut;
     }
 
     /**

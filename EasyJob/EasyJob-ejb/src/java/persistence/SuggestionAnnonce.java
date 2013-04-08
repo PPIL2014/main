@@ -34,6 +34,11 @@ public class SuggestionAnnonce implements Serializable {
     @ManyToOne
     private  Candidat destinataire;
     
+    
+    public SuggestionAnnonce() {
+        
+    }
+    
     public Long getId() {
         return id;
     }

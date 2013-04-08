@@ -1,10 +1,12 @@
+package ManageBean;
 
 
-import business.ConnexionSessionBean;
+
+
+import business.CandidatEJB;
+import business.EmployeurEJB;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Produces;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -19,28 +21,33 @@ import javax.inject.Named;
  * @author Yann
  */
 
-@Named
-@ViewScoped
-public class RegisterManageBeans implements Serializable{
-    @Produces
+@Named(value="connexion")
+//@ManagedBean(name="connexion")
+@SessionScoped
+public class RegisterManageBean implements Serializable{
+   
+    //@Produces
     private String login,password;
-    @Produces
+    //@Produces
     private String rat;
 
+    /*@Inject
+    private CandidatEJB candidatEJB;
     @Inject
-    private ConnexionSessionBean conexionSnBean;
+    private EmployeurEJB employeurEJB;*/
+    
     /**
-     * Creates a new instance of RegisterManageBeans
+     * Creates a new instance of RegisterManageBean
      */
-    public RegisterManageBeans() {
-       // conexionMngBean=new ConnexionMngBean();
+    public RegisterManageBean() {
+       
     }
     
     
     
     public String connexion(){
       //  System.out.println(conexionMngBean.connexionValidator(getLogin(), getPassword()));
-        return "toto";
+        return "connexion";
     }
 
     /**
