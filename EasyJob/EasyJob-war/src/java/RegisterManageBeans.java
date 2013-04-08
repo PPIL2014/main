@@ -1,42 +1,87 @@
+
+
+import business.ConnexionSessionBean;
+import java.io.Serializable;
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Produces;
+import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
-import javax.inject.Named;
-import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author Yann
  */
-@Named(value = "rmb")
-@SessionScoped
-public class RegisterManageBeans {
-    private String totos="2eux";
+
+@Named
+@ViewScoped
+public class RegisterManageBeans implements Serializable{
+    @Produces
+    private String login,password;
+    @Produces
+    private String rat;
+
+    @Inject
+    private ConnexionSessionBean conexionSnBean;
     /**
      * Creates a new instance of RegisterManageBeans
      */
     public RegisterManageBeans() {
+       // conexionMngBean=new ConnexionMngBean();
     }
     
     
     
-    public String register(){
+    public String connexion(){
+      //  System.out.println(conexionMngBean.connexionValidator(getLogin(), getPassword()));
         return "toto";
     }
 
     /**
-     * @return the totos
+     * @return the login
      */
-    public String getTotos() {
-        return totos;
+    public String getLogin() {
+        return login;
     }
 
     /**
-     * @param totos the totos to set
+     * @param login the login to set
      */
-    public void setTotos(String totos) {
-        this.totos = totos;
+    public void setLogin(String login) {
+        this.login = login;
     }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
+    public String getRat(){
+        setRat("rat");
+        return rat;
+    }
+
+    /**
+     * @param rat the rat to set
+     */
+    public void setRat(String rat) {
+        this.rat = rat;
+    }
+
 }

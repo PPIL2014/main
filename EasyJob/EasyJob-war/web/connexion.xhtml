@@ -14,10 +14,10 @@
             <div class="row fl-controls-left">
                 <label class="fl-label" for="username"></label>
             </div>
-            Connexion : <h:inputText value="ra" title="saisisez votre nom d'utilisateur"></h:inputText>
-            Mot de passe : <h:inputSecret value="ta" title="saisissez votre mot de passe"></h:inputSecret>
-            <h:commandButton value="valider" action="#{rmb.register()}"  />
-            <h:outputText value="#{rmb.totos}"/>
+            Connexion : <h:inputText value="#{registerManageBeans.login}" title="saisisez votre nom d'utilisateur"></h:inputText>
+            Mot de passe : <h:inputSecret value="#{registerManageBeans.password}" title="saisissez votre mot de passe"></h:inputSecret>
+            <h:commandButton value="valider" action="#{registerManageBeans.connexion()}"  />
+            <h:outputText value="#{registerManageBeans.rat}"/>
         </h:form>
         </div>
     </h:body>

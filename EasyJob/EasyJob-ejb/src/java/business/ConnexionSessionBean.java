@@ -2,21 +2,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package bean;
+package business;
 
 import javax.ejb.Stateless;
-import javax.ejb.LocalBean;
 
 /**
  *
  * @author Yann
  */
 @Stateless
-public class RegisterMngBean {
+public class ConnexionSessionBean implements ConnexionSessionBeanLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-    public String submitForm(){
-        return "toto.xhtml";
-    }
+
 }
