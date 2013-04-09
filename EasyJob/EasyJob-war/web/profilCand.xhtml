@@ -11,17 +11,17 @@ and open the template in the editor.
         <title>Profil Candidat</title>
     </head>
     <body>
-        <h1>Welcome, <h:outputText value="#{profilcand.prenom}" /> <h:outputText value="#{profilcand.nom}" /> !</h1>
+        <h1>Welcome, <h:outputText value="#{profilcand.prenomCand}" /> <h:outputText value="#{profilcand.nom}" /> !</h1>
         <div>
             <center><h2>Voici votre état civil : </h2></center>
-            <table border="0" cellpadding ="0">
+            <table border="0" cellpadding ="5">
                 <tr>
                     <td>Nom: </td> 
-                    <td><h:outputText value="#{profilcand.nom}" /></td>
+                    <td><h:outputText value="#{profilcand.nomCand}" /></td>
                 </tr>
                 <tr>
                     <td>Prénom: </td> 
-                    <td><h:outputText value="#{profilcand.prenom}" /></td>
+                    <td><h:outputText value="#{profilcand.prenomCand}" /></td>
                 </tr>
                 <tr>
                     <td>Adresse: </td> 
