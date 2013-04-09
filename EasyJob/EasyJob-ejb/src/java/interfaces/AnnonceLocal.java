@@ -2,19 +2,21 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package business;
+package interfaces;
 
-import javax.ejb.Stateless;
-import javax.ejb.LocalBean;
+import javax.ejb.Local;
+import persistence.Annonce;
+
+
 
 /**
  *
- * @author Yann
+ * @author celie
  */
-@Stateless
-@LocalBean
-public class UtilisateurEJB {
-
+@Local
+public interface AnnonceLocal {
+    
+    public Annonce getAnnonceById(long id);
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 

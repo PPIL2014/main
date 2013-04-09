@@ -3,8 +3,9 @@ package ManageBean;
 
 
 
-import business.CandidatEJB;
-import business.EmployeurEJB;
+
+import interfaces.CandidatLocal;
+import interfaces.EmployeurLocal;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -39,9 +40,9 @@ public class RegisterManageBean implements Serializable{
     private String rat;
 
     @Inject
-    private CandidatEJB candidatEJB;
+    private CandidatLocal candidatEJB;
     @Inject
-    private EmployeurEJB employeurEJB;
+    private EmployeurLocal employeurEJB;
     
     /**
      * Creates a new instance of RegisterManageBean
