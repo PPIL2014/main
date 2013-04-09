@@ -11,26 +11,26 @@ and open the template in the editor.
         <title>Profil Employeur</title>
     </head>
     <body>
-        <h1>Welcome, <h:outputText value="#{profilempl.prenom}" /> <h:outputText value="#{profilempl.nom}" /> !</h1>
+        <h1>Welcome, <h:outputText value="#{profilEmpManagedBean.prenom}" /> <h:outputText value="#{profilEmpManagedBean.nom}" /> !</h1>
         <div>
             <h2>Tes informations</h2>
             <table border="2" cellpadding ="2">
-                <tr><td>Nom: </td> <td><h:outputText value="#{profilempl.nom}" /></td></tr>
-                <tr><td>Prenom: </td> <td><h:outputText value="#{profilempl.prenom}" /></td></tr>
-                <tr><td>Email: </td> <td><h:outputText value="#{profilempl.mail}" /></td></tr>
-                <tr><td>Telephone: </td> <td><h:outputText value="#{profilempl.telephoneEmp}" /></td></tr>
+                <tr><td>Nom: </td> <td><h:outputText value="#{profilEmpManagedBean.nom}" /></td></tr>
+                <tr><td>Prenom: </td> <td><h:outputText value="#{profilEmpManagedBean.prenom}" /></td></tr>
+                <tr><td>Email: </td> <td><h:outputText value="#{profilEmpManagedBean.mail}" /></td></tr>
+                <tr><td>Telephone: </td> <td><h:outputText value="#{profilEmpManagedBean.telephoneEmp}" /></td></tr>
                 <tr><td> </td> <td> </td></tr>
-                <tr><td>Nom de l'entreprise: </td> <td><h:outputText value="#{profilempl.nomEntr}" /></td></tr>
-                <tr><td>Domaine d'activité: </td> <td><h:outputText value="#{profilempl.domaineActi}" /></td></tr>
-                <tr><td>Rue: </td> <td><h:outputText value="#{profilempl.rue}" /></td></tr>
-                <tr><td>Code postal: </td> <td><h:outputText value="#{profilempl.codePostal}" /></td></tr>
-                <tr><td>Ville: </td> <td><h:outputText value="#{profilempl.ville}" /></td></tr>
-                <tr><td>Pays: </td> <td><h:outputText value="#{profilempl.pays}" /></td></tr>
-                <tr><td>Tel de l'entreprise: </td> <td><h:outputText value="#{profilempl.telephoneEnt}" /></td></tr>
-                <tr><td>Statut: </td> <td><h:outputText value="#{profilempl.statut}" /></td></tr>
-                <tr><td>Site web: </td> <td><h:outputText value="#{profilempl.siteWeb}" /></td></tr>
-                <tr><td>Description: </td> <td><h:outputText value="#{profilempl.description}" /></td></tr>
-                <tr><td>Nombres des employés: </td> <td><h:outputText value="#{profilempl.nbEmployes}" /></td></tr>
+                <tr><td>Nom de l'entreprise: </td> <td><h:outputText value="#{profilEmpManagedBean.nomEntr}" /></td></tr>
+                <tr><td>Domaine d'activité: </td> <td><h:outputText value="#{profilEmpManagedBean.domaineActi}" /></td></tr>
+                <tr><td>Rue: </td> <td><h:outputText value="#{profilEmpManagedBean.rue}" /></td></tr>
+                <tr><td>Code postal: </td> <td><h:outputText value="#{profilEmpManagedBean.codePostal}" /></td></tr>
+                <tr><td>Ville: </td> <td><h:outputText value="#{profilEmpManagedBean.ville}" /></td></tr>
+                <tr><td>Pays: </td> <td><h:outputText value="#{profilEmpManagedBean.pays}" /></td></tr>
+                <tr><td>Tel de l'entreprise: </td> <td><h:outputText value="#{profilEmpManagedBean.telephoneEnt}" /></td></tr>
+                <tr><td>Statut: </td> <td><h:outputText value="#{profilEmpManagedBean.statut}" /></td></tr>
+                <tr><td>Site web: </td> <td><h:outputText value="#{profilEmpManagedBean.siteWeb}" /></td></tr>
+                <tr><td>Description: </td> <td><h:outputText value="#{profilEmpManagedBean.description}" /></td></tr>
+                <tr><td>Nombres des employés: </td> <td><h:outputText value="#{profilEmpManagedBean.nbEmployes}" /></td></tr>
             </table>
         </div>
     </body>
