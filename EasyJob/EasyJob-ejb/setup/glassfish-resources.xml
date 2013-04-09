@@ -11,4 +11,6 @@
         <property name="driverClass" value="org.apache.derby.jdbc.ClientDriver"/>
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="jdbc/easyJob" object-type="user" pool-name="derby_net_easyJob_ppilPool"/>
+    <jdbc-resource enabled="true" jndi-name="easyJob2" object-type="user" pool-name="derby_net_easyJob_ppilPool"/>
+    <jdbc-resource enabled="true" jndi-name="easyJob" object-type="user" pool-name="derby_net_easyJob_ppilPool"/>
 </resources>

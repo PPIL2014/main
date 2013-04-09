@@ -14,10 +14,10 @@
             <div class="row fl-controls-left">
                 <label class="fl-label" for="username"></label>
             </div>
-            Connexion : <h:inputText value="#{rmb.login}" title="saisisez votre nom d'utilisateur"></h:inputText>
-            Mot de passe : <h:inputSecret value="#{rmb.password}" title="saisissez votre mot de passe"></h:inputSecret>
-            <h:commandButton value="valider" action="#{rmb.connexion()}"  />
-            <h:outputText value="#{rmb.rat}"/>
+            Connexion : <h:inputText value="#{connexionBean.login}" title="saisisez votre nom d'utilisateur"></h:inputText>
+            Mot de passe : <h:inputSecret value="#{connexionBean.password}" title="saisissez votre mot de passe"></h:inputSecret>
+            <h:commandButton value="valider" action="#{connexionBean.connexion()}"  />
+            <h:outputText value="#{connexionBean.rat}"/>
         </h:form>
         </div>
     </h:body>

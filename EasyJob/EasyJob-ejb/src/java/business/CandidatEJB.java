@@ -27,5 +27,7 @@ public class CandidatEJB implements CandidatLocal{
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-
+    public boolean estCandidat(String login){
+        return false;
+    }
 }
