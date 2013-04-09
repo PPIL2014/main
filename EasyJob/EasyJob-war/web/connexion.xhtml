@@ -8,16 +8,16 @@
         <link rel="stylesheet" href="YannCSS.css" />
     </h:head>
     <h:body>
-        Hello from Facelets
+        <h1>Hello from Facelets</h1>
         <div id="login">
         <h:form >
             <div class="row fl-controls-left">
                 <label class="fl-label" for="username"></label>
             </div>
-            Connexion : <h:inputText value="#{registerManageBeans.login}" title="saisisez votre nom d'utilisateur"></h:inputText>
-            Mot de passe : <h:inputSecret value="#{registerManageBeans.password}" title="saisissez votre mot de passe"></h:inputSecret>
-            <h:commandButton value="valider" action="#{registerManageBeans.connexion()}"  />
-            <h:outputText value="#{registerManageBeans.rat}"/>
+            Connexion : <h:inputText value="#{rmb.login}" title="saisisez votre nom d'utilisateur"></h:inputText>
+            Mot de passe : <h:inputSecret value="#{rmb.password}" title="saisissez votre mot de passe"></h:inputSecret>
+            <h:commandButton value="valider" action="#{rmb.connexion()}"  />
+            <h:outputText value="#{rmb.rat}"/>
         </h:form>
         </div>
     </h:body>
