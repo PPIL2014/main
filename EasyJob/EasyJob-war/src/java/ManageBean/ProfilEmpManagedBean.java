@@ -13,12 +13,12 @@ import javax.inject.Named;
  * @author enis
  */
 
-@Named
+@Named(value="profilempl")
 @SessionScoped
 public class ProfilEmpManagedBean implements Serializable{
     
-    private String nomEntr="aaaa";
-    private String domaineActi="zaeaze";
+    private String nomEntr;
+    private String domaineActi;
     private String rue;
     private String codePostal;
     private String ville;

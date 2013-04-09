@@ -3,15 +3,12 @@ package ManageBean;
 
 
 
-
-import interfaces.CandidatLocal;
-import interfaces.EmployeurLocal;
+import business.CandidatEJB;
+import business.EmployeurEJB;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import persistence.Candidat;
-import persistence.Employeur;
 
 /*
  * To change this template, choose Tools | Templates
@@ -24,25 +21,20 @@ import persistence.Employeur;
  * @author Yann
  */
 
-@Named(value="connexionBean")
+@Named(value="connexion")
 //@ManagedBean(name="connexion")
 @SessionScoped
 public class RegisterManageBean implements Serializable{
    
     //@Produces
     private String login,password;
-    
-    private Employeur employeur;
-    
-    private Candidat candidat;
-    
     //@Produces
     private String rat;
 
+    /*@Inject
+    private CandidatEJB candidatEJB;
     @Inject
-    private CandidatLocal candidatEJB;
-    @Inject
-    private EmployeurLocal employeurEJB;
+    private EmployeurEJB employeurEJB;*/
     
     /**
      * Creates a new instance of RegisterManageBean

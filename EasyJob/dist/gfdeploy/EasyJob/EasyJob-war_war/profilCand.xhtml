@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <head>
+        <title>Profil Candidat</title>
+    </head>
+    <body>
+        <h1>Welcome, <h:outputText value="#{profilcand.prenomCand}" /> <h:outputText value="#{profilcand.nom}" /> !</h1>
+        <div>
+            <center><h2>Voici votre état civil : </h2></center>
+            <table border="0" cellpadding ="5">
+                <tr>
+                    <td>Nom: </td> 
+                    <td><h:outputText value="#{profilcand.nomCand}" /></td>
+                </tr>
+                <tr>
+                    <td>Prénom: </td> 
+                    <td><h:outputText value="#{profilcand.prenomCand}" /></td>
+                </tr>
+                <tr>
+                    <td>Adresse: </td> 
+                    <td>
+                        <h:outputText value="#{profilcand.adresse}" />
+                        <h:outputText value="#{profilcand.rue}" />
+                        <h:outputText value="#{profilcand.codePostal}" />
+                        <h:outputText value="#{profilcand.ville}" />
+                        <h:outputText value="#{profilcand.pays}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Email: </td> 
+                    <td><h:outputText value="#{profilcand.mail}" /></td>
+                </tr>
+                <tr>
+                    <td>Telephone: </td> 
+                    <td><h:outputText value="#{profilcand.telCand}" /></td>
+                </tr>
+            </table>
+            <center><h2>Voici votre état professionel : </h2></center>
+            <table border="0" cellpadding ="0">
+                <tr>
+                    <td>Domaine d'étude: </td> 
+                    <td><h:outputText value="#{profilcand.domaineEtude}" /></td>
+                </tr>
+                <tr>
+                    <td>Niveau d'étude: </td> 
+                    <td><h:outputText value="#{profilcand.niveauetude}" /></td>
+                </tr>
+                <tr>
+                    <td>N'ombre année d'étude: </td> 
+                    <td><h:outputText value="#{profilcand.nbrAnneeEtude}" /></td>
+                </tr>
+                <tr>
+                    <td>Expériences professionelles: </td> 
+                    <td><h:outputText value="#{profilcand.expPro}" /></td>
+                </tr>
+                <tr>
+                    <td>Nombre d'année d'expériance: </td> 
+                    <td><h:outputText value="#{profilcand.nbrAnneeEtude}" /></td>
+                </tr>
+                <tr>
+                    <td>Compétance linguistique: </td> 
+                    <td><h:outputText value="#{profilcand.compLing}" /></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

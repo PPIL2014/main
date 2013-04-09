@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Consulter une annonce</title>
+    </h:head>
+    <h:body>
+        <div id="annonceManagedBean.annonce.id">
+            <h:outputText value="#{annonceManagedBean.annonce.titre}" />
+            <h:outputText value="#{annonceManagedBean.annonce.employeur}" title="Annonce émise par : " />
+            <h:outputText value="#{annonceManagedBean.annonce.dateEmission}" title="Annonce émise le : " />
+            <h:outputText value="#{annonceManagedBean.annonce.description}" title="Description : " />
+            <h:outputText value="#{annonceManagedBean.annonce.dateLimite}" title="Date limite des candidatures : " />
+            <h:outputText value="#{annonceManagedBean.annonce.contrat}" title="Type de contrat proposé : " />
+            <h:outputText value="#{annonceManagedBean.annonce.secteur}" title="Secteur de l'entreprise : " />
+            <h:outputText value="#{annonceManagedBean.annonce.salaire}" title="Salaire : " />
+            <h:outputText value="#{annonceManagedBean.annonce.etudes}" title="Niveau d'études demandé : " />
+            <h:outputText value="#{annonceManagedBean.annonce.experience}" title="Expérience demandée : " />
+            <h:outputText value="#{annonceManagedBean.annonce.lieu}" title="Lieu : " />
+        </div>  
+    </h:body>
+</html>
