@@ -1,1 +1,1 @@
-Pour déployer l'application, il faut jsf 2.1 et créer une base de données easyJob (userName : ppil et password : ppil).
+Pour déployer l'application, il faut jsf 2.1, primefaces 3.4 et créer une base de données easyJob (userName : ppil et password : ppil).
