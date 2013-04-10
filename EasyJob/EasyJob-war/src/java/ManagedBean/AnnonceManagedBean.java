@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ManageBean;
+package ManagedBean;
 
 import business.AnnonceEJB;
 import interfaces.AnnonceLocal;

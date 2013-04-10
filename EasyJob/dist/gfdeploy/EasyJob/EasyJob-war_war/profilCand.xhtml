@@ -25,7 +25,7 @@ and open the template in the editor.
                        <h:outputText value="Nom : "/>
                    </p:column>
                    <p:column>
-                       <h:outputText value="ccc"/>
+                       <h:outputText value="#{profilcandBean.candidat.nom}"/>
                    </p:column>
                </p:row>
                
@@ -34,10 +34,19 @@ and open the template in the editor.
                        <h:outputText value="Prénom : "/>
                    </p:column>
                    <p:column>
-                       <h:outputText value="ccc"/>
+                       <h:outputText value="#{profilcandBean.candidat.prenom}"/>
                    </p:column>
                </p:row>
 
+                    
+               <p:row >
+                   <p:column>
+                       <h:outputText value="Consulter une entreprise : "/>
+                   </p:column>
+                   <p:column>
+                       <h:commandLink value="Société Générale" action="vitrineEntreprise" />
+                   </p:column>
+               </p:row> 
        </p:panelGrid>
        
        </h:form>

@@ -8,7 +8,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -23,6 +26,10 @@ public class Entreprise implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    
+    @Column(name="nomEntreprise")
     private String nomEntreprise;
     private String domaine;
     private String telephone;
@@ -55,7 +62,7 @@ public class Entreprise implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (getNomEntreprise() != null ? getNomEntreprise().hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -66,7 +73,7 @@ public class Entreprise implements Serializable {
             return false;
         }
         Entreprise other = (Entreprise) object;
-        if ((this.getNomEntreprise() == null && other.getNomEntreprise() != null) || (this.getNomEntreprise() != null && !this.nomEntreprise.equals(other.nomEntreprise))) {
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -74,7 +81,7 @@ public class Entreprise implements Serializable {
 
     @Override
     public String toString() {
-        return "persistance.Entreprise[ id=" + getNomEntreprise() + " ]";
+        return "persistance.Entreprise[ id=" + getId() + " ]";
     }
 
     /**
@@ -201,6 +208,20 @@ public class Entreprise implements Serializable {
      */
     public void setEmployeurs(List<Employeur> employeurs) {
         this.employeurs = employeurs;
+    }
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
     }
     
 }

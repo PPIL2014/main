@@ -113,7 +113,7 @@ public class GenerateData {
         emp.setTelephone("0651859635");
         em.persist(emp);
         
-        en = new Entreprise("Société Générale","banque","0155687582","SARL", new Adresse("35 allée des Lilas","75000","Paris","France"));
+        en = new Entreprise("Societe Generale","banque","0155687582","SARL", new Adresse("35 allée des Lilas","75000","Paris","France"));
         en.setNbEmployes(32);
         em.persist(en);
         

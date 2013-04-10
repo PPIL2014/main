@@ -24,3 +24,60 @@ root {
 }
 
 
+a:hover			/*propriété d'un lien qu'on "survole"*/
+{color:red;}			/*couleur rouge*/
+
+body 	/*En général...*/
+{
+font-family:arial; 				/*police arial*/
+font-style:normal;				/*pas de style particulier*/
+font-size:15px;					/*taille de la police*/
+}
+
+#titre			/*le titre...*/
+{
+text-align:center;			/*centre le texte*/
+font-family:serif; 			/*police arial*/
+font-style:italic;			/*pas de style particulier*/
+font-size:50px;				/*taille de la police*/
+padding:3px;				/*marge interne (optionnelle)*/
+color: blue;
+}
+
+#pied 		/*le pied de page*/
+ {
+clear:both;				/*évite le chevauchement*/
+text-align:center;			/*aligne le texte au centre*/
+}
+
+#menugauche  		/*partie gauche de la page*/
+{
+margin-top:5%;
+float:left;		/*positionne la partie à gauche*/
+width:15%;
+}
+#menucentre 			/*partie centrale de la page*/
+{
+float:left;                         /*aligne le texte à gauche*/
+margin-left:15.2%;			/*laisse 15.2% de marge/espace a gauche*/
+margin-right:15.2%;			/*laisse 15.2% de marge/espace a droite*/
+margin-top:5%;				/*laisse 5% de marge/espace au niveau de la partie supérieur */
+}
+
+#menudroite			/*partie droite de la page*/
+{
+margin-top:5%;
+float:right;				/*positionne la partie à droite*/
+width:15%;
+}
+
+#menuhaut
+{
+text-align:center;    
+}
+
+#reponseSQL
+{
+text-align:center;  
+}
+
