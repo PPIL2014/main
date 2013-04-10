@@ -5,6 +5,7 @@
 package ManageBean;
 
 import business.AnnonceEJB;
+import interfaces.AnnonceLocal;
 import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -18,17 +19,18 @@ import persistence.Annonce;
 
 @Named
 @RequestScoped
-public class annonceManagedBean implements Serializable {
+public class AnnonceManagedBean implements Serializable {
     
     @Inject
-    AnnonceEJB annonceEJB;
+    private AnnonceLocal annonceEJB;
+    
     public Annonce getAnnonce(){
       //  FacesContext fc = FacesContext.getCurrentInstance() ;
       //  RegisterManageBean r = (RegisterManageBean)fc.getExternalContext().getSessionMap().get("connexion");
         //return AnnonceEJB.getAnnonce();
       // return new Annonce() ;
         
-        return annonceEJB.getAnnonce(13) ;
+        return annonceEJB.getAnnonceById(13) ;
     }
     
 }

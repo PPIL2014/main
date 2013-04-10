@@ -12,12 +12,15 @@ root {
 
 #login {
     width: 70%;
-    border: 1px solid black;
     padding: 7px;
     float: left;
     margin-bottom: 35px;
     margin-right: 8px;
     text-align: center;
+}
+
+.panel tr, .panel td {
+    border: none;
 }
 
 

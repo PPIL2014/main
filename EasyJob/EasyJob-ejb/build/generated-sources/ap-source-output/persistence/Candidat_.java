@@ -11,7 +11,7 @@ import persistence.Entreprise;
 import persistence.NotificationCandidat;
 import persistence.SuggestionAnnonce;
 
-@Generated(value="EclipseLink-2.3.2.v20111125-r10461", date="2013-04-09T18:50:38")
+@Generated(value="EclipseLink-2.3.2.v20111125-r10461", date="2013-04-10T10:26:15")
 @StaticMetamodel(Candidat.class)
 public class Candidat_ { 
 

@@ -31,8 +31,9 @@ public class Candidat implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     
-    @Column(unique=true)
+    @Column(unique=true, name = "mail")
     private String mail;
+    @Column(name="mdp")
     private String mdp;
     
     private String nom;

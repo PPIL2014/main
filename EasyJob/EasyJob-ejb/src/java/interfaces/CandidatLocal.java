@@ -14,6 +14,8 @@ import persistence.Candidat;
 @Local
 public interface CandidatLocal {
     
-    public Candidat getCandidat(String mail); 
+    public Candidat getCandidatByMail(String mail); 
+    
+    public boolean loginCandidat(String login, String mdp);
     
 }

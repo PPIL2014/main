@@ -34,12 +34,11 @@ public class GenerateData {
     private EntityManager em;
     private Employeur emp;
     
-    public GenerateData() {     System.out.println("ok++++++++++++++++++++++++++++++");   
+    public GenerateData() {      
     }
     
     @PostConstruct
     public void intitialisation() {
-        System.out.println("ok----------------------------------------------");
         this.addCandidats();
         this.addEmployeurs();
         this.addAnnonce();

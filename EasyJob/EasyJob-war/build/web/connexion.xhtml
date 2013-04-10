@@ -2,24 +2,56 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      >
     <h:head>
         <title>EasyJob</title>
         <link rel="stylesheet" href="YannCSS.css" />
     </h:head>
     <h:body>
-        Hello from Facelets
+        
+        <h1>Connexion : </h1>
+        
         <div id="login">
+            
+            
         <h:form >
+            
+            <p:panelGrid styleClass="panel">
             <div class="row fl-controls-left">
                 <label class="fl-label" for="username"></label>
             </div>
-            Connexion : <h:inputText value="#{registerManageBeans.login}" title="saisisez votre nom d'utilisateur"></h:inputText>
-            Mot de passe : <h:inputSecret value="#{registerManageBeans.password}" title="saisissez votre mot de passe"></h:inputSecret>
-            <h:commandButton value="valider" action="#{registerManageBeans.connexion()}"  />
-            <h:outputText value="#{registerManageBeans.rat}"/>
+                <p:row>
+                    <p:column>
+                        Login : 
+                    </p:column>
+                    <p:column> 
+                        <p:inputText id="login" value="#{connexionBean.login}" title="saisisez votre login"/>
+                    </p:column>
+                </p:row>
+                
+               <p:row> 
+                   <p:column>
+                       Mot de passe :
+                   </p:column>
+                   <p:column>
+                       <p:password value="#{connexionBean.password}" title="saisissez votre mot de passe" />
+                    </p:column>
+                </p:row>
+                
+            <p:row>
+                <p:column colspan="2"><br/>
+                    <p:commandButton id="validerButton" value="valider" action="#{connexionBean.connexion()}"/>
+                </p:column>
+            </p:row>
+  
+            </p:panelGrid>
+    
         </h:form>
+            
         </div>
+        
     </h:body>
 </html>
 

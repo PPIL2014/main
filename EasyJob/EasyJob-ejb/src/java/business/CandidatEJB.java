@@ -7,7 +7,9 @@ package business;
 import interfaces.CandidatLocal;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import persistence.Candidat;
 
 /**
@@ -20,12 +22,24 @@ public class CandidatEJB implements CandidatLocal{
     @PersistenceContext(unitName = "EasyJob-PU")
     private EntityManager em;
 
+   
+
     @Override
-    public Candidat getCandidat(String mail) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Candidat getCandidatByMail(String mail) {
+        String query = "SELECT c FROM Candidat c WHERE c.mail = '" + mail + "'";
+        Query q = em.createQuery(query);
+        return (Candidat) q.getSingleResult();
     }
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
-
+    @Override
+    public boolean loginCandidat(String login, String mdp) {
+        String query = "SELECT c FROM Candidat c WHERE c.mail='" + login + "' AND c.mdp='" + mdp + "'";
+        Query q = em.createQuery(query);
+        try {
+            q.getSingleResult();
+            return true;
+        } catch (NoResultException ex) {
+            return false;
+        }
+    }
 }
