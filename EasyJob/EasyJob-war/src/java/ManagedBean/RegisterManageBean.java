@@ -7,13 +7,13 @@ package ManagedBean;
 import interfaces.CandidatLocal;
 import interfaces.EmployeurLocal;
 import java.io.Serializable;
-//import javax.enterprise.context.SessionScoped;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
+
 import persistence.Candidat;
 import persistence.Employeur;
 
@@ -28,8 +28,6 @@ import persistence.Employeur;
  * @author Yann
  */
 
-//@Named(value="connexionBean")
-//@SessionScoped
 @ManagedBean(name="connexionBean")
 @SessionScoped
 public class RegisterManageBean implements Serializable{
@@ -43,8 +41,7 @@ public class RegisterManageBean implements Serializable{
      * Le champs membre est à 1 si c'est un candidat qui est conecté et à 2 si c'est un employeur
      */
     private int membre;
-    
-    private String rat;
+
 
     @Inject
     private CandidatLocal candidatEJB;
@@ -57,13 +54,17 @@ public class RegisterManageBean implements Serializable{
     public RegisterManageBean() {
     }
     
+    
+    
     public String doConnectCandidat(){
         membre = 1;
+        System.out.println(" ConnectCandidat  ");
         return "faces/connexion.xhtml";
     }
     
     public String doConnectEmployeur(){
         membre = 2;
+        System.out.println(" ConnectEmployeur  ");
         return "faces/connexion.xhtml";
     }
     
@@ -71,6 +72,7 @@ public class RegisterManageBean implements Serializable{
         String next = "connexion";
         if(login!=null && password!=null) {
             if(membre==1) {
+                System.out.println("BOUCLE 1");
                 if(candidatEJB.loginCandidat(login, password)){
                     setCandidat(candidatEJB.getCandidatByMail(login));
                     next = "profilCand";
@@ -79,10 +81,23 @@ public class RegisterManageBean implements Serializable{
                     FacesContext.getCurrentInstance().addMessage(null, msg);*/
                     setCandidat(null);
                 }
-            }            
+            }else if(membre==2) {
+                System.out.println("BOUCLE 2");
+                if(employeurEJB.loginEmployeur(login, password)){
+                    setEmployeur(employeurEJB.getEmployeurByMail(login));
+                    next = "profilempl";
+                }else{
+                    setEmployeur(null);
+                }
+            }else{
+                next="connexion";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Sample info message", "PrimeFaces rocks!")); 
+            }
             
         }
-        //System.out.println(candidat);
+        System.out.println(next);
+        System.out.println("Candidat = "+candidat);
+        System.out.println("Employeur = "+employeur);
       //  System.out.println(conexionMngBean.connexionValidator(getLogin(), getPassword()));
         return next;
     }
@@ -116,17 +131,8 @@ public class RegisterManageBean implements Serializable{
     }
 
 
-    public String getRat(){
-        setRat("rat");
-        return rat;
-    }
+ 
 
-    /**
-     * @param rat the rat to set
-     */
-    public void setRat(String rat) {
-        this.rat = rat;
-    }
 
     /**
      * @return the membre
