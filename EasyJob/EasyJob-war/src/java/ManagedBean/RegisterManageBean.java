@@ -85,7 +85,7 @@ public class RegisterManageBean implements Serializable{
                 System.out.println("BOUCLE 2");
                 if(employeurEJB.loginEmployeur(login, password)){
                     setEmployeur(employeurEJB.getEmployeurByMail(login));
-                    next = "profilempl";
+                    next = "profilEmpl";
                 }else{
                     setEmployeur(null);
                 }
