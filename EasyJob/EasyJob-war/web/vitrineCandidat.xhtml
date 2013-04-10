@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <head>
+        <title>Profil Candidat</title>
+        <link rel="stylesheet" href="YannCSS.css" />
+    </head>
+    <body>
+        <div id ="menuhaut"><h:graphicImage style="width: 763px; height: 59px;" alt="aaa" url="resources/img/banner.png" /><br /></div>       
+            <div id="menucentre">
+                <h2>Informations concernant <h:outputText value="#{candidatManagedBean.candidat.prenom} " /> <h:outputText value=" #{candidatManagedBean.candidat.nom}" /></h2>
+                <br/><br/><br/><br/>
+                
+                <h2> Informations personnelles </h2>
+                
+                <table border ="0" CELLSPACING ="50">
+                    
+                    <tr>
+                        
+                        <td> Date de naissance </td>
+                        
+                        <td> <h:outputText value="#{candidatManagedBean.candidat.date_naissance} "/> </td>
+                        
+                    </tr>
+                    
+                                        <tr>
+                        
+                        <td> Numéro de sécurité sociale </td>
+                        
+                        <td> <h:outputText value="#{candidatManagedBean.candidat.numSecu} "/> </td>
+                        
+                    </tr>
+                    
+                    
+                </table>
+                
+                <h2> Contact </h2>
+                
+                <table border ="0" CELLSPACING ="50">
+                    
+                    <tr>
+                        
+                        <td> Mail </td>
+                        
+                        <td> <h:outputText value="#{candidatManagedBean.candidat.mail} "/></td>
+
+                    </tr>
+                    
+                    <tr>
+                        
+                        <td> Telephone </td>
+                        
+                        <td> <h:outputText value="#{candidatManagedBean.candidat.telephone} "/> </td>
+                        
+                    </tr>
+                     
+                    <tr>
+                        
+                        <td> Adresse </td>
+                        
+                        <td> <h:outputText value="#{candidatManagedBean.candidat.adresse.rue} "/> <br/>
+                        <h:outputText value="#{candidatManagedBean.candidat.adresse.ville} "/> <br/>
+                        <h:outputText value="#{candidatManagedBean.candidat.adresse.codePostal} "/> <br/>
+                        <h:outputText value="#{candidatManagedBean.candidat.adresse.pays} "/> 
+                        </td>
+                        
+                    </tr>                   
+                    
+                </table>
+                
+                <h2> Formation professionnelle </h2>
+
+                
+                <table border ="0" CELLSPACING ="50">
+                    
+                    <tr>
+                        
+                        <td> Niveau d'études </td>
+                        
+                        <td> <h:outputText value="#{candidatManagedBean.candidat.niveauEtudes} "/></td>
+
+                    </tr>
+                    
+                    <tr>
+                        
+                        <td> Domaine d'études </td>
+                        
+                        <td> <h:outputText value="#{candidatManagedBean.candidat.domaineEtudes} "/> </td>
+                        
+                    </tr>
+ 
+                    <tr>
+                        
+                        <td> Langues </td>
+                        
+                        <td> <h:outputText value="#{candidatManagedBean.candidat.langues} "/> </td>
+                        
+                    </tr>
+ 
+                    <tr>
+                        
+                        <td> Expériences professionnelles </td>
+                        
+                        <td> <h:outputText value="#{candidatManagedBean.candidat.experiences} "/> </td>
+                        
+                    </tr>
+                    
+                    <tr>
+                        
+                        <td> Nombre d'années d'expérience </td>
+                        
+                        <td> <h:outputText value="#{candidatManagedBean.candidat.nbExperiences} "/> </td>
+                        
+                    </tr>
+                    
+                   <tr>
+                        
+                        <td> Domaine d'études </td>
+                        
+                        <td> <h:outputText value="#{candidatManagedBean.candidat.domaineEtudes} "/> </td>
+                        
+                    </tr>
+                </table>
+                
+
+                
+                <br/><br/><br/><br/>        
+        </div>
+    </body>
+</html>
