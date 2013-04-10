@@ -9,13 +9,13 @@ and open the template in the editor.
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-    <head>
+    <h:head>
         <title>Profil Employeur</title>
         <link rel="stylesheet" href="YannCSS.css" />
-    </head>
-    <body>
+    </h:head>
+    <h:body>
       
-        <h1 style="text-align:center">Welcome, <h:outputText value="#{profilEmpManagedBean.employeur.prenom}" /> <h:outputText value="#{profilEmpManagedBean.employeur.nom}" /> !</h1>
+        <h1 style="text-align:center">Bienvenue, <h:outputText value="#{profilEmpManagedBean.employeur.prenom}" /> <h:outputText value="#{profilEmpManagedBean.employeur.nom}" /> !</h1>
         <h2 style="text-align:center">Vos données personnelles</h2>
         <div id="menucentre">
             <p:panelGrid styleClass="panel">
@@ -153,12 +153,23 @@ and open the template in the editor.
                         Nombre des employés : 
                     </p:column>
                     <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.nbemployes}" title="saisisez le nombre des employés de l'entreprise ou vous travaillez"/>
+                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.nbEmployes}" title="saisisez le nombre des employés de l'entreprise ou vous travaillez"/>
                     </p:column>
                 </p:row>
+                
+                <p:row >
+                   <p:column>
+                       <h:outputText value="Consulter une entreprise : "/>
+                   </p:column>
+                    <p:column>
+                        <h:form>
+                            <h:commandLink value="Société Générale" action="vitrineEntreprise" />
+                       </h:form>
+                   </p:column>
+               </p:row> 
                 
             </p:panelGrid>
         </div>
       
-    </body>
+    </h:body>
 </html>
