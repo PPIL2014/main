@@ -1,0 +1,65 @@
+/* 
+    Document   : menu
+    Created on : Apr 9, 2013, 11:01:02 PM
+    Author     : Verica
+    Description:
+        Purpose of the stylesheet follows.
+*/
+html, body {
+    height: 100%;
+}
+body {
+    background-color: #F0E9E3;
+
+}
+#testbutton {
+  font-family: arial;
+  color: #FFFFFF !important;
+  font-size: 15px;
+  text-shadow: 1px 1px 0px #000000;
+  box-shadow: 1px 1px 1px #4972D1;
+  padding: 8px 23px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: #EEAA45;
+}
+#testbutton:hover {
+  color: #000000;
+  background: #3D84D4;
+}
+
+
+#menu5 {
+	width: 200px;
+	margin: 10px;
+}
+	
+#menu5 li a {
+	height: 32px;
+  	voice-family: "\"}\""; 
+  	voice-family: inherit;
+  	
+  	height: 24px;
+	text-decoration: none;
+}	
+	
+#menu5 li a:link, #menu5 li a:visited {
+	color: #FFF;
+	display: block;
+	background:  url('../img/menu5.gif');
+	padding: 8px 0 0 10px;
+}
+	
+#menu5 li a:hover {
+	color: #FFF;
+	background:  url('../img/menu5.gif') 0 -32px;
+	padding: 8px 0 0 10px;
+}
+#menu5 ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+
