@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <ui:composition template="/template.xhtml" rendered="#{connexionBean.isConnect}">
+        
+        <ui:define name="titre">
+            <h:outputText value="#{profilcandBean.candidat.prenom} #{profilcandBean.candidat.nom}"/>
+        </ui:define>
+		
+        <ui:define name="centre" >
+            <link rel="stylesheet" href="YannCSS.css" />
+            
+            <p:panelGrid styleClass="panel">
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Nom :"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{profilcandBean.candidat.nom}"/>
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Prenom :"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{profilcandBean.candidat.prenom}"/>
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Date de naissance :"/>
+                    </p:column>
+                    <p:column>                        
+                        <h:outputText value="#{profilcandBean.candidat.date_naissance}"/>
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Adresse :"/>
+                        <br/><br/><br/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{profilcandBean.candidat.adresse.rue}"/>
+                        <br/>
+                        <h:outputText value="#{profilcandBean.candidat.adresse.codePostal} #{profilcandBean.candidat.adresse.ville}"/>
+                        <br/>
+                        <h:outputText value="#{profilcandBean.candidat.adresse.pays}"/>
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Téléphone :"/>
+                    </p:column>
+                    <p:column>                        
+                        <h:outputText value="#{profilcandBean.candidat.telephone}"/>
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Site web :" rendered="#{profilcandBean.candidat.sitWeb ne null}"/>
+                    </p:column>
+                    <p:column>                        
+                        <h:outputText value="#{profilcandBean.candidat.sitWeb}"/>
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Niveau d'études :"/>
+                    </p:column>
+                    <p:column>                        
+                        <h:outputText value="#{profilcandBean.candidat.niveauEtudes}"/>
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Domaine d'études :"/>
+                    </p:column>
+                    <p:column>                        
+                        <h:outputText value="#{profilcandBean.candidat.domaineEtudes}"/>
+                    </p:column>
+                </p:row>
+                
+                <p:row rendered="#{profilcandBean.candidat.langues.size()!=0}">
+                    <p:column>
+                        <h:outputText value="Compétence linguistiques :"/>
+                    </p:column>
+                    <p:column>  
+                        <h:form>  
+                            <p:dataTable id="data-table" var="langue" value="#{profilcandBean.candidat.langues}" styleClass="data-table">  
+                                <p:column>  
+                                    <h:outputText value="#{langue}" />  
+                                </p:column>   
+                            </p:dataTable>  
+                        </h:form>  
+                    </p:column>
+                </p:row>
+                
+                <p:row rendered="#{profilcandBean.candidat.experiences.size()!=0}">
+                    <p:column>
+                        <h:outputText value="Expéience(s) professionnelle(s) :"/>
+                    </p:column>
+                    <p:column>                        
+                        <h:form>  
+                            <p:dataTable id="data-table" var="exp" value="#{profilcandBean.candidat.experiences}" styleClass="data-table">  
+                                <p:column>  
+                                    <h:outputText value="#{exp}" />  
+                                </p:column>   
+                            </p:dataTable>  
+                        </h:form> 
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Nombre d'années d'expéience :"/>
+                    </p:column>
+                    <p:column>                        
+                        <h:outputText value="#{profilcandBean.candidat.nbExperiences}"/>
+                    </p:column>
+                </p:row>
+                
+            </p:panelGrid>
+            
+        </ui:define>
+        
+    </ui:composition>
+</html>
+

@@ -66,7 +66,7 @@ public class GenerateData {
         
         /* Création d'un deuxième candidat */
         date = new GregorianCalendar(1965, 4, 23);
-        c = new Candidat("Dupond","Jeanne","0395642889","2526558694102",date.getTime(),false);
+        c = new Candidat("Dupond","Jeanne","0395642889","2526558694102",date.getTime(),true);
         c.setAdresse(new Adresse("5 impasse des violettes","54000","Nancy","France"));
         c.setDomaineEtudes("vente");
         ex = new ArrayList<String>();
@@ -102,15 +102,18 @@ public class GenerateData {
     
     public void addEmployeurs() {
         Entreprise en = new Entreprise("La bonne place","restauration","0156917582","SA", new Adresse("3 rue des Géraniums","54600","Villers-les-Nancy","France"));
+        en.setSiteWeb("www.labonneplace.fr");
         em.persist(en);
         
         /* Création d'un premier employeur */
         emp = new Employeur("Merter","Laure","laure@test.fr","laure",true,en);
+        en.getEmployeurs().add(emp);
         em.persist(emp);
         
         /* Création d'un deuxième employeur */
         emp = new Employeur("Montpe","Thomas","thomas@test.fr","thomas",false,en);
         emp.setTelephone("0651859635");
+        en.getEmployeurs().add(emp);
         em.persist(emp);
         
         en = new Entreprise("Societe Generale","banque","0155687582","SARL", new Adresse("35 allée des Lilas","75000","Paris","France"));
@@ -123,13 +126,12 @@ public class GenerateData {
     }
     
     public void addAnnonce() {
-        Annonce an = new Annonce("annonce1","blablabla","CDI","BAC+2",emp);
+        Annonce an = new Annonce("annonce1","blablabla","CDI","BAC+2",emp,1500);
         em.persist(an);
         
-        an = new Annonce("annonce2","blablabla","CDD","BAC+5",emp);
+        an = new Annonce("annonce2","blablabla","CDD","BAC+5",emp,2300);
         an.setLieu(new Adresse("5 rue des rosiers","54000","Nancy","France"));
         an.setExperience(3);
-        an.setSalaire(2300);
         Date d = new Date();
         d.setYear(2013);
         d.setMonth(7);

@@ -10,168 +10,49 @@ and open the template in the editor.
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       >
-    <h:head>
-        <title>Profil Employeur</title>
-        <link rel="stylesheet" href="YannCSS.css" />
-    </h:head>
-    <h:body>
-      
-        <h1 style="text-align:center">Bienvenue, <h:outputText value="#{profilEmpManagedBean.employeur.prenom}" /> <h:outputText value="#{profilEmpManagedBean.employeur.nom}" /> !</h1>
-        <h2 style="text-align:center">Vos données personnelles</h2>
-        <div id="menucentre">
-            <p:panelGrid styleClass="panel">
-            <div class="row fl-controls-left">
-                <label class="fl-label" for="username"></label>
-            </div>
-                <p:row>
-                    <p:column>
-                        Nom : 
-                    </p:column>
-                    <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.nom}" title="saisisez votre nom"/>
-                    </p:column>
-                </p:row>
-                
-                <p:row>
-                    <p:column>
-                        Prenom : 
-                    </p:column>
-                    <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.prenom}" title="saisisez votre prenom"/>
-                    </p:column>
-                </p:row>
-                
-                <p:row>
-                    <p:column>
-                        Email : 
-                    </p:column>
-                    <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.mail}" title="saisisez votre email"/>
-                    </p:column>
-                </p:row>
-                
-                <p:row>
-                    <p:column>
-                        Telephone : 
-                    </p:column>
-                    <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.telephone}" title="saisisez votre numero telephone"/>
-                    </p:column>
-                </p:row>
-                
-                <p:row>
-                    <p:column>
-                        Nom de l'entreprise : 
-                    </p:column>
-                    <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.nomEntreprise}" title="saisisez le nom d'entreprise ou vous travaillez"/>
-                    </p:column>
-                </p:row>
-                
-                <p:row>
-                    <p:column>
-                        Domaine d'activite : 
-                    </p:column>
-                    <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.domaine}" title="saisisez le domaine d'activite de l'entreprise ou vous travaillez"/>
-                    </p:column>
-                </p:row>
-                
-                <p:row>
-                    <p:column>
-                        Rue : 
-                    </p:column>
-                    <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.adresse.rue}" title="saisisez le rue de l'entreprise ou vous travaillez"/>
-                    </p:column>
-                </p:row>
-                
-                <p:row>
-                    <p:column>
-                        Code Postal : 
-                    </p:column>
-                    <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.adresse.codePostal}" title="saisisez le code postal de l'entreprise ou vous travaillez"/>
-                    </p:column>
-                </p:row>
-                
-                <p:row>
-                    <p:column>
-                        Ville : 
-                    </p:column>
-                    <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.adresse.ville}" title="saisisez le ville de l'entreprise ou vous travaillez"/>
-                    </p:column>
-                </p:row>
-                
-                <p:row>
-                    <p:column>
-                        Pays : 
-                    </p:column>
-                    <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.adresse.pays}" title="saisisez le pays de l'entreprise ou vous travaillez"/>
-                    </p:column>
-                </p:row>
-                
-                <p:row>
-                    <p:column>
-                        Tel de l'entreprise : 
-                    </p:column>
-                    <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.telephone}" title="saisisez le telephone de l'entreprise ou vous travaillez"/>
-                    </p:column>
-                </p:row>
-                
-                <p:row>
-                    <p:column>
-                        Statut : 
-                    </p:column>
-                    <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.statut}" title="saisisez le statut de l'entreprise ou vous travaillez"/>
-                    </p:column>
-                </p:row>
-                
-                <p:row>
-                    <p:column>
-                        Site web : 
-                    </p:column>
-                    <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.siteWeb}" title="saisisez le site web de l'entreprise ou vous travaillez"/>
-                    </p:column>
-                </p:row>
-                
-                <p:row>
-                    <p:column>
-                        Description : 
-                    </p:column>
-                    <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.description}" title="saisisez le description de l'entreprise ou vous travaillez"/>
-                    </p:column>
-                </p:row>
-                
-                <p:row>
-                    <p:column>
-                        Nombre des employés : 
-                    </p:column>
-                    <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.nbEmployes}" title="saisisez le nombre des employés de l'entreprise ou vous travaillez"/>
-                    </p:column>
-                </p:row>
-                
-                <p:row >
-                   <p:column>
-                       <h:outputText value="Consulter une entreprise : "/>
-                   </p:column>
-                    <p:column>
-                        <h:form>
-                            <h:commandLink value="Société Générale" action="vitrineEntreprise" />
-                       </h:form>
-                   </p:column>
-               </p:row> 
-                
-            </p:panelGrid>
-        </div>
-      
        
-    </h:body>
+    <ui:composition template="/template.xhtml" rendered="#{profilEmpManagedBean.employeur ne null}">
+        <ui:define name="titre">
+            <h:outputText value="#{profilEmpManagedBean.employeur.prenom} #{profilEmpManagedBean.employeur.nom}"/>
+        </ui:define>
+		
+        <ui:define name="centre" rendered="#{profilEmpManagedBean.employeur ne null}" >
+           <link rel="stylesheet" href="YannCSS.css" />
+           
+           <h:form>
+               <p:panelGrid styleClass="panel">                    
+                    <p:row >
+                        <p:column>
+                            <h:outputText value="Consulter une entreprise : "/>
+                        </p:column>
+                        <p:column>
+                            <h:commandLink value="La bonne place" action="vitrineEntreprise" />
+                        </p:column>
+                    </p:row> 
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Consulter un candidat : "/>
+                        </p:column>
+                        <p:column>
+                            <h:commandLink value="toto@toto.fr" action="vitrineCandidat" />
+                        </p:column>
+                    </p:row> 
+                   
+                   <p:row>
+                        <p:column>
+                            <h:outputText value="Consulter une annonce : "/>
+                        </p:column>
+                        <p:column>
+                            <h:commandLink value="annonce1" action="consulterAnnonce" />
+                        </p:column>
+                    </p:row> 
+                   
+                </p:panelGrid>
+       
+            </h:form>
+        </ui:define>
+	
+    </ui:composition>
+    
 </html>

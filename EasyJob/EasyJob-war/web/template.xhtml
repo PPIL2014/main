@@ -1,49 +1,58 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  
-  
-<title></title>
-<link rel="stylesheet" href="resources/styles/template.css" />
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
+    <h:head>
+        <title><ui:insert name="titre" /></title>
+        <link rel="stylesheet" href="resources/styles/template.css" />
+        <style>
 
-</head>
-<body> 
-<div style="text-align: center;"><img style="width: 763px; height: 59px;" alt="aaa" src="resources/img/banner.png" /><br /><br /><br />
-<div style="text-align: left;" />
- <div style="text-align: right;"> 
-     <a href="./faces/accueil.xhtml">
-    <button id="testbutton">Accueil</button>
-</a>
-    <button  id="testbutton2" type="button">D�connexion</button>
-
-   </div>
-
-<div style="text-align: center;" id="menu5">
+        </style>
+    </h:head>
     
+    <h:body>
+        
+        <f:view>
+            
+            <div id="partiehaut">
+                <img style="width: 763px; height: 59px;" src="resources/img/banner.png" />
+            </div>    
+                
+            <div id="partiegauche">
+                <h:form>
+                    <h:commandButton styleClass="deconnectbutton" value="Deconnexion" action="index"/>
 
-<ul>
-  
-<li><a href="#1" title="Mon profil">Mon profil</a></li>
-  
-<li><a href="#2" title="Liste de suivi">Liste de suivi</a></li>
-  
-<li><a href="#3" title="Notification">Notification</a></li>
-  
-<li><a href="#4" title="Suggestion">Suggestion</a></li>
-  
-
-</ul>
-
-</div><br /><br /><br /><br /><br /><br /><br /><br />
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-
-
-<div style="text-align: center;"><img style="width: 763px; height: 59px;" alt="aaa" src="resources/img/images.jpg" /></div>
-
-</div>
-</body>
+                
+                    <br/><br/><br/><br/>
+                    <div style="text-align: center;"  id="menu5">
+                        <ul> 
+                            <li><h:commandLink value="Accueil" action="#{connexionBean.accueilPage()}" /></li>
+                            <li><h:commandLink value="Mon profil" action="#{connexionBean.profil()}" /></li>
+                            <li><h:commandLink value="Liste de suivi" action="index" /></li>
+                            <li><h:commandLink value="Ntification" action="index" /></li>
+                            <li><h:commandLink value="Suggestion" action="index" /></li>
+                        </ul>
+                    </div>
+                </h:form>
+            </div>
+            
+            
+            <div id="partiecentre">
+                <ui:insert name="centre">
+                    
+                </ui:insert>
+                <br/><br/><br/><br/>
+            </div>
+                
+           
+        </f:view>   
+        
+    </h:body>
+    
+    
+    
 </html>
+

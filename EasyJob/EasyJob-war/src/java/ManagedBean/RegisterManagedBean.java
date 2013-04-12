@@ -7,6 +7,7 @@ package ManagedBean;
 import interfaces.CandidatLocal;
 import interfaces.EmployeurLocal;
 import java.io.Serializable;
+import javax.annotation.PostConstruct;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -30,7 +31,7 @@ import persistence.Employeur;
 
 @ManagedBean(name="connexionBean")
 @SessionScoped
-public class RegisterManageBean implements Serializable{
+public class RegisterManagedBean implements Serializable{
 
     private String login;
     private String password;
@@ -38,9 +39,10 @@ public class RegisterManageBean implements Serializable{
     private Employeur employeur;
     private Candidat candidat;
     /**
-     * Le champs membre est à 1 si c'est un candidat qui est conecté et à 2 si c'est un employeur
+     * Le champs membre est à vrai si c'est un candidat qui est conecté et à faux si c'est un employeur
      */
-    private int membre;
+    private boolean isConnect;
+
 
 
     @Inject
@@ -49,56 +51,55 @@ public class RegisterManageBean implements Serializable{
     private EmployeurLocal employeurEJB;
     
     /**
-     * Creates a new instance of RegisterManageBean
+     * Creates a new instance of RegisterManagedBean
      */
-    public RegisterManageBean() {
+    public RegisterManagedBean() {
     }
     
-    
-    
-    public String doConnectCandidat(){
-        membre = 1;
-        System.out.println(" ConnectCandidat  ");
-        return "faces/connexion.xhtml";
+    @PostConstruct
+    public void initialisation() {
+        isConnect = false;
     }
     
-    public String doConnectEmployeur(){
-        membre = 2;
-        System.out.println(" ConnectEmployeur  ");
-        return "faces/connexion.xhtml";
+    public String accueilPage() {
+        String next = "";
+        if(candidat!=null) {
+            next="profilCand";
+        } else if (employeur!=null) {
+            next = "profilEmpl";
+        }
+        return next;
     }
+        
+    public String profil() {
+        String next ="";
+        if(candidat!=null) {
+            next = "donneesCand.xhtml";
+        } else if(employeur!=null){
+            next = "donneesEmpl.xhtml";
+        }
+        return next;
+    }
+    
     
     public String connexion(){
         String next = "connexion";
         if(login!=null && password!=null) {
-            if(membre==1) {
-                System.out.println("BOUCLE 1");
-                if(candidatEJB.loginCandidat(login, password)){
+                if(candidatEJB.loginCandidat(login, password)){                 
                     setCandidat(candidatEJB.getCandidatByMail(login));
                     next = "profilCand";
-                }else{
-                    /*FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur d'identitfiants", "Invalid credentials");
-                    FacesContext.getCurrentInstance().addMessage(null, msg);*/
-                    setCandidat(null);
-                }
-            }else if(membre==2) {
-                System.out.println("BOUCLE 2");
-                if(employeurEJB.loginEmployeur(login, password)){
+                }else if (employeurEJB.loginEmployeur(login, password)){
                     setEmployeur(employeurEJB.getEmployeurByMail(login));
                     next = "profilEmpl";
-                }else{
+                } else {
                     setEmployeur(null);
+                    setCandidat(null);
                 }
-            }else{
-                next="connexion";
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Sample info message", "PrimeFaces rocks!")); 
-            }
-            
+        } else {
+             setEmployeur(null);
+             setCandidat(null);   
         }
-        System.out.println(next);
-        System.out.println("Candidat = "+candidat);
-        System.out.println("Employeur = "+employeur);
-      //  System.out.println(conexionMngBean.connexionValidator(getLogin(), getPassword()));
+           
         return next;
     }
 
@@ -131,22 +132,6 @@ public class RegisterManageBean implements Serializable{
     }
 
 
- 
-
-
-    /**
-     * @return the membre
-     */
-    public int getMembre() {
-        return membre;
-    }
-
-    /**
-     * @param membre the membre to set
-     */
-    public void setMembre(int membre) {
-        this.membre = membre;
-    }
 
     /**
      * @return the employeur
@@ -175,5 +160,20 @@ public class RegisterManageBean implements Serializable{
     public void setCandidat(Candidat candidat) {
         this.candidat = candidat;
     }
+
+    /**
+     * @return the isConnect
+     */
+    public boolean isIsConnect() {
+        return isConnect;
+    }
+
+    /**
+     * @param isConnect the isConnect to set
+     */
+    public void setIsConnect(boolean isConnect) {
+        this.isConnect = isConnect;
+    }
+
 
 }

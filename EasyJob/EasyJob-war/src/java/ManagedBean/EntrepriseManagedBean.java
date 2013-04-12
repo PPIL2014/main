@@ -6,10 +6,12 @@ package ManagedBean;
 
 import interfaces.EntrepriseLocal;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import persistence.Employeur;
 import persistence.Entreprise;
 
 /**
@@ -22,6 +24,10 @@ public class EntrepriseManagedBean implements Serializable {
     
                
     private Entreprise entreprise;
+    /**
+     * vrai s'il y a des recruteurs à afficher, faux sinon
+     */
+    private boolean afficherRecruteur;
     
     @Inject
     EntrepriseLocal entrepriseEJB;
@@ -31,15 +37,16 @@ public class EntrepriseManagedBean implements Serializable {
     
     @PostConstruct
     public void initialisation() {
-        entreprise = entrepriseEJB.getEntrepriseByNom("Societe Generale"); 
+        entreprise = entrepriseEJB.getEntrepriseByNom("La bonne place");
+        List<Employeur> emp = entreprise.getEmployeurs();
+        afficherRecruteur = false;
+        int i = 0;
+        while(!afficherRecruteur && i<emp.size()) {
+            afficherRecruteur = emp.get(i).isConfidentialite();
+            i++;
+        }
     } 
     
-    
-    /*public String essai() {
-        Entreprise entreprise2 = entrepriseEJB.getEntrepriseByNom("Societe Generale"); 
-        System.out.println("+++++++"+entreprise2);
-        return "vitrineEntreprise";
-    }*/
 
     /**
      * @return the entreprise
@@ -53,6 +60,20 @@ public class EntrepriseManagedBean implements Serializable {
      */
     public void setEntreprise(Entreprise entreprise) {
         this.entreprise = entreprise;
+    }
+
+    /**
+     * @return the afficherRecruteur
+     */
+    public boolean isAfficherRecruteur() {
+        return afficherRecruteur;
+    }
+
+    /**
+     * @param afficherRecruteur the afficherRecruteur to set
+     */
+    public void setAfficherRecruteur(boolean afficherRecruteur) {
+        this.afficherRecruteur = afficherRecruteur;
     }
 
     

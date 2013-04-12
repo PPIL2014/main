@@ -12,7 +12,7 @@ body {
     background-color: #F0E9E3;
 
 }
-#testbutton {
+.deconnectbutton {
   font-family: arial;
   color: #FFFFFF !important;
   font-size: 15px;
@@ -23,8 +23,12 @@ body {
   -webkit-border-radius: 10px;
   border-radius: 10px;
   background: #EEAA45;
+  margin-left: 37px;
+  display: block;
+  cursor: pointer;
 }
-#testbutton:hover {
+
+.deconnectbutton:hover {
   color: #000000;
   background: #3D84D4;
 }
@@ -32,14 +36,13 @@ body {
 
 #menu5 {
 	width: 200px;
-	margin: 10px;
+	margin: 11px;
 }
 	
 #menu5 li a {
 	height: 32px;
   	voice-family: "\"}\""; 
-  	voice-family: inherit;
-  	
+  	voice-family: inherit;  	
   	height: 24px;
 	text-decoration: none;
 }	
@@ -60,6 +63,34 @@ body {
 	list-style: none;
 	margin: 0;
 	padding: 0;
+}
+
+#partiegauche          /*partie gauche de la page*/
+{
+margin-top:4%;
+float:left;        /*positionne la partie à gauche*/
+width:10%;
+}
+
+#partiecentre             /*partie centrale de la page*/
+{
+float:left;                             /*aligne le texte à gauche*/
+margin-left:13%;            /*laisse 15.2% de marge/espace a gauche*/
+margin-right:10%;            /*laisse 15.2% de marge/espace a droite*/
+margin-top:7%;                          /*laisse 5% de marge/espace au niveau de la partie supérieur */
+min-width: 40%;
+}
+
+#partiedroite            /*partie droite de la page*/
+{
+margin-top: 3%;
+float: right;                /*positionne la partie à droite*/
+width:15%;
+}
+
+#partiehaut
+{
+text-align:center;
 }
 
 

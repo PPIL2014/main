@@ -5,30 +5,123 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
-    <head>
-        <title>Profil Entreprise</title>
-        <link rel="stylesheet" href="YannCSS.css" />
-    </head>
-    <body>
-        <div id ="menuhaut"><h:graphicImage style="width: 763px; height: 59px;" alt="aaa" url="resources/img/banner.png" /><br /></div>       
-            <div id="menucentre">
-                <titre><h:outputText value="#{entrepriseManagedBean.entreprise.nomEntreprise}" /> </titre>
-                <h1>Les informations <br/></h1> 
-                <br/><br/>Domaine d'activité:       <h:outputText value="#{entrepriseManagedBean.entreprise.domaine}" />
-                <br/><br/>Rue:                      <h:outputText value="#{entrepriseManagedBean.entreprise.adresse.rue}" />
-                <br/><br/>Code postal:              <h:outputText value="#{entrepriseManagedBean.entreprise.adresse.codePostal}" />
-                <br/><br/>Ville:                    <h:outputText value="#{entrepriseManagedBean.entreprise.adresse.ville}" />
-                <br/><br/>Pays:                     <h:outputText value="#{entrepriseManagedBean.entreprise.adresse.pays}" />
-                <br/><br/>Tel de l'entreprise:      <h:outputText value="#{entrepriseManagedBean.entreprise.telephone}" />
-                <br/><br/>Statut:                   <h:outputText value="#{entrepriseManagedBean.entreprise.statut}" />
-                <br/><br/>Site web:                 <h:outputText value="#{entrepriseManagedBean.entreprise.siteWeb}" />
-                <br/><br/>Description:              <h:outputText value="#{entrepriseManagedBean.entreprise.description}" />
-                <br/><br/>Nombres des employés:     <h:outputText value="#{entrepriseManagedBean.entreprise.nbEmployes}" />
-                <br/><br/>
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
+    <ui:composition template="/template.xhtml" rendered="#{connexionBean.isConnect}">
+        
+        <ui:define name="titre">
+            <h:outputText value="#{entrepriseManagedBean.entreprise.nomEntreprise}"/>
+        </ui:define>
+		
+        <ui:define name="centre" >
+            <link rel="stylesheet" href="YannCSS.css" />
+            <h1>
+                <h:outputText value="#{entrepriseManagedBean.entreprise.nomEntreprise}" /> 
+            </h1>
+            <h2>
+                Les informations 
+                <br/>
+            </h2> 
+            
+            <p:panelGrid styleClass="panel">
+                    
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Domaine d'activité : "/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{entrepriseManagedBean.entreprise.domaine}" />
+                    </p:column>
+                </p:row> 
                 
-                <br/><br/><br/><br/>        
-        </div>
-    </body>
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Statut : "/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{entrepriseManagedBean.entreprise.statut}" />
+                    </p:column>
+                </p:row> 
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Adresse : "/>
+                        <br/><br/><br/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{entrepriseManagedBean.entreprise.adresse.rue}" />
+                        <br/>
+                        <h:outputText value="#{entrepriseManagedBean.entreprise.adresse.codePostal} #{entrepriseManagedBean.entreprise.adresse.ville}" />
+                        <br/>
+                        <h:outputText value="#{entrepriseManagedBean.entreprise.adresse.pays}" />
+                    </p:column>
+                </p:row> 
+                
+                <p:row>
+                    <p:column>
+                         <h:outputText value="Téléphone : "/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{entrepriseManagedBean.entreprise.telephone}" />
+                    </p:column>
+                </p:row> 
+                
+                <p:row rendered="#{entrepriseManagedBean.entreprise.siteWeb ne null}">
+                    <p:column>
+                         <h:outputText value="Site web : "/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{entrepriseManagedBean.entreprise.siteWeb}" />
+                    </p:column>
+                </p:row> 
+                
+                <p:row rendered="#{entrepriseManagedBean.entreprise.description ne null}">
+                    <p:column>
+                         <h:outputText value="Description de l'entreprise : "/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{entrepriseManagedBean.entreprise.description}" />
+                    </p:column>
+                </p:row> 
+                
+                <p:row rendered="#{entrepriseManagedBean.entreprise.nbEmployes!=0}">
+                    <p:column>
+                         <h:outputText value="Nombre d'employés : "/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{entrepriseManagedBean.entreprise.nbEmployes}" />
+                    </p:column>
+                </p:row> 
+                
+                <p:row rendered="#{entrepriseManagedBean.afficherRecruteur}">
+                    <p:column>
+                        <h:outputText value="Recruteur(s) : "/>
+                    </p:column>
+                    <p:column>                     
+                        <h:form>  
+                            <p:dataTable id="data-table" var="rec" value="#{entrepriseManagedBean.entreprise.employeurs}" styleClass="data-table">  
+                                <p:column rendered="#{rec.confidentialite}">  
+                                    <h:outputText value="#{rec.nom} #{rec.prenom}" />  
+                                    <br/>
+                                    <h:outputText value="#{rec.mail}" /> 
+                                    <br/>
+                                    <h:outputText value="#{rec.telephone}" rendered="#{rec.telephone ne null}" />  
+                                </p:column>   
+                            </p:dataTable>  
+                        </h:form>  
+                    </p:column>
+                </p:row>
+                             
+            </p:panelGrid>
+            
+        </ui:define>
+        
+    </ui:composition>
+
+        
+        
+                
 </html>

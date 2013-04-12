@@ -24,27 +24,18 @@ public class ProfilCandManagedBean implements Serializable{
     private Candidat candidat;
         
     public ProfilCandManagedBean(){        
-        /*try {
-        FacesContext fc = FacesContext.getCurrentInstance();
-        //RegisterManageBean rmb = (RegisterManageBean) fc.getExternalContext().getSessionMap().get("connexionBean");
-        //System.out.println(rmb+"+++++++++++++++++++++");
-        } catch (Exception ex) {
-            System.out.println("erreru");
-        }*/
-        /*candidat = rmb.getCandidat();
-        System.out.println("++++");
-        System.out.println(candidat);*/
     }
     
     @PostConstruct
     public void initialisation() {
         FacesContext fc = FacesContext.getCurrentInstance();
-        RegisterManageBean rmb = (RegisterManageBean) fc.getExternalContext().getSessionMap().get("connexionBean");
-        System.out.println(rmb+"---------------------------------");
-        System.out.println(rmb.getCandidat());
-        GregorianCalendar date = new GregorianCalendar(1978, 0, 7);
-        candidat = new Candidat("test","test","0395864899","1526975694102",date.getTime(),true);
-        System.out.println("+++++++++++++++++++++");
+        RegisterManagedBean rmb = (RegisterManagedBean) fc.getExternalContext().getSessionMap().get("connexionBean");
+        if(rmb!=null) {
+            candidat = rmb.getCandidat();
+        } else {
+            candidat = null;
+        }
+            
     }
 
     /**

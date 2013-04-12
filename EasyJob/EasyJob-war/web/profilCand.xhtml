@@ -8,56 +8,53 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      >
-    <h:head>
-        <title>Profil Candidat</title>
-        <link rel="stylesheet" href="YannCSS.css" />
-    </h:head>
-    <h:body>
-       Vos données personnelles :
-      
-      
-           <h:form>
-                <p:panelGrid styleClass="panel">
-               <p:row>
-                   <p:column>
-                       <h:outputText value="Nom : "/>
-                   </p:column>
-                   <p:column>
-                       <h:outputText value="#{profilcandBean.candidat.nom}"/>
-                   </p:column>
-               </p:row>
-               
-               <p:row>
-                   <p:column>
-                       <h:outputText value="Prénom : "/>
-                   </p:column>
-                   <p:column>
-                       <h:outputText value="#{profilcandBean.candidat.prenom}"/>
-                   </p:column>
-               </p:row>
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
+     
+    <ui:composition template="/template.xhtml" rendered="#{profilcandBean.candidat ne null}">
+        <ui:define name="titre">
+            <h:outputText value="#{profilcandBean.candidat.prenom} #{profilcandBean.candidat.nom}"/>
+        </ui:define>
+		
+        <ui:define name="centre" rendered="#{profilcandBean.candidat ne null}" >
+           <link rel="stylesheet" href="YannCSS.css" />
+           
+           <h:form>
+               <p:panelGrid styleClass="panel">                    
+                    <p:row >
+                        <p:column>
+                            <h:outputText value="Consulter une entreprise : "/>
+                        </p:column>
+                        <p:column>
+                            <h:commandLink value="La bonne place" action="vitrineEntreprise" />
+                        </p:column>
+                    </p:row> 
                     
-               <p:row >
-                   <p:column>
-                       <h:outputText value="Consulter une entreprise : "/>
-                   </p:column>
-                   <p:column>
-                       <h:commandLink value="Société Générale" action="vitrineEntreprise" />
-                   </p:column>
-               </p:row> 
-                    
-                                   <p:row >
-                   <p:column>
-                       <h:outputText value="Consulter un candidat : "/>
-                   </p:column>
-                   <p:column>
-                       <h:commandLink value="toto@toto.fr" action="vitrineCandidat" />
-                   </p:column>
-               </p:row> 
-       </p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Consulter un candidat : "/>
+                        </p:column>
+                        <p:column>
+                            <h:commandLink value="toto@toto.fr" action="vitrineCandidat" />
+                        </p:column>
+                    </p:row> 
+                   
+                   <p:row>
+                        <p:column>
+                            <h:outputText value="Consulter une annonce : "/>
+                        </p:column>
+                        <p:column>
+                            <h:commandLink value="annonce1" action="consulterAnnonce" />
+                        </p:column>
+                    </p:row> 
+                   
+            </p:panelGrid>
        
        </h:form>
-    </h:body>
+    </ui:define>
+
+	
+    </ui:composition>
+       
 </html>

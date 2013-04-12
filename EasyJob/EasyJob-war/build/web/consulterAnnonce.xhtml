@@ -6,23 +6,126 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
-    <h:head>
-        <title>Consulter une annonce</title>
-    </h:head>
-    <h:body>
-        <div id="annonceManagedBean.annonce.id">
-            <h:outputText value="#{annonceManagedBean.annonce.titre}" />
-            <h:outputText value="#{annonceManagedBean.annonce.employeur}" title="Annonce émise par : " />
-            <h:outputText value="#{annonceManagedBean.annonce.dateEmission}" title="Annonce émise le : " />
-            <h:outputText value="#{annonceManagedBean.annonce.description}" title="Description : " />
-            <h:outputText value="#{annonceManagedBean.annonce.dateLimite}" title="Date limite des candidatures : " />
-            <h:outputText value="#{annonceManagedBean.annonce.contrat}" title="Type de contrat proposé : " />
-            <h:outputText value="#{annonceManagedBean.annonce.secteur}" title="Secteur de l'entreprise : " />
-            <h:outputText value="#{annonceManagedBean.annonce.salaire}" title="Salaire : " />
-            <h:outputText value="#{annonceManagedBean.annonce.etudes}" title="Niveau d'études demandé : " />
-            <h:outputText value="#{annonceManagedBean.annonce.experience}" title="Expérience demandée : " />
-            <h:outputText value="#{annonceManagedBean.annonce.lieu}" title="Lieu : " />
-        </div>  
-    </h:body>
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    
+    <ui:composition template="/template.xhtml" rendered="#{connexionBean.isConnect}">
+        <ui:define name="titre">
+            <h:outputText value="#{annonceManagedBean.annonce.titre} "/>
+        </ui:define>
+		
+        <ui:define name="centre" >
+           <link rel="stylesheet" href="YannCSS.css" />
+           <h2 style="text-align: center">
+               <h:outputText value="#{annonceManagedBean.annonce.titre}" />
+           </h2>
+           <br/>
+           <h:form>
+               <p:panelGrid styleClass="panel">                    
+                    <p:row >
+                        <p:column>
+                            <h:outputText value="Annonce émise par : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{annonceManagedBean.annonce.employeur.entreprise.nomEntreprise}"/>
+                        </p:column>
+                    </p:row> 
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Annonce émise le : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{annonceManagedBean.annonce.dateEmission}"/>
+                        </p:column>
+                    </p:row> 
+                   
+                   <p:row>
+                        <p:column>
+                            <h:outputText value="Description : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{annonceManagedBean.annonce.description}"/>
+                        </p:column>
+                    </p:row> 
+                   
+                   <p:row>
+                        <p:column>
+                            <h:outputText value="Date limite des candidatures : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{annonceManagedBean.annonce.dateLimite}" />
+                        </p:column>
+                    </p:row> 
+                   
+                   <p:row>
+                        <p:column>
+                            <h:outputText value="Type de contrat proposé : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{annonceManagedBean.annonce.contrat}" />
+                        </p:column>
+                    </p:row>
+                   
+                   <p:row  rendered="#{annonceManagedBean.annonce.secteur ne null}">
+                        <p:column>
+                            <h:outputText value="Secteur d'activité de l'entreprise : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{annonceManagedBean.annonce.secteur}" />
+                        </p:column>
+                    </p:row> 
+                   
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Salaire : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{annonceManagedBean.annonce.salaire}"/>
+                        </p:column>
+                    </p:row> 
+                   
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Niveau d'études demandé : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{annonceManagedBean.annonce.etudes}" />
+                        </p:column>
+                    </p:row> 
+                   
+                   <p:row rendered="#{annonceManagedBean.annonce.experience!=-1}">
+                        <p:column>
+                            <h:outputText value="Expérience demandée : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{annonceManagedBean.annonce.experience} ans" />
+                        </p:column>
+                    </p:row> 
+                   
+                   <p:row rendered="#{annonceManagedBean.annonce.lieu ne null}">
+                        <p:column>
+                            <h:outputText value="Lieu de travail: "/>
+                            <br/><br/><br/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{annonceManagedBean.annonce.lieu.rue}" />
+                            <br/>
+                            <h:outputText value="#{annonceManagedBean.annonce.lieu.codePostal} #{annonceManagedBean.annonce.lieu.ville}" />
+                            <br/>
+                            <h:outputText value="#{annonceManagedBean.annonce.lieu.pays}" />
+                        </p:column>
+                    </p:row> 
+                   
+            </p:panelGrid>
+       
+            </h:form>
+        </ui:define>
+	
+    </ui:composition>
+
+
+    
 </html>

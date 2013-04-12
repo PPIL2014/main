@@ -4,9 +4,9 @@
  */
 package ManagedBean;
 
-import business.AnnonceEJB;
 import interfaces.AnnonceLocal;
 import java.io.Serializable;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,16 +21,31 @@ import persistence.Annonce;
 @RequestScoped
 public class AnnonceManagedBean implements Serializable {
     
+    private Annonce annonce;
+    
     @Inject
     private AnnonceLocal annonceEJB;
     
-    public Annonce getAnnonce(){
-      //  FacesContext fc = FacesContext.getCurrentInstance() ;
-      //  RegisterManageBean r = (RegisterManageBean)fc.getExternalContext().getSessionMap().get("connexion");
-        //return AnnonceEJB.getAnnonce();
-      // return new Annonce() ;
-        
-        return annonceEJB.getAnnonceById(13) ;
+    @PostConstruct
+    public void initialisation() {
+        annonce = annonceEJB.getAnnonceById(14);
+        System.out.println("++++++++++++"+annonce);
     }
+
+    /**
+     * @return the annonce
+     */
+    public Annonce getAnnonce() {
+        return annonce;
+    }
+
+    /**
+     * @param annonce the annonce to set
+     */
+    public void setAnnonce(Annonce annonce) {
+        this.annonce = annonce;
+    }
+
+
     
 }

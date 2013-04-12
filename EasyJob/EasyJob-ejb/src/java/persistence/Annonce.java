@@ -54,10 +54,12 @@ public class Annonce implements Serializable {
     
     
     public Annonce() {  
-        this.candidatures = new ArrayList<CandidatureAnnonce>();      
+        this.candidatures = new ArrayList<CandidatureAnnonce>();    
+        experience = -1;
+        dateEmission = new Date();
     }
     
-    public Annonce(String titre, String description, String contrat, String etude, Employeur em) {
+    public Annonce(String titre, String description, String contrat, String etude, Employeur em, int salaire) {
         this.titre = titre;
         this.description = description;
         this.contrat = contrat;
@@ -65,6 +67,9 @@ public class Annonce implements Serializable {
         this.employeur = em;
         this.dateEmission = new Date();
         this.candidatures = new ArrayList<CandidatureAnnonce>();
+        experience = -1;
+        dateEmission = new Date();
+        this.salaire = salaire;
     }
     
     public Long getId() {

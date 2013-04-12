@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <ui:composition template="/template.xhtml" rendered="#{connexionBean.isConnect}">
+        
+        <ui:define name="titre">
+            <h:outputText value="#{profilEmpManagedBean.employeur.prenom} #{profilEmpManagedBean.employeur.nom}"/>
+        </ui:define>
+		
+        <ui:define name="centre" >
+            <link rel="stylesheet" href="YannCSS.css" />
+            <p:panelGrid styleClass="panel">
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Nom :"/>
+                    </p:column>
+                    <p:column> 
+                        <h:outputText value="#{profilEmpManagedBean.employeur.nom}"/>
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Prénom :"/> 
+                    </p:column>
+                    <p:column> 
+                        <h:outputText value="#{profilEmpManagedBean.employeur.prenom}"/>
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="E-mail :"/> 
+                    </p:column>
+                    <p:column> 
+                        <h:outputText value="#{profilEmpManagedBean.employeur.mail}" />
+                    </p:column>
+                </p:row>
+                
+                <p:row rendered="#{profilEmpManagedBean.employeur.telephone ne null}">
+                    <p:column>
+                        <h:outputText value="Téléphone :"/>
+                    </p:column>
+                    <p:column> 
+                        <h:outputText value="#{profilEmpManagedBean.employeur.telephone}" />
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Nom de l'entreprise:"/>
+                    </p:column>
+                    <p:column> 
+                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.nomEntreprise}" />
+                    </p:column>
+                </p:row>              
+                                
+                <p:row rendered="#{profilEmpManagedBean.employeur.entreprise.description ne null}">
+                    <p:column>
+                        <h:outputText value="Description de l'entreprise :"/> 
+                    </p:column>
+                    <p:column> 
+                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.description}" />
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Domaine d'activité :"/> 
+                    </p:column>
+                    <p:column> 
+                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.domaine}" />
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Adresse :"/>  
+                        <br/><br/><br/>
+                    </p:column>
+                    <p:column> 
+                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.adresse.rue}" />
+                        <br/>
+                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.adresse.codePostal} #{profilEmpManagedBean.employeur.entreprise.adresse.ville}" />
+                        <br/>
+                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.adresse.pays}" />
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Téléphone de l'entreprise :"/> 
+                    </p:column>
+                    <p:column> 
+                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.telephone}" />
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Statut de l'entreprise :"/> 
+                    </p:column>
+                    <p:column> 
+                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.statut}" />
+                    </p:column>
+                </p:row>
+                
+                <p:row rendered="#{profilEmpManagedBean.employeur.entreprise.siteWeb ne null} ">
+                    <p:column>
+                        <h:outputText value="Site web :"/>  
+                    </p:column>
+                    <p:column> 
+                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.siteWeb}" />
+                    </p:column>
+                </p:row>
+                
+                <p:row rendered="#{profilEmpManagedBean.employeur.entreprise.nbEmployes!=0}">
+                    <p:column>
+                        <h:outputText value="Nombre d'employés :"/> 
+                    </p:column>
+                    <p:column> 
+                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.nbEmployes}" />
+                    </p:column>
+                </p:row>
+                
+            </p:panelGrid>
+            
+        </ui:define>        
+        
+    </ui:composition>
+</html>
+

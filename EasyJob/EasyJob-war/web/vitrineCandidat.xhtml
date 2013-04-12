@@ -5,131 +5,167 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
-    <head>
-        <title>Profil Candidat</title>
-        <link rel="stylesheet" href="YannCSS.css" />
-    </head>
-    <body>
-        <div id ="menuhaut"><h:graphicImage style="width: 763px; height: 59px;" alt="aaa" url="resources/img/banner.png" /><br /></div>       
-            <div id="menucentre">
-                <h2>Informations concernant <h:outputText value="#{candidatManagedBean.candidat.prenom} " /> <h:outputText value=" #{candidatManagedBean.candidat.nom}" /></h2>
-                <br/><br/><br/><br/>
-                
-                <h2> Informations personnelles </h2>
-                
-                <table border ="0" CELLSPACING ="50">
-                    
-                    <tr>
-                        
-                        <td> Date de naissance </td>
-                        
-                        <td> <h:outputText value="#{candidatManagedBean.candidat.date_naissance} "/> </td>
-                        
-                    </tr>
-                    
-                                        <tr>
-                        
-                        <td> Numéro de sécurité sociale </td>
-                        
-                        <td> <h:outputText value="#{candidatManagedBean.candidat.numSecu} "/> </td>
-                        
-                    </tr>
-                    
-                    
-                </table>
-                
-                <h2> Contact </h2>
-                
-                <table border ="0" CELLSPACING ="50">
-                    
-                    <tr>
-                        
-                        <td> Mail </td>
-                        
-                        <td> <h:outputText value="#{candidatManagedBean.candidat.mail} "/></td>
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
-                    </tr>
+    
+    <ui:composition template="/template.xhtml" rendered="#{connexionBean.isConnect}">
+        
+        <ui:define name="titre">
+            <h:outputText value="#{candidatManagedBean.candidat.nom} #{candidatManagedBean.candidat.prenom} "/>
+        </ui:define>
+		
+        <ui:define name="centre" >
+            <link rel="stylesheet" href="YannCSS.css" />
+            <h1>
+                Informations concernant <h:outputText value="#{candidatManagedBean.candidat.prenom} #{candidatManagedBean.candidat.nom}" />
+            </h1>
+            <br/>
+            <h2> Informations personnelles   </h2>   
+            <br/>       
+            
+            <p:panelGrid styleClass="panel">
+                <p:row >
+                    <p:column>
+                        <h:outputText value="Date de naissance : "/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{candidatManagedBean.candidat.date_naissance} "/>
+                    </p:column>
+                </p:row> 
                     
-                    <tr>
-                        
-                        <td> Telephone </td>
-                        
-                        <td> <h:outputText value="#{candidatManagedBean.candidat.telephone} "/> </td>
-                        
-                    </tr>
-                     
-                    <tr>
-                        
-                        <td> Adresse </td>
-                        
-                        <td> <h:outputText value="#{candidatManagedBean.candidat.adresse.rue} "/> <br/>
-                        <h:outputText value="#{candidatManagedBean.candidat.adresse.ville} "/> <br/>
-                        <h:outputText value="#{candidatManagedBean.candidat.adresse.codePostal} "/> <br/>
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Numéro de sécurité sociale : " rendered="#{candidatManagedBean.afficherDonnees}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{candidatManagedBean.candidat.numSecu} "/> 
+                    </p:column>
+                    </p:row> 
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Adresse : " rendered="#{candidatManagedBean.afficherDonnees}"/>
+                        <br/><br/><br/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{candidatManagedBean.candidat.adresse.rue} "/>
+                        <br/>
+                        <h:outputText value="#{candidatManagedBean.candidat.adresse.codePostal} #{candidatManagedBean.candidat.adresse.ville}  "/> 
+                        <br/>
                         <h:outputText value="#{candidatManagedBean.candidat.adresse.pays} "/> 
-                        </td>
-                        
-                    </tr>                   
-                    
-                </table>
+                    </p:column>
+                </p:row> 
+                              
+                <p:row rendered="#{candidatManagedBean.candidat.sitWeb ne null}">
+                    <p:column>
+                         <h:outputText value="Site web  : "/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{candidatManagedBean.candidat.sitWeb}" />
+                    </p:column>
+                </p:row> 
+            </p:panelGrid>
+            
+            <br/>
+            
+            <p:panelGrid rendered="#{candidatManagedBean.afficherDonnees}" styleClass="panel">
+                <p:row>
+                    <p:column colspan="2">
+                       <h2> Contact </h2> 
+                       <br/>
+                    </p:column>
+                </p:row>
                 
-                <h2> Formation professionnelle </h2>
+                <p:row>
+                    <p:column>
+                         <h:outputText value="E-mail : "/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{candidatManagedBean.candidat.mail} "/>
+                    </p:column>
+                </p:row> 
+                
+                <p:row>
+                    <p:column>
+                         <h:outputText value="Téléphone : "/>
+                    </p:column>
+                    <p:column>
+                         <h:outputText value="#{candidatManagedBean.candidat.telephone} "/>
+                    </p:column>
+                </p:row> 
+            </p:panelGrid>
+            
+            <br/>
+            <h2> Formation professionnelle </h2>
+            <br/>
+            
+            <p:panelGrid styleClass="panel">
+                <p:row>
+                    <p:column>
+                         <h:outputText value="Niveau d'études : "/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{candidatManagedBean.candidat.niveauEtudes} "/>
+                    </p:column>
+                </p:row> 
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Domaine d'études : "/>
+                    </p:column>
+                    <p:column>                     
+                        <h:outputText value="#{candidatManagedBean.candidat.domaineEtudes} "/>
+                    </p:column>
+                </p:row>
+                
+                <p:row rendered="#{candidatManagedBean.candidat.langues.size()!=0}">
+                    <p:column>
+                        <h:outputText value="Compétence linguistiques :"/>
+                    </p:column>
+                    <p:column>  
+                        <h:form>  
+                            <p:dataTable id="data-table" var="langue" value="#{candidatManagedBean.candidat.langues}" styleClass="data-table">  
+                                <p:column>  
+                                    <h:outputText value="#{langue}" />  
+                                </p:column>   
+                            </p:dataTable>  
+                        </h:form>  
+                    </p:column>
+                </p:row>
+                
+                <p:row rendered="#{candidatManagedBean.candidat.experiences.size()!=0}">
+                    <p:column>
+                        <h:outputText value="Expéience(s) professionnelle(s) :"/>
+                    </p:column>
+                    <p:column>                        
+                        <h:form>  
+                            <p:dataTable  var="exp" value="#{candidatManagedBean.candidat.experiences}" styleClass="data-table">  
+                                <p:column>  
+                                    <h:outputText value="#{exp}" />  
+                                </p:column>   
+                            </p:dataTable>  
+                        </h:form> 
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Nombre d'années d'expérience  : "/>
+                    </p:column>
+                    <p:column>                     
+                        <h:outputText value="#{candidatManagedBean.candidat.nbExperiences} "/>
+                    </p:column>
+                </p:row>
+                             
+            </p:panelGrid>
+            
+        </ui:define>
+        
+    </ui:composition>
+    
 
-                
-                <table border ="0" CELLSPACING ="50">
-                    
-                    <tr>
-                        
-                        <td> Niveau d'études </td>
-                        
-                        <td> <h:outputText value="#{candidatManagedBean.candidat.niveauEtudes} "/></td>
-
-                    </tr>
-                    
-                    <tr>
-                        
-                        <td> Domaine d'études </td>
-                        
-                        <td> <h:outputText value="#{candidatManagedBean.candidat.domaineEtudes} "/> </td>
-                        
-                    </tr>
- 
-                    <tr>
-                        
-                        <td> Langues </td>
-                        
-                        <td> <h:outputText value="#{candidatManagedBean.candidat.langues} "/> </td>
-                        
-                    </tr>
- 
-                    <tr>
-                        
-                        <td> Expériences professionnelles </td>
-                        
-                        <td> <h:outputText value="#{candidatManagedBean.candidat.experiences} "/> </td>
-                        
-                    </tr>
-                    
-                    <tr>
-                        
-                        <td> Nombre d'années d'expérience </td>
-                        
-                        <td> <h:outputText value="#{candidatManagedBean.candidat.nbExperiences} "/> </td>
-                        
-                    </tr>
-                    
-                   <tr>
-                        
-                        <td> Domaine d'études </td>
-                        
-                        <td> <h:outputText value="#{candidatManagedBean.candidat.domaineEtudes} "/> </td>
-                        
-                    </tr>
-                </table>
-                
-
-                
-                <br/><br/><br/><br/>        
-        </div>
-    </body>
+                     
+       
 </html>
