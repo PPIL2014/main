@@ -7,7 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import persistence.Candidat;
 import persistence.Employeur;
 
-@Generated(value="EclipseLink-2.3.2.v20111125-r10461", date="2013-06-03T09:36:42")
+@Generated(value="EclipseLink-2.3.2.v20111125-r10461", date="2013-06-03T09:44:17")
 @StaticMetamodel(SuggestionCandidat.class)
 public class SuggestionCandidat_ { 
 
