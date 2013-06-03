@@ -1,7 +1,15 @@
-Pour déployer l'application, il faut jsf 2.1, primefaces 3.4 et créer une base de données easyJob (userName : ppil et password : ppil).
-Pour se connecter en tant que candidat : 
-	login : test@test.fr
-	mdp : test
-Pour se connecter en tant qu'employeur :
-	login : laure@test.fr
-	mdp : laure
+Pour déployer l'application EasyJob, vous devez tout d'abord être en possession de NetBeans 7.3 et de GlassFish 3.1.2, ainsi que des bibliothèques jsf 2.1 et primefaces 3.4.
+
+Ensuite, vous devez :
+- Cloner la branche master
+- Ouvrir les trois projets dans NetBeans
+- Créer une nouvelle base de données que vous nommerez easyJob avec comme userName ppil et comme password ppil
+- Faire un clean and build sur le projet EasyJob
+- Déployer et lancer EasyJob
+
+Si vous avez des problèmes avec la base de données, cela peut venir de la persistance Unit. 
+Pour la modifier, vous devez : 
+- Dans le fichier persitence.xml, dans l'onglet de la Data Source, cliquez sur New Data Source
+- Nommer la data source easyjob et pour la database connection, mettez la base de données que vous venez de créer
+- Faire un clean and build sur le projet EasyJob
+- Déployer et lancer EasyJob
