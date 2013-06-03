@@ -40,6 +40,12 @@ public class NotificationCandidat implements Serializable {
         
     }
 
+    public NotificationCandidat(Candidat dest, Annonce an, Entreprise en, String m) {
+        message = m;
+        destinataire = dest;
+        annonce = an;
+        entreprise = en;
+    }
     public Long getId() {
         return id;
     }

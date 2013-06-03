@@ -3,23 +3,48 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
     
-    <ui:composition template="/template.xhtml" rendered="#{connexionBean.isConnect}">
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
+        <link rel="stylesheet" href="YannCSS.css" /> 
         
         <ui:define name="titre">
-            <h:outputText value="#{profilEmpManagedBean.employeur.prenom} #{profilEmpManagedBean.employeur.nom}"/>
+            <h:outputText value="#{profilEmpManagedBean.employeur.prenom} #{profilEmpManagedBean.employeur.nom}" rendered="#{connexionBean.employeur ne null}"/>
+            <h:outputText value="Erreur" rendered="#{connexionBean.employeur==null}"/>
         </ui:define>
 		
         <ui:define name="centre" >
-            <link rel="stylesheet" href="YannCSS.css" />
-            <p:panelGrid styleClass="panel">
+            
+            <p:panelGrid styleClass="panel" rendered="#{connexionBean.employeur==null}">
+               <p:row>
+                   <p:column>
+                       <h:outputText value="Vous n'avez pas accès à cette page." />
+                   </p:column>
+               </p:row>
+               <p:row>
+                    <p:column>
+                        <h:form>
+                            <h:commandLink value="Retour à votre profil" action="profilCand"/>
+                        </h:form>
+                    </p:column>
+               </p:row>
+           </p:panelGrid>
+            
+            <p:panelGrid styleClass="panel" rendered="#{connexionBean.employeur ne null}">
                 <p:row>
                     <p:column>
                         <h:outputText value="Nom :"/>
                     </p:column>
                     <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.nom}"/>
+                        <h:outputText value="#{profilEmpBean.employeur.nom}"/>
                     </p:column>
                 </p:row>
                 
@@ -28,7 +53,7 @@
                         <h:outputText value="Prénom :"/> 
                     </p:column>
                     <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.prenom}"/>
+                        <h:outputText value="#{profilEmpBean.employeur.prenom}"/>
                     </p:column>
                 </p:row>
                 
@@ -37,16 +62,16 @@
                         <h:outputText value="E-mail :"/> 
                     </p:column>
                     <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.mail}" />
+                        <h:outputText value="#{profilEmpBean.employeur.mail}" />
                     </p:column>
                 </p:row>
                 
-                <p:row rendered="#{profilEmpManagedBean.employeur.telephone ne null}">
+                <p:row rendered="#{profilEmpBean.employeur.telephone ne null}">
                     <p:column>
                         <h:outputText value="Téléphone :"/>
                     </p:column>
                     <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.telephone}" />
+                        <h:outputText value="#{profilEmpBean.employeur.telephone}" />
                     </p:column>
                 </p:row>
                 
@@ -55,16 +80,16 @@
                         <h:outputText value="Nom de l'entreprise:"/>
                     </p:column>
                     <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.nomEntreprise}" />
+                        <h:outputText value="#{profilEmpBean.employeur.entreprise.nomEntreprise}" />
                     </p:column>
                 </p:row>              
                                 
-                <p:row rendered="#{profilEmpManagedBean.employeur.entreprise.description ne null}">
+                <p:row rendered="#{profilEmpBean.employeur.entreprise.description ne null and profilEmpBean.employeur.entreprise.description.length()!=0}">
                     <p:column>
                         <h:outputText value="Description de l'entreprise :"/> 
                     </p:column>
                     <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.description}" />
+                        <h:outputText value="#{profilEmpBean.employeur.entreprise.description}" rendered="#{profilEmpBean.employeur.entreprise.description.length()!=0}"/>
                     </p:column>
                 </p:row>
                 
@@ -73,7 +98,7 @@
                         <h:outputText value="Domaine d'activité :"/> 
                     </p:column>
                     <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.domaine}" />
+                        <h:outputText value="#{profilEmpBean.employeur.entreprise.domaine}" />
                     </p:column>
                 </p:row>
                 
@@ -83,11 +108,11 @@
                         <br/><br/><br/>
                     </p:column>
                     <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.adresse.rue}" />
+                        <h:outputText value="#{profilEmpBean.employeur.entreprise.adresse.rue}" />
                         <br/>
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.adresse.codePostal} #{profilEmpManagedBean.employeur.entreprise.adresse.ville}" />
+                        <h:outputText value="#{profilEmpBean.employeur.entreprise.adresse.codePostal} #{profilEmpBean.employeur.entreprise.adresse.ville}" />
                         <br/>
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.adresse.pays}" />
+                        <h:outputText value="#{profilEmpBean.employeur.entreprise.adresse.pays}" />
                     </p:column>
                 </p:row>
                 
@@ -96,7 +121,7 @@
                         <h:outputText value="Téléphone de l'entreprise :"/> 
                     </p:column>
                     <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.telephone}" />
+                        <h:outputText value="#{profilEmpBean.employeur.entreprise.telephone}" />
                     </p:column>
                 </p:row>
                 
@@ -105,32 +130,47 @@
                         <h:outputText value="Statut de l'entreprise :"/> 
                     </p:column>
                     <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.statut}" />
+                        <h:outputText value="#{profilEmpBean.employeur.entreprise.statut}" />
                     </p:column>
                 </p:row>
                 
-                <p:row rendered="#{profilEmpManagedBean.employeur.entreprise.siteWeb ne null} ">
+                <p:row rendered="#{profilEmpBean.employeur.entreprise.siteWeb ne null and profilEmpBean.employeur.entreprise.siteWeb.length()!=0} ">
                     <p:column>
                         <h:outputText value="Site web :"/>  
                     </p:column>
                     <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.siteWeb}" />
+                        <h:outputText value="#{profilEmpBean.employeur.entreprise.siteWeb}" />
                     </p:column>
                 </p:row>
                 
-                <p:row rendered="#{profilEmpManagedBean.employeur.entreprise.nbEmployes!=0}">
+                <p:row rendered="#{profilEmpBean.employeur.entreprise.nbEmployes ne null and profilEmpBean.employeur.entreprise.nbEmployes.length()!=0}">
                     <p:column>
                         <h:outputText value="Nombre d'employés :"/> 
                     </p:column>
                     <p:column> 
-                        <h:outputText value="#{profilEmpManagedBean.employeur.entreprise.nbEmployes}" />
+                        <h:outputText value="#{profilEmpBean.employeur.entreprise.nbEmployes}" />
+                    </p:column>
+                </p:row>
+
+                <p:row>
+                    <p:column>
+                        <h:form>
+                            <br/><br/><br/>
+                            <p:commandButton action="modifierEmployeur" value="Modifier mes données" ajax="false"/>
+                        </h:form>
+                    </p:column>
+                    <p:column> 
+                        <h:form>
+                            <br/><br/><br/>
+                            <p:commandButton action="supprimerEmp" value="Supprimer mon profil" ajax="false"/>
+                        </h:form>
                     </p:column>
                 </p:row>
                 
             </p:panelGrid>
-            
+            <br/><br/><br/>
         </ui:define>        
         
-    </ui:composition>
+    </ui:decorate></ui:fragment>
 </html>
 

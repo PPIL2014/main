@@ -4,8 +4,10 @@
  */
 package persistence;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -27,12 +30,17 @@ public class CandidatureSpontanee implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    private File cv ;
+    private File lettre ;
+    
     @OneToOne
     private Candidat candidat;
     
     @ManyToMany
     private List<Employeur> employeurs;
     
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateCreation;
     
     public CandidatureSpontanee() {
         this.employeurs = new ArrayList<Employeur>();
@@ -71,6 +79,22 @@ public class CandidatureSpontanee implements Serializable {
         return "persistance.CandidatureSpontanee[ id=" + id + " ]";
     }
 
+    public File getCv() {
+        return cv;
+    }
+
+    public void setCv(File cv) {
+        this.cv = cv;
+    }
+
+    public File getLettre() {
+        return lettre;
+    }
+
+    public void setLettre(File lettre) {
+        this.lettre = lettre;
+    }
+
     /**
      * @return the candidat
      */
@@ -97,6 +121,20 @@ public class CandidatureSpontanee implements Serializable {
      */
     public void setEmployeurs(List<Employeur> employeurs) {
         this.employeurs = employeurs;
+    }
+
+    /**
+     * @return the dateCreation
+     */
+    public Date getDateCreation() {
+        return dateCreation;
+    }
+
+    /**
+     * @param dateCreation the dateCreation to set
+     */
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
     }
     
 }

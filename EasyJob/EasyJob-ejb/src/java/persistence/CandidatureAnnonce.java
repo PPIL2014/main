@@ -4,13 +4,17 @@
  */
 package persistence;
 
+import java.io.File;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -25,14 +29,17 @@ public class CandidatureAnnonce implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private String cv;
-    private String lettre;
+    private File cv;
+    private File lettre;
     
     @ManyToOne
     private Annonce annonce;
     
     @OneToOne
     private Candidat candidat;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateCreation;
     
     public CandidatureAnnonce() {
     }
@@ -71,31 +78,19 @@ public class CandidatureAnnonce implements Serializable {
         return "persistance.CandidatureAnnonce[ id=" + id + " ]";
     }
 
-    /**
-     * @return the cv
-     */
-    public String getCv() {
+    public File getCv() {
         return cv;
     }
 
-    /**
-     * @param cv the cv to set
-     */
-    public void setCv(String cv) {
+    public void setCv(File cv) {
         this.cv = cv;
     }
 
-    /**
-     * @return the lettre
-     */
-    public String getLettre() {
+    public File getLettre() {
         return lettre;
     }
 
-    /**
-     * @param lettre the lettre to set
-     */
-    public void setLettre(String lettre) {
+    public void setLettre(File lettre) {
         this.lettre = lettre;
     }
 
@@ -125,6 +120,20 @@ public class CandidatureAnnonce implements Serializable {
      */
     public void setCandidat(Candidat candidat) {
         this.candidat = candidat;
+    }
+
+    /**
+     * @return the dateCreation
+     */
+    public Date getDateCreation() {
+        return dateCreation;
+    }
+
+    /**
+     * @param dateCreation the dateCreation to set
+     */
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
     }
     
 }

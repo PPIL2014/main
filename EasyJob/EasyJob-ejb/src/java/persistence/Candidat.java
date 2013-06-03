@@ -29,7 +29,7 @@ public class Candidat implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private Long id;
     
     @Column(unique=true, name = "mail")
     private String mail;
@@ -70,6 +70,7 @@ public class Candidat implements Serializable {
         this.experiences = new ArrayList<String>();
         this.notifications = new ArrayList<NotificationCandidat>();
         this.suggestions = new ArrayList<SuggestionAnnonce>();
+        this.langues = new ArrayList<String>();
     }
     
     public Candidat(String nom, String prenom, String tel, String secu, Date naissance, boolean confidentialite) {
@@ -83,6 +84,7 @@ public class Candidat implements Serializable {
         this.experiences = new ArrayList<String>();
         this.notifications = new ArrayList<NotificationCandidat>();
         this.suggestions = new ArrayList<SuggestionAnnonce>();
+        this.langues = new ArrayList<String>();
     }
     
     @Override
@@ -295,14 +297,14 @@ public class Candidat implements Serializable {
     /**
      * @return the id
      */
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

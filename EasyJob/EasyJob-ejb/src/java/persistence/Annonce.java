@@ -40,6 +40,7 @@ public class Annonce implements Serializable {
     private int salaire;
     private String etudes;
     private int experience;
+    private int heure;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dateEmission;
     
@@ -59,7 +60,7 @@ public class Annonce implements Serializable {
         dateEmission = new Date();
     }
     
-    public Annonce(String titre, String description, String contrat, String etude, Employeur em, int salaire) {
+    public Annonce(String titre, String description, String contrat, String etude, Employeur em, int salaire,int heure) {
         this.titre = titre;
         this.description = description;
         this.contrat = contrat;
@@ -67,9 +68,9 @@ public class Annonce implements Serializable {
         this.employeur = em;
         this.dateEmission = new Date();
         this.candidatures = new ArrayList<CandidatureAnnonce>();
-        experience = -1;
-        dateEmission = new Date();
+        this.experience = -1;
         this.salaire = salaire;
+        this.heure=heure;
     }
     
     public Long getId() {
@@ -271,6 +272,20 @@ public class Annonce implements Serializable {
      */
     public void setEmployeur(Employeur employeur) {
         this.employeur = employeur;
+    }
+
+    /**
+     * @return the heure
+     */
+    public int getHeure() {
+        return heure;
+    }
+
+    /**
+     * @param heure the heure to set
+     */
+    public void setHeure(int heure) {
+        this.heure = heure;
     }
     
 }

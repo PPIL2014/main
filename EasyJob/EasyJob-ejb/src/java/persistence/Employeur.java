@@ -57,7 +57,7 @@ public class Employeur implements Serializable {
     @OneToMany(mappedBy = "destinataire", cascade = CascadeType.ALL)
     private List<NotificationEmployeur> notifications;
     
-    @ManyToMany(mappedBy = "destinataires", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "destinataire", cascade = CascadeType.ALL)
     private List<NotificationCandidatureS> notificationsCS;
 
     
@@ -85,6 +85,14 @@ public class Employeur implements Serializable {
         this.suggestions = new ArrayList<SuggestionCandidat>();
     }
     
+    public boolean containsCandidat(Candidat c){
+        int i=0;
+        if(candidats.size()>0)System.out.println(c.getId()+" ::::Comparaison ID   ::::"+candidats.get(0).getId());
+        while(i<candidats.size()&&c.getId()!=candidats.get(i).getId()){
+            i++;
+        }
+        return i<candidats.size();
+    }
     
     @Override
     public int hashCode() {

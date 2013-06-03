@@ -31,14 +31,17 @@ public class NotificationEmployeur implements Serializable {
     private Employeur destinataire;
     
     @OneToOne
-    private Candidat candidat;
-    
-    @OneToOne
     private CandidatureAnnonce candidature;
     
     
     public NotificationEmployeur() {
         
+    }
+    
+    public NotificationEmployeur(Employeur dest, CandidatureAnnonce cand, String m) {
+        message = m;
+        destinataire = dest;
+        candidature = cand;
     }
 
     public Long getId() {
@@ -88,6 +91,32 @@ public class NotificationEmployeur implements Serializable {
         this.message = message;
     }
 
+    /**
+     * @return the destinataire
+     */
+    public Employeur getDestinataire() {
+        return destinataire;
+    }
 
-    
+    /**
+     * @param destinataire the destinataire to set
+     */
+    public void setDestinataire(Employeur destinataire) {
+        this.destinataire = destinataire;
+    }
+
+    /**
+     * @return the candidature
+     */
+    public CandidatureAnnonce getCandidature() {
+        return candidature;
+    }
+
+    /**
+     * @param candidature the candidature to set
+     */
+    public void setCandidature(CandidatureAnnonce candidature) {
+        this.candidature = candidature;
+    }
+
 }

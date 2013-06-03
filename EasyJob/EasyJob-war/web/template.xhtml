@@ -4,55 +4,120 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      >
+          
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title><ui:insert name="titre" /></title>
-        <link rel="stylesheet" href="resources/styles/template.css" />
-        <style>
-
-        </style>
+        <title>
+            <ui:insert name="titre" />
+        </title>
+        <link rel="stylesheet" href="resources/styles/style.css" type="text/css" />
+        <!--<link rel="stylesheet" href="resources/styles/template.css" type="text/css" />-->
+        <link rel="stylesheet" href="YannCSS.css" />
     </h:head>
     
     <h:body>
+          <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type" />
+
         
         <f:view>
             
-            <div id="partiehaut">
-                <img style="width: 763px; height: 59px;" src="resources/img/banner.png" />
-            </div>    
-                
-            <div id="partiegauche">
-                <h:form>
-                    <h:commandButton styleClass="deconnectbutton" value="Deconnexion" action="index"/>
+            <center>
+                <img src="resources/img/banniere.png" />
+            </center>  
+            <br/><br/><br/>
+            <div class="prof">
+            <table>
+                <tr>
+                    <td>
+                        <h:form>
+                            <h:commandButton styleClass="deconnectbutton" value="Déconnexion" action="#{connexionBean.deconnexion()}"/>
+                        </h:form>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <h:form> 
+                            <p:panelGrid styleClass="panel">
+                                <p:row>
+                                    <p:column>
+                                        <h:selectOneMenu onchange="submit();" valueChangeListener="#{connexionBean.changedValeur}" value="#{connexionBean.recherche}">
+                                            <f:selectItem itemValue="" noSelectionOption="true"/>
+                                            <f:selectItem itemValue="rechercheCandidat.xhtml" itemLabel="Rechercher un candidat"/>
+                                            <f:selectItem itemValue="rechercheAnnonce.xhtml" itemLabel="Rechercher une annonce"/>
+                                            <f:selectItem itemValue="rechercheEntreprise.xhtml" itemLabel="Rechercher une entreprise"/>
+                                        </h:selectOneMenu>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
 
-                
-                    <br/><br/><br/><br/>
-                    <div style="text-align: center;"  id="menu5">
-                        <ul> 
-                            <li><h:commandLink value="Accueil" action="#{connexionBean.accueilPage()}" /></li>
-                            <li><h:commandLink value="Mon profil" action="#{connexionBean.profil()}" /></li>
-                            <li><h:commandLink value="Liste de suivi" action="index" /></li>
-                            <li><h:commandLink value="Ntification" action="index" /></li>
-                            <li><h:commandLink value="Suggestion" action="index" /></li>
-                        </ul>
-                    </div>
-                </h:form>
+                        </h:form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h:form>
+                            <br/>
+                            <div id="menu5">
+                                <ul> 
+                                    <li><h:commandLink value="Accueil" action="#{connexionBean.accueilPage()}" style="text-align: center" /></li>
+                                    <li><h:commandLink value="Mon profil" action="#{connexionBean.profil()}" style="text-align: center" /></li>
+                                    <li><h:commandLink value="Liste de suivi" action="#{connexionBean.listeSuivi()}" style="text-align: center" /></li>
+                                    <li><h:commandLink value="Notification" action="#{connexionBean.notification()}" style="text-align: center" /></li>
+                                    <li><h:commandLink value="Suggestion" action="#{connexionBean.suggestion()}" style="text-align: center" /></li>
+                                    <li><h:commandLink value="Candidature spontanée" action="listeCandidaturesSpontanees" rendered="#{connexionBean.employeur ne null}" style="text-align: center" /></li>
+                                    <li><h:outputLabel value="Statistiques" onclick="dlgStat.show();" style="text-align: center; color: #FFF; display: block; background: url('resources/img/menu5.gif'); padding: 8px 0 0 12px;"/></li>
+                                </ul>
+                            </div>
+                        </h:form>
+                    </td>
+                    <td>
+                         <ui:insert name="centre"/>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
             </div>
-            
-            
-            <div id="partiecentre">
-                <ui:insert name="centre">
-                    
-                </ui:insert>
-                <br/><br/><br/><br/>
-            </div>
-                
-           
         </f:view>   
-        
-    </h:body>
-    
-    
-    
+         <p:dialog id="dialogStat" width="580" height="150"  header="Les statistiques du site" widgetVar="dlgStat" resizable="false">  
+          <h:form id="formm">  
+                <p:panelGrid styleClass="panel">  
+                    <p:row>
+                        <p:column>
+                            Nombre de candidats inscrits : 
+                        </p:column>
+                        <p:column> 
+                            <h:outputText id="statCand" value="#{connexionBean.nbCandidats()}"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            Nombre d'annonces déjà postées :
+                        </p:column>
+                        <p:column> 
+                            <h:outputText id="statAnn" value="#{connexionBean.nbAnnonces()}"/>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            Nombre d'employeurs inscrits : 
+                        </p:column>
+                        <p:column>                               
+                            <h:outputText id="statEmp" value="#{connexionBean.nbEmployeurs()}"/>
+                        </p:column>
+                    </p:row>
+               
+              </p:panelGrid>  
+
+          </h:form>  
+          <br/>
+
+          <h:form>
+              <p:commandLink id="accueil1" value="Retour accueil" action="#{connexionBean.accueilPage()}" oncomplete="dlgStat.hide();" />  
+          </h:form>
+        </p:dialog>  
+
+    </h:body>   
 </html>
 

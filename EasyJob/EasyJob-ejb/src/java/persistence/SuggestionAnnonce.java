@@ -5,12 +5,14 @@
 package persistence;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -34,9 +36,18 @@ public class SuggestionAnnonce implements Serializable {
     @ManyToOne
     private  Candidat destinataire;
     
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dateCreation;
+    
     
     public SuggestionAnnonce() {
         
+    }
+    
+    public SuggestionAnnonce(Annonce annonce, Candidat emetteur, Candidat destinataire) {
+        this.annonce = annonce;
+        this.emetteur = emetteur;
+        this.destinataire = destinataire;
     }
     
     public Long getId() {
@@ -112,6 +123,20 @@ public class SuggestionAnnonce implements Serializable {
      */
     public void setDestinataire(Candidat destinataire) {
         this.destinataire = destinataire;
+    }
+
+    /**
+     * @return the dateCreation
+     */
+    public Date getDateCreation() {
+        return dateCreation;
+    }
+
+    /**
+     * @param dateCreation the dateCreation to set
+     */
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
     }
     
 }

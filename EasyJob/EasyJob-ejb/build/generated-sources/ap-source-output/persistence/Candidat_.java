@@ -11,7 +11,7 @@ import persistence.Entreprise;
 import persistence.NotificationCandidat;
 import persistence.SuggestionAnnonce;
 
-@Generated(value="EclipseLink-2.3.2.v20111125-r10461", date="2013-04-12T22:50:40")
+@Generated(value="EclipseLink-2.3.2.v20111125-r10461", date="2013-06-03T09:36:42")
 @StaticMetamodel(Candidat.class)
 public class Candidat_ { 
 
@@ -24,7 +24,7 @@ public class Candidat_ {
     public static volatile SingularAttribute<Candidat, Integer> nbExperiences;
     public static volatile ListAttribute<Candidat, SuggestionAnnonce> suggestions;
     public static volatile SingularAttribute<Candidat, String> nom;
-    public static volatile SingularAttribute<Candidat, String> id;
+    public static volatile SingularAttribute<Candidat, Long> id;
     public static volatile SingularAttribute<Candidat, String> prenom;
     public static volatile SingularAttribute<Candidat, String> sitWeb;
     public static volatile SingularAttribute<Candidat, String> mdp;

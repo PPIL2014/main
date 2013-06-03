@@ -8,56 +8,72 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      >
-    <h:head>
-        <title>Profil Candidat</title>
-        <link rel="stylesheet" href="YannCSS.css" />
-    </h:head>
-    <h:body>
-       Vos données personnelles :
-      
-      
-           <h:form>
-                <p:panelGrid styleClass="panel">
-               <p:row>
-                   <p:column>
-                       <h:outputText value="Nom : "/>
-                   </p:column>
-                   <p:column>
-                       <h:outputText value="#{profilcandBean.candidat.nom}"/>
-                   </p:column>
-               </p:row>
-               
-               <p:row>
-                   <p:column>
-                       <h:outputText value="Prénom : "/>
-                   </p:column>
-                   <p:column>
-                       <h:outputText value="#{profilcandBean.candidat.prenom}"/>
-                   </p:column>
-               </p:row>
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
-                    
-               <p:row >
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
+        <ui:define name="titre">
+            <h:outputText value="#{profilcandBean.candidat.prenom} #{profilcandBean.candidat.nom}" rendered="#{connexionBean.candidat ne null}"/>
+            <h:outputText value="Erreur" rendered="#{connexionBean.candidat==null}"/>
+        </ui:define>
+		
+        <ui:define name="centre" rendered="#{profilcandBean.candidat ne null}" >
+            <link rel="stylesheet" href="YannCSS.css" />
+
+           <p:panelGrid styleClass="panel" rendered="#{connexionBean.candidat==null}">
+               <p:row>
                    <p:column>
-                       <h:outputText value="Consulter une entreprise : "/>
+                       <h:outputText value="Vous n'avez pas accès à cette page."/>
                    </p:column>
-                   <p:column>
-                       <h:commandLink value="Société Générale" action="vitrineEntreprise" />
-                   </p:column>
-               </p:row> 
-                    
-                                   <p:row >
-                   <p:column>
-                       <h:outputText value="Consulter un candidat : "/>
-                   </p:column>
-                   <p:column>
-                       <h:commandLink value="toto@toto.fr" action="vitrineCandidat" />
-                   </p:column>
-               </p:row> 
-       </p:panelGrid>
-       
+               </p:row>
+               <p:row>
+                    <p:column>
+                        <h:form>
+                            <h:commandLink value="Retour à votre profil" action="profilEmpl"/>
+                        </h:form>
+                    </p:column>
+               </p:row>
+           </p:panelGrid>
+           
+           <h:form rendered="#{connexionBean.candidat ne null}">
+               <p:panelGrid styleClass="panel">                    
+                   
+                   <p:row rendered="#{profilcandBean.listeCandidatureAnnocePostule().size()!=0}">
+                        <p:column>
+                            <h:outputText value="Annonces auxquelles vous avez postulé : "/>
+                            <br/><br/>
+                            <p:dataTable var="ind" value="#{profilcandBean.listeCandidatureAnnocePostule()}" styleClass="data-table">
+                                <p:column>
+                                    <h:commandLink  value="#{ind.annonce.titre}" actionListener="#{annonceManagedBean.consulterParRecherche}" action="consulterAnnonce.xhtml">
+                                        <f:attribute name="Mannonce" value="#{ind.annonce.id}"/>
+                                    </h:commandLink>
+                                    
+                                </p:column>
+                            
+                            </p:dataTable>
+                        </p:column>
+                    </p:row> 
+                   
+                   <p:row rendered="#{profilcandBean.listeCandidatureAnnocePostule().size()==0}">
+                       <p:column>
+                           <h:outputText value="Vous n'avez postulé à aucune annonce."/>
+                       </p:column>
+                   </p:row>
+                   
+            </p:panelGrid>
+               <br/><br/><br/>
        </h:form>
-    </h:body>
+    </ui:define>
+
+	
+    </ui:decorate>
+    </ui:fragment>
+       
 </html>

@@ -21,27 +21,22 @@ root {
 
 .panel tr, .panel td {
     border: none;
+    background: none;
 }
 
 
 a:hover			/*propriété d'un lien qu'on "survole"*/
 {color:red;}			/*couleur rouge*/
 
-body 	/*En général...*/
-{
-font-family:arial; 				/*police arial*/
-font-style:normal;				/*pas de style particulier*/
-font-size:15px;					/*taille de la police*/
-}
 
 #titre			/*le titre...*/
 {
-text-align:center;			/*centre le texte*/
+text-align:center;			/*centre le texte*/		/*centre le texte*/
 font-family:serif; 			/*police arial*/
 font-style:italic;			/*pas de style particulier*/
 font-size:50px;				/*taille de la police*/
 padding:3px;				/*marge interne (optionnelle)*/
-color: blue;
+color: red;
 }
 
 #pied 		/*le pied de page*/
@@ -58,16 +53,17 @@ width:15%;
 }
 #menucentre 			/*partie centrale de la page*/
 {
-float:left;                         /*aligne le texte à gauche*/
-margin-left:15.2%;			/*laisse 15.2% de marge/espace a gauche*/
-margin-right:15.2%;			/*laisse 15.2% de marge/espace a droite*/
-margin-top:5%;				/*laisse 5% de marge/espace au niveau de la partie supérieur */
+float:left;                             /*aligne le texte à gauche*/
+margin-left:15%;			/*laisse 15.2% de marge/espace a gauche*/
+margin-right:10%;			/*laisse 15.2% de marge/espace a droite*/
+margin-top:5%;                          /*laisse 5% de marge/espace au niveau de la partie supérieur */
+min-width: 40%;
 }
 
 #menudroite			/*partie droite de la page*/
 {
-margin-top:5%;
-float:right;				/*positionne la partie à droite*/
+margin-top: 5%;
+float: right;				/*positionne la partie à droite*/
 width:15%;
 }
 
@@ -76,8 +72,33 @@ width:15%;
 text-align:center;    
 }
 
+h1
+{
+    text-align:center; 
+}
+
+body
+{
+    background-color: #DBEAF9;
+}
+
 #reponseSQL
 {
-text-align:center;  
+    text-align:center;
+    background-color: tomato; 
 }
+
+
+
+.data-table table thead tr {
+    display: none;
+}
+
+.data-table table * {
+    border: none !important;
+    text-align:left;
+    background: none;
+    border-top: none;
+    margin-left: 0px;
+ }
 

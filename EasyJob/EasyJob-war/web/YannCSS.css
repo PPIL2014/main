@@ -77,6 +77,11 @@ h1
     text-align:center; 
 }
 
+body
+{
+    background-color: #DBEAF9;
+}
+
 #reponseSQL
 {
     text-align:center;
@@ -95,5 +100,5 @@ h1
     background: none;
     border-top: none;
     margin-left: 0px;
-   }
+ }
 

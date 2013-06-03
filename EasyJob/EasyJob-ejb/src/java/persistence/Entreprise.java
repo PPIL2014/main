@@ -34,9 +34,9 @@ public class Entreprise implements Serializable {
     private String domaine;
     private String telephone;
     private String statut;
-    private String siteWeb;
-    private String description;
-    private int nbEmployes;
+    private String siteWeb = "";
+    private String description = "";
+    private String nbEmployes = "";
     
     @OneToOne(cascade = CascadeType.ALL)
     private Adresse adresse;
@@ -171,14 +171,14 @@ public class Entreprise implements Serializable {
     /**
      * @return the nbEmployes
      */
-    public int getNbEmployes() {
+    public String getNbEmployes() {
         return nbEmployes;
     }
 
     /**
      * @param nbEmployes the nbEmployes to set
      */
-    public void setNbEmployes(int nbEmployes) {
+    public void setNbEmployes(String nbEmployes) {
         this.nbEmployes = nbEmployes;
     }
 

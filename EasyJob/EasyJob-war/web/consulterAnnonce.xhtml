@@ -10,21 +10,40 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
     
-    <ui:composition template="/template.xhtml" rendered="#{connexionBean.isConnect}">
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
         <ui:define name="titre">
             <h:outputText value="#{annonceManagedBean.annonce.titre} "/>
         </ui:define>
 		
         <ui:define name="centre" >
-           <link rel="stylesheet" href="YannCSS.css" />
-           <h2 style="text-align: center">
-               <h:outputText value="#{annonceManagedBean.annonce.titre}" />
-           </h2>
-           <br/>
-           <h:form>
-               <p:panelGrid styleClass="panel">                    
-                    <p:row >
+            <link rel="stylesheet" href="YannCSS.css" /> 
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+
+            <p:panelGrid styleClass="panel">
+                <p:row >
+                    <p:column colspan="2">
+                        <h1>
+                            <center>
+                                <h:outputText value="#{annonceManagedBean.annonce.titre}" /> 
+                            </center>
+                        </h1>
+                       <br/>
+                    </p:column>
+                </p:row> 
+            </p:panelGrid>
+           
+            <br/>
+           
+            <h:form>
+                <p:panelGrid styleClass="panel">                    
+                    <p:row>
                         <p:column>
                             <h:outputText value="Annonce émise par : "/>
                         </p:column>
@@ -38,7 +57,7 @@ and open the template in the editor.
                             <h:outputText value="Annonce émise le : "/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{annonceManagedBean.annonce.dateEmission}"/>
+                            <h:outputText value="#{autoCompleteManagedBean.affichageDate(annonceManagedBean.annonce.dateEmission)}"/>
                         </p:column>
                     </p:row> 
                    
@@ -51,16 +70,16 @@ and open the template in the editor.
                         </p:column>
                     </p:row> 
                    
-                   <p:row>
-                        <p:column>
-                            <h:outputText value="Date limite des candidatures : "/>
+                    <p:row rendered="#{annonceManagedBean.annonce.dateLimite ne null}">
+                        <p:column  style="width: 50%;">
+                            <h:outputText value="Date limite des candidatures: "/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{annonceManagedBean.annonce.dateLimite}" />
+                            <h:outputText value="#{autoCompleteManagedBean.affichageDate(annonceManagedBean.annonce.dateLimite)}" />
                         </p:column>
                     </p:row> 
                    
-                   <p:row>
+                    <p:row>
                         <p:column>
                             <h:outputText value="Type de contrat proposé : "/>
                         </p:column>
@@ -69,21 +88,22 @@ and open the template in the editor.
                         </p:column>
                     </p:row>
                    
-                   <p:row  rendered="#{annonceManagedBean.annonce.secteur ne null}">
+                    <p:row  rendered="#{annonceManagedBean.annonce.secteur ne null}">
                         <p:column>
-                            <h:outputText value="Secteur d'activité de l'entreprise : "/>
+                            <h:outputText value="Secteur d'activité de l'annonce : "/>
                         </p:column>
                         <p:column>
                             <h:outputText value="#{annonceManagedBean.annonce.secteur}" />
                         </p:column>
                     </p:row> 
                    
-                    <p:row>
+                    <p:row rendered="#{annonceManagedBean.annonce.salaire>=0}">
                         <p:column>
                             <h:outputText value="Salaire : "/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{annonceManagedBean.annonce.salaire}"/>
+                            <h:outputText value="#{annonceManagedBean.annonce.salaire} €" rendered="#{annonceManagedBean.annonce.salaire!=0}"/>
+                            <h:outputText value="Bénévolat" rendered="#{annonceManagedBean.annonce.salaire==0}"/>
                         </p:column>
                     </p:row> 
                    
@@ -101,13 +121,15 @@ and open the template in the editor.
                             <h:outputText value="Expérience demandée : "/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{annonceManagedBean.annonce.experience} ans" />
+                            <h:outputText value="#{annonceManagedBean.annonce.experience} ans" rendered="#{annonceManagedBean.annonce.experience!=0 and annonceManagedBean.annonce.experience!=10 }"/>
+                            <h:outputText value="- de 1 an" rendered="#{annonceManagedBean.annonce.experience==0}"/>
+                            <h:outputText value="+ de 10 ans" rendered="#{annonceManagedBean.annonce.experience==10}"/>
                         </p:column>
                     </p:row> 
                    
                    <p:row rendered="#{annonceManagedBean.annonce.lieu ne null}">
                         <p:column>
-                            <h:outputText value="Lieu de travail: "/>
+                            <h:outputText value="Lieu de travail : "/>
                             <br/><br/><br/>
                         </p:column>
                         <p:column>
@@ -118,13 +140,127 @@ and open the template in the editor.
                             <h:outputText value="#{annonceManagedBean.annonce.lieu.pays}" />
                         </p:column>
                     </p:row> 
+                    
+                    <p:row rendered="#{annonceManagedBean.annonce.heure >= 0}">
+                        <p:column>
+                            <h:outputText value="Nombre d'heures par semaine : "/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{annonceManagedBean.annonce.heure}" />
+                        </p:column>
+                    </p:row> 
                    
-            </p:panelGrid>
+                   <p:row>
+                       <p:column>
+                           <br/><br/>
+                           <p:commandButton rendered="#{connexionBean.candidat ne null}" value="Postuler" action="postulerAnnonces" immediate="true" ajax="false" disabled="#{annonceManagedBean.aPostuler()}">
+                               
+                           </p:commandButton>
+                       </p:column>
+                       <p:column>
+                           <br/><br/>
+                           <p:commandButton rendered="#{connexionBean.candidat ne null}" action="suggestionAnnonce" value="Suggérer cette annonce" ajax="false">
+                               <f:param name="annonce" value="#{annonceManagedBean.annonce.id}"/>
+                           </p:commandButton>
+                       </p:column>
+                   </p:row>
+                    
+               </p:panelGrid>
+                
+                
+               <p:panelGrid styleClass="panel">
+                   
+                   <p:row rendered="#{annonceManagedBean.proprietaireAnnonce()}">
+                       <p:column>
+                           <p:commandButton value="Modifier" action="#{creationAnnonceBean.versModificationAnnonce(annonceManagedBean.annonce)}" ajax="false"/>
+                       </p:column>
+                       <p:column>
+                           <p:commandButton action="listeCandidatures.xhtml" value="Consulter les candidatures" ajax="false">
+                               <f:param name="annonce" value="#{annonceManagedBean.annonce.id}"/>
+                           </p:commandButton>
+                       </p:column>
+                       <p:column>
+                           <p:commandButton id="showDialogButton" value="Supprimer" onclick="confirmation.show();" type="button" />
+                       <p:confirmDialog id="confirmDialog" message="Confirmation : supprimer une annonce"  header="Alerte" severity="alert" widgetVar="confirmation">  
+                            <h:form>
+                                <center>
+                                    <h:outputText value="Raison pour laquelle vous voulez supprimer cette annonce : "/>
+                                    <br/><br/>
+                                    <p:selectOneMenu id="raisonsAnnonces">
+                                        <f:selectItem id="item1" itemLabel="Vous avez embauché une personne inscrite sur EasyJob" itemValue="1" />
+                                        <f:selectItem id="item2" itemLabel="Vous avez embauché une personne non inscrite sur EasyJob" itemValue="2" />
+                                        <f:selectItem id="item3" itemLabel="Autre" itemValue="3" />
+                                    </p:selectOneMenu>
+                                </center>
+                            </h:form>
+                           <br/>
+                           <center>
+                           <p:commandButton id="confirm" ajax="false" value="Supprimer"  oncomplete="confirmation.hide();" action="#{annonceManagedBean.supprimerAnnonce()}" />  
+                        <p:commandButton id="decline" value="Annuler" onclick="confirmation.hide();" type="button" />   
+                           </center>
+                    </p:confirmDialog>
+                       </p:column>
+                   </p:row>                  
+                   
+                   <p:row rendered="#{connexionBean.employeur != null}">
+                       <p:column style="text-align: center" colspan="3">
+                           <br/><br/><br/>
+                           <h:outputText value="Liste des candidats susceptibles de correspondre à l'annonce : " />
+                           <br/>
+                       </p:column>
+                   </p:row>
+             
+                  <p:row rendered="#{connexionBean.employeur != null}">
+                       <p:column style="text-align: center" colspan="3">
+                           <br/>
+                           <p:commandButton id="show" type="button" value="Consulter" onclick="dlg.show();"/>
+                           <br/><br/><br/>
+                       </p:column>
+                   </p:row>
+                   
+               </p:panelGrid>
+               <br/><br/><br/>
        
+               
+               <p:dialog id="dia"  header="Candidat répondant aux critères" widgetVar="dlg" resizable="false">  
+ 
+                <p:panelGrid styleClass="panel" columns="1">  
+                    <p:row rendered="#{annonceManagedBean.listeCandidat().size()!=0}">
+                          <p:column>
+                              <h:outputText id="liste" value="Liste des candidats susceptibles de correspondre à cette annonce :"/>
+                          </p:column>
+                  </p:row>
+
+                  <p:row> 
+                         <p:column rendered="#{annonceManagedBean.lc.size()!=0}">
+                             <p:dataTable styleClass="data-table" var="candidat" value="#{annonceManagedBean.lc}" >
+                                <p:column>
+                                    
+                                    <h:commandLink value="#{candidat.prenom} #{candidat.nom}" actionListener="#{candidatManagedBean.consulterRecherche}" action="vitrineCandidat.xhtml">
+                                        <f:attribute name="Mcandidat" value="#{candidat.id}"/>
+                                    </h:commandLink>
+                                   
+                                </p:column>
+                            </p:dataTable>
+                         </p:column>
+                         <p:column rendered="#{annonceManagedBean.lc.size()==0}">
+                             <h:outputText id="eror" value="Aucun candidat ne correspond à tous les critères de votre annonce." />
+                         </p:column>
+                   </p:row>
+                </p:panelGrid>  
+
+                <br/>
+
+                 <p:commandLink id="accueil" value="Retour" action="consulterAnnonce" oncomplete="dlg.hide();" />  
+                </p:dialog>
+               
+               
+               
+               
             </h:form>
         </ui:define>
 	
-    </ui:composition>
+    </ui:decorate></ui:fragment>
 
 
     

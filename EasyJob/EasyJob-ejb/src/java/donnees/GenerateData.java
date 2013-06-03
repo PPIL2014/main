@@ -4,28 +4,35 @@
  */
 package donnees;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.Stateless;
-import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import persistence.Adresse;
 import persistence.Annonce;
 import persistence.Candidat;
+import persistence.CandidatureAnnonce;
+import persistence.CandidatureSpontanee;
 import persistence.Employeur;
 import persistence.Entreprise;
+import persistence.NotificationCandidat;
+import persistence.NotificationCandidatureS;
+import persistence.NotificationEmployeur;
+import persistence.SuggestionAnnonce;
+import persistence.SuggestionCandidat;
 
 /**
  *
  * @author celie
  */
-//@Stateless
-//@LocalBean
+
 @Singleton
 @Startup
 public class GenerateData {
@@ -33,6 +40,14 @@ public class GenerateData {
     @PersistenceContext(unitName = "EasyJob-PU")
     private EntityManager em;
     private Employeur emp;
+    private Employeur provEmp;
+    
+    private Candidat candTest,candTest2;
+    private Annonce annonceTest;
+    
+    private Employeur empTest;
+    
+
     
     public GenerateData() {      
     }
@@ -40,105 +55,125 @@ public class GenerateData {
     @PostConstruct
     public void intitialisation() {
         this.addCandidats();
-        this.addEmployeurs();
-        this.addAnnonce();
+       this.addEmployeurs();
+    /*    this.addAnnonce();*/
     }
     
     public void addCandidats() {
         /* Création d'un premier candidat */
-        GregorianCalendar date = new GregorianCalendar(1978, 0, 7);
-        Candidat c = new Candidat("test","test","0395864899","1526975694102",date.getTime(),true);
-        c.setAdresse(new Adresse("3 rue des tulipes","75000","Paris","France"));
-        c.setDomaineEtudes("informatique");
+        System.out.println("hfuhfuhfruhi");
+        GregorianCalendar date = new GregorianCalendar(1968, 0, 7);
+        Candidat c = new Candidat("Debrat","Henri","0395864899","1526975694102",date.getTime(),true);
+        c.setAdresse(new Adresse("3 rue des tulipes","54000","Nancy","France"));
+        c.setDomaineEtudes("Informatique");
         ArrayList<String> ex = new ArrayList<String>();
-        ex.add("1996-2000 : blabla");
-        ex.add("2000-2012 : blabla");
-        c.setExperiences(ex);
         ex = new ArrayList<String>();
         ex.add("anglais-moyen");
         c.setLangues(ex);
         c.setMdp("test");
-        c.setMail("test@test.fr");
+        c.setMail("hd@test.fr");
         c.setNbExperiences(10);
-        c.setSitWeb("www.test.fr/toto");
-        c.setNiveauEtudes("BAC");
-        em.persist(c);
+        c.setSitWeb("www.test.fr/hd");
+        c.setNiveauEtudes("BAC+7");
+        candTest=c;// récupère le candidat test
+        em.persist(c);              
         
-        /* Création d'un deuxième candidat */
-        date = new GregorianCalendar(1965, 4, 23);
-        c = new Candidat("Dupond","Jeanne","0395642889","2526558694102",date.getTime(),true);
-        c.setAdresse(new Adresse("5 impasse des violettes","54000","Nancy","France"));
-        c.setDomaineEtudes("vente");
-        ex = new ArrayList<String>();
-        ex.add("1976-1988 : blabla");
-        ex.add("1990-2011 : blabla");
-        c.setExperiences(ex);
-        ex = new ArrayList<String>();
-        c.setLangues(ex);
-        c.setMdp("toto");
-        c.setMail("toto@toto.fr");
-        c.setNbExperiences(25);  
-        c.setNiveauEtudes("BAC+5");  
-        em.persist(c);
        
-        /* Création d'un troisième candidat */
-        date = new GregorianCalendar(1990, 4, 23);
-        c = new Candidat("Durant","Paul","0595642889","1426558697102",date.getTime(),false);
-        c.setAdresse(new Adresse("5 avenue des camélias","69000","Lyon","France"));
-        c.setDomaineEtudes("santé");
-        ex = new ArrayList<String>();
-        ex.add("2009-2010 : blabla");
-        c.setExperiences(ex);
-        ex = new ArrayList<String>();
-        ex.add("anglais-expert");
-        ex.add("espagnol-parlé");
-        c.setLangues(ex);
-        c.setMdp("tata");
-        c.setMail("tata@tata.fr");
-        c.setNbExperiences(5); 
-        c.setNiveauEtudes("Bac+3");
-        em.persist(c);
     }
     
     public void addEmployeurs() {
-        Entreprise en = new Entreprise("La bonne place","restauration","0156917582","SA", new Adresse("3 rue des Géraniums","54600","Villers-les-Nancy","France"));
-        en.setSiteWeb("www.labonneplace.fr");
+        Entreprise en = new Entreprise("MI6","Enquetes et sécurite","0156917582","SA", new Adresse("3 rue des Géraniums","444719","Londres","UK"));
+        en.setSiteWeb("www.mi6.fr");
+        en.setDescription("On sauve le monde.");
         em.persist(en);
         
         /* Création d'un premier employeur */
-        emp = new Employeur("Merter","Laure","laure@test.fr","laure",true,en);
+        emp = new Employeur("Mallory","Gareth","gm@mi6.fr","test",true,en);
         en.getEmployeurs().add(emp);
         em.persist(emp);
-        
-        /* Création d'un deuxième employeur */
-        emp = new Employeur("Montpe","Thomas","thomas@test.fr","thomas",false,en);
-        emp.setTelephone("0651859635");
-        en.getEmployeurs().add(emp);
-        em.persist(emp);
-        
-        en = new Entreprise("Societe Generale","banque","0155687582","SARL", new Adresse("35 allée des Lilas","75000","Paris","France"));
-        en.setNbEmployes(32);
-        em.persist(en);
-        
-        /* Création d'un deuxième employeur */
-        Employeur emp2 = new Employeur("Ponetier","Etienne","etienne@test.fr","etienne",false,en);
-        em.persist(emp2);
+        provEmp = emp;
+        empTest = emp;
+             
     }
     
     public void addAnnonce() {
-        Annonce an = new Annonce("annonce1","blablabla","CDI","BAC+2",emp,1500);
+        Annonce an = new Annonce("annonce1","blablabla","CDI tout public","BAC+2",provEmp,1500,35);
+        an.setSecteur("Restauration");
         em.persist(an);
+        annonceTest=an;
         
-        an = new Annonce("annonce2","blablabla","CDD","BAC+5",emp,2300);
+        NotificationEmployeur n = new NotificationEmployeur();
+        n.setDestinataire(empTest);
+        n.setMessage("Un candidat a postuler à une annonce");
+        /*CandidatureAnnonce ca = new CandidatureAnnonce();
+        ca.setAnnonce(an);
+        ca.setCandidat(candTest);
+        an.getCandidatures().add(ca);
+        File f = new File("~/rapport.pdf");
+        ca.setCv(f);
+        ca.setLettre(f);
+        em.persist(ca);
+        n.setCandidature(ca);*/
+        em.persist(n);
+        empTest.getNotifications().add(n);
+        
+        
+        Candidat c = new Candidat();
+        c.setNom("Tata");
+        c.setPrenom("Titi");
+        em.persist(c);
+        n = new NotificationEmployeur();
+        n.setDestinataire(empTest);
+        n.setMessage("Un candidat a postuler à une annonce");
+        /*ca = new CandidatureAnnonce();
+        ca.setAnnonce(an);
+        ca.setCandidat(c);
+        em.persist(ca);
+        an.getCandidatures().add(ca);*/
+        em.merge(an);
+        //n.setCandidature(ca);
+        em.persist(n);
+        empTest.getNotifications().add(n);
+        
+        empTest.getCandidats().add(c);
+        empTest.getCandidats().add(candTest);
+        em.merge(empTest);
+        
+        SuggestionAnnonce sugges = new SuggestionAnnonce(annonceTest, c, candTest);
+        candTest.getSuggestions().add(sugges);
+        em.merge(candTest);
+        em.persist(sugges);        
+        
+        
+        an = new Annonce("annonce2","blablabla","CDD alternance","BAC+5",emp,2300,35);
         an.setLieu(new Adresse("5 rue des rosiers","54000","Nancy","France"));
         an.setExperience(3);
+        an.setSecteur("Culture et production animale, chasse et services annexes");
         Date d = new Date();
-        d.setYear(2013);
+        d.setYear(113);
         d.setMonth(7);
         d.setDate(30);
+        an.setDateLimite(d);
+        em.persist(an);
+        
+        sugges = new SuggestionAnnonce(an, c, candTest);
+        em.persist(sugges);
+        candTest.getSuggestions().add(sugges);
+        em.merge(candTest);
+        
+        an = new Annonce("annonce3","blablabla","CDD alternance","BAC+5",emp,2300,35);
+        an.setLieu(new Adresse("5 rue des rosiers","54000","Nancy","France"));
+        an.setSecteur("Restauration");
+        d = new Date();
+        d.setYear(113);
+        d.setMonth(3);
+        d.setDate(30);
+        an.setDateLimite(d);
         em.persist(an);
         
     }
+
+    
 
 
 }

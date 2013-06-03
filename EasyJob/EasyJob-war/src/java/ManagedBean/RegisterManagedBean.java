@@ -1,34 +1,31 @@
-package ManagedBean;
-
-
-
-
-
-import interfaces.CandidatLocal;
-import interfaces.EmployeurLocal;
-import java.io.Serializable;
-import javax.annotation.PostConstruct;
-
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-
-import persistence.Candidat;
-import persistence.Employeur;
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+package ManagedBean;
 
+import interfaces.AnnonceLocal;
+import interfaces.CandidatLocal;
+import interfaces.EmployeurLocal;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
+import persistence.Candidat;
+import persistence.Employeur;
 
 /**
  *
  * @author Yann
  */
-
 @ManagedBean(name="connexionBean")
 @SessionScoped
 public class RegisterManagedBean implements Serializable{
@@ -42,22 +39,23 @@ public class RegisterManagedBean implements Serializable{
      * Le champs membre est à vrai si c'est un candidat qui est conecté et à faux si c'est un employeur
      */
     private boolean isConnect;
-
-
-
+    
+    /**
+     * page de la recherche
+     */
+    private String recherche;
+    
     @Inject
     private CandidatLocal candidatEJB;
     @Inject
     private EmployeurLocal employeurEJB;
-    
-    /**
-     * Creates a new instance of RegisterManagedBean
-     */
-    public RegisterManagedBean() {
-    }
+     @Inject
+    private AnnonceLocal annonceEJB;
+
     
     @PostConstruct
     public void initialisation() {
+        recherche = "";
         isConnect = false;
     }
     
@@ -74,35 +72,112 @@ public class RegisterManagedBean implements Serializable{
     public String profil() {
         String next ="";
         if(candidat!=null) {
-            next = "donneesCand.xhtml";
+            next = "donneesCand";
         } else if(employeur!=null){
-            next = "donneesEmpl.xhtml";
+            next = "donneesEmpl";
         }
         return next;
     }
     
+     public String suggestion() {
+        String next = "";
+        if(candidat!=null) {
+            next="consulterSuggestionAnnonce";
+        } else if (employeur!=null) {
+            next = "consulterSuggestionCandidat";
+        }
+        return next;
+    }
+    
+    public String notification() {
+        String next = "";
+        if(candidat!=null) {
+            next="consulterNotificationCand";
+        } else if (employeur!=null) {
+            next = "consulterNotificationEmp";
+        }
+        return next;
+    }
+    
+    public String listeSuivi() {
+        String next = null;
+        if(candidat!=null)
+            next =  "listeSuiviCandidat";
+        else if (employeur!=null)
+            next = "listeSuiviEmployeur";
+        return next;
+    }
     
     public String connexion(){
-        String next = "connexion";
+        String next = "accueil";
         if(login!=null && password!=null) {
-                if(candidatEJB.loginCandidat(login, password)){                 
-                    setCandidat(candidatEJB.getCandidatByMail(login));
-                    next = "profilCand";
-                }else if (employeurEJB.loginEmployeur(login, password)){
-                    setEmployeur(employeurEJB.getEmployeurByMail(login));
-                    next = "profilEmpl";
-                } else {
-                    setEmployeur(null);
-                    setCandidat(null);
-                }
+            if(candidatEJB.loginCandidat(login, password)){                 
+                setCandidat(candidatEJB.getCandidatByMail(login));
+                setEmployeur(null);
+                isConnect = true;
+                next = "profilCand";
+            }else if (employeurEJB.loginEmployeur(login, password)){
+                setEmployeur(employeurEJB.getEmployeurByMail(login));
+                setCandidat(null);
+                isConnect = true;
+                next = "profilEmpl";
+            } else {
+                setEmployeur(null);
+                setCandidat(null);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Erreur", "Identifiants incorrects"));  
+            }
         } else {
              setEmployeur(null);
-             setCandidat(null);   
+             setCandidat(null);  
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Erreur", "Identifiants incorrects"));  
         }
            
         return next;
     }
 
+    /**
+     * permet de se deconnecter
+     * @return 
+     */
+    public String deconnexion(){
+        this.isConnect=false;
+        this.candidat=null;
+        this.employeur=null;
+        HttpSession ses = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        if(ses!=null){
+            ses.invalidate();
+        }
+        return "accueil";
+    }
+    
+       public void changedValeur(ValueChangeEvent e){
+        recherche=((String)(e.getNewValue()));
+        
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(recherchePage());
+        } catch (IOException ex) {
+            Logger.getLogger(RegisterManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        setRecherche("");
+    }
+       
+    public int nbCandidats() {
+        return candidatEJB.getNbCandidatsInscrits();
+    }
+    
+    public int nbAnnonces() {
+        return annonceEJB.getNbAnnoncesPostees();
+    }
+    
+    public int nbEmployeurs() {
+        return employeurEJB.getNbEmployeursInscrits();
+    }
+    
+    public String recherchePage() {
+        return recherche;
+    }
+    
     /**
      * @return the login
      */
@@ -130,8 +205,6 @@ public class RegisterManagedBean implements Serializable{
     public void setPassword(String password) {
         this.password = password;
     }
-
-
 
     /**
      * @return the employeur
@@ -165,7 +238,7 @@ public class RegisterManagedBean implements Serializable{
      * @return the isConnect
      */
     public boolean isIsConnect() {
-        return isConnect;
+        return this.candidat!=null||this.employeur!=null;
     }
 
     /**
@@ -175,5 +248,19 @@ public class RegisterManagedBean implements Serializable{
         this.isConnect = isConnect;
     }
 
+    /**
+     * @return the recherche
+     */
+    public String getRecherche() {
+        return recherche;
+    }
 
+    /**
+     * @param recherche the recherche to set
+     */
+    public void setRecherche(String recherche) {
+        this.recherche = recherche;
+    }
+
+    
 }

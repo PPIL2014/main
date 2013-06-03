@@ -10,49 +10,77 @@ and open the template in the editor.
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       >
-       
-    <ui:composition template="/template.xhtml" rendered="#{profilEmpManagedBean.employeur ne null}">
+    
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
         <ui:define name="titre">
-            <h:outputText value="#{profilEmpManagedBean.employeur.prenom} #{profilEmpManagedBean.employeur.nom}"/>
+            <h:outputText value="#{profilEmpManagedBean.employeur.prenom} #{profilEmpManagedBean.employeur.nom}" rendered="#{connexionBean.employeur ne null}"/>
+            <h:outputText value="Erreur" rendered="#{connexionBean.employeur==null}"/>
         </ui:define>
 		
         <ui:define name="centre" rendered="#{profilEmpManagedBean.employeur ne null}" >
+            
            <link rel="stylesheet" href="YannCSS.css" />
            
-           <h:form>
+           <p:panelGrid styleClass="panel" rendered="#{connexionBean.employeur==null}">
+               <p:row>
+                   <p:column>
+                       <h:outputText value="Vous n'avez pas accès à cette page." />
+                   </p:column>
+               </p:row>
+               <p:row>
+                    <p:column>
+                        <h:form>
+                            <h:commandLink value="Retour à votre profil" action="profilCand"/>
+                        </h:form>
+                    </p:column>
+               </p:row>
+           </p:panelGrid>
+           
+           <h:form rendered="#{connexionBean.employeur ne null}">
                <p:panelGrid styleClass="panel">                    
-                    <p:row >
+               
+                   <p:row rendered="#{profilEmpBean.listeAnnonceCreee().size()!=0}">
                         <p:column>
-                            <h:outputText value="Consulter une entreprise : "/>
-                        </p:column>
-                        <p:column>
-                            <h:commandLink value="La bonne place" action="vitrineEntreprise" />
+                            
+                            <h:outputText value="Annonces créées :"/>
+                            <br/><br/>
+                            <p:dataTable styleClass="data-table" var="ind" value="#{profilEmpBean.listeAnnonceCreee()}">
+                                <p:column>
+                                    <h:commandLink  value="#{ind.titre}" actionListener="#{annonceManagedBean.consulterParRecherche}" action="consulterAnnonce.xhtml">
+                                        <f:attribute name="Mannonce" value="#{ind.id}"/>
+                                    </h:commandLink>
+                                    
+                                </p:column>
+                            
+                            </p:dataTable>
                         </p:column>
                     </p:row> 
-                    
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="Consulter un candidat : "/>
-                        </p:column>
-                        <p:column>
-                            <h:commandLink value="toto@toto.fr" action="vitrineCandidat" />
-                        </p:column>
-                    </p:row> 
-                   
+                   <p:row rendered="#{profilEmpBean.listeAnnonceCreee().size()==0}">
+                       <p:column>
+                           <h:outputText value="Vous n'avez créé aucune annonce."/>
+                       </p:column>
+                   </p:row>
+
                    <p:row>
-                        <p:column>
-                            <h:outputText value="Consulter une annonce : "/>
-                        </p:column>
-                        <p:column>
-                            <h:commandLink value="annonce1" action="consulterAnnonce" />
-                        </p:column>
-                    </p:row> 
+                       <p:column colspan="2">
+                           <br/><br/><br/>
+                           <h:commandLink value="Créer une annonce" action="creationAnnonce" />
+                       </p:column>
+                   </p:row>
                    
                 </p:panelGrid>
-       
+               <br/><br/><br/>
             </h:form>
         </ui:define>
 	
-    </ui:composition>
+    </ui:decorate></ui:fragment>
     
 </html>

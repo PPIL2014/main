@@ -9,8 +9,15 @@ and open the template in the editor.
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-
-    <ui:composition template="/template.xhtml" rendered="#{connexionBean.isConnect}">
+    
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
         
         <ui:define name="titre">
             <h:outputText value="#{entrepriseManagedBean.entreprise.nomEntreprise}"/>
@@ -18,16 +25,22 @@ and open the template in the editor.
 		
         <ui:define name="centre" >
             <link rel="stylesheet" href="YannCSS.css" />
-            <h1>
-                <h:outputText value="#{entrepriseManagedBean.entreprise.nomEntreprise}" /> 
-            </h1>
-            <h2>
-                Les informations 
-                <br/>
-            </h2> 
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
             
             <p:panelGrid styleClass="panel">
-                    
+                <p:row >
+                    <p:column colspan="2">
+                        <h1>
+                            <h:outputText value="#{entrepriseManagedBean.entreprise.nomEntreprise}" /> 
+                        </h1>
+                       <br/>
+                    </p:column>
+                </p:row> 
+            </p:panelGrid>
+            
+            <br/><br/>
+            
+            <p:panelGrid styleClass="panel">
                 <p:row>
                     <p:column>
                         <h:outputText value="Domaine d'activité : "/>
@@ -69,7 +82,7 @@ and open the template in the editor.
                     </p:column>
                 </p:row> 
                 
-                <p:row rendered="#{entrepriseManagedBean.entreprise.siteWeb ne null}">
+                <p:row rendered="#{entrepriseManagedBean.entreprise.siteWeb.length()!=0}">
                     <p:column>
                          <h:outputText value="Site web : "/>
                     </p:column>
@@ -78,7 +91,7 @@ and open the template in the editor.
                     </p:column>
                 </p:row> 
                 
-                <p:row rendered="#{entrepriseManagedBean.entreprise.description ne null}">
+                <p:row rendered="#{entrepriseManagedBean.entreprise.siteWeb ne null and entrepriseManagedBean.entreprise.description.length()!=0}">
                     <p:column>
                          <h:outputText value="Description de l'entreprise : "/>
                     </p:column>
@@ -87,7 +100,7 @@ and open the template in the editor.
                     </p:column>
                 </p:row> 
                 
-                <p:row rendered="#{entrepriseManagedBean.entreprise.nbEmployes!=0}">
+                <p:row rendered="#{entrepriseManagedBean.entreprise.nbEmployes ne null and entrepriseManagedBean.entreprise.nbEmployes.length()!=0}">
                     <p:column>
                          <h:outputText value="Nombre d'employés : "/>
                     </p:column>
@@ -114,12 +127,31 @@ and open the template in the editor.
                         </h:form>  
                     </p:column>
                 </p:row>
+                
+                <p:row rendered="#{connexionBean.candidat ne null}">
+                    <p:column colspan="2" >
+                        <h:form>
+                            <br/>
+                            <p:commandButton  value="Suivre cette entreprise" ajax="false" action="#{profilcandBean.ajouterSuivi()}"  disabled="#{entrepriseManagedBean.suivi()}">
+                                <f:param name="entreprise" value="#{entrepriseManagedBean.entreprise.id}"/>
+                            </p:commandButton>
+                        </h:form>             
+                    </p:column>
+                </p:row>
                              
             </p:panelGrid>
             
+           <br/><br/>
+           
+            <h:form>
+                <p:commandButton rendered="#{connexionBean.candidat ne null}" value="Déposer une candidature spontanée" action="candidatureSpontanee" immediate="true" ajax="false" disabled="#{entrepriseManagedBean.aDeposerCand()}"/>
+            </h:form>
+            
+           <br/><br/><br/>
+           
         </ui:define>
         
-    </ui:composition>
+    </ui:decorate></ui:fragment>
 
         
         

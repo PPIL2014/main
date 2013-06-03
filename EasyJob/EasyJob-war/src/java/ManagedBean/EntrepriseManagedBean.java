@@ -4,13 +4,17 @@
  */
 package ManagedBean;
 
+import interfaces.CandidatLocal;
 import interfaces.EntrepriseLocal;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
+import persistence.Candidat;
 import persistence.Employeur;
 import persistence.Entreprise;
 
@@ -18,8 +22,8 @@ import persistence.Entreprise;
  *
  * @author Marc
  */
-@Named
-@RequestScoped
+@ManagedBean
+@SessionScoped
 public class EntrepriseManagedBean implements Serializable {
     
                
@@ -30,14 +34,33 @@ public class EntrepriseManagedBean implements Serializable {
     private boolean afficherRecruteur;
     
     @Inject
-    EntrepriseLocal entrepriseEJB;
+    private EntrepriseLocal entrepriseEJB;
     
-    public EntrepriseManagedBean() {               
-    }
+    @Inject 
+    private CandidatLocal candidatEJB;
+    
     
     @PostConstruct
     public void initialisation() {
-        entreprise = entrepriseEJB.getEntrepriseByNom("La bonne place");
+    } 
+    
+    public boolean aDeposerCand() {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        Candidat cand = ((RegisterManagedBean)fc.getExternalContext().getSessionMap().get("connexionBean")).getCandidat() ;
+        return entrepriseEJB.aDeposerCand(entreprise, cand) ;
+    }
+    
+    public boolean suivi() {
+        Candidat cand = ((RegisterManagedBean)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("connexionBean")).getCandidat() ;
+        cand = candidatEJB.getCandidatByMail(cand.getMail());
+        boolean b = cand.getEntreprises().contains(entreprise);
+        return b;
+    }
+    
+    public void consulterRecherche( ActionEvent e){
+        String myAttribute = e.getComponent().getAttributes().get( "Mentreprise" ).toString();
+        entreprise = entrepriseEJB.getEntrepriseById(Integer.parseInt(myAttribute));
+        
         List<Employeur> emp = entreprise.getEmployeurs();
         afficherRecruteur = false;
         int i = 0;
@@ -45,8 +68,8 @@ public class EntrepriseManagedBean implements Serializable {
             afficherRecruteur = emp.get(i).isConfidentialite();
             i++;
         }
-    } 
-    
+
+    }
 
     /**
      * @return the entreprise
@@ -76,5 +99,4 @@ public class EntrepriseManagedBean implements Serializable {
         this.afficherRecruteur = afficherRecruteur;
     }
 
-    
 }

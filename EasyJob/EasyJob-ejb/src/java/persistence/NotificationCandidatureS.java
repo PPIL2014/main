@@ -5,13 +5,11 @@
 package persistence;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 /**
@@ -24,16 +22,17 @@ public class NotificationCandidatureS implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    private String message ;
 
     @OneToOne
     private CandidatureSpontanee candidature;
     
-    @ManyToMany
-    private List<Employeur> destinataires;
+    @ManyToOne
+    private Employeur destinataire;
     
     
     public NotificationCandidatureS() {
-        this.destinataires = new ArrayList<Employeur>();
     }
     
     public Long getId() {
@@ -84,17 +83,31 @@ public class NotificationCandidatureS implements Serializable {
     }
 
     /**
-     * @return the destinataires
+     * @return the destinataire
      */
-    public List<Employeur> getDestinataires() {
-        return destinataires;
+    public Employeur getDestinataire() {
+        return destinataire;
     }
 
     /**
-     * @param destinataires the destinataires to set
+     * @param destinataire the destinataire to set
      */
-    public void setDestinataires(List<Employeur> destinataires) {
-        this.destinataires = destinataires;
+    public void setDestinataire(Employeur destinataire) {
+        this.destinataire = destinataire;
+    }
+
+    /**
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * @param message the message to set
+     */
+    public void setMessage(String message) {
+        this.message = message;
     }
 
 

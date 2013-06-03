@@ -5,16 +5,41 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     
-    <ui:composition template="/template.xhtml" rendered="#{connexionBean.isConnect}">
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
         
-        <ui:define name="titre">
-            <h:outputText value="#{profilcandBean.candidat.prenom} #{profilcandBean.candidat.nom}"/>
+        <ui:define name="titre">            
+            <h:outputText value="#{profilcandBean.candidat.prenom} #{profilcandBean.candidat.nom}" rendered="#{connexionBean.candidat ne null}"/>
+            <h:outputText value="Erreur" rendered="#{connexionBean.candidat==null}"/>
         </ui:define>
 		
         <ui:define name="centre" >
             <link rel="stylesheet" href="YannCSS.css" />
             
-            <p:panelGrid styleClass="panel">
+            <br/>
+            
+            <p:panelGrid styleClass="panel" rendered="#{connexionBean.candidat==null}">
+               <p:row>
+                   <p:column>
+                       <h:outputText value="Vous n'avez pas accès à cette page."/>
+                   </p:column>
+               </p:row>
+               <p:row>
+                    <p:column>
+                        <h:form>
+                            <h:commandLink value="Retour à votre profil" action="profilEmpl"/>
+                        </h:form>
+                    </p:column>
+               </p:row>
+           </p:panelGrid>
+            
+            <p:panelGrid  styleClass="panel" rendered="#{profilcandBean.candidat ne null}">
                 <p:row>
                     <p:column>
                         <h:outputText value="Nom :"/>
@@ -26,7 +51,7 @@
                 
                 <p:row>
                     <p:column>
-                        <h:outputText value="Prenom :"/>
+                        <h:outputText value="Prénom :"/>
                     </p:column>
                     <p:column>
                         <h:outputText value="#{profilcandBean.candidat.prenom}"/>
@@ -36,20 +61,19 @@
                 <p:row>
                     <p:column>
                         <h:outputText value="Date de naissance :"/>
-                    </p:column>
-                    <p:column>                        
-                        <h:outputText value="#{profilcandBean.candidat.date_naissance}"/>
+                     </p:column>
+                    <p:column>                      
+                        <h:outputText value="#{autoCompleteManagedBean.affichageDate(profilcandBean.candidat.date_naissance)}"/>
                     </p:column>
                 </p:row>
                 
                 <p:row>
                     <p:column>
                         <h:outputText value="Adresse :"/>
-                        <br/><br/><br/>
                     </p:column>
-                    <p:column>
+                    <p:column>                       
                         <h:outputText value="#{profilcandBean.candidat.adresse.rue}"/>
-                        <br/>
+                        <br/>                    
                         <h:outputText value="#{profilcandBean.candidat.adresse.codePostal} #{profilcandBean.candidat.adresse.ville}"/>
                         <br/>
                         <h:outputText value="#{profilcandBean.candidat.adresse.pays}"/>
@@ -58,27 +82,28 @@
                 
                 <p:row>
                     <p:column>
-                        <h:outputText value="Téléphone :"/>
+                        <h:outputText value="Téléphone :"/> 
                     </p:column>
-                    <p:column>                        
+                    <p:column>       
                         <h:outputText value="#{profilcandBean.candidat.telephone}"/>
                     </p:column>
                 </p:row>
                 
                 <p:row>
                     <p:column>
-                        <h:outputText value="Site web :" rendered="#{profilcandBean.candidat.sitWeb ne null}"/>
+                        <h:outputText value="Site web :" rendered="#{profilcandBean.candidat.sitWeb.length()!=0}"/> 
                     </p:column>
-                    <p:column>                        
+                        
+                    <p:column>
                         <h:outputText value="#{profilcandBean.candidat.sitWeb}"/>
                     </p:column>
                 </p:row>
                 
                 <p:row>
                     <p:column>
-                        <h:outputText value="Niveau d'études :"/>
+                        <h:outputText value="Niveau d'études :"/> 
                     </p:column>
-                    <p:column>                        
+                    <p:column>                 
                         <h:outputText value="#{profilcandBean.candidat.niveauEtudes}"/>
                     </p:column>
                 </p:row>
@@ -87,16 +112,16 @@
                     <p:column>
                         <h:outputText value="Domaine d'études :"/>
                     </p:column>
-                    <p:column>                        
+                    <p:column>
                         <h:outputText value="#{profilcandBean.candidat.domaineEtudes}"/>
                     </p:column>
                 </p:row>
                 
                 <p:row rendered="#{profilcandBean.candidat.langues.size()!=0}">
                     <p:column>
-                        <h:outputText value="Compétence linguistiques :"/>
+                        <h:outputText value="Compétences linguistiques :"/>
                     </p:column>
-                    <p:column>  
+                    <p:column>
                         <h:form>  
                             <p:dataTable id="data-table" var="langue" value="#{profilcandBean.candidat.langues}" styleClass="data-table">  
                                 <p:column>  
@@ -107,11 +132,11 @@
                     </p:column>
                 </p:row>
                 
-                <p:row rendered="#{profilcandBean.candidat.experiences.size()!=0}">
+                <p:row rendered="#{profilcandBean.candidat.experiences.size()!=0}" >
                     <p:column>
-                        <h:outputText value="Expéience(s) professionnelle(s) :"/>
+                        <h:outputText value="Expérience(s) professionnelle(s) :"/>
                     </p:column>
-                    <p:column>                        
+                    <p:column>                      
                         <h:form>  
                             <p:dataTable id="data-table" var="exp" value="#{profilcandBean.candidat.experiences}" styleClass="data-table">  
                                 <p:column>  
@@ -124,17 +149,32 @@
                 
                 <p:row>
                     <p:column>
-                        <h:outputText value="Nombre d'années d'expéience :"/>
+                        <h:outputText value="Nombre d'années d'expérience :"/>
                     </p:column>
                     <p:column>                        
-                        <h:outputText value="#{profilcandBean.candidat.nbExperiences}"/>
+                        <h:outputText value="#{profilcandBean.experience()}"/>
+                    </p:column>
+                </p:row>           
+                
+                <p:row>
+                    <p:column>
+                        <h:form>
+                            <br/><br/><br/>
+                            <p:commandButton action="modifierCandidat" value="Modifier mes données" style="font-size: 16px;" ajax="false"/>
+                        </h:form>
+                    </p:column>
+                    <p:column> 
+                        <h:form>
+                            <br/><br/><br/>
+                            <p:commandButton action="supprimerCand" value="Supprimer mon profil" style="font-size: 16px;" ajax="false"/>
+                        </h:form>
                     </p:column>
                 </p:row>
-                
             </p:panelGrid>
-            
+           <br/><br/><br/> 
         </ui:define>
         
-    </ui:composition>
+    </ui:decorate>
+    </ui:fragment>
 </html>
 
