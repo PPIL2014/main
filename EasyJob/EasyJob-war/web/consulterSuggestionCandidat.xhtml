@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
+        
+        <ui:define name="titre">
+            <h:outputText value="#{profilEmpManagedBean.employeur.prenom} #{profilEmpManagedBean.employeur.nom}" rendered="#{connexionBean.employeur ne null}"/>
+            <h:outputText value="Erreur" rendered="#{connexionBean.employeur==null}"/>
+        </ui:define>
+		
+        <ui:define name="centre" >
+            
+            <p:panelGrid styleClass="panel" rendered="#{connexionBean.employeur==null}">
+               <p:row>
+                   <p:column>
+                       <h:outputText value="Vous n'avez pas accès à cette page." />
+                   </p:column>
+               </p:row>
+               <p:row>
+                    <p:column>
+                        <h:form>
+                            <h:commandLink value="Retour à votre profil" action="profilCand"/>
+                        </h:form>
+                    </p:column>
+               </p:row>
+           </p:panelGrid>
+            
+            <h:form rendered="#{connexionBean.employeur ne null}"> 
+                
+            <br/><br/>
+            
+            <p:panelGrid styleClass="panel" rendered="#{profilEmpBean.employeur.suggestions.size()==0}">
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Vous n'avez pas de suggestions." />
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+                
+            <p:panelGrid styleClass="panel" rendered="#{profilEmpBean.employeur.suggestions.size()!=0}">
+                
+                <p:row>
+                    <p:column>                         
+                        <p:dataTable id="data-table" var="suggestion" value="#{profilEmpBean.employeur.suggestions}" >  
+                            <p:column style="text-align: center;"> 
+                                <f:facet name="header">
+                                    <center>
+                                        <h:outputLabel value="Suggestion(s)"/>
+                                    </center>
+                                    
+                                </f:facet>
+                                <h:outputText value="#{suggestion.candidat.prenom} #{suggestion.candidat.nom}" />  
+                             </p:column> 
+                             <p:column>
+                                <f:facet name="header">
+                                    <center>
+                                        <h:outputLabel style="text-align: center" value="De la part de "/>
+                                    </center>
+                                </f:facet>
+                                <h:outputText value="#{suggestion.emetteur.prenom} #{suggestion.emetteur.nom}" />
+                             </p:column>
+                             <p:column>
+                                <f:facet name="header">
+                                    <center>
+                                        <h:outputLabel style="text-align: center" value="Date "/>
+                                    </center>
+                                </f:facet>
+                                <h:outputText value="#{autoCompleteManagedBean.affichageDate(suggestion.dateCreation)}" />
+                             </p:column>
+                             <p:column style="text-align: center;"> 
+                                <h:commandLink value="Consulter" actionListener="#{candidatManagedBean.consulterRecherche}" action="vitrineCandidat.xhtml">
+                                    <f:attribute name="Mcandidat" value="#{suggestion.candidat.id}"/>
+                                </h:commandLink>
+                             </p:column> 
+                             <p:column style="text-align: center">
+                                <f:facet name="header">
+                                    <h:outputText value="Supprimer"/>
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="1"  valueChangeListener="#{profilEmpBean.valueChangeSuggestion}">
+                                    <f:attribute name="sugges" value="#{suggestion}" />
+                                </p:selectBooleanCheckbox>
+                             </p:column>
+                        </p:dataTable>   
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column style="text-align: center">
+                        <br/><br/>
+                        <p:commandButton value="Supprimer suggestion(s)" action="#{profilEmpBean.suppressionSuggestion()}" ajax="false"/>
+                    </p:column>
+                </p:row>
+                
+               </p:panelGrid>
+            <br/><br/><br/>    
+          </h:form> 
+            
+        </ui:define>        
+        
+    </ui:decorate></ui:fragment>
+</html>
+

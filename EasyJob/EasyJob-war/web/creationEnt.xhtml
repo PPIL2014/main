@@ -1,0 +1,339 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:head>
+        <title>Inscription</title>
+        <link rel="stylesheet" href="resources/styles/style.css" type="text/css" />
+        <link rel="stylesheet" href="resources/styles/connect.css" type="text/css" />
+        <link rel="stylesheet" href="YannCSS.css" /> 
+    </h:head>
+    
+    <h:body>
+       
+        <center>
+            <img src="resources/img/banniere.png" alt=""/>
+        </center>
+        
+        <br/><br/><br/>
+        <center>
+            
+            <h:form rendered="#{connexionBean.isConnect}">
+                <br/><br/>
+                <h:outputText value="Vous êtes déjà inscrit."/>
+                <br/><br/><br/><br/>
+                <h:commandLink value="Retour à l'accueil" action="profilEmpl" rendered="#{connexionBean.employeur ne null}"/>
+                <h:commandLink value="Retour à l'accueil" action="profilCand" rendered="#{connexionBean.candidat ne null}"/>
+            </h:form>
+            
+            <h:form id="form1" rendered="#{creationEntBean.inscrit and not connexionBean.isConnect}">
+                <h:outputText value="Vous avez déjà un compte !"/>
+                <br/><br/>
+                <h:commandLink value="suivant" action="profilEmpl"/>
+            </h:form>
+                      
+            <h:form id="form4" rendered="#{creationEntBean.debut and not creationEntBean.inscrit and not connexionBean.isConnect}">
+                
+                <br/><br/><br/>         
+		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                
+                <p:panelGrid styleClass="panel" >
+                    
+                    <p:row>
+                        <p:column style ="color : red; text-align: center">
+                            Veuillez entrer le nom de votre entreprise
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <br/>
+		        </p:column>
+		    </p:row>
+			
+                    <p:row>
+                        <p:column>
+                            <center>
+                                <p:inputText id="nomEnt" value="#{creationEntBean.nom}" required="true">
+                                    <f:validateLength minimum="2"/>
+                                    <f:validateRegex pattern="^[^']*$" />
+                                </p:inputText>
+		            </center>
+		        </p:column>
+		    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <center>
+                                <br/>
+                                <p:commandButton value="C'est parti !" action="#{creationEntBean.rechercher()}" ajax="false"/>
+                            </center>
+		        </p:column>
+		    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <br/><br/><br/><br/>
+                            <center>
+                            <h:commandLink value="Retour à l'accueil" action="accueil" immediate="true"/>
+                            </center>
+		        </p:column>
+		    </p:row>
+		 </p:panelGrid>
+            </h:form>
+            
+            <br/><br/>
+            
+            <h:form id="form3" rendered="#{not creationEntBean.debut and not creationEntBean.inscrit}">
+                
+                <p:panelGrid styleClass="panel" >
+                     <p:row>
+                        <p:column style ="color : red; text-align: center ">
+                                * Champs obligatoires
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                
+                <br/><br/>
+                       
+		<p:panelGrid styleClass="panel">
+                    <p:row>
+                        <p:column style ="width: 500px">
+                            <h:outputText value="Nom de l'entreprise * :"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{creationEntBean.nom}" disabled="true"/>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column style ="width: 500px">
+                             <h:outputText value="Secteur d'activité * :"/>
+                         </p:column>
+                         <p:column>                    
+                             <p:selectOneMenu id="domaineEnt" value="#{creationEntBean.domaine}" required="#{not creationEntBean.existeEntreprise}" disabled="#{creationEntBean.existeEntreprise}">
+                                 <f:selectItems value="#{autoCompleteManagedBean.domaineActivite}"/>
+                            </p:selectOneMenu>
+                         </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Statut de l'entreprise * :"/>
+                        </p:column>
+                        <p:column>                    
+                            <p:selectOneMenu id="statutEnt" value="#{creationEntBean.statut}" required="#{not creationEntBean.existeEntreprise}" disabled="#{creationEntBean.existeEntreprise}">
+                                <f:selectItems value="#{autoCompleteManagedBean.statutEntreprise}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row> 
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Rue * :"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="rue" value="#{creationEntBean.rue}" required="#{not creationEntBean.existeEntreprise}" disabled="#{creationEntBean.existeEntreprise}">
+                                <f:validateRegex pattern="^[^']*$" />
+		            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Code postal * :"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="code" value="#{creationEntBean.cp}" required="#{not creationEntBean.existeEntreprise}" disabled="#{creationEntBean.existeEntreprise}">
+                                <f:validator validatorId="validerCodePostal"/>
+                                <f:validateLength minimum="5"/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Ville * :"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="ville" value="#{creationEntBean.ville}" required="#{not creationEntBean.existeEntreprise}" disabled="#{creationEntBean.existeEntreprise}">
+                                <f:validateRegex pattern="^[^'0123456789]*$" />
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Pays * :"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="pays" value="#{creationEntBean.pays}" required="#{not creationEntBean.existeEntreprise}" disabled="#{creationEntBean.existeEntreprise}">
+                                <f:validateRegex pattern="^[^'0123456789]*$" />
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Téléphone de l'entreprise * :" />
+                        </p:column>
+                        <p:column>                        
+                            <p:inputMask id="tel" value="#{creationEntBean.tel}" mask="9999999999" required="#{not creationEntBean.existeEntreprise}" disabled="#{creationEntBean.existeEntreprise}"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Site web de l'entreprise :" />
+                        </p:column>
+                        <p:column>                        
+                            <p:inputText id="web" value="#{creationEntBean.site}" disabled="#{creationEntBean.existeEntreprise}">
+                                <f:validateRegex pattern="^[^']*$" />
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Description de l'entreprise :" />
+                        </p:column>
+                        <p:column>                        
+                            <p:inputTextarea id="desc" value="#{creationEntBean.desc}" disabled="#{creationEntBean.existeEntreprise}">
+                                <f:validateRegex pattern="^[^']*$" />
+                            </p:inputTextarea>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Nombre d'employés de l'entreprise :"/>
+                        </p:column>
+                        <p:column>                    
+                            <p:selectOneMenu id="nbEmp" value="#{creationEntBean.nbEmp}" disabled="#{creationEntBean.existeEntreprise}">
+                                <f:selectItem itemValue="#{null}" itemLabel=""/>
+                                <f:selectItems value="#{creationEntBean.emps}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Nom du recruteur * :"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="nomRec" value="#{creationEntBean.nomRec}" required="true">
+                                <f:validateLength minimum="2"/>
+                                <f:validateRegex pattern="^[^']*$" />
+                            </p:inputText>
+                        </p:column>
+                    </p:row>                
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Prénom du recruteur * :"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="prenomRec" value="#{creationEntBean.prenomRec}" required="true">
+                                <f:validateLength minimum="2"/>
+                                <f:validateRegex pattern="^[^']*$" />
+                            </p:inputText>
+                        </p:column>
+                    </p:row>   
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Téléphone du recruteur * :" />
+                        </p:column>
+                        <p:column>                        
+                            <p:inputMask id="telRec" value="#{creationEntBean.telRec}" required="true" mask="9999999999" />
+                        </p:column>
+                    </p:row>                
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Adresse mail du recruteur * :" />
+                        </p:column>
+                        <p:column>                        
+                            <p:inputText id="mail" value="#{creationEntBean.mail1}" required="true">
+                                <f:validateLength minimum="6"/>
+                                <f:validateRegex pattern="^[^']*$" />
+                                <f:validator validatorId="validerEmail"/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>        
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Confirmation adresse mail * :" />
+                        </p:column>
+                        <p:column>                        
+                            <p:inputText id="mail2" value="#{creationEntBean.mail2}" required="true">
+                                <f:validateLength minimum="6"/>
+                                <f:validateRegex pattern="^[^']*$" />
+                                <f:validator validatorId="validerEmail"/>
+                            </p:inputText>
+                        </p:column>
+                    </p:row>     
+
+                    <p:row>
+                        <p:column style ="width: 1000px">
+                            <h:outputText value="Mot de passe * :" /> <br/>
+                            <h:outputText value="(au moins six caractères et un chiffre)" />
+                        </p:column>
+                        <p:column>                        
+                            <p:password id="mdp" value="#{creationEntBean.mdp1}" required="true" feedback="true" >
+                                <f:validateLength minimum="6"/>
+                                <f:validateRegex pattern="^[^']*$" />
+                                <f:validator validatorId="validerMdp"/>
+                            </p:password>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Confirmation du mot de passe * :" />
+                        </p:column>
+                        <p:column>                        
+                            <p:password id="mdp2" value="#{creationEntBean.mdp2}" required="true">
+                                <f:validateLength minimum="6"/>
+                                <f:validateRegex pattern="^[^']*$" />
+                            </p:password>
+                        </p:column>
+                    </p:row> 
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Afficher coordonnées (pour le recruteur) :" />
+                        </p:column>
+                        <p:column>                           
+                            <p:selectBooleanCheckbox value="#{creationEntBean.confidentialite}" />
+                            <h:outputText value=" Oui"/>
+                        </p:column>
+                    </p:row> 
+                    
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <br/>
+                            <p:commandButton value="Valider" action="#{creationEntBean.valider()}" ajax="false"/>                        
+                        </p:column>   
+                        <p:column>
+                            <br/>
+                            <p:commandButton value="Annuler" action="accueil" immediate ="true" ajax="false"/>                        
+                        </p:column>                                                 
+                    </p:row>
+		 </p:panelGrid>
+             </h:form>        
+            <br/><br/><br/>
+        </center>       
+    </h:body>
+</html>
+

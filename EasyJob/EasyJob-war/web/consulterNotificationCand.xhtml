@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
+        
+        <ui:define name="titre">
+            <h:outputText value="#{profilcandBean.candidat.prenom} #{profilcandBean.candidat.nom}" rendered="#{connexionBean.candidat ne null}"/>
+            <h:outputText value="Erreur" rendered="#{connexionBean.candidat==null}"/>
+        </ui:define>
+		
+        <ui:define name="centre" rendered="#{profilcandBean.candidat ne null}" >
+            <link rel="stylesheet" href="YannCSS.css"  />
+            
+            <br/><br/>
+            <p:panelGrid styleClass="panel" rendered="#{connexionBean.candidat==null}">
+               <p:row>
+                   <p:column>
+                       <h:outputText value="Vous n'avez pas accès à cette page."/>
+                   </p:column>
+               </p:row>
+               <p:row>
+                    <p:column>
+                        <h:form>
+                            <h:commandLink value="Retour à votre profil" action="profilEmpl"/>
+                        </h:form>
+                    </p:column>
+               </p:row>
+            </p:panelGrid>
+            
+            <p:panelGrid styleClass="panel" rendered="#{connexionBean.candidat ne null and profilcandBean.candidat.notifications.size()==0}">
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Vous n'avez pas de notifications." />
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            
+            <h:form rendered="#{connexionBean.candidat ne null and profilcandBean.candidat.notifications.size()!=0}"> 
+                
+                <p:panelGrid styleClass="panel" style="margin: auto">
+                
+                    <p:row>
+                        <p:column>                         
+                            <p:dataTable id="data-table" var="notification" value="#{profilcandBean.candidat.notifications}" >  
+                                <p:column> 
+                                    <f:facet name="header">
+                                        <center>
+                                            <h:outputLabel value="Notification(s)"/>
+                                        </center>
+                                    </f:facet>
+                                    <h:outputText value="#{notification.message}" />  
+                                </p:column> 
+                                <p:column> 
+                                    <h:commandLink value="consulter" actionListener="#{annonceManagedBean.consulterParRecherche}" action="consulterAnnonce.xhtml" rendered="#{notification.annonce ne null}">
+                                        <f:attribute name="Mannonce" value="#{notification.annonce.id}"/>
+                                    </h:commandLink>
+                                     <h:commandLink value="consulter" actionListener="#{entrepriseManagedBean.consulterRecherche}" action="vitrineEntreprise.xhtml" rendered="#{notification.entreprise ne null and profilcandBean.existeEntreprise(notification)}">
+                                         <f:attribute name="Mentreprise" value="#{notification.entreprise.id}"/>
+                                     </h:commandLink>
+                                </p:column> 
+                                <p:column style="text-align: center; width: 10%">
+                                    <f:facet name="header">
+                                        <h:outputLabel value="Supprimer"/>
+                                    </f:facet>
+                                    <p:selectBooleanCheckbox value="1"  valueChangeListener="#{profilcandBean.valueChange}">
+                                        <f:attribute name="notif" value="#{notification}" />
+                                    </p:selectBooleanCheckbox>
+                                </p:column>
+                                
+                            </p:dataTable>                                
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column style="text-align: center">
+                        <br/><br/>    
+                        <p:commandButton value="Supprimer notification(s)" action="#{profilcandBean.suppressionNotification()}" ajax="false"/>
+                    </p:column>
+                </p:row>
+                    
+            </p:panelGrid>
+            <br/><br/><br/>
+            </h:form>  
+            
+        </ui:define>        
+        
+    </ui:decorate>
+    </ui:fragment>
+</html>

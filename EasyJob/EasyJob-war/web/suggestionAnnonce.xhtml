@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
+        
+        <ui:define name="titre">
+            <h:outputText value="#{profilcandBean.candidat.prenom} #{profilcandBean.candidat.nom}" rendered="#{connexionBean.candidat ne null}"/>
+            <h:outputText value="Erreur" rendered="#{connexionBean.candidat==null}"/>
+        </ui:define>
+        
+        <ui:define name="centre" >
+           <link rel="stylesheet" href="YannCSS.css" />
+             
+           <p:panelGrid styleClass="panel" rendered="#{connexionBean.candidat==null}">
+               <p:row>
+                   <p:column>
+                       <h:outputText value="Vous n'avez pas accès à cette page."/>
+                   </p:column>
+               </p:row>
+               <p:row>
+                    <p:column>
+                        <h:form>
+                            <h:commandLink value="Retour à votre profil" action="profilEmpl"/>
+                        </h:form>
+                    </p:column>
+               </p:row>
+           </p:panelGrid>
+           
+           <h:form id="form" rendered="#{connexionBean.candidat ne null and not suggestionAnnonceBean.multiple}">
+               
+           <p:panelGrid styleClass="panel">
+               <p:row>
+                   <p:column colspan="2">
+                       <p:messages id="message" showDetail="true" autoUpdate="true" closable="true"/>
+                   </p:column>
+               </p:row>
+               <p:row>
+                   <p:column colspan="2">
+                        <h:outputText value="Suggérer cette annonce à :"/>
+                        <br/>
+                    </p:column>
+               </p:row>
+               
+               <p:row>
+                    <p:column>
+                        <h:outputText value="Nom :"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="nomDest" value="#{suggestionAnnonceBean.nomDest}" required="true">
+                            <f:validateLength minimum="2"/>
+                            <f:validateRegex pattern="^[^']*$" />
+                        </p:inputText>
+                        <p:message for="nomDest"/>
+                    </p:column>
+                </p:row>
+               
+               <p:row>
+                    <p:column>
+                        <h:outputText value="Prénom :"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="prenomDest" value="#{suggestionAnnonceBean.prenomDest}" required="true">
+                            <f:validateLength minimum="2"/>
+                            <f:validateRegex pattern="^[^']*$" />
+                        </p:inputText>
+                        <p:message for="prenomDest"/>
+                    </p:column>
+                </p:row>
+               
+               <p:row>
+                    <p:column>
+                        
+                    </p:column>
+                    <p:column>
+                        <br/>
+                        <p:commandButton ajax="false" value="Envoyer" action="#{suggestionAnnonceBean.valider()}" >
+                            <f:attribute name="annonce" value="#{suggestionAnnonceBean.annonce.id}"/>
+                        </p:commandButton>
+                        <p:commandButton ajax="false" value="Annuler" action="consulterAnnonce" immediate="true" >
+                            <f:attribute name="annonce" value="#{suggestionAnnonceBean.annonce.id}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:row>
+           </p:panelGrid>
+           </h:form>
+           
+           <h:form rendered="#{connexionBean.candidat ne null and suggestionAnnonceBean.multiple}">
+               <p:panelGrid  styleClass="panel">
+                   <p:row>
+                       <p:column>
+                           <br/><br/>
+                           <h:outputText value="Il existe plusieurs candidats qui portent ce nom."/> 
+                           <br/><br/>
+                           <h:outputText value="Selectionnez un candidat : "/>
+                           <br/><br/>
+                       </p:column>
+                   </p:row>
+                   
+                   <p:row>
+                       <p:column>
+                           <p:dataTable styleClass="data-table" value="#{suggestionAnnonceBean.liste}" var="cand" >
+                               <p:column>
+                                   <h:outputText value="#{cand.nom} #{cand.prenom}"/>
+                               </p:column>
+                               <p:column>
+                                   <h:outputText value="#{cand.date_naissance}"/>
+                               </p:column>
+                               <p:column>
+                                   <p:commandButton icon="ui-icon-check" action="#{suggestionAnnonceBean.choisir(suggestionAnnonceBean.annonce.id)}" ajax="false">
+                                        <f:setPropertyActionListener value="#{cand}" target="#{suggestionAnnonceBean.selected}" />
+                                    </p:commandButton>
+                               </p:column>
+                           </p:dataTable>  
+                       </p:column>
+                   </p:row>
+                   
+                   <p:row>
+                       <p:column>
+                           <br/>
+                           <h:commandButton value="Retour" action="#{suggestionAnnonceBean.retour()}" />
+                       </p:column>
+                   </p:row>
+               </p:panelGrid>
+               <br/><br/><br/>
+           </h:form>
+        </ui:define>
+    
+    </ui:decorate>
+    </ui:fragment>
+</html>

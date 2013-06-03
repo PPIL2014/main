@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
+        <ui:define name="titre">
+            <h:outputText value="Postuler à une annonce" rendered="#{connexionBean.candidat ne null}" />
+            <h:outputText value="Erreur" rendered="#{connexionBean.candidat==null}"/>
+        </ui:define>
+        
+        <ui:define name="centre" >
+           <link rel="stylesheet" href="YannCSS.css" />
+           
+           
+           <p:panelGrid styleClass="panel" rendered="#{connexionBean.candidat==null}">
+               <p:row>
+                   <p:column>
+                       <h:outputText value="Vous n'avez pas accès à cette page."/>
+                   </p:column>
+               </p:row>
+               <p:row>
+                    <p:column>
+                        <h:form>
+                            <h:commandLink value="Retour à votre profil" action="profilEmpl"/>
+                        </h:form>
+                    </p:column>
+               </p:row>
+           </p:panelGrid>
+           
+           
+           <p:panelGrid styleClass="panel" style="margin: auto" rendered="#{connexionBean.candidat ne null}">
+               <p:row>
+                   <p:column colspan="2">
+                       <h2 style="text-align: center">
+                            <h:outputText value="Pour postuler à l'annonce, veuillez déposer votre lettre de motivation et votre CV :"/>
+                       </h2>
+                       <br/><br/>
+                   </p:column>
+               </p:row>
+           </p:panelGrid>
+                      
+           <h:form enctype="multipart/form-data" rendered="#{connexionBean.candidat ne null}">
+               <p:panelGrid styleClass="panel">   
+                   
+                   <p:row>
+                       <p:column>
+                           <br/>
+                           <h:outputText id ="cv" value="CV (format pdf) :"/>
+                       </p:column>
+                   </p:row>
+                   
+                   <p:row>
+                       <p:column>
+                           <p:fileUpload value="#{postulerManagedBean.cv}" mode="simple" required="true"/>
+                       </p:column>
+                   </p:row>
+                   
+                   <br/>
+                                      
+                   <p:row>
+                       <p:column>
+                           <h:outputText value="Lettre de motivation (format pdf) :"/>
+                       </p:column>
+                   </p:row>
+                   
+                   <p:row>
+                       <p:column>
+                           <p:fileUpload id ="lm" value="#{postulerManagedBean.lm}" mode="simple" required="true"/>
+                       </p:column>
+                   </p:row>
+                   <br/>
+                                      
+                   <p:row>
+                       <p:column>
+                           <br/><br/>
+                           <p:commandButton value="Postuler" ajax="false" process="annonce" actionListener="#{postulerManagedBean.postuler}" action="#{postulerManagedBean.getNext()}">
+                               <f:attribute name="annonce" value="#{annonceManagedBean.annonce}" /> 
+                           </p:commandButton>
+                       </p:column>
+                       <p:column>
+                           <br/><br/>
+                           <p:commandButton value="Annuler" action="consulterAnnonce" immediate="true" ajax="false"/>
+                       </p:column>
+                                              
+                   </p:row>
+               </p:panelGrid>
+                   
+               <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+               <br/><br/><br/>
+               
+           </h:form>
+           
+        </ui:define>
+    </ui:decorate>
+    </ui:fragment>
+</html>
+

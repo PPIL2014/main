@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
+        
+        <ui:define name="titre">
+            <h:outputText value="#{profilEmpManagedBean.employeur.prenom} #{profilEmpManagedBean.employeur.nom}" rendered="#{connexionBean.employeur ne null}"/>
+            <h:outputText value="Erreur" rendered="#{connexionBean.employeur==null}"/>
+        </ui:define>
+		
+        <ui:define name="centre" rendered="#{profilEmpBean.employeur ne null}" >
+            
+            <br/><br/>
+            
+            <link rel="stylesheet" href="YannCSS.css"  />
+            
+            <p:panelGrid styleClass="panel" rendered="#{connexionBean.employeur==null}">
+               <p:row>
+                   <p:column>
+                       <h:outputText value="Vous n'avez pas accès à cette page." />
+                   </p:column>
+               </p:row>
+               <p:row>
+                    <p:column>
+                        <h:form>
+                            <h:commandLink value="Retour à votre profil" action="profilCand"/>
+                        </h:form>
+                    </p:column>
+               </p:row>
+           </p:panelGrid>
+            
+            
+            <p:panelGrid styleClass="panel" rendered="#{connexionBean.employeur ne null and profilEmpBean.employeur.notifications.size()==0 and profilEmpBean.employeur.notificationsCS.size() == 0}">
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Vous n'avez pas de notifications." />
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            
+            <h:form rendered="#{connexionBean.employeur ne null}"> 
+                
+                <p:panelGrid styleClass="panel" style="margin: auto" rendered="#{profilEmpBean.employeur.notifications.size()!=0}">
+                
+                <p:row>
+                    <p:column>
+                         
+                        <p:dataTable id="data-table" var="notification" value="#{profilEmpBean.employeur.notifications}" >  
+                            <p:column> 
+                                <f:facet name="header">
+                                    Notification(s)
+                                </f:facet>
+                                <h:outputText value="#{notification.message}" />  
+                            </p:column> 
+                            <p:column>
+                                <h:commandLink value="consulter" action="candidature.xhtml" rendered="#{notification.candidature ne null}">
+                                    <f:param name="id" value="#{notification.candidature.id}"/>
+                                </h:commandLink>
+                                <h:commandLink value="consulter" action="consulterSuggestionCandidat" rendered="#{notification.candidature==null}"/>
+                            </p:column>
+                            <p:column style="text-align: center; width: 10%">
+                                <f:facet name="header">
+                                    Supprimer 
+                                </f:facet>
+                                <p:selectBooleanCheckbox value="1"  valueChangeListener="#{profilEmpBean.valueChange}">
+                                    <f:attribute name="notif" value="#{notification}" />
+                                </p:selectBooleanCheckbox>
+                             </p:column>
+                            </p:dataTable>  
+                              
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            
+                <p:panelGrid styleClass="panel" style="margin: auto" rendered="#{profilEmpBean.employeur.notificationsCS.size()!=0}">
+                    <p:row>
+                        <p:column>
+                            <br/><br/><br/><br/>
+                            <p:dataTable id="data-table2" var="notif" value="#{profilEmpBean.employeur.notificationsCS}" >  
+                                <p:column> 
+                                    <f:facet name="header">
+                                        Notification(s)
+                                    </f:facet>
+                                    <h:outputText value="#{notif.message}" />  
+                                </p:column> 
+                                <p:column>
+                                    <h:commandLink value="consulter" action="consulterCandidatureSpontanee.xhtml">
+                                        <f:param name="id2" value="#{notif.candidature.id}"/>
+                                    </h:commandLink>
+                                </p:column>
+                                <p:column style="text-align: center; width: 10%">
+                                    <f:facet name="header">
+                                        Supprimer 
+                                    </f:facet>
+                                    <p:selectBooleanCheckbox value="1"  valueChangeListener="#{profilEmpBean.valueChangeNotifCS}">
+                                        <f:attribute name="notif2" value="#{notif}" />
+                                    </p:selectBooleanCheckbox>
+                                 </p:column>
+                            </p:dataTable>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                
+                <p:panelGrid styleClass="panel" style="margin: auto" rendered="#{profilEmpBean.employeur.notificationsCS.size() != 0 or profilEmpBean.employeur.notifications.size() != 0}">
+                <p:row>
+                    <p:column style="text-align: center">
+                        <br/><br/>
+                        <p:commandButton value="Supprimer notification(s)" action="#{profilEmpBean.suppressionNotification()}" ajax="false"/>
+                    </p:column>
+                </p:row>
+                </p:panelGrid>
+                <br/><br/><br/>
+            </h:form>
+            
+        </ui:define>        
+        
+    </ui:decorate>
+    </ui:fragment>
+</html>
+

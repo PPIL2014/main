@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
+        <ui:define name="titre">
+            <h:outputText value="Résultat de la recherche du candidat"/>
+        </ui:define>
+		
+        <ui:define name="centre" rendered="#{profilcandBean.candidat ne null}" >
+            <link rel="stylesheet" href="YannCSS.css" />
+            <p:panelGrid styleClass="panel" >     
+                    <p:row>
+                        <p:column>
+                            Résultat(s) de la recherche de candidats :
+                        </p:column>
+                    </p:row>
+            </p:panelGrid>
+            <br/>
+            <p:panelGrid styleClass="panel" rendered="#{!rechercheCandidatBean.candidatTrouve()}">     
+                    <p:row>
+                        <p:column>Aucun candidat n'a été trouvé, veuillez modifier vos critères de recherche</p:column>
+                    </p:row>
+            </p:panelGrid>
+
+           <!-- resultat de recherche -->
+           <p:dataTable rendered="#{rechercheCandidatBean.candidatTrouve()}" var="data" value="#{rechercheCandidatBean.listeCandidat()}" paginator="true" rows="10">
+               <p:column>
+                 <f:facet name="header">
+                   Nom
+                 </f:facet>
+                   <h:form>
+                       <h:commandLink  value="#{data.prenom} #{data.nom}" actionListener="#{candidatManagedBean.consulterRecherche}" action="vitrineCandidat.xhtml">
+                            <f:attribute name="Mcandidat" value="#{data.id}"/>
+                       </h:commandLink>
+                   </h:form>
+               </p:column>
+               <p:column style="text-align: center" >
+                 <f:facet name="header">
+                   Domaine de formation
+                 </f:facet>
+                   #{data.domaineEtudes}
+               </p:column>
+                <p:column style="text-align: center" >
+                 <f:facet name="header">
+                   Niveau d'étude
+                 </f:facet>
+                   #{data.niveauEtudes}
+               </p:column>
+               <p:column style="text-align: center" >
+                 <f:facet name="header">
+                   Experience(s) 
+                 </f:facet >
+                   #{data.nbExperiences} an(s)
+               </p:column>
+               <p:column style="text-align: center" >
+                 <f:facet name="header">
+                   Ville
+                 </f:facet>
+                   #{data.adresse.ville}
+               </p:column>
+             </p:dataTable>
+           <br/>
+            <h:form>
+                <p:panelGrid styleClass="panel">     
+                    <p:row>
+                        <p:column> 
+                            <h:outputLink value="rechercheCandidat.xhtml">
+                                Retour au formulaire de recherche 
+                            </h:outputLink> 
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <br/><br/><br/>
+            </h:form>
+       </ui:define>
+    </ui:decorate></ui:fragment>
+</html>

@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>EasyJob</title>
+        <link rel="stylesheet" href="resources/styles/style.css" type="text/css" />
+        <link rel="stylesheet" href="resources/styles/connect.css" type="text/css" />
+    </h:head>
+    <h:body>
+
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
+        
+        <h1 >Cr&#233;er votre annonce </h1>
+            
+            <ui:define name="titre">
+                <h:outputText value="#{profilEmpManagedBean.employeur.prenom} #{profilEmpManagedBean.employeur.nom}" rendered="#{connexionBean.employeur ne null}"/>
+            <h:outputText value="Erreur" rendered="#{connexionBean.employeur==null}"/>
+            </ui:define>
+
+            <ui:define name="centre">
+                
+            <p:panelGrid styleClass="panel" rendered="#{connexionBean.employeur==null}">
+               <p:row>
+                   <p:column>
+                       <h:outputText value="Vous n'avez pas accès à cette page." />
+                   </p:column>
+               </p:row>
+               <p:row>
+                    <p:column>
+                        <h:form>
+                            <h:commandLink value="Retour à votre profil" action="profilCand"/>
+                        </h:form>
+                    </p:column>
+               </p:row>
+           </p:panelGrid>
+                
+                <h:form id="creation" rendered="#{connexionBean.employeur ne null}">
+                    <p:panelGrid styleClass="panel" >
+                        <p:row>
+                            <p:column style ="color : red; text-align: center ">
+                                * Champs obligatoires
+                             </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <br/><br/>
+                    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                    
+                    <p:panelGrid styleClass="panel">
+                        
+                         <p:row>
+                             <p:column>
+                                 <h:outputText value="Titre * : "/>                        
+                             </p:column>
+                             <p:column>
+                                <p:inputText id="titre" value="#{creationAnnonceBean.titre}" required="true">
+                                    <f:validateLength minimum="4" maximum="50"/>
+                                    <f:validateRegex pattern="^[^']*$" />
+                                </p:inputText>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                 <h:outputText value="Description * : "/>
+                            </p:column>
+                            <p:column>    
+                                <p:inputTextarea id="desc" value="#{creationAnnonceBean.description}" autoResize="false" required="true">
+                                    <f:validateLength minimum="4" maximum="255"/>
+                                    <f:validateRegex pattern="^[^']*$" />
+                                </p:inputTextarea>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Date limite des candidatures * : "/>
+                            </p:column>
+                                                
+                            <p:column>  
+                                <p:calendar value="#{creationAnnonceBean.dateLimite}" id="date" showOn="button" required="true">
+                                    <f:validator validatorId="validerDate"/>
+                                </p:calendar>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>                            
+                            <p:column rowspan="1">
+                                <h:outputText value="Type de contrat proposé * : "/>
+                            </p:column>
+                                                
+                            <p:column>
+                                <p:selectOneMenu id="contrat" value="#{creationAnnonceBean.contrat}" style="width: 250px;" required="true">
+                                    <f:selectItems value="#{autoCompleteManagedBean.contrat}" />  
+                                </p:selectOneMenu>           
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Lieu : "/>
+                            </p:column>                                                
+                            <p:column>
+                                <p:panelGrid styleClass="panel" >
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputText value="Rue : "/>
+                                        </p:column>
+                                        <p:column style="text-align: right">
+                                            <p:inputText id="rue" value="#{creationAnnonceBean.rue}" size="13">
+                                                <f:validateRegex pattern="^[^']*$" />
+                                            </p:inputText>
+                                        </p:column>
+                                    </p:row> 
+                                </p:panelGrid>
+                                
+                                <p:panelGrid styleClass="panel" >
+                                    <p:row>
+                                        <p:column >
+                                            <h:outputText  value="Code postal : "/>
+                                        </p:column>
+                                        <p:column style="text-align: right">
+                                            <p:autoComplete id="acMinLength" minQueryLength="0" value="#{creationAnnonceBean.codePostal}" size="5" effect="fade">
+                                                <f:validator validatorId="validerCodePostal1"/>
+                                                <f:validateRegex pattern="^[^']*$" />
+                                                <f:validateLength minimum="5"/>
+                                            </p:autoComplete>
+                                        </p:column>
+                                    </p:row> 
+                                </p:panelGrid>
+                                
+                                <p:panelGrid styleClass="panel" >
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputText value="Ville : "/>
+                                        </p:column>
+                                        <p:column style="text-align: right">
+                                            <p:inputText id="ville" value="#{creationAnnonceBean.ville}" size="13">
+                                                <f:validateRegex pattern="^[^'0123456789]*$" />
+                                            </p:inputText>
+                                        </p:column>
+                                    </p:row> 
+                                </p:panelGrid>
+                                
+                                <p:panelGrid styleClass="panel" >
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputText value="Pays : "/>
+                                        </p:column>
+                                        <p:column style="text-align: right">
+                                            <p:inputText id ="pays" value="#{creationAnnonceBean.pays}" size="10" >
+                                                <f:validateRegex pattern="^[^'0123456789]*$" />
+                                            </p:inputText>
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>                            
+                            <p:column style="width: 80%;">
+                              <h:outputText value="Domaine d'activité  * : "/>
+                            </p:column>                                                
+                            <p:column>                            
+                                <p:selectOneMenu id ="domaine" style="width: 250px;" value="#{creationAnnonceBean.secteur}" required="true">
+                                    <f:selectItems value="#{autoCompleteManagedBean.getDomaineActivite()}" />  
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>                            
+                            <p:column>                                
+                                <h:outputText value="Salaire (en euros) : "/>                         
+                            </p:column>              
+                            <p:column>
+                                <p:selectOneMenu id="salaire" value="#{creationAnnonceBean.salaire}">
+                                    <f:selectItem itemValue="#{-1}" itemLabel="selection" /> 
+                                    <f:selectItems value="#{autoCompleteManagedBean.getSalaire()}" />  
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>                            
+                            <p:column>
+                                <h:outputText value="Niveau d'études * : "/>
+                            </p:column>                                                
+                            <p:column>
+                                <p:selectOneMenu id="etudes" value="#{creationAnnonceBean.etudes}" style="width: 150px;" required="true">
+                                    <f:selectItems value="#{autoCompleteManagedBean.getNiveauEtude()}" />  
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>                            
+                            <p:column>
+                                <h:outputText value="Expérience demandée : "/>
+                            </p:column>                                                
+                            <p:column>
+                                <p:selectOneMenu id="etudesDemandees" value="#{creationAnnonceBean.experience}">
+                                    <f:selectItem itemValue="#{-1}" itemLabel="" />
+                                    <f:selectItem itemValue="0" itemLabel="- de 1 an"/>
+                                    <f:selectItem itemValue="1"  itemLabel="1 an"/>
+                                    <f:selectItem itemValue="2" itemLabel="2 ans"/>
+                                    <f:selectItem itemValue="3"  itemLabel="3 ans"/>
+                                    <f:selectItem itemValue="4" itemLabel="4 ans"/>
+                                    <f:selectItem itemValue="5"  itemLabel="5 à 10 ans"/>
+                                    <f:selectItem itemValue="10"  itemLabel="+ de 10 ans"/> 
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>                            
+                            <p:column>
+                                <h:outputText value="Nombre d'heures par semaine : "/>
+                            </p:column>                                                
+                            <p:column>
+                                <p:selectOneMenu id="nbHeures" value="#{creationAnnonceBean.heure}">
+                                    <f:selectItem itemValue="#{-1}" itemLabel="" />
+                                    <f:selectItems value="#{autoCompleteManagedBean.getNombreHeures()}" />  
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>     
+                            <p:column>
+                                <br/>
+                                <p:commandButton value="Publier l'offre" action="#{creationAnnonceBean.creerAnnonce()}" ajax="false"/>
+                            </p:column>     
+                            <p:column>
+                                <br/>
+                                <p:commandButton action="#{creationAnnonceBean.annuler()}" value="Annuler" immediate="true" ajax="false"/>
+                            </p:column>                                                
+                            
+                        </p:row>
+ 
+                    </p:panelGrid>
+                    <br/><br/><br/>
+                </h:form>
+            </ui:define>
+        
+    </ui:decorate>
+    </ui:fragment>
+    </h:body>
+</html>
+

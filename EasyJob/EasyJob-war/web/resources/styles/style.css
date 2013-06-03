@@ -1,0 +1,157 @@
+html, body {
+    height: 100%;
+}
+body {
+    background-color: #F0E9E3;
+
+}
+
+table
+{
+	border-collapse:collapse;
+	width:60%;
+	/*max-width:500px;
+	min-width:400px;*/
+	text-align:center;
+}
+
+table,th, td
+{
+	border: 0px;
+}
+
+th, td
+{
+	height: 24px;
+	padding:4px;
+	vertical-align:middle;
+}
+.rowtitle
+{
+	background: #9CF;
+	font-weight:bold;
+}
+
+.deconnectbutton {
+  font-family: arial;
+  color: #FFFFFF !important;
+  font-size: 15px;
+  text-shadow: 1px 1px 0px #000000;
+  box-shadow: 1px 1px 1px #4972D1;
+  padding: 8px 23px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: #EEAA45;
+  margin-left: 37px;
+  display: block;
+  cursor: pointer;
+}
+
+.deconnectbutton:hover {
+  color: #000000;
+  background: #3D84D4;
+}
+
+
+.statbutton {
+  font-family: arial;
+  color: #FFFFFF !important;
+  font-size: 14px;
+  text-shadow: 1px 1px 0px #000000;
+  box-shadow: 1px 1px 1px #4972D1;
+  padding: 8px 23px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: #EEAA45;
+  margin-left: 37px;
+  display: block;
+  cursor: pointer;
+}
+
+.statbutton:hover {
+  color: #000000;
+  background: #3D84D4;
+}
+#menu5 {
+	width: 200px;
+	margin: 11px;
+}
+	
+#menu5 li a {
+	height: 32px;
+  	voice-family: inherit;  	
+  	height: 24px;
+	text-decoration: none;
+}	
+	
+#menu5 li a:link, #menu5 li a:visited {
+	color: #FFF;
+	display: block;
+	background:  url('../img/menu5.gif');
+	padding: 8px 0 0 10px;
+}
+	
+#menu5 li a:hover {
+	color: #FFF;
+	background:  url('../img/menu5.gif') 0 -32px;
+	padding: 8px 0 0 10px;
+}
+#menu5 ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.panel tr, .panel td {
+    border: none;
+    background: none;
+}
+
+p
+{
+        color: rgb(153, 51, 0); 
+        font-weight: bold;
+        font-size: 14px; 
+        line-height: 26px; 
+        padding-left: 3px;
+        text-align: center;
+}
+img
+{    
+        border: 0px solid ; 
+        width: 780px; 
+        height: 60px;  
+}
+.icone img
+{
+        border: 0px solid ; 
+        width: 140px; 
+        height: 140px;
+}
+
+.prof table
+{
+        border-collapse:collapse;
+	width:100%;
+	/*max-width:800px;
+	min-width:400px;*/
+	text-align:center;
+        
+}
+
+.prof table,th, td
+{
+	border: 0px;       
+}
+
+.prof th, td
+{
+	height: 24px;
+	padding-left: 40px;
+        padding-right: 5px;
+	vertical-align:top;
+        text-align: left;
+
+}

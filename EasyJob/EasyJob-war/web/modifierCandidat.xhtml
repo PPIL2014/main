@@ -1,0 +1,346 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <h:head>
+        <title>Modifier un compte candidat</title>
+        <link rel="stylesheet" href="resources/styles/style.css" type="text/css" />
+        <link rel="stylesheet" href="resources/styles/connect.css" type="text/css" />
+        <link rel="stylesheet" href="YannCSS.css" /> 
+    </h:head>
+    
+    <h:body>
+        
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
+        <ui:define name="titre">
+            <h:outputText value="#{profilcandBean.candidat.prenom} #{profilcandBean.candidat.nom}" rendered="#{connexionBean.candidat ne null}"/>
+            <h:outputText value="Erreur" rendered="#{connexionBean.candidat==null}"/>
+        </ui:define>
+		
+        <ui:define name="centre" rendered="#{profilcandBean.candidat ne null}" >
+           <link rel="stylesheet" href="YannCSS.css" />
+
+            <h:form rendered="#{not connexionBean.isConnect}">
+                <p:panelGrid styleClass="panel">     
+                    <p:row>
+                         <p:column>
+                             <h:outputText value="Vous devez vous connecter pour accéder à cette page"/>
+                         </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:form>
+                                <h:commandLink value="Retour à votre profil" action="profilEmpl"/>
+                            </h:form>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>           
+            
+            <br/>
+            
+            <p:panelGrid styleClass="panel" rendered="#{connexionBean.candidat==null}">
+               <p:row>
+                   <p:column>
+                       <h:outputText value="Vous n'avez pas accès à cette page."/>
+                   </p:column>
+               </p:row>
+               <p:row>
+                    <p:column>
+                        <h:form>
+                            <h:commandLink value="Retour à votre profil" action="profilEmpl"/>
+                        </h:form>
+                    </p:column>
+               </p:row>
+           </p:panelGrid>
+            
+            <h:form id="form" rendered="#{connexionBean.isConnect}">
+                
+                <p:panelGrid style="width: 100%" styleClass="panel">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Nom :"/> 
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="nom" value="#{creationCandBean.nom}" disabled="true">
+                                    <f:validateRegex pattern="^[^']*$" />
+                            </p:inputText> 
+                        </p:column>
+                    </p:row>    
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Prenom :"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="prenom" value="#{creationCandBean.prenom}" disabled="true">
+                                <f:validateRegex pattern="^[^']*$" />
+                            </p:inputText> 
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Date de naissance :"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="jour" value="#{creationCandBean.jour}" disabled="true">
+                                <f:selectItems value="#{creationCandBean.listeJour}"/>
+                            </p:selectOneMenu>                        
+
+                            <p:selectOneMenu id="mois" value="#{creationCandBean.mois}" disabled="true">
+                                <f:selectItems value="#{creationCandBean.listeMois}"/>
+                            </p:selectOneMenu>
+
+                            <p:selectOneMenu id="annee" value="#{creationCandBean.annee}" disabled="true">
+                                <f:selectItems value="#{creationCandBean.listeAnnee}" />
+                            </p:selectOneMenu> 
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Numéro de sécurité sociale :"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputMask id="secu" value="#{creationCandBean.numSecu}" disabled="true" mask="9999999999999">
+                                <f:validator validatorId="validerSecu"/>
+                            </p:inputMask>
+                            <p:message for="secu" /> 
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Rue :"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="rue" value="#{creationCandBean.rue}">
+                                <f:validateRegex pattern="^[^']*$" />
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Code postal :"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="code" value="#{creationCandBean.codePostal}" >
+                                <f:validator validatorId="validerCodePostal"/>
+                                <f:validateRegex pattern="^[^']*$" />
+                            </p:inputText> 
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Ville :"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="ville" value="#{creationCandBean.ville}" >
+                                <f:validateRegex pattern="^[^'0123456789]*$" />
+                            </p:inputText> 
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Pays :"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="pays" value="#{creationCandBean.pays}" >
+                                <f:validateRegex pattern="^[^'0123456789]*$" />
+                            </p:inputText>
+                            <p:message for="pays" /> 
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Téléphone :" />
+                        </p:column>
+                        <p:column>
+                            <p:inputMask id="tel" value="#{creationCandBean.telephone}" mask="9999999999" />
+                            <p:message for="tel" /> 
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Site web :" />
+                        </p:column>
+                        <p:column> 
+                            <p:inputText value="#{creationCandBean.sitWeb}">
+                                <f:validateRegex pattern="^[^']*$" />
+                            </p:inputText>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Niveau d'études :"/>
+                        </p:column>
+                        <p:column>
+                           <p:selectOneMenu id="etude" value="#{creationCandBean.niveauEtudes}">
+                               <f:selectItems value="#{autoCompleteManagedBean.niveauEtude}"/>
+                           </p:selectOneMenu>
+                            <p:message for="etude" /> 
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Domaine d'études :"/>
+                        </p:column>
+                        <p:column> 
+                            <p:selectOneMenu id="domaine" value="#{creationCandBean.domaineEtudes}" style="width: 300px">
+                                <f:selectItems value="#{autoCompleteManagedBean.domaineActivite}"/>
+                           </p:selectOneMenu>
+                            <p:message for="domaine" /> 
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Compétences linguistiques :"/>
+                        </p:column>
+                        
+                        <p:column>
+                            <p:inputText id ="l1" value="#{creationCandBean.langue1}">
+                                <f:validateRegex pattern="^[^']*$" />
+                            </p:inputText>
+                            <p:watermark for="l1" value="Langue 1" />  
+                            <br/>
+                            <p:inputText id ="l2" value="#{creationCandBean.langue2}">
+                                <f:validateRegex pattern="^[^']*$" />
+                            </p:inputText>
+                            <p:watermark for="l2" value="Langue 2" />  
+                            <br/>
+                            <p:inputText id ="l3" value="#{creationCandBean.langue3}">
+                                <f:validateRegex pattern="^[^']*$" />
+                            </p:inputText> 
+                            <p:watermark for="l3" value="Langue 3" />                  
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column style="width: 500px">
+                            <h:outputText value="Expérience(s) professionnelle(s) :"/>
+                        </p:column>
+                        <p:column>  
+                            <p:inputTextarea value="#{creationCandBean.experiences}">
+                                <f:validateRegex pattern="^[^']*$" />
+                            </p:inputTextarea>                 
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Nombre d'années d'expérience :"/>
+                        </p:column>
+                        <p:column> 
+                            <p:selectOneMenu id="nbExperience" value="#{creationCandBean.nbExperiences}" required="true">
+                                <f:selectItem itemValue="0" itemLabel="- de 1 an"/>
+                                <f:selectItem itemValue="1"  itemLabel="1 an"/>
+                                <f:selectItem itemValue="2" itemLabel="2 ans"/>
+                                <f:selectItem itemValue="3"  itemLabel="3 ans"/>
+                                <f:selectItem itemValue="4" itemLabel="4 ans"/>
+                                <f:selectItem itemValue="5"  itemLabel="5 à 10 ans"/>
+                                <f:selectItem itemValue="10"  itemLabel="+ de 10 ans"/>
+                           </p:selectOneMenu>
+                            <p:message for="nbExperience" /> 
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Adresse mail :" />
+                        </p:column>
+                        <p:column> 
+                            <p:inputText id="mail" value="#{creationCandBean.mail1}" disabled="true">
+                                <f:validateLength minimum="6"/>
+                                <f:validator validatorId="validerEmail"/>
+                            </p:inputText>
+                            <p:message for="mail"/> 
+                        </p:column>
+                    </p:row>
+                      <p:row>
+                            <p:column>
+                                <h:outputText value="Nouveau mot de passe (doit contenir six caractères et au moins un chiffre) :" />
+                            </p:column>
+                            <p:column>                        
+                                <p:password id="mdp" value="#{creationCandBean.mdp1}" feedback="true" >
+                                    <f:validateRegex pattern="^[^']*$" />
+                                    <f:validator validatorId="validerMdp2"/>
+                                </p:password>
+                                <p:message for="mdp" /> 
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Confirmation du nouveau mot de passe :" />
+                            </p:column>
+                            <p:column>                        
+                                <p:password id="mdp2" value="#{creationCandBean.mdp2}">
+                                    <f:validateRegex pattern="^[^']*$" />
+                                </p:password>
+                                <p:message for="mdp2" /> 
+                            </p:column>
+                        </p:row> 
+
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Afficher coordonnées (pour le recruteur) :" />
+                            </p:column>
+                            <p:column>                           
+                                <p:selectBooleanCheckbox value="#{creationCandBean.confidentialite}" label="oui" />
+                                <h:outputText value=" Oui"/>
+                            </p:column>
+                        </p:row>
+                    
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="Mot de passe actuel * :" />
+                            </p:column>
+                            <p:column>                        
+                                <p:password id="mdp3" value="#{creationCandBean.mdp3}" required="true">
+                                    <f:validateRegex pattern="^[^']*$" />
+                                </p:password>
+                                <p:message for="mdp3" /> 
+                            </p:column>
+                        </p:row> 
+                    
+                        <p:row>
+                            <p:column colspan="2">
+                                 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                             <p:column>
+                                <br/>
+                               <p:commandButton value="Valider" action="#{creationCandBean.modifier()}" ajax="false"/>                      
+                            </p:column>
+                            <p:column>
+                                <br/>
+                                <p:commandButton value="Annuler" action="donneesCand" immediate ="true" ajax="false"/>                       
+                            </p:column>
+                        </p:row>
+                 </p:panelGrid>
+                <br/><br/><br/>
+             </h:form>    
+            
+        </ui:define>
+        
+    </ui:decorate>
+    </ui:fragment>
+    </h:body>
+</html>

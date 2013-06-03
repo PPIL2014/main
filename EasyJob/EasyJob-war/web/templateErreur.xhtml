@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+          
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>
+            <ui:insert name="titre" />
+        </title>
+        <link rel="stylesheet" href="resources/styles/style.css" type="text/css" />
+        <!--<link rel="stylesheet" href="resources/styles/template.css" type="text/css" />-->
+        <link rel="stylesheet" href="YannCSS.css" />
+    </h:head>
+    
+    <h:body>
+          <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type" />
+
+          <h:form>
+            <p:panelGrid styleClass="panel">     
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Vous devez être connecté pour accéder à cette page"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:commandLink value="Accueil" action="accueil"/>
+                        </p:column>
+                    </p:row>
+            </p:panelGrid>
+          </h:form>
+    </h:body>   
+</html>
+

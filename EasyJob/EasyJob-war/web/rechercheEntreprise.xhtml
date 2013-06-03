@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
+        <ui:define name="titre">
+            <h:outputText value="Rechercher une entreprise"/>
+        </ui:define>
+		
+        <ui:define name="centre" rendered="#{profilcandBean.candidat ne null}" >
+           <link rel="stylesheet" href="YannCSS.css" /> 
+            <!-- formulaire de recherche -->
+            <h:form >
+                <p:panelGrid styleClass="panel">    
+                     <p:row >
+                        <p:column>
+                            <h:outputText value=" Nom de l'entreprise :"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="nom" value="#{rechercheEntrepriseBean.nomEntreprise}" editable="true" >
+                                <f:selectItem value="#{null}" itemLabel="tous" />
+                                <f:selectItems value="#{rechercheEntrepriseBean.allNomEntreprise}" /> 
+                                <f:validateRegex pattern="^[^']*$" />
+                            </p:selectOneMenu>
+                            <p:message for="nom" /> 
+                        </p:column>
+                    </p:row>
+                    <p:row >
+                        <p:column>
+                            <h:outputText value="Domaine: "/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{rechercheEntrepriseBean.domaine}" style="width: 200px;">
+                                <f:selectItem value="#{null}" itemLabel="tous" />
+                                <f:selectItems value="#{autoCompleteManagedBean.domaineActivite}" />  
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <p:row >
+                        <p:column>
+                            <h:outputText value="Statut :"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{rechercheEntrepriseBean.statut}">
+                                 <f:selectItem value="#{null}" itemLabel="tous" />
+                                <f:selectItems value="#{autoCompleteManagedBean.statutEntreprise}" />  
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Ville : "/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="ville" value="#{rechercheEntrepriseBean.ville}" editable="true">
+                                <f:selectItem value="#{null}" itemLabel="tous" />
+                                <f:selectItems value="#{rechercheEntrepriseBean.allVille}" />  
+                                <f:validateRegex pattern="^[^']*$" />
+                            </p:selectOneMenu>
+                            <p:message for="ville" /> 
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Pays :"/>
+                        </p:column>
+                        <p:column>   
+                            <p:selectOneMenu id="pays" value="#{rechercheEntrepriseBean.pays}" editable="true">
+                                <f:selectItem value="#{null}" itemLabel="tous" />
+                                <f:selectItems value="#{rechercheEntrepriseBean.allPays}" />  
+                                <f:validateRegex pattern="^[^']*$" />
+                            </p:selectOneMenu>
+                            <p:message for="pays" /> 
+                        </p:column>
+                    </p:row>   
+                    
+                    <p:row>
+                        <p:column/>
+                        <p:column>    
+                            <p:commandButton value="Rechercher" ajax='false' action="#{rechercheEntrepriseBean.reponseRecherche()}"/>            
+                        </p:column>
+                    </p:row> 
+                </p:panelGrid>
+                <br/><br/><br/>
+           </h:form>
+           
+          
+       </ui:define>
+    </ui:decorate></ui:fragment>
+</html>

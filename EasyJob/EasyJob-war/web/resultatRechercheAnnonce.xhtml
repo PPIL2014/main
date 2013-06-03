@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
+        <ui:define name="titre">
+            <h:outputText value="Résultat de la recherche d'annonces"/>
+        </ui:define>
+            
+        <ui:define name="centre" rendered="#{profilcandBean.candidat ne null}" >
+            <link rel="stylesheet" href="YannCSS.css" />
+            <p:panelGrid styleClass="panel" >     
+                    <p:row>
+                        <p:column>
+                            Résultat(s) de la recherche d'annonces : 
+                        </p:column>
+                    </p:row>
+            </p:panelGrid>
+            <br/>
+            <p:panelGrid styleClass="panel" rendered="#{not rechercheAnnonceBean.annonceTrouve()}">     
+                    <p:row>
+                        <p:column>Aucune annonce n'a été trouvée, veuillez modifier vos critères de recherche </p:column>
+                    </p:row>
+            </p:panelGrid>
+
+            <p:dataTable rendered="#{rechercheAnnonceBean.annonceTrouve()}" value="#{rechercheAnnonceBean.listeAnnonce()}" var="data" paginator="true" rows="10">
+                <p:column>
+                 <f:facet name="header">
+                   Titre
+                 </f:facet>
+                   <h:form>
+                       <h:commandLink  value="#{data.titre}" actionListener="#{annonceManagedBean.consulterParRecherche}" action="consulterAnnonce.xhtml">
+                            <f:attribute name="Mannonce" value="#{data.id}"/>
+                        </h:commandLink>
+                   </h:form>
+               </p:column>
+                  <p:column>
+                    <f:facet name="header">
+                      Contrat
+                    </f:facet>
+                      #{data.contrat}
+                  </p:column>
+                <p:column>
+                    <f:facet name="header">
+                      Lieu
+                    </f:facet>
+                    <p:column rendered="#{data.lieu.ville ne null}">
+                      #{data.lieu.ville}
+                    </p:column>
+                    <p:column rendered="#{data.lieu.ville eq null}">
+                      non renseignée
+                    </p:column>
+                  </p:column>
+                  <p:column>
+                    <f:facet name="header">
+                      Date de publication
+                    </f:facet>
+                      <h:outputText value="#{data.dateEmission}">
+                        <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                      </h:outputText>
+                  </p:column>
+                  <p:column>
+                    <f:facet name="header">
+                      Entreprise
+                    </f:facet>
+                      #{data.employeur.entreprise.nomEntreprise}
+                  </p:column>
+                <p:column>
+                    <f:facet name='header'>
+                        Secteur d'activité
+                    </f:facet>
+                      #{data.secteur}
+                </p:column>
+                </p:dataTable>
+            <br/>
+            <h:form>
+                <p:panelGrid styleClass="panel">     
+                    <p:row>
+                        <p:column> 
+                            <h:outputLink value="rechercheAnnonce.xhtml">
+                                Retour au formulaire de recherche 
+                            </h:outputLink> 
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <br/><br/><br/>
+            </h:form>
+        </ui:define>
+    </ui:decorate></ui:fragment>
+   
+</html>
+

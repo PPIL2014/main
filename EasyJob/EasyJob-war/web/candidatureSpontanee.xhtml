@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}">
+    <ui:decorate template="/template.xhtml" >
+        
+         <ui:define name="titre">             
+            <h:outputText value="Candidature spontanée" rendered="#{connexionBean.candidat ne null}"/>
+            <h:outputText value="Erreur" rendered="#{connexionBean.candidat==null}"/>
+        </ui:define>
+
+        <ui:define name="centre" >
+           <link rel="stylesheet" href="YannCSS.css" />
+       
+
+           <p:panelGrid styleClass="panel" rendered="#{connexionBean.candidat==null}">
+               <p:row>
+                   <p:column>
+                       <h:outputText value="Vous n'avez pas accès à cette page."/>
+                   </p:column>
+               </p:row>
+               <p:row>
+                    <p:column>
+                        <h:form>
+                            <h:commandLink value="Retour à votre profil" action="profilEmpl"/>
+                        </h:form>
+                    </p:column>
+               </p:row>
+           </p:panelGrid>
+           
+           <h:form enctype="multipart/form-data" rendered="#{connexionBean.candidat ne null}">
+               <p:panelGrid styleClass="panel">   
+                   
+                   <p:row>
+                       <p:column colspan="2">
+                           <h2 style="text-align: center">
+                                <h:outputText value="Pour déposer une candidature spontanée auprès de cette entreprise, veuillez déposer votre lettre de motivation et votre CV :"/>
+                           </h2>
+                           <br/><br/>
+                       </p:column>
+                   </p:row>
+
+                   <p:row>
+                       <p:column>
+                           <h:outputText value="Lettre de motivation (format pdf) :"/>                         
+                       </p:column>
+
+                   </p:row>
+
+                   <p:row>
+                       <p:column>
+                           <p:fileUpload id="lettre" value="#{candidatureSpontaneeBean.lm}" mode="simple" required="true"/>
+                       </p:column>
+                   </p:row>
+
+                    <br/>
+
+                    <p:row>
+                       <p:column>
+                           <br/>
+                           <h:outputText value="CV (format pdf) :"/>
+                       </p:column>
+                   </p:row>
+
+                   <p:row>
+                       <p:column>
+                           <p:fileUpload id ="cv" value="#{candidatureSpontaneeBean.cv}" mode="simple" required="true"/>
+                            <br/><br/><br/><br/>
+                       </p:column>
+                   </p:row>
+
+                   <br/>
+
+                   <p:row>      
+                        <p:column>
+                           <br/><br/>
+                           <p:commandButton value="Déposer la candidature" ajax="false" process="annonce" actionListener="#{candidatureSpontaneeBean.deposer}" action="#{candidatureSpontaneeBean.getNext()}">
+                               <f:attribute name="ent" value="#{entrepriseManagedBean.entreprise}" /> 
+                           </p:commandButton>
+                       </p:column>
+                       <p:column>
+                           <br/><br/>
+                           <p:commandButton value="Annuler" action="vitrineEntreprise" immediate="true" ajax="false"/>
+                       </p:column>
+                   </p:row>
+               </p:panelGrid>
+
+               <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+               <br/><br/><br/>
+           </h:form>
+
+        </ui:define>     
+
+    </ui:decorate>
+    </ui:fragment>
+
+        
+</html>

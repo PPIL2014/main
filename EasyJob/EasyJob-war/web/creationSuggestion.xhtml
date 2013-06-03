@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
+        <ui:define name="titre">
+            <h:outputText value="#{profilEmpManagedBean.employeur.prenom} #{profilEmpManagedBean.employeur.nom}" rendered="#{connexionBean.employeur ne null}"/>
+            <h:outputText value="Erreur" rendered="#{connexionBean.employeur==null}"/>
+        </ui:define>
+		
+        <ui:define name="centre" >
+           <link rel="stylesheet" href="YannCSS.css" />
+           
+           <p:panelGrid styleClass="panel" rendered="#{connexionBean.employeur==null}">
+               <p:row>
+                   <p:column>
+                       <h:outputText value="Vous n'avez pas accès à cette page." />
+                   </p:column>
+               </p:row>
+               <p:row>
+                    <p:column>
+                        <h:form>
+                            <h:commandLink value="Retour à votre profil" action="profilCand"/>
+                        </h:form>
+                    </p:column>
+               </p:row>
+           </p:panelGrid>
+           
+           <h:form id="suggestion" rendered="#{connexionBean.employeur ne null and not suggCandBean.multiple}">
+               
+            <p:panelGrid styleClass="panel">   
+                <p:row>
+                    <p:column colspan="2">
+                        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Nom de l'employeur: "/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="nom" value="#{suggCandBean.nomEtr}" required="true">
+                            <f:validateLength minimum="2"/>
+                            <f:validateRegex pattern="^[^']*$" />
+                        </p:inputText>
+                    </p:column>
+                </p:row>
+                   
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Prénom du recruteur: "/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="prenom" value="#{suggCandBean.prenomEntr}" required="true">
+                            <f:validateLength minimum="2"/>
+                            <f:validateRegex pattern="^[^']*$" />
+                        </p:inputText>
+                    </p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column colspan="2" style="text-align: center">  
+                        <p:commandButton value="Envoyer" action="#{suggCandBean.valider()}" ajax="false">
+                            <f:attribute name="candidat" value="#{suggCandBean.candidat.id}"/>
+                        </p:commandButton>
+                        <p:commandButton value="Annuler" action="vitrineCandidat" immediate="true" ajax="false" />
+                    </p:column>
+                </p:row> 
+                
+            </p:panelGrid>
+           </h:form>
+           
+           
+           
+           
+           <h:form id="form2" rendered="#{connexionBean.employeur ne null and suggCandBean.multiple}">
+               <p:panelGrid  styleClass="panel">
+                   
+                  <p:row>
+                    <p:column colspan="2">
+                        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                    </p:column>
+                  </p:row>
+                   
+                   <p:row>
+                       <p:column>
+                            <br/><br/>
+                            <h:outputText value="Il existe plusieurs employeur qui portent ce nom."/> 
+                            <br/><br/>
+                            <h:outputText value="Selectionnez un employeur : "/>
+                            <br/><br/>
+                       </p:column>
+                   </p:row>
+                   
+                   <p:row>
+                       <p:column>
+                           <p:dataTable styleClass="data-table" value="#{suggCandBean.listEmpl}" var="empl" >
+                               <p:column>
+                                   <h:outputText value="#{empl.nom} #{empl.prenom}"/>
+                               </p:column>
+                               <p:column>
+                                   <h:outputText value=" de l'entreprise #{empl.entreprise.nomEntreprise}"/>
+                               </p:column>
+                               <p:column>
+                                   <p:commandButton id="bouton" icon="ui-icon-check" action="#{suggCandBean.choisir(suggCandBean.candidat.id)}" ajax="false">
+                                       <f:setPropertyActionListener value="#{empl}" target="#{suggCandBean.selected}" />
+                                    </p:commandButton>
+                               </p:column>
+                           </p:dataTable>  
+                       </p:column>
+                   </p:row>
+                   
+                   <p:row>
+                       <p:column>
+                           <br/>
+                           <p:commandButton value="Retour" action="#{suggCandBean.retour()}" ajax="false"/>
+                       </p:column>
+                   </p:row>
+               </p:panelGrid>
+           </h:form>
+           
+           
+       </ui:define>
+    </ui:decorate>
+    </ui:fragment>
+</html>

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
+        
+        <ui:define name="titre">
+            <h:outputText value="#{profilcandBean.candidat.prenom} #{profilcandBean.candidat.nom}" rendered="#{connexionBean.candidat ne null}"/>
+            <h:outputText value="Erreur" rendered="#{connexionBean.candidat==null}"/>
+        </ui:define>
+		
+        <ui:define name="centre" rendered="#{profilcandBean.candidat ne null}" >          
+            <link rel="stylesheet" href="YannCSS.css" />
+            
+            <br/><br/>
+            
+            <p:panelGrid styleClass="panel" rendered="#{connexionBean.candidat==null}">
+               <p:row>
+                   <p:column>
+                       <h:outputText value="Vous n'avez pas accès à cette page."/>
+                   </p:column>
+               </p:row>
+               <p:row>
+                    <p:column>
+                        <h:form>
+                            <h:commandLink value="Retour à votre profil" action="profilEmpl"/>
+                        </h:form>
+                    </p:column>
+               </p:row>
+           </p:panelGrid>
+            
+            <p:panelGrid styleClass="panel" rendered="#{connexionBean.candidat ne null and profilcandBean.candidat.entreprises.size()==0}">
+                <p:row>
+                    <p:column>
+                        <h:outputText value="Vous ne suivez aucune entreprise." />
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            
+            <h:form rendered="#{connexionBean.candidat ne null and profilcandBean.candidat.entreprises.size()!=0}">  
+                 
+            <p:panelGrid styleClass="panel">
+                
+                <p:row>
+                    <p:column>                        
+                            <p:dataTable id="data-table" var="entreprise" value="#{profilcandBean.candidat.entreprises}" >  
+                                <p:column> 
+                                    <f:facet name="header">
+                                        Nom de l'entreprise
+                                    </f:facet>
+                                    <h:commandLink value="#{entreprise.nomEntreprise}" actionListener="#{entrepriseManagedBean.consulterRecherche}" action="vitrineEntreprise.xhtml">
+                                            <f:attribute name="Mentreprise" value="#{entreprise.id}"/>
+                                    </h:commandLink>
+                                </p:column>
+                                <p:column style="text-align: center;">
+                                    <f:facet name="header">
+                                        Supprimer  
+                                    </f:facet>
+                                     <p:selectBooleanCheckbox value="1" valueChangeListener="#{profilcandBean.valueChangeSuppression}">
+                                         <f:attribute name="ent" value="#{entreprise}" />
+                                     </p:selectBooleanCheckbox>
+                                     
+                                </p:column>
+                            </p:dataTable>  
+                        
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column style="text-align: center">       
+                        <br/><br/>                 
+                        <p:commandButton id="showDialogButton" value="Supprimer entreprise(s)" onclick="confirmation.show();" type="button" />
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+                
+                <p:confirmDialog id="confirmDialog" message="Voulez-vous vraiment supprimer ces entreprises de la liste ?"  header="Alerte" severity="alert" widgetVar="confirmation">  
+                  
+                    <p:commandButton id="confirm" value="Oui" ajax="false" oncomplete="confirmation.hide();" action="#{profilcandBean.enleverSuivi()}"  />  
+                    <p:commandButton id="decline" value="Non" onclick="confirmation.hide();" type="button" />   
+                  
+                </p:confirmDialog>
+            
+            </h:form>  
+            <br/><br/><br/>
+        </ui:define>        
+        
+    </ui:decorate>
+    </ui:fragment>
+</html>
+

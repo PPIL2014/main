@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+        <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+            <link rel="stylesheet" href="YannCSS.css" />
+        </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+        <ui:decorate template="/template.xhtml" >
+        
+            <ui:define name="titre">
+                <h:outputText value="#{profilEmpManagedBean.employeur.prenom} #{profilEmpManagedBean.employeur.nom}" rendered="#{connexionBean.employeur ne null}"/>
+                <h:outputText value="Erreur" rendered="#{connexionBean.employeur==null}"/>
+            </ui:define>
+		
+            <ui:define name="centre" >
+                <link rel="stylesheet" href="YannCSS.css"  />
+
+                <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">  
+                    <p:graphicImage value="resources/img/telechargement.gif" />  
+                </p:dialog>
+                
+            <p:panelGrid styleClass="panel" rendered="#{connexionBean.employeur==null}">
+               <p:row>
+                   <p:column>
+                       <h:outputText value="Vous n'avez pas accès à cette page." />
+                   </p:column>
+               </p:row>
+               <p:row>
+                    <p:column>
+                        <h:form>
+                            <h:commandLink value="Retour à votre profil" action="profilCand"/>
+                        </h:form>
+                    </p:column>
+               </p:row>
+            </p:panelGrid>
+            
+
+                <p:panelGrid rendered="#{connexionBean.employeur ne null and candidatureManagedBean.candidatureSpontanee ne null and connexionBean.employeur ne null}" styleClass="panel">
+                        <p:row>
+                            <p:column colspan="2">
+                                <h:form>
+                                    <h:commandLink value="#{candidatureManagedBean.candidatureSpontanee.candidat.prenom} #{candidatureManagedBean.candidatureSpontanee.candidat.nom}" actionListener="#{candidatManagedBean.consulterRecherche}" action="vitrineCandidat.xhtml">
+                                        <f:attribute name="Mcandidat" value="#{candidatureManagedBean.candidatureSpontanee.candidat.id}" />
+                                    </h:commandLink>
+                                </h:form>
+                                <br/><br/><br/><br/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column style="text-align: right">                        
+                                <h:outputText value="CV"/>
+                                <br/><br/><br/><br/>
+                            </p:column>
+                            <p:column style="text-align: center">
+                                <h:form>
+                                    <p:commandButton id="downloadLink" actionListener="#{candidatureManagedBean.initialisation()}" value="Télécharger son CV" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop)">  
+                                        <p:fileDownload value="#{candidatureManagedBean.cv}" />  
+                                    </p:commandButton>
+                                </h:form>
+                                <br/><br/><br/><br/>
+                            </p:column>
+                        </p:row>
+                        
+                        <p:row>
+                            <p:column style="text-align: right">                        
+                                <h:outputText value="Lettre de motivation"/>
+                                <br/><br/><br/><br/>
+                            </p:column>
+                            <p:column>
+                                <h:form>
+                                    <p:commandButton id="downloadLink" actionListener="#{candidatureManagedBean.initialisation()}" value="Télécharger sa lettre de motivation" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop)">  
+                                        <p:fileDownload value="#{candidatureManagedBean.lm}" />  
+                                    </p:commandButton>
+                                </h:form>
+                                <br/><br/><br/><br/>
+                            </p:column>
+                        </p:row>
+                        
+                            <p:row>
+                                <p:column>
+                                    <h:form>
+                                        <p:commandButton id="deleteCandidatureSpontane" onclick="confirmation.show()" value="Supprimer candidature" />
+                                        <p:confirmDialog id="confirmDialogDelete" message="Voulez-vous vraiment refuser cette candidature ?"  header="Alerte" severity="alert" widgetVar="confirmation">  
+                                             <p:commandButton id="confirm" value="Oui" ajax="false" oncomplete="confirmation.hide();" action="#{candidatureManagedBean.supprimerCandidatureSpontanee()}"  />  
+                                             <p:commandButton id="decline" value="Non" onclick="confirmation.hide();" type="button" />   
+                                        </p:confirmDialog> 
+                                    </h:form>
+                                </p:column>        
+                        </p:row>
+  
+                    <p:row>
+                        <p:column colspan="2">
+                            <br/><br/><br/>
+                            <h:form>
+                                <h:commandLink value="Retour à la liste des candidatures" action="listeCandidaturesSpontanees"/>
+                            </h:form>
+                        </p:column>
+                    </p:row>
+                        
+                </p:panelGrid>
+                <br/><br/><br/>
+            </ui:define>        
+        
+        </ui:decorate>
+    </ui:fragment>
+    
+    <script type="text/javascript">  
+        function start() {  
+            statusDialog.show();  
+        }  
+
+        function stop() {  
+            statusDialog.hide();  
+        }  
+        </script>
+    
+</html>
+

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
+        
+        <ui:define name="titre">
+            <h:outputText value="#{profilEmpManagedBean.employeur.prenom} #{profilEmpManagedBean.employeur.nom}" rendered="#{connexionBean.employeur ne null}"/>
+            <h:outputText value="Erreur" rendered="#{connexionBean.employeur==null}"/>
+        </ui:define>
+		
+        <ui:define name="centre" >
+            <link rel="stylesheet" href="YannCSS.css"  />
+            
+            <p:panelGrid styleClass="panel" rendered="#{connexionBean.employeur==null}">
+               <p:row>
+                   <p:column>
+                       <h:outputText value="Vous n'avez pas accès à cette page." />
+                   </p:column>
+               </p:row>
+               <p:row>
+                    <p:column>
+                        <h:form>
+                            <h:commandLink value="Retour à votre profil" action="profilCand"/>
+                        </h:form>
+                    </p:column>
+               </p:row>
+           </p:panelGrid>
+            
+            
+            <h:form rendered="#{connexionBean.employeur ne null}">
+                <br/><br/>
+                <p:panelGrid styleClass="panel">                    
+                    
+                    <p:row rendered="#{profilEmpBean.employeur.candidatures.size()==0}">
+                        <p:column>
+                            <h:outputText value="Vous n'avez pas de candidature spontanée."/>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row rendered="#{profilEmpBean.employeur.candidatures.size()!=0}">
+                        <p:column>
+                            <p:dataTable var="candidature" value="#{profilEmpBean.employeur.candidatures}" >
+                                <p:column>
+                                    <f:facet name="header">
+                                        <center>
+                                            <h:outputLabel value="Candidature spontanée"/>
+                                        </center>
+                                    </f:facet>
+                                    <h:outputText value="#{candidature.candidat.prenom} #{candidature.candidat.nom}" />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <center>
+                                            <h:outputLabel value="Date"/>
+                                        </center>
+                                    </f:facet>
+                                    <h:outputText value="#{autoCompleteManagedBean.affichageDate(candidature.dateCreation)}" />
+                                </p:column>
+                                <p:column style="text-align: center">
+                                     <f:facet name="header">
+                                        <center>
+                                            <h:outputLabel value="Lien"/>
+                                        </center>
+                                    </f:facet>
+                                    <h:commandLink value="consulter" action="consulterCandidatureSpontanee.xhtml">
+                                        <f:param name="id2" value="#{candidature.id}"/>
+                                    </h:commandLink>
+                                </p:column>
+                            </p:dataTable> 
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                
+                <br/><br/><br/>
+                
+            </h:form>
+        </ui:define>        
+        
+    </ui:decorate>
+    </ui:fragment>
+</html>
+
+
+

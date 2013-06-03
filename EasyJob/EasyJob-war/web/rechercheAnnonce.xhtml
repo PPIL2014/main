@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <ui:fragment rendered="#{not connexionBean.isConnect}" >
+    <ui:decorate template="/templateErreur.xhtml" rendered="#{not connexionBean.isConnect}">
+        <link rel="stylesheet" href="YannCSS.css" />
+    </ui:decorate>
+    </ui:fragment>
+    
+    <ui:fragment rendered="#{connexionBean.isConnect}" >
+    <ui:decorate template="/template.xhtml" >
+        <ui:define name="titre">
+            <h:outputText value="Rechercher une annonce"/>
+        </ui:define>
+		
+        <ui:define name="centre" rendered="#{profilcandBean.candidat ne null}" >
+           <link rel="stylesheet" href="YannCSS.css" />
+           
+           <!-- formulaire de recherche -->
+           <h:form >
+            <p:panelGrid styleClass="panel">     
+                    <p:row >
+                        <p:column>
+                            <h:outputText value="Date de publication : "/>
+                        </p:column>
+                        <p:column>
+                          <p:calendar value="#{rechercheAnnonceBean.date}" id="popupButtonCal" showOn="button" >
+                            
+                              <f:validator validatorId="validerDateRecherche"/>
+                          </p:calendar>
+                        </p:column>
+                    </p:row>
+                
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Contrat : "/>
+                        </p:column>
+                        <p:column colspan="4">
+                                <p:selectOneMenu value="#{rechercheAnnonceBean.contrat}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="Tous" /> 
+                                    <f:selectItems value="#{autoCompleteManagedBean.contrat}" />  
+                                </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Lieu : "/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{rechercheAnnonceBean.lieu}" immediate="true">
+                                <f:selectItem itemValue="#{null}" itemLabel="Tous" /> 
+                                <f:selectItems value="#{rechercheAnnonceBean.getAllVille()}" />
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Secteur : "/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{rechercheAnnonceBean.secteur}" style="width: 200px;" immediate="true">
+                                <f:selectItem itemValue="#{null}" itemLabel="Tous"/>
+                                <f:selectItems value="#{autoCompleteManagedBean.domaineActivite}" />
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row> 
+                
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Salaire minimum : "/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu id="salaire" value="#{rechercheAnnonceBean.salaire}">
+                                    <f:selectItem itemValue="#{-1}" itemLabel="Tous" /> 
+                                    <f:selectItems value="#{autoCompleteManagedBean.getSalaire()}" />  
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Niveau d'étude :"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{rechercheAnnonceBean.niveauEtude}">
+                                <f:selectItem itemValue="#{null}" itemLabel="Tous" /> 
+                                <f:selectItems value="#{autoCompleteManagedBean.getNiveauEtude()}" />  
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Experience exigée :"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{rechercheAnnonceBean.experience}">
+                                    <f:selectItem itemValue="#{-1}" itemLabel="" />
+                                    <f:selectItem itemValue="0" itemLabel="- de 1 an"/>
+                                    <f:selectItem itemValue="1"  itemLabel="1 an"/>
+                                    <f:selectItem itemValue="2" itemLabel="2 ans"/>
+                                    <f:selectItem itemValue="3"  itemLabel="3 ans"/>
+                                    <f:selectItem itemValue="4" itemLabel="4 ans"/>
+                                    <f:selectItem itemValue="5"  itemLabel="5 à 10 ans"/>
+                                    <f:selectItem itemValue="10"  itemLabel="+ de 10 ans"/> 
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    
+                    <p:row>
+                        <p:column/>
+                        <p:column>    
+                          
+                            <p:commandButton ajax="false" value="Rechercher" action="resultatRechercheAnnonce"/>
+                          
+                        </p:column>
+                    </p:row> 
+                </p:panelGrid>
+               <br/><br/><br/>
+           </h:form>
+       </ui:define>
+    </ui:decorate></ui:fragment>
+</html>

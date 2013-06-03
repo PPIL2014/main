@@ -1,0 +1,99 @@
+/* 
+    Document   : YannCSS
+    Created on : 6 avr. 2013, 00:00:58
+    Author     : Yann
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+#login {
+    width: 70%;
+    padding: 7px;
+    float: left;
+    margin-bottom: 35px;
+    margin-right: 8px;
+    text-align: center;
+}
+
+.panel tr, .panel td {
+    border: none;
+    background: none;
+}
+
+
+a:hover			/*propriété d'un lien qu'on "survole"*/
+{color:red;}			/*couleur rouge*/
+
+
+#titre			/*le titre...*/
+{
+text-align:center;			/*centre le texte*/		/*centre le texte*/
+font-family:serif; 			/*police arial*/
+font-style:italic;			/*pas de style particulier*/
+font-size:50px;				/*taille de la police*/
+padding:3px;				/*marge interne (optionnelle)*/
+color: red;
+}
+
+#pied 		/*le pied de page*/
+ {
+clear:both;				/*évite le chevauchement*/
+text-align:center;			/*aligne le texte au centre*/
+}
+
+#menugauche  		/*partie gauche de la page*/
+{
+margin-top:5%;
+float:left;		/*positionne la partie à gauche*/
+width:15%;
+}
+#menucentre 			/*partie centrale de la page*/
+{
+float:left;                             /*aligne le texte à gauche*/
+margin-left:15%;			/*laisse 15.2% de marge/espace a gauche*/
+margin-right:10%;			/*laisse 15.2% de marge/espace a droite*/
+margin-top:5%;                          /*laisse 5% de marge/espace au niveau de la partie supérieur */
+min-width: 40%;
+}
+
+#menudroite			/*partie droite de la page*/
+{
+margin-top: 5%;
+float: right;				/*positionne la partie à droite*/
+width:15%;
+}
+
+#menuhaut
+{
+text-align:center;    
+}
+
+h1
+{
+    text-align:center; 
+}
+
+#reponseSQL
+{
+    text-align:center;
+    background-color: tomato; 
+}
+
+
+
+.data-table table thead tr {
+    display: none;
+}
+
+.data-table table * {
+    border: none !important;
+    text-align:left;
+    background: none;
+    border-top: none;
+    margin-left: 0px;
+ }
+
