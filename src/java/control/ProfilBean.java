@@ -5,13 +5,12 @@
 package control;
 
 import java.util.ArrayList;
-import javax.inject.Named;
-import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import model.Image;
 import model.Utilisateur;
 
 /**
@@ -35,7 +34,7 @@ public class ProfilBean {
         return getUtilisateurSession ().getPseudo() ;
     }
     
-    public String getAvatar () {
+    public Image getAvatar () {
         return getUtilisateurSession ().getAvatar() ;
     }
     

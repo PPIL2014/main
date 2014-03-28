@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ul.dateroulette.bean;
+package control;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -14,7 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
-import ul.dateroulette.model.Utilisateur;
+import model.Utilisateur;
 
 /**
  *
