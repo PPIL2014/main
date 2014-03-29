@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <head>
+        <title>Chat</title>
+        <script type="text/javascript">
+            setInterval("updateMessages()", 200); //update the chart every 200 ms              
+
+            function updateMessages() {
+                #{chatBean.chat()}
+            }
+
+        </script>
+    </head>
+    <body>
+        <h1>Chat</h1>
+        <h:form>
+       
+            <h:graphicImage width="100" height="100" url="#{chatBean.utilisateurSession.sessionChat.utilisateur1.avatar.url}" />
+            <br/><b>Utilisateur 1 : </b><h:outputText value="#{chatBean.utilisateurSession.sessionChat.utilisateur1.pseudo}"></h:outputText>
+       
+            <br/><h:graphicImage width="100" height="100" url="#{chatBean.utilisateurSession.sessionChat.utilisateur2.avatar.url}" />
+            <br/><b>Utilisateur 2 : </b><h:outputText value="#{chatBean.utilisateurSession.sessionChat.utilisateur2.pseudo}"></h:outputText>
+            
+            <hr/>
+            <h:commandButton value="RELOAD" action="#{chatBean.chat}"></h:commandButton>
+            <br/>Liste des messages : <br/>
+            <h:dataTable id ="messages" value="#{chatBean.utilisateurSession.sessionChat.messages}" var="item">
+                <h:column>
+                    <b><h:outputText value="#{item.expediteur.pseudo}"></h:outputText> : </b>
+                    <h:outputText value="#{item.contenu}"/>
+                </h:column>
+            </h:dataTable>
+            
+            <br/>Envoyer un message : <h:inputText id="message" value="#{chatBean.message}"></h:inputText>
+            <br/>
+            <br/><h:commandButton value="ENVOYER" action="#{chatBean.envoyerMessage}">
+                </h:commandButton>
+            
+            <hr/>
+            
+        </h:form>
+        <h:form>
+             <br/>Liste des utilisateurs en attente : <br/>
+            <h:dataTable value="#{chatBean.listeUtilisateurAttente}" var="item">
+                <h:column>            
+                    <h:outputText value="#{item.pseudo}"/><br/>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </body>
+</html>
