@@ -53,11 +53,20 @@ public class LoginBean {
     }
     
     public String connecter() throws Exception{
-        this.ut.begin();
-        Utilisateur u = new Utilisateur(this.pseudo);
-        u.setAvatar(new Image(this.avatar));
-        em.persist(u);
-        this.ut.commit();
+        //this.ut.begin();
+        //Utilisateur u = new Utilisateur(this.pseudo);
+        //Image img = new Image(this.avatar);
+        //em.persist(img);
+        //u.setAvatar(img);
+        //em.persist(u);
+        //this.ut.commit();
+        Utilisateur u = (Utilisateur)em.find(Utilisateur.class, pseudo);
+        if(u == null){
+            this.ut.begin();
+            u = new Utilisateur(pseudo);
+            this.em.persist(u);
+            this.ut.commit();
+        }
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         session.setAttribute("utilisateur", u);

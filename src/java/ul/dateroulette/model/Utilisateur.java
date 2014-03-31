@@ -1,26 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ul.dateroulette.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
-/**
- *
- * @author thomas
- */
 @Entity
 public class Utilisateur implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -28,7 +17,7 @@ public class Utilisateur implements Serializable {
     private String pseudo;
     private String nom;
     private String prenom;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    /*@Temporal(javax.persistence.TemporalType.DATE)
     private Date ddn;
     private String sexe;
     private String adresse;
@@ -36,52 +25,52 @@ public class Utilisateur implements Serializable {
     private String telephone;
     private Boolean estDesinscrit;
     private Boolean estBloque;
-    private Boolean estSupprime;
+    private Boolean estSupprime;*/
 
     /**
      * 
      * @element-type Galerie
      */
-    @OneToMany
-    private ArrayList<Galerie>  galeries;
+//    @OneToMany(cascade= CascadeType.ALL)
+//    private Collection<Galerie>  galeries;
     /**
      * 
      * @element-type Utilisateur
      */
-    @OneToMany
-    private ArrayList<Contact>  contacts;
+    @OneToMany(cascade= CascadeType.ALL)
+    private Collection<Contact>  contacts;
     /**
      * 
      * @element-type Conversation
      */
-    @OneToMany
-    private ArrayList<Conversation>  conversations;
+//    @OneToMany(cascade= CascadeType.ALL)
+//    private Collection<Conversation>  conversations;
     /**
      * 
      * @element-type ReponseQCM
      */
-    @OneToMany
-    private ArrayList<ReponseQCM>  reponsesQCM;
+//    @OneToMany(cascade= CascadeType.ALL)
+//    private Collection<ReponseQCM>  reponsesQCM;
     /**
      * 
      * @element-type ReponseOuverte
      */
-    @OneToMany
-    private ArrayList<ReponseOuverte>  reponsesOuvertes;
+//    @OneToMany(cascade= CascadeType.ALL)
+//    private Collection<ReponseOuverte>  reponsesOuvertes;
     /**
      * 
      * @element-type SessionChat
      */
-    @OneToMany
-    private ArrayList<SessionChat>  sessionsChat;
+//    @OneToMany(cascade= CascadeType.ALL)
+//    private Collection<SessionChat>  sessionsChat;
     /**
      * 
      * @element-type Contact
      */
     @OneToOne
     private Image avatar;
-    @OneToOne
-    private Session session;
+//    @OneToOne
+//    private Session session;
     @OneToOne
     private SessionChat sessionChat;
     
@@ -117,7 +106,7 @@ public class Utilisateur implements Serializable {
         this.prenom = prenom;
     }
     
-    public Date getDdn() {
+    /*public Date getDdn() {
         return ddn;
     }
     
@@ -181,53 +170,53 @@ public class Utilisateur implements Serializable {
         this.estSupprime = estSupprime;
     }
     
-    public ArrayList<Galerie> getGaleries() {
+    public Collection<Galerie> getGaleries() {
         return galeries;
     }
     
-    public void setGaleries(ArrayList<Galerie> galeries) {
+    public void setGaleries(Collection<Galerie> galeries) {
         this.galeries = galeries;
-    }
+    }*/
     
-    public ArrayList<Contact> getContacts() {
+    public Collection<Contact> getContacts() {
         return contacts;
     }
     
-    public void setContacts(ArrayList<Contact> contacts) {
+    public void setContacts(Collection<Contact> contacts) {
         this.contacts = contacts;
     }
-    
-    public ArrayList<Conversation> getConversations() {
+   
+    /*public Collection<Conversation> getConversations() {
         return conversations;
     }
     
-    public void setConversations(ArrayList<Conversation> conversations) {
+    public void setConversations(Collection<Conversation> conversations) {
         this.conversations = conversations;
     }
     
-    public ArrayList<ReponseQCM> getReponsesQCM() {
+    public Collection<ReponseQCM> getReponsesQCM() {
         return reponsesQCM;
     }
     
-    public void setReponsesQCM(ArrayList<ReponseQCM> reponsesQCM) {
+    public void setReponsesQCM(Collection<ReponseQCM> reponsesQCM) {
         this.reponsesQCM = reponsesQCM;
     }
     
-    public ArrayList<ReponseOuverte> getReponsesOuvertes() {
+    public Collection<ReponseOuverte> getReponsesOuvertes() {
         return reponsesOuvertes;
     }
     
-    public void setReponsesOuvertes(ArrayList<ReponseOuverte> reponsesOuvertes) {
+    public void setReponsesOuvertes(Collection<ReponseOuverte> reponsesOuvertes) {
         this.reponsesOuvertes = reponsesOuvertes;
     }    
     
-    public ArrayList<SessionChat> getSessionsChat() {
+    public Collection<SessionChat> getSessionsChat() {
         return sessionsChat;
     }
     
-    public void setSessionsChat(ArrayList<SessionChat> sessionsChat) {
+    public void setSessionsChat(Collection<SessionChat> sessionsChat) {
         this.sessionsChat = sessionsChat;
-    }
+    }*/
     
     public Image getAvatar() {
         return avatar;
@@ -237,13 +226,13 @@ public class Utilisateur implements Serializable {
         this.avatar = avatar;
     }
     
-    public Session getSession() {
+    /*public Session getSession() {
         return session;
     }
     
     public void setSession(Session session) {
         this.session = session;
-    }
+    }*/
 
     public SessionChat getSessionChat() {
         return sessionChat;

@@ -47,8 +47,6 @@ public class ChatBean implements Serializable {
         //si l'utilisateur est déja entrain de chater, on quitte la fonction !
         if (u1.getSessionChat() != null)
             return "chat.xhtml" ;
-        
-        this.ut.begin();
         if (!listeAttente.isEmpty()) {
             if (u1.equals(listeAttente.get(0))) {
                  if (!u1.equals(listeAttente.get(listeAttente.size()-1))) {
@@ -120,7 +118,9 @@ public class ChatBean implements Serializable {
         this.ut.begin();
         Utilisateur u = getUtilisateurSession() ;
         SessionChat chat = getChat();
-        chat.getMessages().add(new MessageChat(message,u));
+        MessageChat msg = new MessageChat(message,u);
+        this.em.persist(msg);
+        chat.getMessages().add(msg);
         this.em.merge(chat);
         this.ut.commit();
         return "chat.xhtml" ;

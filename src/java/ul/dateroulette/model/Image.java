@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ul.dateroulette.model;
 
 import java.io.Serializable;
@@ -15,25 +9,21 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
-/**
- *
- * @author thomas
- */
 @Entity
 public class Image implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String nom;
+    //private String nom;
     private String url;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    /*@Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
     private String description;
     private Boolean signalee;
     private Boolean estRetiree;
     @OneToOne
-    private Galerie galerie;
+    private Galerie galerie;*/
     
     public Image(){
         
@@ -51,7 +41,7 @@ public class Image implements Serializable {
         return null;
     }
 
-    public String getNom() {
+    /*public String getNom() {
         return nom;
     }
 
@@ -97,7 +87,7 @@ public class Image implements Serializable {
 
     public void setGalerie(Galerie galerie) {
         this.galerie = galerie;
-    }
+    }*/
 
     public Long getId() {
         return id;

@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package ul.dateroulette.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,10 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-/**
- *
- * @author thomas
- */
 @Entity
 public class Galerie implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -33,8 +24,8 @@ public class Galerie implements Serializable {
      * 
      * @element-type Image
      */
-    @OneToMany
-    private ArrayList<Image>  images;
+    @OneToMany(cascade= CascadeType.ALL)
+    private Collection<Image>  images;
     
     public void ajouterImage(Image image) {
     }
@@ -74,11 +65,11 @@ public class Galerie implements Serializable {
         this.proprietaire = proprietaire;
     }
 
-    public ArrayList<Image> getImages() {
+    public Collection<Image> getImages() {
         return images;
     }
 
-    public void setImages(ArrayList<Image> images) {
+    public void setImages(Collection<Image> images) {
         this.images = images;
     }
 
