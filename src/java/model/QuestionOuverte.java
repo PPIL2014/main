@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ul.dateroulette.model;
+package model;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -23,12 +23,10 @@ public class QuestionOuverte extends Question implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }

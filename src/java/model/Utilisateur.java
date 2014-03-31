@@ -84,6 +84,14 @@ public class Utilisateur implements Serializable {
     private Image avatar;
     @OneToOne
     private Session session;
+
+    public Utilisateur(String pseudo, String avatar) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Utilisateur() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     public String getPseudo() {
         return pseudo;
@@ -230,7 +238,15 @@ public class Utilisateur implements Serializable {
 
     @Override
     public String toString() {
-        return "ul.dateroulette.entity.Utilisateur[ id=" + id + " ]";
+        return "model.entity.Utilisateur[ id=" + id + " ]";
+    }
+
+    public Chat getChat() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void setChat(Chat c) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

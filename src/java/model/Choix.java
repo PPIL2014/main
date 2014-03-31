@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package ul.dateroulette.model;
+package model;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
