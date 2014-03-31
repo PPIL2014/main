@@ -19,13 +19,13 @@ import ul.dateroulette.model.Utilisateur;
 @Named(value = "chatBean")
 @RequestScoped
 public class ChatBean implements Serializable {
-    
+    /*
     @PersistenceContext 
     private EntityManager em;
 
     @Resource 
     private UserTransaction ut;
-
+*/
     @ManagedProperty(value="#{message}")
     private String message;
     
@@ -48,7 +48,7 @@ public class ChatBean implements Serializable {
         if (u1.getSessionChat() != null)
             return "chat.xhtml" ;
         
-        this.ut.begin();
+        //this.ut.begin();
         if (!listeAttente.isEmpty()) {
             if (u1.equals(listeAttente.get(0))) {
                  if (!u1.equals(listeAttente.get(listeAttente.size()-1))) {
@@ -59,14 +59,14 @@ public class ChatBean implements Serializable {
                 u2 = listeAttente.remove(0) ;
             }
             if (u2 != null) {
-                this.ut.begin();
+                //this.ut.begin();
                 SessionChat c = new SessionChat (u1,u2) ;
-                this.em.persist(c);
+                //this.em.persist(c);
                 u1.setSessionChat(c);
-                this.em.merge(u1);
+                //this.em.merge(u1);
                 u2.setSessionChat(c);
-                this.em.merge(u2);
-                this.ut.commit();
+                //this.em.merge(u2);
+                //this.ut.commit();
             } else {
                 return "profil.xhtml" ;
             }
@@ -96,11 +96,11 @@ public class ChatBean implements Serializable {
     }
 
     public void setChat(SessionChat chat) throws Exception {
-        this.ut.begin();
+        //this.ut.begin();
         Utilisateur u = getUtilisateurSession() ;
         u.setSessionChat(chat);
-        this.em.merge(u);
-        this.ut.commit();
+        //this.em.merge(u);
+        //this.ut.commit();
     }
     
     public ArrayList<Utilisateur> getListeUtilisateurAttente () {
@@ -117,12 +117,12 @@ public class ChatBean implements Serializable {
     }
     
     public String envoyerMessage () throws Exception {
-        this.ut.begin();
+        //this.ut.begin();
         Utilisateur u = getUtilisateurSession() ;
         SessionChat chat = getChat();
         chat.getMessages().add(new MessageChat(message,u));
-        this.em.merge(chat);
-        this.ut.commit();
+        //this.em.merge(chat);
+        //this.ut.commit();
         return "chat.xhtml" ;
     }
 }

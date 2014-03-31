@@ -17,13 +17,13 @@ import ul.dateroulette.model.Utilisateur;
 @ManagedBean
 @RequestScoped
 public class LoginBean {
-
+/*
     @PersistenceContext 
     private EntityManager em;
 
     @Resource 
     private UserTransaction ut;
-    
+    */
     @ManagedProperty(value="#{pseudo}")
     private String pseudo;
     @ManagedProperty(value="#{avatar}")
@@ -53,11 +53,11 @@ public class LoginBean {
     }
     
     public String connecter() throws Exception{
-        this.ut.begin();
+        //this.ut.begin();
         Utilisateur u = new Utilisateur(this.pseudo);
         u.setAvatar(new Image(this.avatar));
-        em.persist(u);
-        this.ut.commit();
+        //em.persist(u);
+        //this.ut.commit();
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         session.setAttribute("utilisateur", u);
