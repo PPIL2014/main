@@ -19,13 +19,13 @@ import ul.dateroulette.model.Utilisateur;
 @Named(value = "chatBean")
 @RequestScoped
 public class ChatBean implements Serializable {
-    
+
     @PersistenceContext 
     private EntityManager em;
 
     @Resource 
     private UserTransaction ut;
-
+    
     @ManagedProperty(value="#{message}")
     private String message;
     

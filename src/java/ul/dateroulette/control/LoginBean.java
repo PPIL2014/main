@@ -11,19 +11,17 @@ import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
-import ul.dateroulette.model.Image;
 import ul.dateroulette.model.Utilisateur;
 
 @ManagedBean
 @RequestScoped
 public class LoginBean {
-
     @PersistenceContext 
     private EntityManager em;
 
     @Resource 
     private UserTransaction ut;
-    
+
     @ManagedProperty(value="#{pseudo}")
     private String pseudo;
     @ManagedProperty(value="#{avatar}")
@@ -53,13 +51,6 @@ public class LoginBean {
     }
     
     public String connecter() throws Exception{
-        //this.ut.begin();
-        //Utilisateur u = new Utilisateur(this.pseudo);
-        //Image img = new Image(this.avatar);
-        //em.persist(img);
-        //u.setAvatar(img);
-        //em.persist(u);
-        //this.ut.commit();
         Utilisateur u = (Utilisateur)em.find(Utilisateur.class, pseudo);
         if(u == null){
             this.ut.begin();
@@ -71,6 +62,5 @@ public class LoginBean {
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         session.setAttribute("utilisateur", u);
         return "profil.xhtml" ;
-    }
-    
+    }    
 }
