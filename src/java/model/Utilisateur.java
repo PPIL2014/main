@@ -36,6 +36,7 @@ public class Utilisateur implements Serializable {
     private String adresse;
     private String mail;
     private String telephone;
+    private String mdp;
     private Boolean estDesinscrit;
     private Boolean estBloque;
     private Boolean estSupprime;
@@ -84,13 +85,9 @@ public class Utilisateur implements Serializable {
     private Image avatar;
     @OneToOne
     private Session session;
-
-    public Utilisateur(String pseudo, String avatar) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
     public Utilisateur() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
     public String getPseudo() {
@@ -206,7 +203,10 @@ public class Utilisateur implements Serializable {
     }
     public void setSession(Session session) {
         this.session = session;
-    }	
+    }
+    public void setMdp(String mdp) {
+        //this.mdp = sha1(mdp);
+    }
 
     public Long getId() {
         return id;

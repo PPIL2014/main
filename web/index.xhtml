@@ -6,10 +6,11 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
+        <a href="faces/inscription.xhtml">S'inscrire</a>
         <h:form> page de LOGIN <br/> Pseudo : 
             <h:inputText id="pseudo" value="#{loginBean.pseudo}"></h:inputText>
             <br/> Photo  : 
-            <h:inputText id="photo" value="#{loginBean.avatar}"></h:inputText>
+            <h:inputText id="mdp" value="#{loginBean.mdp}"></h:inputText>
             <h:commandButton value="Login" action="#{loginBean.connecter}"></h:commandButton> 
         </h:form>
     </h:body>
