@@ -54,7 +54,14 @@ public class MessagerieAsyncControl {
     }
     
     public ArrayList<MessageConversation> getMessages(){
-        return conversation.getMessages();
+        
+        for(Conversation c : expediteur.getConversations()){
+            if(c.getDestinataire().equals(destinataire)){
+                setConversation(c);
+            }
+        }
+        
+        return null;
     }
 
     public Utilisateur getExpediteur() {
