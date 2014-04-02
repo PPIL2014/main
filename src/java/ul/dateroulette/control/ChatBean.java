@@ -1,23 +1,28 @@
 package ul.dateroulette.control;
 
-import javax.inject.Named;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.annotation.Resource;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import javax.transaction.NotSupportedException;
 import javax.transaction.UserTransaction;
+import org.primefaces.context.RequestContext;
 import ul.dateroulette.model.MessageChat;
 import ul.dateroulette.model.SessionChat;
 import ul.dateroulette.model.Utilisateur;
 
-@Named(value = "chatBean")
-@RequestScoped
+@ManagedBean
+@ViewScoped
 public class ChatBean implements Serializable {
    
     @PersistenceContext 
@@ -32,11 +37,15 @@ public class ChatBean implements Serializable {
     @ManagedProperty(value="#{utilisateurSession}")
     private Utilisateur utilisateurSession ;
     
+    private Date lastUpdate;
+    
     public ChatBean() {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         if(servletContext.getAttribute("listeUtilisateursAttente") == null){
             servletContext.setAttribute("listeUtilisateursAttente", new ArrayList<Utilisateur>());
         }
+        
+        lastUpdate = new Date(0);
     }
     
     public String chat() throws Exception {
@@ -76,11 +85,33 @@ public class ChatBean implements Serializable {
         }
     }
     
+    public String chatCopain(Utilisateur ami) throws Exception {
+        Utilisateur u1 = getUtilisateurSession() ;
+        
+        //si on est deja dans un chat !
+        if (u1.getSessionChat() != null)
+            return "chat.xhtml" ;
+        //si l'ami est valide on chat
+        if (ami != null) {
+            this.ut.begin();
+            SessionChat c = new SessionChat (u1,ami) ;
+            this.em.persist(c);
+            u1.setSessionChat(c);
+            this.em.merge(u1);
+            ami.setSessionChat(c);
+            this.em.merge(ami);
+            this.ut.commit();
+        } else {
+            return "listeAmis.xhtml" ;
+        }
+        return "chat.xhtml" ;
+    }
+    
     public Utilisateur getUtilisateurSession () {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-        utilisateurSession = (Utilisateur) session.getAttribute("utilisateur") ;
-        return utilisateurSession;
+        utilisateurSession = (Utilisateur)em.find(Utilisateur.class,(String)session.getAttribute("pseudoUtilisateur")) ;
+        return utilisateurSession ;
     }
     
     public void setUtilisateurSession (Utilisateur u) {
@@ -91,6 +122,18 @@ public class ChatBean implements Serializable {
         //on recupere le chat de l'utilisateur en session
         Utilisateur u = getUtilisateurSession() ;
         return u.getSessionChat() ;
+    }
+    
+    public void envoyerMessage(ActionEvent evt) throws Exception 
+    {         
+        this.ut.begin();
+        Utilisateur u = getUtilisateurSession() ;
+        SessionChat chat = getChat();
+        MessageChat msg = new MessageChat(message,u);
+        this.em.persist(msg);
+        chat.getMessages().add(msg);
+        this.em.merge(chat);
+        this.ut.commit();
     }
 
     public void setChat(SessionChat chat) throws Exception {
@@ -114,7 +157,7 @@ public class ChatBean implements Serializable {
         this.message = message ;
     }
     
-    public String envoyerMessage () throws Exception {
+    /*public String envoyerMessage () throws Exception {
         this.ut.begin();
         Utilisateur u = getUtilisateurSession() ;
         SessionChat chat = getChat();
@@ -124,5 +167,21 @@ public class ChatBean implements Serializable {
         this.em.merge(chat);
         this.ut.commit();
         return "chat.xhtml" ;
+    }*/
+   
+    
+    public void firstUnreadMessage(ActionEvent evt) 
+    { 
+        RequestContext ctx = RequestContext.getCurrentInstance(); 
+        MessageChat m = getChat().getFirstAfter(lastUpdate); 
+        
+        ctx.addCallbackParam("ok", m!=null); 
+        if(m==null) 
+            return; 
+        lastUpdate = m.getDate(); 
+        
+        ctx.addCallbackParam("user", m.getExpediteur().getPseudo());
+        ctx.addCallbackParam("dateSent", m.getDate().toString()); 
+        ctx.addCallbackParam("text", m.getContenu()); 
     }
 }

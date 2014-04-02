@@ -3,6 +3,10 @@ package ul.dateroulette.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +31,7 @@ public class SessionChat implements Serializable {
      * @element-type MessageChat
      */
     @OneToMany(cascade= CascadeType.ALL)
-    private Collection<MessageChat>  messages;
+    private List<MessageChat>  messages;
     
     public SessionChat(){
         
@@ -36,7 +40,7 @@ public class SessionChat implements Serializable {
     public SessionChat(Utilisateur user1, Utilisateur user2){
         this.utilisateur1 = user1;
         this.utilisateur2 = user2;
-        this.messages = new ArrayList<MessageChat>();
+        this.messages = Collections.synchronizedList(new LinkedList());
     }
 
     public Boolean getEstDemarree() {
@@ -67,7 +71,7 @@ public class SessionChat implements Serializable {
         return messages;
     }
 
-    public void setMessages(Collection<MessageChat> messages) {
+    public void setMessages(List<MessageChat> messages) {
         this.messages = messages;
     }
 
@@ -112,4 +116,18 @@ public class SessionChat implements Serializable {
         return "ul.dateroulette.entity.SessionChat[ id=" + id + " ]";
     }
     
+    public MessageChat getFirstAfter(Date lastUpdate) 
+    { 
+        if(messages.isEmpty()) 
+            return null; 
+        if(lastUpdate == null) 
+            return messages.get(0); 
+        
+        for(MessageChat m : messages) 
+        { if(m.getDate().after(lastUpdate)) 
+            return m; 
+        } 
+        
+        return null; 
+    }   
 }

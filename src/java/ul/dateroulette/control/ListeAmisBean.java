@@ -1,15 +1,28 @@
 package ul.dateroulette.control;
 
 import java.util.ArrayList;
-import javax.inject.Named;
+import java.util.Collection;
+import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import javax.transaction.UserTransaction;
+import ul.dateroulette.model.Contact;
 import ul.dateroulette.model.Utilisateur;
 
-@Named(value = "listeAmisBean")
+@ManagedBean
 @RequestScoped
 public class ListeAmisBean {
+    
+    @PersistenceContext 
+    private EntityManager em;
+
+    @Resource 
+    private UserTransaction ut;
     
     public ListeAmisBean() {
         
@@ -19,17 +32,20 @@ public class ListeAmisBean {
         return "listeAmis.xhtml" ;
     }
     
-    public ArrayList<Utilisateur> getListeAmis () {
-        return getUtilisateurSession ().getListeAmis () ;
+    public Collection<Contact> getContacts () {
+        return getUtilisateurSession ().getContacts () ;
     }
     
     public boolean estConnecte (Utilisateur u) {
-        return true ;
+        ServletContext servletContext = (ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext();
+        ArrayList<String> listeUserConnect = (ArrayList<String>)servletContext.getAttribute("listeUtilisateursConnecte") ;
+        return listeUserConnect.contains(u.getPseudo()) ;
     }
     
     public Utilisateur getUtilisateurSession () {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-        return (Utilisateur) session.getAttribute("utilisateur") ;
+        Utilisateur utilisateurSession = (Utilisateur)em.find(Utilisateur.class,(String)session.getAttribute("pseudoUtilisateur")) ;
+        return utilisateurSession ;
     }
 }

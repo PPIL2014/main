@@ -30,6 +30,7 @@ public class MessageChat implements Serializable {
     public MessageChat(String contenu, Utilisateur user){
         this.contenu = contenu;
         this.expediteur = user;
+        this.date =  new Date();
     }
     
     public String getContenu() {

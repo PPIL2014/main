@@ -32,6 +32,9 @@ public class LoginBean {
         if(servletContext.getAttribute("listeUtilisateursAttente") == null){
             servletContext.setAttribute("listeUtilisateursAttente", new ArrayList<Utilisateur>());
         }
+        if(servletContext.getAttribute("listeUtilisateursConnecte") == null){
+            servletContext.setAttribute("listeUtilisateursConnecte", new ArrayList<String>());
+        }
     }
     
     public String getPseudo(){
@@ -60,7 +63,10 @@ public class LoginBean {
         }
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-        session.setAttribute("utilisateur", u);
+         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        ArrayList<String> listeConnecte = (ArrayList<String>)servletContext.getAttribute("listeUtilisateursConnecte");
+        listeConnecte.add(this.pseudo);
+        session.setAttribute("pseudoUtilisateur", u.getPseudo());
         return "profil.xhtml" ;
     }    
 }

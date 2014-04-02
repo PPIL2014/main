@@ -208,7 +208,7 @@ public class Utilisateur implements Serializable {
     
     public void setReponsesOuvertes(Collection<ReponseOuverte> reponsesOuvertes) {
         this.reponsesOuvertes = reponsesOuvertes;
-    }    
+    }  
     
     public Collection<SessionChat> getSessionsChat() {
         return sessionsChat;
@@ -266,5 +266,8 @@ public class Utilisateur implements Serializable {
     public String toString() {
         return "ul.dateroulette.entity.Utilisateur[ pseudo=" + pseudo + " ]";
     }
+    
+    
+    
     
 }
