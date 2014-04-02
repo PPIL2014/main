@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        Hello from Facelets
+        <img src="#{messagerieAsyncControl.destinataire.avatar}" alt="Pas de photo"/>
+        <h1>Messagerie avec #{messagerieAsyncControl.destinataire.pseudo}</h1>
+        <c:forEach var="message" items="#{MessagerieAsyncControl.messages}">
+            <p>#{message.conversation.expediteur} #{message.date} : #{message.contenu}</p>
+        </c:forEach>
+        <h:form>
+            <h:inputText value="Entrez votre message ici..." required="true"/>
+            <h:commandButton value="Envoyer" action="#{MessagerieAsyncControl.send}"/>
+        </h:form>
+    </h:body>
+</html>
+
