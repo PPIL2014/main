@@ -4,7 +4,7 @@
  */
 package control;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -44,8 +44,8 @@ public class ProfilBean {
         return (Utilisateur) session.getAttribute("utilisateur");
     }
     
-    public ArrayList<Utilisateur> getListeUtilisateurAttente () {
+    public Collection<Utilisateur> getListeUtilisateurAttente () {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
+        return (Collection<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
     }
 }

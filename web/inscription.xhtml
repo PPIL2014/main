@@ -8,21 +8,31 @@
     </h:head>
     <h:body>
         <h:form> page d'inscription <br/>
-            <label>Nom : <h:inputText id="nom" value="#{inscriptionBean.nom}"></h:inputText><br/></label>
-            <label>Prenom : <h:inputText id="prenom" value="#{inscriptionBean.prenom}"></h:inputText></label><br/>
-            <label>Date de naissance : <h:inputText id="naissance" value="#{inscriptionBean.naissance}"></h:inputText></label><br/>
+             <h:message errorStyle="color:red" for="nom"></h:message>
+            <label>Nom : <h:inputText id="nom" value="#{inscriptionBean.nom}" required="true" requiredMessage="Nom manquant" ></h:inputText><br/></label>
+              <h:message errorStyle="color:red" for="prenom"></h:message> 
+            <label>Prenom : <h:inputText id="prenom" value="#{inscriptionBean.prenom}" required="true" requiredMessage="Prenom manquant"></h:inputText></label><br/>
+           <h:message errorStyle="color:red" for="naissance"></h:message>
+            <label>Date de naissance : <h:inputText id="naissance" value="#{inscriptionBean.naissance}" required="true" requiredMessage="Date de naissance manquant"></h:inputText></label><br/>
             <label><h:selectOneMenu id="sexe">
                 <f:selectItem itemLabel="Homme" itemValue="h"></f:selectItem>
                 <f:selectItem itemLabel="Femme" itemValue="f"></f:selectItem>
             </h:selectOneMenu></label><br/>
-            <label>Pseudo : <h:inputText id="pseudo" value="#{inscriptionBean.pseudo}"></h:inputText></label><br/>
-            <label>Mot de passe : <h:inputSecret id="mdp" value="#{inscriptionBean.mdp}"></h:inputSecret></label><br/>
-            <label>Confirmation : <h:inputSecret id="mdp2" value="#{inscriptionBean.mdp2}"></h:inputSecret></label><br/>
-            <label>Adresse : <h:inputText id="adresse" value="#{inscriptionBean.adresse}"></h:inputText></label><br/>
-            <label>Téléphone : <h:inputText id="telephone" value="#{inscriptionBean.telephone}"></h:inputText></label><br/>
-            <label>Courriel : <h:inputText id="mail" value="#{inscriptionBean.mail}"></h:inputText></label><br/>
-            <h:commandButton value="inscrire" action="#{inscriptionBean.inscrire}"></h:commandButton> 
+            <h:message errorStyle="color:red" for="pseudo"></h:message>
+            <label>Pseudo : <h:inputText id="pseudo" value="#{inscriptionBean.pseudo}" required="true" requiredMessage="Login déjà utilisé ou manquant"></h:inputText></label><br/>
+             <h:message errorStyle="color:red" for="mdp"></h:message>
+             <label>Mot de passe : <h:inputSecret id="mdp" value="#{inscriptionBean.mdp}"  required="true" requiredMessage="Mot de passe manquant"></h:inputSecret></label><br/>
+              <h:message errorStyle="color:red" for="mdp2"></h:message>
+             <label>Confirmation : <h:inputSecret id="mdp2" value="#{inscriptionBean.mdp2}" required="true" requiredMessage="Mot de passe manquant"></h:inputSecret></label><br/>
+               <h:message errorStyle="color:red" for="adresse"></h:message>
+             <label>Adresse : <h:inputText id="adresse" value="#{inscriptionBean.adresse}" required="true" requiredMessage="Adresse"></h:inputText></label><br/>
+              <h:message errorStyle="color:red" for="telephone"></h:message>
+             <label>Téléphone : <h:inputText id="telephone" value="#{inscriptionBean.telephone}" required="true" requiredMessage="telephone"></h:inputText></label><br/>
+            <label>Courriel : <h:inputText id="mail" value="#{inscriptionBean.mail}" required="true" requiredMessage="Mail"></h:inputText></label><br/>
+            <h:commandButton value="inscrire" action="#{inscriptionBean.inscrire}" ></h:commandButton> 
+  
         </h:form>
+  
     </h:body>
 </html>
 

@@ -1,6 +1,6 @@
 package control;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -33,10 +33,6 @@ public class LoginBean {
     private String mdp;
             
     public LoginBean() {
-        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        if(servletContext.getAttribute("listeUtilisateursAttente") == null){
-            servletContext.setAttribute("listeUtilisateursAttente", new ArrayList<Utilisateur>());
-        }
     }
     
     public String getPseudo(){
@@ -74,8 +70,8 @@ public class LoginBean {
      * @return true si correct, false sinon 
      */ 
     public boolean verifMdp() { 
-        Query query = em.createQuery("select u.mdp from Utilisateur u where u.pseudo=\"" + pseudo + "\""); 
-        String mdp_bdd = query.getSingleResult().toString(); 
+        Query query = em.createQuery("select u.mdp from Utilisateur u where u.pseudo='"+pseudo+"'"); 
+        String mdp_bdd = (String)query.getSingleResult(); 
         boolean res = false; 
         if (mdp.equals(mdp_bdd)) { 
             res = true; 
@@ -87,7 +83,7 @@ public class LoginBean {
         if (verifPseudo()) { 
             if (verifMdp()) {
                 utilisateur = em.find(Utilisateur.class, pseudo);
-                return "index"; 
+                return "profil.xhtml"; 
             } else {
                 setMdp("");
                 FacesContext context = FacesContext.getCurrentInstance(); 
@@ -105,7 +101,7 @@ public class LoginBean {
         //Destroy session
         ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).invalidate();
         
-        return "faces/index.xhtml";
+        return "index.xhtml";
     }
     
 }

@@ -2,7 +2,7 @@ package control;
 
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collection;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedProperty;
 
@@ -24,14 +24,11 @@ public class ChatBean implements Serializable {
     private Utilisateur utilisateurSession ;
     
     public ChatBean() {
-        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        if(servletContext.getAttribute("listeUtilisateursAttente") == null){
-            servletContext.setAttribute("listeUtilisateursAttente", new ArrayList<Utilisateur>());
-        }
+ 
     }
     
     public String chat() {
-        ArrayList<Utilisateur> listeAttente = getListeUtilisateurAttente() ;
+        Collection<Utilisateur> listeAttente = getListeUtilisateurAttente() ;
         Utilisateur u1 = getUtilisateurSession() ;
         Utilisateur u2 = null ;
         
@@ -85,9 +82,9 @@ public class ChatBean implements Serializable {
         u.setChat(chat);
     }
     
-    public ArrayList<Utilisateur> getListeUtilisateurAttente () {
+    public Collection<Utilisateur> getListeUtilisateurAttente () {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
+        return (Collection<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
     }
     
     public String getMessage () {

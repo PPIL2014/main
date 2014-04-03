@@ -7,7 +7,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,14 +19,12 @@ import javax.persistence.Temporal;
 
 /**
  *
- * @author thomas
+ * @author mac
  */
 @Entity
+
 public class Utilisateur implements Serializable {
-    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     private String pseudo;
     private String nom;
     private String prenom;
@@ -46,37 +44,37 @@ public class Utilisateur implements Serializable {
      * @element-type Galerie
      */
     @OneToMany
-    private ArrayList<Galerie>  galeries;
+    private Collection<Galerie>  galeries;
     /**
      * 
      * @element-type Utilisateur
      */
     @OneToMany
-    private ArrayList<Contact>  contacts;
+    private Collection<Contact>  contacts;
     /**
      * 
      * @element-type Conversation
      */
     @OneToMany
-    private ArrayList<Conversation>  conversations;
+    private Collection<Conversation>  conversations;
     /**
      * 
      * @element-type ReponseQCM
      */
     @OneToMany
-    private ArrayList<ReponseQCM>  reponsesQCM;
+    private Collection<ReponseQCM>  reponsesQCM;
     /**
      * 
      * @element-type ReponseOuverte
      */
     @OneToMany
-    private ArrayList<ReponseOuverte>  reponsesOuvertes;
+    private Collection<ReponseOuverte>  reponsesOuvertes;
     /**
      * 
      * @element-type SessionChat
      */
     @OneToMany
-    private ArrayList<SessionChat>  sessionsChat;
+    private Collection<SessionChat>  sessionsChat;
     /**
      * 
      * @element-type Contact
@@ -156,40 +154,40 @@ public class Utilisateur implements Serializable {
     public void setEstSupprime(Boolean estSupprime) {
         this.estSupprime = estSupprime;
     }
-    public ArrayList<Galerie> getGaleries() {
+    public Collection<Galerie> getGaleries() {
         return galeries;
     }
-    public void setGaleries(ArrayList<Galerie> galeries) {
+    public void setGaleries(Collection<Galerie> galeries) {
         this.galeries = galeries;
     }
-    public ArrayList<Contact> getContacts() {
+    public Collection<Contact> getContacts() {
         return contacts;
     }
-    public void setContacts(ArrayList<Contact> contacts) {
+    public void setContacts(Collection<Contact> contacts) {
         this.contacts = contacts;
     }
-    public ArrayList<Conversation> getConversations() {
+    public Collection<Conversation> getConversations() {
         return conversations;
     }
-    public void setConversations(ArrayList<Conversation> conversations) {
+    public void setConversations(Collection<Conversation> conversations) {
         this.conversations = conversations;
     }
-    public ArrayList<ReponseQCM> getReponsesQCM() {
+    public Collection<ReponseQCM> getReponsesQCM() {
         return reponsesQCM;
     }
-    public void setReponsesQCM(ArrayList<ReponseQCM> reponsesQCM) {
+    public void setReponsesQCM(Collection<ReponseQCM> reponsesQCM) {
         this.reponsesQCM = reponsesQCM;
     }
-    public ArrayList<ReponseOuverte> getReponsesOuvertes() {
+    public Collection<ReponseOuverte> getReponsesOuvertes() {
         return reponsesOuvertes;
     }
-    public void setReponsesOuvertes(ArrayList<ReponseOuverte> reponsesOuvertes) {
+    public void setReponsesOuvertes(Collection<ReponseOuverte> reponsesOuvertes) {
         this.reponsesOuvertes = reponsesOuvertes;
     }
-    public ArrayList<SessionChat> getSessionsChat() {
+    public Collection<SessionChat> getSessionsChat() {
         return sessionsChat;
     }
-    public void setSessionsChat(ArrayList<SessionChat> sessionsChat) {
+    public void setSessionsChat(Collection<SessionChat> sessionsChat) {
         this.sessionsChat = sessionsChat;
     }
     public Image getAvatar() {
@@ -206,20 +204,13 @@ public class Utilisateur implements Serializable {
     }
     public void setMdp(String mdp) {
         //this.mdp = sha1(mdp);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.mdp = mdp;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (pseudo != null ? pseudo.hashCode() : 0);
         return hash;
     }
 
@@ -230,7 +221,7 @@ public class Utilisateur implements Serializable {
             return false;
         }
         Utilisateur other = (Utilisateur) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.pseudo == null && other.pseudo != null) || (this.pseudo != null && !this.pseudo.equals(other.pseudo))) {
             return false;
         }
         return true;
@@ -238,7 +229,7 @@ public class Utilisateur implements Serializable {
 
     @Override
     public String toString() {
-        return "model.entity.Utilisateur[ id=" + id + " ]";
+        return "model.entity.Utilisateur[ id=" + pseudo + " ]";
     }
 
     public Chat getChat() {
@@ -248,5 +239,7 @@ public class Utilisateur implements Serializable {
     public void setChat(Chat c) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+   
     
 }

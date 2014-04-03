@@ -1,7 +1,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,16 +16,10 @@ public class Chat implements Serializable {
     
     private Utilisateur user1;
     private Utilisateur user2;
-    private ArrayList<Message> listeMessages;
+    private Collection<Message> listeMessages;
     
     public Chat(){
         
-    }
-    
-    public Chat(Utilisateur user1, Utilisateur user2){
-        this.user1 = user1;
-        this.user2 = user2;
-        this.listeMessages = new ArrayList<Message>();
     }
     
     public Long getId() {
@@ -52,11 +46,11 @@ public class Chat implements Serializable {
         this.user2 = user2;
     }
 
-    public ArrayList<Message> getListeMessages() {
+    public Collection<Message> getListeMessages() {
         return this.listeMessages;
     }
 
-    public void setListeMessages(ArrayList<Message> listeMessages) {
+    public void setListeMessages(Collection<Message> listeMessages) {
         this.listeMessages = listeMessages;
     }
 

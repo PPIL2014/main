@@ -180,6 +180,7 @@ public class InscriptionBean {
             u.setSexe(sexe);
             u.setTelephone(telephone);
             u.setMdp(mdp);
+            System.out.println("TOOOOOTOOTOTOTOTOTOTOOT");
             try {
                 ut.begin();
                 em.persist(u);

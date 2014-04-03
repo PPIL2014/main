@@ -7,7 +7,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +30,7 @@ public class Question implements Serializable {
      * @element-type Questionnaire
      */
     @OneToMany
-    private ArrayList<Questionnaire>  questionnaires;
+    private Collection<Questionnaire>  questionnaires;
     
     public String getQuestion() {
         return question;
@@ -40,11 +40,11 @@ public class Question implements Serializable {
         this.question = question;
     }
 
-    public ArrayList<Questionnaire> getQuestionnaires() {
+    public Collection<Questionnaire> getQuestionnaires() {
         return questionnaires;
     }
 
-    public void setQuestionnaires(ArrayList<Questionnaire> questionnaires) {
+    public void setQuestionnaires(Collection<Questionnaire> questionnaires) {
         this.questionnaires = questionnaires;
     }
 
