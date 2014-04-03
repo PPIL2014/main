@@ -67,7 +67,7 @@ public class ProfilBean {
         
         //si le tcvhat est à l'envers
         if (u.equals(u2))
-            u2 = u ;
+            u2 = u.getSessionChat().getUtilisateur1() ;
         
         ctx.addCallbackParam("copain", u2.getPseudo());
     }
