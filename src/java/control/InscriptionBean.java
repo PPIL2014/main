@@ -6,14 +6,14 @@ package control;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
+import java.util.regex.Pattern;
 import javax.annotation.Resource;
 import javax.inject.Named;
-import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -41,57 +41,28 @@ public class InscriptionBean {
     @Resource
     private UserTransaction ut;
 
-
-    @ManagedProperty(value="#{nom}")
-    private String nom;
-    @ManagedProperty(value="#{prenom}")
-    private String prenom;
     @ManagedProperty(value="#{pseudo}")
     private String pseudo;
-    @ManagedProperty(value="#{sexe}")
-    private String sexe;
-    @ManagedProperty(value="#{naissance}")
-    private String naissance;
-    @ManagedProperty(value="#{telephone}")
-    private String telephone;
     @ManagedProperty(value="#{mdp}")
     private String mdp;
     @ManagedProperty(value="#{mdp2}")
     private String mdp2;
     @ManagedProperty(value="#{mail}")
     private String mail;
-    @ManagedProperty(value="#{adresse}")
-    private String adresse;
+    
+    private UIComponent pseudoText;
+    private UIComponent mdpText;
+    private UIComponent mdp2Text;
+    private UIComponent mailText;
     
     /**
      * Creates a new instance of InscriptionBean
      */
     public InscriptionBean() {
     }
-    
-    
-    public String getNom() {
-        return nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
 
     public String getPseudo() {
         return pseudo;
-    }
-
-    public String getSexe() {
-        return sexe;
-    }
-
-    public String getNaissance() {
-        return naissance;
-    }
-
-    public String getTelephone() {
-        return telephone;
     }
 
     public String getMdp() {
@@ -106,32 +77,8 @@ public class InscriptionBean {
         return mail;
     }
 
-    public String getAdresse() {
-        return adresse;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
-    }
-
-    public void setSexe(String sexe) {
-        this.sexe = sexe;
-    }
-
-    public void setNaissance(String naissance) {
-        this.naissance = naissance;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
     }
 
     public void setMdp(String mdp) {
@@ -146,19 +93,46 @@ public class InscriptionBean {
         this.mail = mail;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
+    public UIComponent getPseudoText() {
+        return pseudoText;
     }
-    
+
+    public void setPseudoText(UIComponent pseudoText) {
+        this.pseudoText = pseudoText;
+    }
+
+    public UIComponent getMdpText() {
+        return mdpText;
+    }
+
+    public void setMdpText(UIComponent mdpText) {
+        this.mdpText = mdpText;
+    }
+
+    public UIComponent getMdp2Text() {
+        return mdp2Text;
+    }
+
+    public void setMdp2Text(UIComponent mdp2Text) {
+        this.mdp2Text = mdp2Text;
+    }
+
+    public UIComponent getMailText() {
+        return mailText;
+    }
+
+    public void setMailText(UIComponent mailText) {
+        this.mailText = mailText;
+    }
     
     public boolean testPseudo() {
         boolean b = true;
-        Query query = em.createQuery("SELECT u FROM Utilisateur u where u.pseudo=\"" + pseudo + "\"");
+        Query query = em.createQuery("SELECT u FROM Utilisateur u where u.pseudo='" + pseudo + "'");
         try {
             //S'il existe déja un utilisateur ayant le pseudo indiqué, on le lui indique
-           query.getSingleResult();
+            query.getSingleResult();
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur Pseudo : Le pseudo existe déjà, veuillez en choisir un autre !", "Erreur Pseudo : Le pseudo existe déjà, veuillez en choisir un autre !"));
+            context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Le pseudo existe déjà, veuillez en choisir un autre !", null));
             b = false;
         } catch (NoResultException e) {
             b = true;
@@ -166,43 +140,50 @@ public class InscriptionBean {
         return b;
     }
     
+    public boolean testMail() {
+        boolean b = true;
+        Query query = em.createQuery("SELECT u FROM Utilisateur u where u.mail='" + mail + "'");
+        try {
+            query.getSingleResult();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(this.mailText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cette adresse mail est déjà utilisée, veuillez en choisir une autre", null));
+            b = false;
+        } catch (NoResultException e) {
+            b = true;
+        }
+        return b;
+    }
     
-    public String inscrire() {
-        if (mdp.compareTo(mdp2) != 0) return "inscription.xhtml";
-        if (testPseudo())
-        {
+    public String inscrire() {            
+        FacesContext context = FacesContext.getCurrentInstance();
+        if(mdp.length() < 4) {
+            context.addMessage(this.mdpText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Mot de passe trop court (min. 4 caractères)", null));
+            return "inscription.xhtml";
+        } else if (mdp.compareTo(mdp2) != 0) {
+            context.addMessage(this.mdp2Text.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Mot de passe différent, veuillez recommencer", null));
+            return "inscription.xhtml";
+        }
+        if (testPseudo() && testMail()) {
             Utilisateur u = new Utilisateur();
-            u.setAdresse(adresse);
+            if(! Pattern.matches("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)+$", mail)) {
+                context.addMessage(this.mailText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "L'adresse mail entrée n'est pas valide", null));
+                return "inscription.xhtml";
+            }
             u.setMail(mail);
-            u.setNom(nom);
-            u.setPrenom(prenom);
             u.setPseudo(pseudo);
-            u.setSexe(sexe);
-            u.setTelephone(telephone);
             u.setMdp(mdp);
-            System.out.println("TOOOOOTOOTOTOTOTOTOTOOT");
             try {
                 ut.begin();
                 em.persist(u);
                 ut.commit();
-            } catch (NotSupportedException nse) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Inscription réussie, vous pouvez maintenant vous connecter", null));
+            } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException |
+                    HeuristicRollbackException | SecurityException | IllegalStateException nse) {
                 Logger.getLogger(InscriptionBean.class.getName()).log(Level.SEVERE, null, nse);
-            } catch (SystemException ex) {
-                Logger.getLogger(InscriptionBean.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (RollbackException ex) {
-                Logger.getLogger(InscriptionBean.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (HeuristicMixedException ex) {
-                Logger.getLogger(InscriptionBean.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (HeuristicRollbackException ex) {
-                Logger.getLogger(InscriptionBean.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SecurityException ex) {
-                Logger.getLogger(InscriptionBean.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalStateException ex) {
-                Logger.getLogger(InscriptionBean.class.getName()).log(Level.SEVERE, null, ex);
             }
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Inscription terminée", "Inscription terminée"));
             return "index.xhtml";
         }
-        else return "inscription.xhtml";
+        else 
+            return "inscription.xhtml";
     }
 }
