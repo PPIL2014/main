@@ -202,6 +202,9 @@ public class Utilisateur implements Serializable {
     public void setSession(Session session) {
         this.session = session;
     }
+    public String getMdp() {
+        return this.mdp;
+    }
     public void setMdp(String mdp) {
         //this.mdp = sha1(mdp);
         this.mdp = mdp;
