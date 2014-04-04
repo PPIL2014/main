@@ -1,17 +1,14 @@
 package control;
 
-import java.util.Collection;
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import model.Utilisateur;
@@ -19,7 +16,6 @@ import model.Utilisateur;
 @ManagedBean
 @RequestScoped
 public class LoginBean {
-
     @PersistenceContext(unitName = "DateRoulettePU")
     private EntityManager em;
     @Resource
@@ -31,6 +27,9 @@ public class LoginBean {
     private String pseudo;
     @ManagedProperty(value="#{mdp}")
     private String mdp;
+    
+    private UIComponent pseudoText;
+    private UIComponent mdpText;
             
     public LoginBean() {
     }
@@ -50,49 +49,39 @@ public class LoginBean {
     public void setMdp(String mdp) {
         this.mdp = mdp;
     }
-
     
-    public boolean verifPseudo() { 
-        Query query = em.createQuery("select u.pseudo from Utilisateur u where u.pseudo=\"" + pseudo + "\""); 
-        boolean res = true; 
-        try { 
-            query.getSingleResult().toString(); 
-        } catch (NoResultException e) { 
-            res = false; 
-        } 
- 
-        return res; 
-    } 
- 
-    /** 
-     * Verifie si le mot de passe rentre correspond à celui de la BDD 
-     * 
-     * @return true si correct, false sinon 
-     */ 
-    public boolean verifMdp() { 
-        Query query = em.createQuery("select u.mdp from Utilisateur u where u.pseudo='"+pseudo+"'"); 
-        String mdp_bdd = (String)query.getSingleResult(); 
-        boolean res = false; 
-        if (mdp.equals(mdp_bdd)) { 
-            res = true; 
-        } 
-        return res; 
+    public UIComponent getPseudoText() {
+        return pseudoText;
+    }
+
+    public void setPseudoText(UIComponent pseudoText) {
+        this.pseudoText = pseudoText;
+    }
+
+    public UIComponent getMdpText() {
+        return mdpText;
+    }
+
+    public void setMdpText(UIComponent mdpText) {
+        this.mdpText = mdpText;
     }
     
     public String connecter() { 
-        if (verifPseudo()) { 
-            if (verifMdp()) {
-                utilisateur = em.find(Utilisateur.class, pseudo);
-                return "profil.xhtml"; 
-            } else {
+        FacesContext context = FacesContext.getCurrentInstance(); 
+        utilisateur = em.find(Utilisateur.class, pseudo);
+        if (utilisateur != null) { 
+            if (! utilisateur.getMdp().equals(this.mdp)) {
                 setMdp("");
-                FacesContext context = FacesContext.getCurrentInstance(); 
-                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Mot de passe incorrect !", "Impossible de se connecter : Mot de passe incorrect !")); 
+                context.addMessage(this.mdpText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Mot de passe incorrect !", null)); 
+            } else {
+                utilisateur = em.find(Utilisateur.class, pseudo);
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Vous êtes connecté en tant que " + pseudo + " !", null));
+                return "fakeListe.xhtml";
             } 
         } else { 
-            setPseudo(""); 
-            FacesContext context = FacesContext.getCurrentInstance(); 
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Utilisateur introuvable !", "Impossible de se connecter : Utilisateur introuvable !")); 
+            setPseudo("");
+            setMdp("");
+            context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Utilisateur introuvable !", null)); 
         } 
         return null; 
     }
