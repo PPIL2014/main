@@ -6,13 +6,40 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <a href="faces/inscription.xhtml">S'inscrire</a>
-        <h:form> page de LOGIN <br/> Pseudo : 
-            <h:inputText id="pseudo" value="#{loginBean.pseudo}"></h:inputText>
-            <br/> Mdp  : 
-            <h:inputText id="mdp" value="#{loginBean.mdp}"></h:inputText>
-            <h:commandButton value="Login" action="#{loginBean.connecter}"></h:commandButton> 
+        <h:messages />
+        <h:form>
+            <table>
+                <tr>
+                    <td>
+                       Pseudo :  
+                    </td>
+                    <td>
+                        <h:inputText id="pseudo" value="#{loginBean.pseudo}" binding="#{loginBean.pseudoText}" required="true" requiredMessage="Veuillez entrer votre pseudo"></h:inputText>
+                    </td>
+                    <td>
+                        <h:message errorStyle="color:red" for="pseudo"></h:message>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Mot de passe : 
+                    </td>
+                    <td>
+                        <h:inputSecret id="mdp" value="#{loginBean.mdp}" binding="#{loginBean.mdpText}" required="true" requiredMessage="Veuillez entrer votre mot de passe" ></h:inputSecret>
+                    </td>
+                    <td>
+                        <h:message errorStyle="color:red" for="mdp"></h:message>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="1">
+                        <h:commandButton value="Login" action="#{loginBean.connecter}" style="width: 100%"></h:commandButton>
+                    </td>
+                    <td>
+                        <a href="inscription.xhtml">s'inscrire</a>
+                    </td>
+                </tr>
+            </table>
         </h:form>
-        
     </h:body>
 </html>
