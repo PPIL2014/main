@@ -28,7 +28,7 @@ public class ChatBean implements Serializable {
     }
     
     public String chat() {
-        Collection<Utilisateur> listeAttente = getListeUtilisateurAttente() ;
+       /* Collection<Utilisateur> listeAttente = getListeUtilisateurAttente() ;
         Utilisateur u1 = getUtilisateurSession() ;
         Utilisateur u2 = null ;
         
@@ -57,7 +57,8 @@ public class ChatBean implements Serializable {
             //on ajoute l'utilisateur à la liste
             listeAttente.add(u1) ;
             return "profil.xhtml" ;
-        }
+        }*/
+        return null;
     }
     
     public Utilisateur getUtilisateurSession () {
