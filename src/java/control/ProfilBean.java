@@ -20,8 +20,6 @@ import model.Utilisateur;
 @ManagedBean
 @RequestScoped
 public class ProfilBean {
-    
-    
 
     /**
      * Creates a new instance of ProfilBean

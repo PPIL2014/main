@@ -242,7 +242,5 @@ public class Utilisateur implements Serializable {
     public void setChat(Chat c) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-   
     
 }
