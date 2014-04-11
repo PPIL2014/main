@@ -7,8 +7,13 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
+<<<<<<< HEAD
 <project name="DateRoulette" default="default" basedir=".">
     <description>Builds, tests, and runs the project DateRoulette.</description>
+=======
+<project name="PPIL" default="default" basedir=".">
+    <description>Builds, tests, and runs the project PPIL.</description>
+>>>>>>> VS/master
     <import file="nbproject/build-impl.xml"/>
     <!--
 
