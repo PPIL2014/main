@@ -55,6 +55,17 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>
+                        J'accepte les conditions d'utilisation 
+                    </td>
+                    <td>
+                        <h:selectBooleanCheckbox id="cdu" value="#{inscriptionBean.cdu}" binding="#{inscriptionBean.cduCheck}" required="true" requiredMessage="Vous devez accepter les conditions d'utilisation"/>
+                    </td>
+                    <td>
+                        <h:message errorStyle="color:red" for="cdu"></h:message>
+                    </td>
+                </tr>
+                <tr>
                     <td colspan="2" style="text-align: center">
                         <h:commandButton value="inscrire" action="#{inscriptionBean.inscrire}" style="width: 100%"></h:commandButton> 
                     </td>
