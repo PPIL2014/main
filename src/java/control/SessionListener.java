@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ul.dateroulette.control;
+package control;
 
 import java.util.ArrayList;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-import ul.dateroulette.model.Utilisateur;
+import model.*;
 
 
 public class SessionListener implements HttpSessionListener{

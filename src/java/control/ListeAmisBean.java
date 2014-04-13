@@ -1,4 +1,4 @@
-package ul.dateroulette.control;
+package control;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,9 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
-import ul.dateroulette.model.Contact;
-import ul.dateroulette.model.Utilisateur;
-
+import model.*;
 @ManagedBean
 @RequestScoped
 public class ListeAmisBean {

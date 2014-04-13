@@ -16,10 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import model.Utilisateur;
 
-/**
- *
- * @author thomas
- */
+
 @ManagedBean
 @RequestScoped
 public class UtilisateurControl {

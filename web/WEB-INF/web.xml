@@ -1,27 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-=======
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
->>>>>>> c59e0ba7c0c519c8cd769001ceb50bf538a93768
-=======
-<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
->>>>>>> VS/master
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <!--<servlet>
-        <servlet-name>DateRoulette</servlet-name>
-        <servlet-class>*.xhtml</servlet-class>
-    </servlet>-->
-=======
->>>>>>> c59e0ba7c0c519c8cd769001ceb50bf538a93768
-=======
->>>>>>> VS/master
+    <listener>
+        <listener-class>control.SessionListener</listener-class>
+    </listener>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -31,45 +16,10 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <!--
-    <listener>
-        <listener-class>
-            TP1.EcouteurSession
-        </listener-class>
-    </listener>
-    <servlet-mapping>
-        <servlet-name>Chat</servlet-name>
-        <url-pattern>/Chat</url-pattern>
-        <url-pattern>/Deconnecte</url-pattern>
-    </servlet-mapping>
-   -->
- <!--   <session-config>
-        <session-timeout>
-            1
-        </session-timeout>
-    </session-config>-->
-    <welcome-file-list>
-        <welcome-file>faces/index.xhtml</welcome-file>
-    </welcome-file-list>
- </web-app>
-=======
-=======
-    <listener>
-        <listener-class>ul.dateroulette.control.SessionListener</listener-class>
-    </listener>
->>>>>>> VS/master
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>
-<<<<<<< HEAD
->>>>>>> c59e0ba7c0c519c8cd769001ceb50bf538a93768
-=======
->>>>>>> VS/master

@@ -27,10 +27,7 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import model.Utilisateur;
 
-/**
- *
- * @author laurent84u
- */
+
 @Named(value = "inscriptionBean")
 @ManagedBean
 @RequestScoped
