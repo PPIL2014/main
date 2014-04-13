@@ -25,6 +25,7 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
+import model.Session;
 import model.Utilisateur;
 
 /**
@@ -49,11 +50,14 @@ public class InscriptionBean {
     private String mdp2;
     @ManagedProperty(value="#{mail}")
     private String mail;
+    @ManagedProperty(value="#{cdu}")
+    private boolean cdu;
     
     private UIComponent pseudoText;
     private UIComponent mdpText;
     private UIComponent mdp2Text;
     private UIComponent mailText;
+    private UIComponent cduCheck;
     
     /**
      * Creates a new instance of InscriptionBean
@@ -124,6 +128,22 @@ public class InscriptionBean {
     public void setMailText(UIComponent mailText) {
         this.mailText = mailText;
     }
+        
+    public UIComponent getCduCheck() {
+        return cduCheck;
+    }
+
+    public void setCduCheck(UIComponent cduCheck) {
+        this.cduCheck = cduCheck;
+    }
+
+    public boolean isCdu() {
+        return cdu;
+    }
+
+    public void setCdu(boolean cdu) {
+        this.cdu = cdu;
+    }
     
     public boolean testPseudo() {
         boolean b = true;
@@ -154,7 +174,8 @@ public class InscriptionBean {
         return b;
     }
     
-    public String inscrire() {            
+    public String inscrire() {   
+        System.out.println(this.cdu);
         FacesContext context = FacesContext.getCurrentInstance();
         if(mdp.length() < 4) {
             context.addMessage(this.mdpText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Mot de passe trop court (min. 4 caractères)", null));
@@ -164,6 +185,10 @@ public class InscriptionBean {
             return "inscription.xhtml";
         }
         if (testPseudo() && testMail()) {
+            if(! this.cdu) {
+                context.addMessage(this.cduCheck.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Vous devez accepter les conditions d'utilisation", null));
+                return "inscription.xhtml";
+            }
             Utilisateur u = new Utilisateur();
             if(! Pattern.matches("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)+$", mail)) {
                 context.addMessage(this.mailText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "L'adresse mail entrée n'est pas valide", null));
@@ -172,6 +197,9 @@ public class InscriptionBean {
             u.setMail(mail);
             u.setPseudo(pseudo);
             u.setMdp(mdp);
+            Session session = new Session();
+            session.setEstConnecte(Boolean.FALSE);
+            u.setSession(session);
             try {
                 ut.begin();
                 em.persist(u);
