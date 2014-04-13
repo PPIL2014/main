@@ -175,7 +175,6 @@ public class InscriptionBean {
     }
     
     public String inscrire() {   
-        System.out.println(this.cdu);
         FacesContext context = FacesContext.getCurrentInstance();
         if(mdp.length() < 4) {
             context.addMessage(this.mdpText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Mot de passe trop court (min. 4 caractères)", null));
