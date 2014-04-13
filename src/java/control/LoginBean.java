@@ -1,6 +1,8 @@
 package control;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -12,6 +14,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.servlet.http.HttpSession;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import model.Utilisateur;
 
@@ -29,8 +36,6 @@ public class LoginBean {
     private String pseudo;
     @ManagedProperty(value="#{mdp}")
     private String mdp;
-    @ManagedProperty(value="#{bonjour}")
-    private String bonjour;
     
     private UIComponent pseudoText;
     private UIComponent mdpText;
@@ -39,27 +44,14 @@ public class LoginBean {
         utilisateur = null;
     }
     
-    public String getBonjour() {
-        return bonjour;
-    }
-    
-    public void setBonjour(String b) {
-        this.bonjour = b;
-    }
-    
     public String getPseudo(){
         return this.pseudo;
     }
     
-    public String getListe() {
-        String ret = "Connectes : ";
-        Query q = em.createQuery("SELECT u FROM Utilisateur u WHERE u.estConnecte = :vrai");
-        q.setParameter("vrai", Boolean.TRUE);
-        List<Utilisateur> l = q.getResultList();
-        for (Utilisateur p : l) {
-            ret += p.getPseudo() + " ; ";
-        }
-        return ret;
+    public List<Utilisateur> getListeUtilisateurs() {
+        Query q = em.createQuery("SELECT u FROM Utilisateur u WHERE u.pseudo != :pseudo ORDER BY u.session.estConnecte ASC");
+        q.setParameter("pseudo", this.utilisateur.getPseudo());
+        return q.getResultList();
     }
 
     public void setPseudo(String pseudo) {
@@ -92,34 +84,44 @@ public class LoginBean {
     
     public String connecter() { 
         FacesContext context = FacesContext.getCurrentInstance(); 
-        utilisateur = em.find(Utilisateur.class, pseudo);
-        if (utilisateur != null) { 
-            if (! utilisateur.getMdp().equals(this.mdp)) {
+        this.utilisateur = em.find(Utilisateur.class, this.pseudo);
+        if (this.utilisateur != null) { 
+            if (! this.utilisateur.getMdp().equals(this.mdp)) {
                 setMdp("");
-                context.addMessage(this.mdpText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Mot de passe incorrect !", null)); 
+                context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Nom d'utilisateur ou mot de passe incorrect !", null)); 
             } else {
-                utilisateur = em.find(Utilisateur.class, pseudo);
-                //context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Vous êtes connecté en tant que " + pseudo + " !", null));
-                setBonjour("Vous êtes connecté " + pseudo);
-                //Ajouter l'utilisateur à la liste globale des utils connectés
-                return "fakeListe.xhtml";
+                try {
+                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Vous êtes connecté en tant que " + this.utilisateur.getPseudo() + " !", null));
+                    this.utilisateur.getSession().setEstConnecte(Boolean.TRUE);
+                    this.ut.begin();
+                    this.em.merge(this.utilisateur);
+                    this.ut.commit();
+                    return "fakeListe.xhtml";
+                } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                    Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         } else {
             setPseudo("");
             setMdp("");
-            context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Utilisateur introuvable !", null)); 
+            context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Nom d'utilisateur ou mot de passe incorrect !", null)); 
         } 
         return null; 
     }
     
     public String deconnexion() {
-        //Destroy session
-        if (utilisateur != null) {
-            //Retirer l'utilisateur de la liste globale des utils connectés
+        if (this.utilisateur != null) {
+            try {
+                this.utilisateur.getSession().setEstConnecte(false);
+                this.ut.begin();
+                this.em.merge(this.utilisateur);
+                this.ut.commit();
+            } catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).invalidate();
-        utilisateur = null;
-        setBonjour("Non connecté");
+        this.utilisateur = null;
         return "index.xhtml";
     }
     
