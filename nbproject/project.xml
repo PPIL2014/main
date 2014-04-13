@@ -3,11 +3,6 @@
     <type>org.netbeans.modules.web.project</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/web-project/3">
-<<<<<<< HEAD
-            <name>DateRoulette</name>
-            <minimum-ant-version>1.6.5</minimum-ant-version>
-            <web-module-libraries/>
-=======
             <name>PPIL</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <web-module-libraries>
@@ -16,7 +11,6 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>
->>>>>>> VS/master
             <web-module-additional-libraries/>
             <source-roots>
                 <root id="src.dir" name="Source Packages"/>
