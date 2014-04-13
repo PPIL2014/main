@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -24,8 +23,6 @@ public class Session implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Boolean estConnecte;
-    @OneToOne
-    private Utilisateur utilisateur;
     
     public Boolean connexion() {
         return null;
@@ -41,14 +38,6 @@ public class Session implements Serializable {
 
     public void setEstConnecte(Boolean estConnecte) {
         this.estConnecte = estConnecte;
-    }
-
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
     }
 
     public Long getId() {
