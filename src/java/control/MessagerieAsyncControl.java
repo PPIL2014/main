@@ -5,15 +5,14 @@
 package control;
 
 import java.util.Collection;
+import javax.annotation.Resource;
 import javax.enterprise.context.Dependent;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -33,19 +32,19 @@ import model.Utilisateur;
 @Dependent
 @ViewScoped
 public class MessagerieAsyncControl {
-    @PersistenceUnit(unitName="DateRoulettePU")
-    private EntityManagerFactory emf;
-    @PersistenceContext
+    @PersistenceContext(unitName = "DateRoulettePU")
     private EntityManager em;
+    @Resource
     private UserTransaction ut;
-
     
-
-    @ManagedProperty(value ="#{session.user}")
+    @ManagedProperty("#{sessionBean.utilisateur}")
     public Utilisateur expediteur;
     public Utilisateur destinataire;
+    @ManagedProperty("#{sessionBean.utilisateur.getConversation()}")
     public Conversation conversation;
     public String message;
+    @ManagedProperty("#{param.pseudo}")
+    public String pseudo;
     
     /**
      * Creates a new instance of MessagerieAsyncControl
@@ -60,7 +59,7 @@ public class MessagerieAsyncControl {
     public Utilisateur getExpediteur() {
         return expediteur;
     }
-
+    
     public void setExpediteur(Utilisateur expediteur) {
         this.expediteur = expediteur;
     }
@@ -88,16 +87,25 @@ public class MessagerieAsyncControl {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
+    public String getPseudo() {
+        return pseudo;
+    }
     
     public String send() throws NotSupportedException, RollbackException, HeuristicMixedException, HeuristicRollbackException, SystemException{
         MessageConversation m = new MessageConversation() ;
         m.setContenu(message);
-        m.setConversation(conversation);
+        m.setExpediteur(expediteur);
+        conversation.getMessages().add(m) ;
         ut.begin();
-            em.merge(m);
+        em.persist(m);
         ut.commit();
         
-        return "MessagerieAsynchrone.xhtml";
+        return "MessagerieAsynchrone.xhtml?pseudo="+destinataire.getPseudo();
     }
     
 }

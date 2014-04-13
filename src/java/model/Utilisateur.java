@@ -7,12 +7,12 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -88,6 +88,15 @@ public class Utilisateur implements Serializable {
     
     public Utilisateur() {
         
+    }
+    
+    public List<Utilisateur> getContactsByName(String pieceOfName) {
+        ArrayList<Utilisateur> contactsByName = new ArrayList<Utilisateur>();
+        for(Conversation c : conversations) {  
+            if(c.getDestinataire().getPseudo().toLowerCase().startsWith(pieceOfName.toLowerCase()))  
+                contactsByName.add(c.getDestinataire());
+        }
+        return contactsByName;
     }
     
     public String getPseudo() {

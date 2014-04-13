@@ -7,15 +7,16 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        Hello from Facelets
+        
         <img src="#{messagerieAsyncControl.destinataire.avatar}" alt="Pas de photo"/>
-        <h1>Messagerie avec #{messagerieAsyncControl.destinataire.pseudo}</h1>
+        <h1>Messagerie avec #{messagerieAsyncControl.pseudo}</h1>
         <c:forEach var="message" items="#{MessagerieAsyncControl.messages}">
             <p>#{message.conversation.expediteur} #{message.date} : #{message.contenu}</p>
         </c:forEach>
+        
         <h:form>
-<!--   <h:inputText value="#{messagerieAsyncControl.destinataire}" required="true" /> -->
-            <h:commandButton value="Envoyer" action="#{MessagerieAsyncControl.send}"/>
+            <h:inputText value="#{messagerieAsyncControl.message}" required="true" />
+            <h:commandButton value="Envoyer" action="#{messagerieAsyncControl.send}"/>
         </h:form>
     </h:body>
 </html>
