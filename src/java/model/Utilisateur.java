@@ -9,6 +9,7 @@ package model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -79,9 +80,10 @@ public class Utilisateur implements Serializable {
      * 
      * @element-type Contact
      */
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     private Image avatar;
-    @OneToOne
+    
+    @OneToOne(cascade=CascadeType.ALL)
     private Session session;
     
     public Utilisateur() {
