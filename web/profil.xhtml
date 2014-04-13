@@ -1,12 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-<<<<<<< HEAD
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-=======
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
@@ -26,20 +20,11 @@
             }
         </script>
     
->>>>>>> VS/master
     <h:body>
         <h:form> Voici votre PROFIL ! <br/>
         <hr/>
             PSEUDO : <h:outputText id="pseudo" value="#{profilBean.pseudo}"></h:outputText> 
             <br/>
-<<<<<<< HEAD
-            <h:graphicImage url="#{profilBean.avatar}" />
-
-            <br/><hr/><br/>     
-            <h:commandButton value="CHAT" action="#{chatBean.chat}"></h:commandButton> 
-        </h:form>
-    </h:body>
-=======
             <h:graphicImage url="#{profilBean.urlAvatar}" />
 
             <br/><hr/><br/>     
@@ -62,12 +47,11 @@
         </h:commandButton>
         <br/>
         <h:commandButton value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandButton>
-        <br/>Liste des utilisateurs connecté : <br/>
+        <br/>Liste des utilisateurs connectÃ© : <br/>
         <h:dataTable value="#{sessionBean.listeUtilisateurConnecte}" var="item">
         <h:column>            
             <h:outputText value="#{item}"/><br/>
         </h:column>
         </h:dataTable>
     </h:form>
->>>>>>> VS/master
 </html>

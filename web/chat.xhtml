@@ -5,29 +5,6 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-<<<<<<< HEAD
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <head>
-        <title>Chat</title>
-        <script type="text/javascript">
-            setInterval("updateMessages()", 200); //update the chart every 200 ms              
-
-            function updateMessages() {
-                #{chatBean.chat()}
-            }
-
-        </script>
-    </head>
-    <body>
-        <h1>Chat</h1>
-        <h:form>
-       
-            <h:graphicImage width="100" height="100" url="#{chatBean.utilisateurSession.chat.user1.avatar}" />
-            <br/><b>Utilisateur 1 : </b><h:outputText value="#{chatBean.utilisateurSession.chat.user1.pseudo}"></h:outputText>
-       
-            <br/><h:graphicImage width="100" height="100" url="#{chatBean.utilisateurSession.chat.user2.avatar}" />
-            <br/><b>Utilisateur 2 : </b><h:outputText value="#{chatBean.utilisateurSession.chat.user2.pseudo}"></h:outputText>
-=======
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
     <h:head>        
@@ -53,48 +30,6 @@ and open the template in the editor.
        
             <br/><h:graphicImage width="100" height="100" url="#{chatBean.utilisateurSession.sessionChat.utilisateur2.avatar.url}" />
             <br/><b>Utilisateur 2 : </b><h:outputText value="#{chatBean.utilisateurSession.sessionChat.utilisateur2.pseudo}"></h:outputText>
->>>>>>> VS/master
             
             <hr/>
             <h:commandButton value="RELOAD" action="#{chatBean.chat}"></h:commandButton>
-            <br/>Liste des messages : <br/>
-<<<<<<< HEAD
-            <h:dataTable id ="messages" value="#{chatBean.utilisateurSession.chat.listeMessages}" var="item">
-                <h:column>
-                    <b><h:outputText value="#{item.expediteur.pseudo}"></h:outputText> : </b>
-                    <h:outputText value="#{item.contenu}"/>
-                </h:column>
-            </h:dataTable>
-            
-            <br/>Envoyer un message : <h:inputText id="message" value="#{chatBean.message}"></h:inputText>
-            <br/>
-            <br/><h:commandButton value="ENVOYER" action="#{chatBean.envoyerMessage}">
-                </h:commandButton>
-            
-            <hr/>
-            
-        </h:form>
-=======
-            
-            <br/>Envoyer un message : <h:inputText id="message" value="#{chatBean.message}"></h:inputText>
-            <br/>
-            <br/><p:commandButton value="ENVOYER" actionListener="#{chatBean.envoyerMessage}"/>
-             
-            <hr/>
-            <p:remoteCommand name="nextMessage" actionListener="#{chatBean.firstUnreadMessage}" 
-                             oncomplete="updateMessages(xhr, status, args);"/>
-        </h:form>
-        
-        <div id="chat" ></div>
-        
->>>>>>> VS/master
-        <h:form>
-             <br/>Liste des utilisateurs en attente : <br/>
-            <h:dataTable value="#{chatBean.listeUtilisateurAttente}" var="item">
-                <h:column>            
-                    <h:outputText value="#{item.pseudo}"/><br/>
-                </h:column>
-            </h:dataTable>
-        </h:form>
-    </body>
-</html>
