@@ -13,6 +13,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import model.*;
 import org.primefaces.context.RequestContext;
@@ -48,62 +53,56 @@ public class ChatBean implements Serializable {
         lastUpdate = new Date(0);
     }
     
-    public String chat() throws Exception {
-        ArrayList<Utilisateur> listeAttente = getListeUtilisateurAttente() ;
+    /**
+     * Cette fonction permet de lancer le chat en mode aleatoire
+     * @return
+     * @throws Exception 
+     */
+    public String chatAleatoire() throws Exception {
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        ArrayList<Utilisateur> listeAttente = (ArrayList<Utilisateur>)servletContext.getAttribute("listeUtilisateursAttente") ;
         Utilisateur u1 = getUtilisateurSession() ;
         Utilisateur u2 = null ;
         
-        //si l'utilisateur est déja entrain de chater, on quitte la fonction !
-        if (u1.getSessionChat() != null)
-            return "chat.xhtml" ;
-        if (!listeAttente.isEmpty()) {
-            if (u1.equals(listeAttente.get(0))) {
-                 if (!u1.equals(listeAttente.get(listeAttente.size()-1))) {
-                     // ON A UN AMI
-                     u2 = listeAttente.remove(listeAttente.size()-1) ;
-                 }
-            } else {
-                u2 = listeAttente.remove(0) ;
-            }
-            if (u2 != null) {
-                this.ut.begin();
-                SessionChat c = new SessionChat (u1,u2) ;
-                this.em.persist(c);
-                u1.setSessionChat(c);
-                this.em.merge(u1);
-                u2.setSessionChat(c);
-                this.em.merge(u2);
-                this.ut.commit();
-            } else {
-                return "profil.xhtml" ;
-            }
-            return "chat.xhtml" ;
-        } else {
-            //on ajoute l'utilisateur à la liste
-            listeAttente.add(u1) ;
+        //Normalement cela ne doit jamais ce produire
+        if (u1 == null)
+            return "index.xhtml" ;
+        
+        //Tout les chats de l'utilisateur doivent être fermé
+        u1.closeAllChat () ;
+        
+        //on trouve un copain, si il y en a pas l'utilisateur attend
+        u2 = obtenirChatteur (u1) ;
+        if (u2 == null) {
+            listeAttente.add(u1);
             return "profil.xhtml" ;
         }
+        
+        // on récupère ou on crée le chat
+        obtenirChat (u1,u2) ;
+        
+        return "chat.xhtml" ;
     }
     
     public String chatCopain(Utilisateur ami) throws Exception {
         Utilisateur u1 = getUtilisateurSession() ;
         
+        if ((u1 == null) || (ami == null))
+            return "profil.xthtml" ;
+        
+        //si il est dans la liste d'attente le sortir, pareil pour ami
+        removeFromWaitList (u1) ;
+        removeFromWaitList (ami) ;
+        
+        //Tout les chats de l'utilisateur doivent être fermé
+        u1.closeAllChat () ;
+        
         //si on est deja dans un chat !
-        if (u1.getSessionChat() != null)
+        if (u1.getSessionChatDemarree()!= null)
             return "chat.xhtml" ;
-        //si l'ami est valide on chat
-        if (ami != null) {
-            this.ut.begin();
-            SessionChat c = new SessionChat (u1,ami) ;
-            this.em.persist(c);
-            u1.setSessionChat(c);
-            this.em.merge(u1);
-            ami.setSessionChat(c);
-            this.em.merge(ami);
-            this.ut.commit();
-        } else {
-            return "listeAmis.xhtml" ;
-        }
+        
+        obtenirChat(u1, ami) ;
+        
         return "chat.xhtml" ;
     }
     
@@ -121,7 +120,7 @@ public class ChatBean implements Serializable {
     public SessionChat getChat() {
         //on recupere le chat de l'utilisateur en session
         Utilisateur u = getUtilisateurSession() ;
-        return u.getSessionChat() ;
+        return u.getSessionChatDemarree() ;
     }
     
     public void envoyerMessage(ActionEvent evt) throws Exception 
@@ -135,7 +134,7 @@ public class ChatBean implements Serializable {
         this.em.merge(chat);
         this.ut.commit();
     }
-
+    /*
     public void setChat(SessionChat chat) throws Exception {
         this.ut.begin();
         Utilisateur u = getUtilisateurSession() ;
@@ -143,7 +142,7 @@ public class ChatBean implements Serializable {
         this.em.merge(u);
         this.ut.commit();
     }
-    
+    */
     public ArrayList<Utilisateur> getListeUtilisateurAttente () {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
@@ -183,5 +182,44 @@ public class ChatBean implements Serializable {
         ctx.addCallbackParam("user", m.getExpediteur().getPseudo());
         ctx.addCallbackParam("dateSent", m.getDate().toString()); 
         ctx.addCallbackParam("text", m.getContenu()); 
+    }
+
+    private Utilisateur obtenirChatteur(Utilisateur u1) {
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        ArrayList<Utilisateur> listeAttente = (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
+
+        if (listeAttente.isEmpty())
+            return null ;
+
+        if (u1.equals(listeAttente.get(0))) {
+             if (u1.equals(listeAttente.get(listeAttente.size()-1)))
+                 return null ;
+             return listeAttente.remove(listeAttente.size()-1) ;
+        }
+        return listeAttente.remove(0) ;
+
+    }
+
+    private SessionChat obtenirChat(Utilisateur u1, Utilisateur u2) throws NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
+        SessionChat c = u1.recupererChat (u2) ;
+        if (c == null) {
+            this.ut.begin();
+            c =  new SessionChat (u1,u2) ;
+            this.em.persist(c);
+            u1.ajouterChat(c);
+            this.em.merge(u1);
+            u2.ajouterChat(c);
+            this.em.merge(u2);
+            this.ut.commit();
+        }
+        c.setEstDemarree(true);
+        return c ;
+    }
+
+    private void removeFromWaitList(Utilisateur u1) {
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        ArrayList<Utilisateur> listeAttente = (ArrayList<Utilisateur>)servletContext.getAttribute("listeUtilisateursAttente") ;
+        
+        listeAttente.remove(u1);
     }
 }

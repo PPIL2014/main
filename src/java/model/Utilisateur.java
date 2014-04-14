@@ -70,10 +70,10 @@ public class Utilisateur implements Serializable {
      * 
      * @element-type SessionChat
      */
-    //@OneToMany
-    //private ArrayList<SessionChat>  sessionsChat;
-    @OneToOne
-    private SessionChat sessionChat;
+    @OneToMany
+    private ArrayList<SessionChat>  sessionsChat;
+    //@OneToOne
+    //private SessionChat sessionChat;
     
     /**
      * 
@@ -184,12 +184,12 @@ public class Utilisateur implements Serializable {
     public void setReponsesOuvertes(ArrayList<ReponseOuverte> reponsesOuvertes) {
         this.reponsesOuvertes = reponsesOuvertes;
     }
-    /*public ArrayList<SessionChat> getSessionsChat() {
+    public ArrayList<SessionChat> getSessionsChat() {
         return sessionsChat;
     }
     public void setSessionsChat(ArrayList<SessionChat> sessionsChat) {
         this.sessionsChat = sessionsChat;
-    }*/
+    }
     public Image getAvatar() {
         return avatar;
     }
@@ -239,12 +239,37 @@ public class Utilisateur implements Serializable {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public SessionChat getSessionChat()
+    /*public SessionChat getSessionChat()
     {
         return sessionChat;
     }
 
     public void setSessionChat(SessionChat chat) {
         this.sessionChat = chat;
+    }*/
+    public void closeAllChat() {
+        for (SessionChat c : sessionsChat) {
+            c.setEstDemarree(false) ;
+        }
+    }
+
+    public SessionChat recupererChat(Utilisateur u2) {
+        for (SessionChat c : sessionsChat) {
+            if (c.getUtilisateur1().equals(u2) || c.getUtilisateur2().equals(u2))
+                return c ;
+        }
+        return null ;
+    }
+
+    public void ajouterChat(SessionChat c) {
+        sessionsChat.add(c);
+    }
+
+    public SessionChat getSessionChatDemarree() {
+        for (SessionChat c : sessionsChat) {
+            if (c.getEstDemarree())
+                return c ;
+        }
+        return null ;
     }
 }
