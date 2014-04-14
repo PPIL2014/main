@@ -9,6 +9,7 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -71,7 +72,7 @@ public class Utilisateur implements Serializable {
      * @element-type SessionChat
      */
     @OneToMany
-    private ArrayList<SessionChat>  sessionsChat;
+    private List<SessionChat>  sessionsChat;
     //@OneToOne
     //private SessionChat sessionChat;
     
@@ -81,8 +82,8 @@ public class Utilisateur implements Serializable {
      */
     @OneToOne
     private Image avatar;
-    @OneToOne
-    private Session session;
+    /*@OneToOne
+    private Session session;*/
     
     public Utilisateur() {
         
@@ -184,10 +185,10 @@ public class Utilisateur implements Serializable {
     public void setReponsesOuvertes(ArrayList<ReponseOuverte> reponsesOuvertes) {
         this.reponsesOuvertes = reponsesOuvertes;
     }
-    public ArrayList<SessionChat> getSessionsChat() {
+    public List<SessionChat> getSessionsChat() {
         return sessionsChat;
     }
-    public void setSessionsChat(ArrayList<SessionChat> sessionsChat) {
+    public void setSessionsChat(List<SessionChat> sessionsChat) {
         this.sessionsChat = sessionsChat;
     }
     public Image getAvatar() {
@@ -196,12 +197,12 @@ public class Utilisateur implements Serializable {
     public void setAvatar(Image avatar) {
         this.avatar = avatar;
     }
-    public Session getSession() {
+    /*public Session getSession() {
         return session;
     }
     public void setSession(Session session) {
         this.session = session;
-    }
+    }*/
     public void setMdp(String mdp) {
         //this.mdp = sha1(mdp);
     }
@@ -229,14 +230,6 @@ public class Utilisateur implements Serializable {
     @Override
     public String toString() {
         return "model.entity.Utilisateur[ pseudo=" + pseudo + " ]";
-    }
-
-    public Chat getChat() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void setChat(Chat c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     /*public SessionChat getSessionChat()

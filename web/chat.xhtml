@@ -25,14 +25,11 @@ and open the template in the editor.
         <h1>Chat</h1>
         <h:form>
             <h:commandButton value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandButton><br/>
-            <h:graphicImage width="100" height="100" url="#{chatBean.utilisateurSession.sessionChat.utilisateur1.avatar.url}" />
-            <br/><b>Utilisateur 1 : </b><h:outputText value="#{chatBean.utilisateurSession.sessionChat.utilisateur1.pseudo}"></h:outputText>
+            <br/><b>Utilisateur 1 : </b><h:outputText value="#{chatBean.utilisateurSession.sessionChatDemarree.utilisateur1.pseudo}"></h:outputText>
        
-            <br/><h:graphicImage width="100" height="100" url="#{chatBean.utilisateurSession.sessionChat.utilisateur2.avatar.url}" />
-            <br/><b>Utilisateur 2 : </b><h:outputText value="#{chatBean.utilisateurSession.sessionChat.utilisateur2.pseudo}"></h:outputText>
+            <br/><b>Utilisateur 2 : </b><h:outputText value="#{chatBean.utilisateurSession.sessionChatDemarree.utilisateur2.pseudo}"></h:outputText>
             
             <hr/>
-            <h:commandButton value="RELOAD" action="#{chatBean.chat}"></h:commandButton>
             <br/>Liste des messages : <br/>
             
             <br/>Envoyer un message : <h:inputText id="message" value="#{chatBean.message}"></h:inputText>

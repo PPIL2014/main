@@ -205,6 +205,7 @@ public class ChatBean implements Serializable {
         if (c == null) {
             this.ut.begin();
             c =  new SessionChat (u1,u2) ;
+            c.setEstDemarree(true);
             this.em.persist(c);
             u1.ajouterChat(c);
             this.em.merge(u1);
@@ -213,7 +214,7 @@ public class ChatBean implements Serializable {
             this.ut.commit();
         }
         c.setEstDemarree(true);
-        return c ;
+        return u1.getSessionChatDemarree();//c ;
     }
 
     private void removeFromWaitList(Utilisateur u1) {
