@@ -11,13 +11,20 @@ and open the template in the editor.
         <title>Chat</title>
     </h:head>
         <script type="text/javascript">
-            setInterval("nextMessage()", 200);
-            //update the chart every 200 ms
-            
-            function updateMessages(xhr, status, args) {
-                if(!args.ok) return;
-            
-            $('#chat').append('<div class="msg">[' +args.dateSent+ '] <strong>'+args.user+'</strong>: '+args.text+'</div>'); 
+            //setInterval("nextMessage()", 200); //update the chart every 200 mss
+            update();
+            function update(){
+                while (1){
+                    nextEvent();
+                }
+            }           
+            function updatePage(xhr, status, args) {
+                var typeMsg = "message";
+                if(!args.ok) 
+                    return;
+                
+                if (args.type == typeMsg)
+                    $('#chat').append('<div class="msg">[' +args.dateSent+ '] <strong>'+args.user+'</strong>: '+args.text+'</div>'); 
             } 
         </script>
  
@@ -40,8 +47,8 @@ and open the template in the editor.
             <br/><p:commandButton value="ENVOYER" actionListener="#{chatBean.envoyerMessage}"/>
              
             <hr/>
-            <p:remoteCommand name="nextMessage" actionListener="#{chatBean.firstUnreadMessage}" 
-                             oncomplete="updateMessages(xhr, status, args);"/>
+            <p:remoteCommand name="nextEvent" actionListener="#{chatBean.lastEvent}" 
+                             oncomplete="updatePage(xhr, status, args);"/>
         </h:form>
         
         <div id="chat" ></div>
