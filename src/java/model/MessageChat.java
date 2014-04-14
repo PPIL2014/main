@@ -23,7 +23,7 @@ public class MessageChat implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String contenu;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
     @OneToOne
     private SessionChat sessionChat;
