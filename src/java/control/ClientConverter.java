@@ -21,15 +21,15 @@ import model.Utilisateur;
 @FacesConverter("clientConverter")
 public class ClientConverter implements Converter {
     
-    @ManagedProperty("#{sessionBean.dest2}")
+    @ManagedProperty(value = "#{sessionBean.dest}")
     public Utilisateur dest;
     @ManagedProperty("#{sessionBean.dest2}")
     public Utilisateur dest2;
-    @ManagedProperty("#{sessionBean.dest2}")
+    @ManagedProperty("#{sessionBean.dest3}")
     public Utilisateur dest3;
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        
+        System.out.println(dest+"");
         if(value.equals(dest.getPseudo())){
             return dest;
         }
