@@ -54,7 +54,7 @@ public class SessionBean {
    
    public boolean aChat () {
        Utilisateur u = getUtilisateurSession () ;
-       return (u.getSessionChat() != null) ;
+       return (u.getSessionChatDemarree()!= null) ;
    }
     
 }

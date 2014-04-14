@@ -52,7 +52,7 @@ public class ProfilBean {
     }
     
     public void chatInfo (ActionEvent evt) {
-        RequestContext ctx = RequestContext.getCurrentInstance();
+        /*RequestContext ctx = RequestContext.getCurrentInstance();
         
         Utilisateur u = getUtilisateurSession() ;
         ctx.addCallbackParam("ok", u!=null);
@@ -69,16 +69,16 @@ public class ProfilBean {
         if (u.equals(u2))
             u2 = u.getSessionChat().getUtilisateur1() ;
         
-        ctx.addCallbackParam("copain", u2.getPseudo());
+        ctx.addCallbackParam("copain", u2.getPseudo());*/
     }
     
     public String goChat () {
-        Utilisateur u1 = getUtilisateurSession() ;
+        /*Utilisateur u1 = getUtilisateurSession() ;
         
         //si on est deja dans un chat !
         if (u1.getSessionChat() != null)
             return "chat.xhtml" ;
-        
+        */
         return "profil.xhtml" ;
     }
 }
