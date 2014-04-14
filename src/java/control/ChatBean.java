@@ -3,6 +3,8 @@ package control;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -169,20 +171,7 @@ public class ChatBean implements Serializable {
     }*/
    
     
-    public void firstUnreadMessage(ActionEvent evt) 
-    { 
-        RequestContext ctx = RequestContext.getCurrentInstance(); 
-        MessageChat m = getChat().getFirstAfter(lastUpdate); 
-        
-        ctx.addCallbackParam("ok", m!=null); 
-        if(m==null) 
-            return; 
-        lastUpdate = m.getDate(); 
-        
-        ctx.addCallbackParam("user", m.getExpediteur().getPseudo());
-        ctx.addCallbackParam("dateSent", m.getDate().toString()); 
-        ctx.addCallbackParam("text", m.getContenu()); 
-    }
+
 
     private Utilisateur obtenirChatteur(Utilisateur u1) {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
@@ -221,5 +210,43 @@ public class ChatBean implements Serializable {
         ArrayList<Utilisateur> listeAttente = (ArrayList<Utilisateur>)servletContext.getAttribute("listeUtilisateursAttente") ;
         
         listeAttente.remove(u1);
+    }
+    
+        public void lastEvent(ActionEvent evt) 
+    {        
+        class ThreadEventChat extends Thread{
+            private RequestContext ctx;
+            public ChatBean cb;
+            public ThreadEventChat(RequestContext ctx, ChatBean cb){
+                this.ctx = ctx;
+                this.cb = cb;
+            }
+            @Override
+            public void run(){
+                MessageChat m = null;
+                while (m == null)
+                {
+                    m = cb.getChat().getFirstAfter(lastUpdate);
+                    try {
+                        sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ChatBean.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
+                if (m != null)
+                {
+                    lastUpdate = m.getDate();         
+                    ctx.addCallbackParam("ok", true);
+                    ctx.addCallbackParam("type", "message");
+                    ctx.addCallbackParam("user", m.getExpediteur().getPseudo());
+                    ctx.addCallbackParam("dateSent", m.getDate().toString()); 
+                    ctx.addCallbackParam("text", m.getContenu());
+                }
+            }
+        }
+        
+        ThreadEventChat eventChat = new ThreadEventChat(RequestContext.getCurrentInstance(),this);
+        eventChat.start();   
     }
 }
