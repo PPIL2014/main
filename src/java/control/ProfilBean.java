@@ -52,7 +52,7 @@ public class ProfilBean {
     }
     
     public void chatInfo (ActionEvent evt) {
-        /*RequestContext ctx = RequestContext.getCurrentInstance();
+        RequestContext ctx = RequestContext.getCurrentInstance();
         
         Utilisateur u = getUtilisateurSession() ;
         ctx.addCallbackParam("ok", u!=null);
@@ -60,16 +60,16 @@ public class ProfilBean {
         if (u==null)
             return;
         
-       if (u.getSessionChat() == null)
+       if (u.getSessionChatDemarree() == null)
             return ;
         
-        Utilisateur u2 = u.getSessionChat().getUtilisateur2() ;
+        Utilisateur u2 = u.getSessionChatDemarree().getUtilisateur2() ;
         
         //si le tcvhat est à l'envers
         if (u.equals(u2))
-            u2 = u.getSessionChat().getUtilisateur1() ;
+            u2 = u.getSessionChatDemarree().getUtilisateur1() ;
         
-        ctx.addCallbackParam("copain", u2.getPseudo());*/
+        ctx.addCallbackParam("copain", u2.getPseudo());
     }
     
     public String goChat () {

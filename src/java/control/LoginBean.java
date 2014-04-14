@@ -87,14 +87,13 @@ public class LoginBean {
     public String connecter() { 
         //if (verifPseudo()) { 
             //if (verifMdp()) {
-        System.out.println(pseudo);
                 utilisateur = em.find(Utilisateur.class, pseudo);
-                        FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        ArrayList<String> listeConnecte = (ArrayList<String>)servletContext.getAttribute("listeUtilisateursConnecte");
-        listeConnecte.add(utilisateur.getPseudo());
-        session.setAttribute("pseudoUtilisateur", utilisateur.getPseudo());
+                FacesContext context = FacesContext.getCurrentInstance();
+                HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+                ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                ArrayList<String> listeConnecte = (ArrayList<String>)servletContext.getAttribute("listeUtilisateursConnecte");
+                listeConnecte.add(utilisateur.getPseudo());
+                session.setAttribute("pseudoUtilisateur", utilisateur.getPseudo());
                 return "profil"; 
             /*} else {
                 setMdp("");
