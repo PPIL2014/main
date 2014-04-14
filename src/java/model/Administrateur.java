@@ -20,34 +20,23 @@ import javax.persistence.Id;
 public class Administrateur extends Utilisateur implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private String pseudo;
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (pseudo != null ? pseudo.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // TODO: Warning - this method won't work in the case the pseudo fields are not set
         if (!(object instanceof Administrateur)) {
             return false;
         }
         Administrateur other = (Administrateur) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.pseudo == null && other.pseudo != null) || (this.pseudo != null && !this.pseudo.equals(other.pseudo))) {
             return false;
         }
         return true;
@@ -55,7 +44,7 @@ public class Administrateur extends Utilisateur implements Serializable {
 
     @Override
     public String toString() {
-        return "ul.dateroulette.entity.Administrateur[ id=" + id + " ]";
+        return "ul.dateroulette.entity.Administrateur[ pseudo=" + pseudo + " ]";
     }
     
 }

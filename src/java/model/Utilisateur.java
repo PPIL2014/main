@@ -22,8 +22,6 @@ import javax.persistence.Temporal;
 public class Utilisateur implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     private String pseudo;
     private String nom;
     private String prenom;
@@ -208,29 +206,21 @@ public class Utilisateur implements Serializable {
         //this.mdp = sha1(mdp);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (pseudo != null ? pseudo.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // TODO: Warning - this method won't work in the case the pseudo fields are not set
         if (!(object instanceof Utilisateur)) {
             return false;
         }
         Utilisateur other = (Utilisateur) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.pseudo == null && other.pseudo != null) || (this.pseudo != null && !this.pseudo.equals(other.pseudo))) {
             return false;
         }
         return true;
@@ -238,7 +228,7 @@ public class Utilisateur implements Serializable {
 
     @Override
     public String toString() {
-        return "model.entity.Utilisateur[ id=" + id + " ]";
+        return "model.entity.Utilisateur[ pseudo=" + pseudo + " ]";
     }
 
     public Chat getChat() {

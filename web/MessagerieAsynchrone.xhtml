@@ -14,7 +14,6 @@
             <p>#{message.conversation.expediteur} #{message.date} : #{message.contenu}</p>
         </c:forEach>
         <h:form>
-            <h:inputText value="#{messagerieAsyncControl.}" required="true" />
             <h:commandButton value="Envoyer" action="#{MessagerieAsyncControl.send}"/>
         </h:form>
     </h:body>
