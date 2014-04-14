@@ -1,6 +1,7 @@
 package control;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -26,6 +27,7 @@ public class LoginBean {
     private UserTransaction ut;
     
     Utilisateur utilisateur;
+    private List<Utilisateur> listeUtilisateurs;
     
     @ManagedProperty(value="#{pseudo}")
     private String pseudo;
@@ -36,6 +38,9 @@ public class LoginBean {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         if(servletContext.getAttribute("listeUtilisateursAttente") == null){
             servletContext.setAttribute("listeUtilisateursAttente", new ArrayList<Utilisateur>());
+        }
+        if(servletContext.getAttribute("listeUtilisateursConnecte") == null){
+            servletContext.setAttribute("listeUtilisateursConnecte", new ArrayList<String>());
         }
     }
     
@@ -80,11 +85,18 @@ public class LoginBean {
     }
     
     public String connecter() { 
-        if (verifPseudo()) { 
-            if (verifMdp()) {
+        //if (verifPseudo()) { 
+            //if (verifMdp()) {
+        System.out.println(pseudo);
                 utilisateur = em.find(Utilisateur.class, pseudo);
+                        FacesContext context = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        ArrayList<String> listeConnecte = (ArrayList<String>)servletContext.getAttribute("listeUtilisateursConnecte");
+        listeConnecte.add(utilisateur.getPseudo());
+        session.setAttribute("pseudoUtilisateur", utilisateur.getPseudo());
                 return "profil"; 
-            } else {
+            /*} else {
                 setMdp("");
                 FacesContext context = FacesContext.getCurrentInstance(); 
                 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Mot de passe incorrect !", "Impossible de se connecter : Mot de passe incorrect !")); 
@@ -94,11 +106,8 @@ public class LoginBean {
             FacesContext context = FacesContext.getCurrentInstance(); 
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Utilisateur introuvable !", "Impossible de se connecter : Utilisateur introuvable !")); 
         } 
-         return "index" ;
-    }
-    
-    public Collection<Utilisateur> () {
-        return 
+         return "index" ;*/
+                
     }
     
     public String deconnexion() {
@@ -108,4 +117,10 @@ public class LoginBean {
         return "faces/index.xhtml";
     }
     
+    public List<Utilisateur> getListeUtilisateurs(){
+        if (this.listeUtilisateurs == null || this.listeUtilisateurs.isEmpty()) {
+            this.listeUtilisateurs = em.createQuery("SELECT u FROM Utilisateur u").getResultList();
+        }
+        return this.listeUtilisateurs;
+    }    
 }
