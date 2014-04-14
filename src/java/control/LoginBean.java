@@ -75,19 +75,15 @@ public class LoginBean {
      */ 
     public boolean verifMdp() { 
         Query query = em.createQuery("select u.mdp from Utilisateur u where u.pseudo=\"" + pseudo + "\""); 
-        String mdp_bdd = query.getSingleResult().toString(); 
-        boolean res = false; 
-        if (mdp.equals(mdp_bdd)) { 
-            res = true; 
-        } 
-        return res; 
+        String mdp_bdd = query.getSingleResult().toString();
+        return mdp.equals(mdp_bdd) ;
     }
     
     public String connecter() { 
         if (verifPseudo()) { 
             if (verifMdp()) {
                 utilisateur = em.find(Utilisateur.class, pseudo);
-                return "index"; 
+                return "profil"; 
             } else {
                 setMdp("");
                 FacesContext context = FacesContext.getCurrentInstance(); 
@@ -98,7 +94,11 @@ public class LoginBean {
             FacesContext context = FacesContext.getCurrentInstance(); 
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Utilisateur introuvable !", "Impossible de se connecter : Utilisateur introuvable !")); 
         } 
-        return null; 
+         return "index" ;
+    }
+    
+    public Collection<Utilisateur> () {
+        return 
     }
     
     public String deconnexion() {

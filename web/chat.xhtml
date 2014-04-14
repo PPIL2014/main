@@ -33,3 +33,26 @@ and open the template in the editor.
             
             <hr/>
             <h:commandButton value="RELOAD" action="#{chatBean.chat}"></h:commandButton>
+            <br/>Liste des messages : <br/>
+            
+            <br/>Envoyer un message : <h:inputText id="message" value="#{chatBean.message}"></h:inputText>
+            <br/>
+            <br/><p:commandButton value="ENVOYER" actionListener="#{chatBean.envoyerMessage}"/>
+             
+            <hr/>
+            <p:remoteCommand name="nextMessage" actionListener="#{chatBean.firstUnreadMessage}" 
+                             oncomplete="updateMessages(xhr, status, args);"/>
+        </h:form>
+        
+        <div id="chat" ></div>
+        
+        <h:form>
+             <br/>Liste des utilisateurs en attente : <br/>
+            <h:dataTable value="#{chatBean.listeUtilisateurAttente}" var="item">
+                <h:column>            
+                    <h:outputText value="#{item.pseudo}"/><br/>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </body>
+</html>

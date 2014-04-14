@@ -36,12 +36,15 @@ public class ChatBean implements Serializable {
     
     private Date lastUpdate;
     
+    /**
+     * Permet de gérer la page de chat. Lors de l'arrivée sur cette page, si la liste d'attente n'éxiste aps elle est crée.
+     */
+    
     public ChatBean() {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         if(servletContext.getAttribute("listeUtilisateursAttente") == null){
             servletContext.setAttribute("listeUtilisateursAttente", new ArrayList<Utilisateur>());
         }
-        
         lastUpdate = new Date(0);
     }
     

@@ -10,6 +10,14 @@
             <br/> Pseudo : 
             <h:inputText id="pseudo" value="#{loginBean.pseudo}"></h:inputText>
             <h:commandButton value="Login" action="#{loginBean.connecter}"></h:commandButton> 
+            
+            <h:dataTable id ="login" value="#{loginBean.utilisateurs}" var="item">
+                <h:column>
+                    <b><h:outputText value="#{item.estEnContactAvec.pseudo}"></h:outputText></b><br/>
+                    <h:commandLink value="#{item.pseudo}" action="#{loginBean.connecter(item)}"></h:commandLink>           
+                </h:column>
+            </h:dataTable>
+            
         </h:form>
     </h:body>
 </html>
