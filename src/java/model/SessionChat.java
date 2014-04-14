@@ -138,4 +138,5 @@ public class SessionChat implements Serializable {
         
         return null; 
     }      
+
 }
