@@ -39,6 +39,28 @@
             <br/><hr/><br/>     
             <h:commandButton value="CHAT" action="#{chatBean.chatAleatoire}"></h:commandButton>
             <h:commandButton value="AMIS" action="#{listeAmisBean.afficherAmis}"></h:commandButton> 
+            
+            
+            <p:remoteCommand name="nextEvent" actionListener="#{eventProfilBean.lastEvent}" 
+                             oncomplete="updatePage(xhr, status, args);"/> 
+            <script type="text/javascript">    
+                updatePage(null,null,null);
+
+                function updatePage(xhr, status, args) {                
+                    if (xhr != null)
+                    {
+                        if (args.ok)
+                        {
+                            if (args.type == "goChat")
+                            {
+                                document.location = 'chat.xhtml'
+                                return;
+                            }
+                        }                    
+                    }
+                    nextEvent();
+                } 
+            </script> 
         </h:form>
     
     <div id="formulaire"></div>

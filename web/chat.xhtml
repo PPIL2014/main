@@ -26,15 +26,19 @@ and open the template in the editor.
             
             <br/>Envoyer un message : <h:inputText id="message" value="#{chatBean.message}"></h:inputText>
             <br/>
-            <br/><p:commandButton value="ENVOYER" actionListener="#{chatBean.envoyerMessage}" ajax="false"/>
-        
-            <hr/>
+            <br/>
+           
+            <h:commandButton value="Envoyer" action="#{chatBean.envoyerMessage}">
+            <f:ajax execute="@form" render="@none" />
+                </h:commandButton>
             <p:remoteCommand name="nextEvent" actionListener="#{eventChatBean.lastEvent}" 
                              oncomplete="updatePage(xhr, status, args);"/>
             
-            <p:dialog id="decoDialog" header="Le chat se termine" widgetVar="dlg2" modal="true" height="100" >  
-               <h:outputText value="Votre correspondant s'est deconnecté" />  
-            </p:dialog>
+            <p:commandButton id="basic" value="Basic" onclick="PF('dlg1').show();" type="button" />  
+
+            <p:dialog id="basicDialog" header="Basic Dialog" widgetVar="dlg1">  
+             <h:outputText value="Resistance to PrimeFaces is futile!" />  
+         </p:dialog> 
 
             <script type="text/javascript">    
             updatePage(null,null,null);
@@ -46,7 +50,7 @@ and open the template in the editor.
                     if (args.ok)
                     {
                         if (args.type == "message")
-                        {
+                        {                            
                             $('#chat').append('<div class="msg">[' +args.dateSent+ '] <strong>'+args.user+'</strong>: '+args.text+'</div>'); 
                         }
                         if (args.type == "endChat")
@@ -58,10 +62,12 @@ and open the template in the editor.
                             //alert("Ton pote c'est barré")
                             //$('#decoDialog').show();
                             //document.getElementById("prem:decoDialog").show();
-                            //document.getElementById('form1:decoDialog').show();                        
+                            //document.getElementById('j_idt6:decoDialog').show();                        
                         }
                     }                    
                 }
+                else
+                    PF('dlg1').show();
                 nextEvent();
             } 
             </script> 

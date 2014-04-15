@@ -122,7 +122,7 @@ public class ChatBean implements Serializable {
         return u.getSessionChatDemarree() ;
     } 
     
-    public void envoyerMessage(ActionEvent evt) throws Exception 
+    /*public void envoyerMessage(ActionEvent evt) throws Exception 
     {         
         this.ut.begin();
         Utilisateur u = getUtilisateurSession() ;
@@ -132,7 +132,7 @@ public class ChatBean implements Serializable {
         chat.getMessages().add(msg);
         this.em.merge(chat);
         this.ut.commit();
-    }
+    }*/
     
     public ArrayList<Utilisateur> getListeUtilisateurAttente () {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
@@ -147,7 +147,7 @@ public class ChatBean implements Serializable {
         this.message = message ;
     }
     
-    /*public void envoyerMessage () throws Exception {
+    public void envoyerMessage () throws Exception {
         this.ut.begin();
         Utilisateur u = getUtilisateurSession() ;
         SessionChat chat = getChat();
@@ -156,8 +156,9 @@ public class ChatBean implements Serializable {
         chat.getMessages().add(msg);
         this.em.merge(chat);
         this.ut.commit();
+        message = "";
         //return "chat.xhtml" ;
-    }   */
+    }   
 
     private Utilisateur obtenirChatteur(Utilisateur u1) {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
