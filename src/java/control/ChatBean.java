@@ -72,7 +72,8 @@ public class ChatBean implements Serializable {
         //on trouve un copain, si il y en a pas l'utilisateur attend
         u2 = obtenirChatteur (u1) ;
         if (u2 == null) {
-            listeAttente.add(u1);
+            if (!listeAttente.contains(u1))
+                listeAttente.add(u1);
             return "profil.xhtml" ;
         }
         

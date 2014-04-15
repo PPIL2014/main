@@ -8,7 +8,7 @@
     <h:head>
         <title>Facelet Title</title>
         <script type="text/javascript">
-            setInterval("aUnChat()", 200);
+            //setInterval("aUnChat()", 200);
             //update the chart every 200 ms
             
             function afficheFormulaire(xhr, status, args) {
@@ -63,6 +63,11 @@
         </h:column>
         </h:dataTable>
     </h:form>
+    
+    <c:if test="#{profilBean.seulEnAttente}">
+        <h:outputText value="Vous êtes seul en attente! Vous serrez redirigé quand quelqu'un arrivera" style="color:#FFCC00;font-size:36px;" />
+    </c:if>
+    
     </h:body>
     
 </html>
