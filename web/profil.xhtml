@@ -2,13 +2,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Facelet Title</title>
-    </h:head>
-    
-     <script type="text/javascript">
+        <script type="text/javascript">
             setInterval("aUnChat()", 200);
             //update the chart every 200 ms
             
@@ -19,9 +18,19 @@
                     document.getElementById('formulaire').innerHTML=args.copain+' veut chatter !'+'<a href="chat.xhtml">CHAT</a>'; 
             }
         </script>
+        
+    </h:head>
     
     <h:body>
-        <h:form> Voici votre PROFIL ! <br/>
+        <h:form>
+
+        <p:notificationBar id="bar" position="bottom" effect="slide" widgetVar="bar" styleClass="top">  
+            <h:outputText value="Vous êtes seul en attente!" style="color:#FFCC00;font-size:36px;" />  
+        </p:notificationBar>
+            
+            <p:commandButton value="Show" onclick="PF('bar').show()" type="button" />  
+            
+        Voici votre PROFIL ! <br/>
         <hr/>
             PSEUDO : <h:outputText id="pseudo" value="#{profilBean.pseudo}"></h:outputText> 
             <br/>
@@ -31,12 +40,13 @@
             <h:commandButton value="CHAT" action="#{chatBean.chatAleatoire}"></h:commandButton>
             <h:commandButton value="AMIS" action="#{listeAmisBean.afficherAmis}"></h:commandButton> 
         </h:form>
-    </h:body>
+    
     <div id="formulaire"></div>
     
     <h:form id="myForm">
         <p:remoteCommand name="aUnChat" actionListener="#{profilBean.chatInfo}" 
                          oncomplete="afficheFormulaire(xhr,status,args);" />      
+        
         
         <br/>
 
@@ -53,4 +63,6 @@
         </h:column>
         </h:dataTable>
     </h:form>
+    </h:body>
+    
 </html>
