@@ -9,6 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import model.*;
 
@@ -43,12 +45,27 @@ public class SessionBean {
         return (ArrayList<String>) servletContext.getAttribute("listeUtilisateursConnecte");
     }
     
-   public String deconnecter(){
-        ArrayList<String> liste = getListeUtilisateurConnecte();
-        liste.remove(this.getPseudo());
+    public ArrayList<String> getListeAttente(){
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        return (ArrayList<String>) servletContext.getAttribute("listeUtilisateursAttente");
+    }
+    
+   public String deconnecter() throws Exception{
+        ut.begin();
+        Utilisateur u = getUtilisateurSession();
+        u.closeAllChat();
+        em.merge(u);
+        
+        ArrayList<String> listeConnecte = getListeUtilisateurConnecte();
+        //ArrayList<String> listeAttente = getListeAttente();
+        listeConnecte.remove(this.getPseudo());
+        //listeAttente.remove(this.getPseudo());
+        
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         session.invalidate();
+        
+        
         return "index.xhtml";
     }
    

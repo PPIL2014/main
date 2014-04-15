@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
@@ -37,7 +38,6 @@ public class ChatBean implements Serializable {
     @ManagedProperty(value="#{utilisateurSession}")
     private Utilisateur utilisateurSession ;
     
-    private Date lastUpdate;
     
     /**
      * Permet de gérer la page de chat. Lors de l'arrivée sur cette page, si la liste d'attente n'éxiste aps elle est crée.
@@ -48,16 +48,9 @@ public class ChatBean implements Serializable {
         if(servletContext.getAttribute("listeUtilisateursAttente") == null){
             servletContext.setAttribute("listeUtilisateursAttente", new ArrayList<Utilisateur>());
         }
-        lastUpdate = new Date(0);
     }
     
-    public Date getLastUpdate(){
-        return lastUpdate;
-    }
-    
-    public void setLastUpdate(Date lastUpdate){
-        this.lastUpdate = lastUpdate;
-    }
+
     /**
      * Cette fonction permet de lancer le chat en mode aleatoire
      * @return
@@ -127,7 +120,19 @@ public class ChatBean implements Serializable {
         Utilisateur u = getUtilisateurSession() ;
         return u.getSessionChatDemarree() ;
     } 
-
+    
+    public void envoyerMessage(ActionEvent evt) throws Exception 
+    {         
+        this.ut.begin();
+        Utilisateur u = getUtilisateurSession() ;
+        SessionChat chat = getChat();
+        MessageChat msg = new MessageChat(message,u);
+        this.em.persist(msg);
+        chat.getMessages().add(msg);
+        this.em.merge(chat);
+        this.ut.commit();
+    }
+    
     public ArrayList<Utilisateur> getListeUtilisateurAttente () {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
@@ -141,7 +146,7 @@ public class ChatBean implements Serializable {
         this.message = message ;
     }
     
-    public void envoyerMessage () throws Exception {
+    /*public void envoyerMessage () throws Exception {
         this.ut.begin();
         Utilisateur u = getUtilisateurSession() ;
         SessionChat chat = getChat();
@@ -151,7 +156,7 @@ public class ChatBean implements Serializable {
         this.em.merge(chat);
         this.ut.commit();
         //return "chat.xhtml" ;
-    }   
+    }   */
 
     private Utilisateur obtenirChatteur(Utilisateur u1) {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
