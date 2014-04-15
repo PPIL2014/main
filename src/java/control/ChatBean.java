@@ -3,14 +3,11 @@ package control;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
@@ -22,7 +19,6 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import model.*;
-import org.primefaces.context.RequestContext;
 
 
 @ManagedBean
@@ -55,6 +51,13 @@ public class ChatBean implements Serializable {
         lastUpdate = new Date(0);
     }
     
+    public Date getLastUpdate(){
+        return lastUpdate;
+    }
+    
+    public void setLastUpdate(Date lastUpdate){
+        this.lastUpdate = lastUpdate;
+    }
     /**
      * Cette fonction permet de lancer le chat en mode aleatoire
      * @return
@@ -123,28 +126,8 @@ public class ChatBean implements Serializable {
         //on recupere le chat de l'utilisateur en session
         Utilisateur u = getUtilisateurSession() ;
         return u.getSessionChatDemarree() ;
-    }
-    
-    public void envoyerMessage(ActionEvent evt) throws Exception 
-    {         
-        this.ut.begin();
-        Utilisateur u = getUtilisateurSession() ;
-        SessionChat chat = getChat();
-        MessageChat msg = new MessageChat(message,u);
-        this.em.persist(msg);
-        chat.getMessages().add(msg);
-        this.em.merge(chat);
-        this.ut.commit();
-    }
-    /*
-    public void setChat(SessionChat chat) throws Exception {
-        this.ut.begin();
-        Utilisateur u = getUtilisateurSession() ;
-        u.setSessionChat(chat);
-        this.em.merge(u);
-        this.ut.commit();
-    }
-    */
+    } 
+
     public ArrayList<Utilisateur> getListeUtilisateurAttente () {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
@@ -158,7 +141,7 @@ public class ChatBean implements Serializable {
         this.message = message ;
     }
     
-    /*public String envoyerMessage () throws Exception {
+    public void envoyerMessage () throws Exception {
         this.ut.begin();
         Utilisateur u = getUtilisateurSession() ;
         SessionChat chat = getChat();
@@ -167,11 +150,8 @@ public class ChatBean implements Serializable {
         chat.getMessages().add(msg);
         this.em.merge(chat);
         this.ut.commit();
-        return "chat.xhtml" ;
-    }*/
-   
-    
-
+        //return "chat.xhtml" ;
+    }   
 
     private Utilisateur obtenirChatteur(Utilisateur u1) {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
@@ -211,43 +191,6 @@ public class ChatBean implements Serializable {
         ArrayList<Utilisateur> listeAttente = (ArrayList<Utilisateur>)servletContext.getAttribute("listeUtilisateursAttente") ;
         
         listeAttente.remove(u1);
-    }
-    
-        public void lastEvent(ActionEvent evt) 
-    {        
-        class ThreadEventChat extends Thread{
-            private RequestContext ctx;
-            public ChatBean cb;
-            public ThreadEventChat(RequestContext ctx, ChatBean cb){
-                this.ctx = ctx;
-                this.cb = cb;
-            }
-            @Override
-            public void run(){
-                MessageChat m = null;
-                while (m == null)
-                {
-                    m = cb.getChat().getFirstAfter(lastUpdate);
-                    try {
-                        sleep(1000);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(ChatBean.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                
-                if (m != null)
-                {
-                    lastUpdate = m.getDate();         
-                    ctx.addCallbackParam("ok", true);
-                    ctx.addCallbackParam("type", "message");
-                    ctx.addCallbackParam("user", m.getExpediteur().getPseudo());
-                    ctx.addCallbackParam("dateSent", m.getDate().toString()); 
-                    ctx.addCallbackParam("text", m.getContenu());
-                }
-            }
-        }
-        
-        ThreadEventChat eventChat = new ThreadEventChat(RequestContext.getCurrentInstance(),this);
-        eventChat.start();   
-    }
+    }   
+
 }
