@@ -36,7 +36,7 @@ and open the template in the editor.
 		<!-- end #menu --> 
             </div>
       
-            <h:form>
+            <h:form id="FormPrincipal">
 
                <div id="page" class="container"> 
                  
@@ -70,7 +70,7 @@ and open the template in the editor.
                        <h:inputTextarea id="message" value="#{chatBean.message}" rows="6" cols="75"></h:inputTextarea>
 
                        <!-- <br/><p:commandButton value="ENVOYER" actionListener="#{ChatBean.envoyerMessage}"/>-->
-                       <h:commandButton value="Envoyer" action="#{chatBean.envoyerMessage()}">
+                       <h:commandButton value="Envoyer" action="#{chatBean.envoyerMessage()}" onclick="eraseInputText()">
                            <f:ajax execute="@form" render="@none" />
                        </h:commandButton>
                    </center>
@@ -86,21 +86,33 @@ and open the template in the editor.
                    
                    <script type="text/javascript">    
                         updatePage(null,null,null);
-
-
+                        var dlg1;
+                        
+                        function eraseInputText(){
+                            document.getElementById("FormPrincipal:message").value = "";
+                        }
+                        function showDialog(){
+                            dlg1.show();
+                        }
+                        
                         function updatePage(xhr, status, args) {                
                             if (xhr != null)
-                            {
+                            {                                
                                 if (args.ok)
                                 {
                                     if (args.type == "message")
-                                    {                            
+                                    {
+                                        showDialog();
                                         if(args.utilisateurCourant){
                                                 $('#chat').append('<center><div class="msg"><span class = "receiver"><p>'+args.text+'</p></span></div></center><br/><br/>'); 
-                                                $('#chat').append('<center><div class="msg"><span class = "receiverclock"><p style="font-size:smaller ;color : gray;">' +args.dateSent+'</p></span></div></center><br/><br/>');}
+                                                $('#chat').append('<center><div class="msg"><span class = "receiverclock"><p style="font-size:smaller ;color : gray;">' +args.dateSent+'</p></span></div></center><br/><br/>');
+                                                
+                                        }
                                         if(!args.utilisateurCourant){
                                                 $('#chat').append('<center><div class="msg"><span class = "sender"><p> '+args.text+'</p></span></div></center><br/><br/>' );
-                                                $('#chat').append('<center><div class="msg"><span class = "senderclock"><p style="font-size:smaller ;color : gray;">' +args.dateSent+'</p></span></div></center><br/><br/>');}
+                                                $('#chat').append('<center><div class="msg"><span class = "senderclock"><p style="font-size:smaller ;color : gray;">' +args.dateSent+'</p></span></div></center><br/><br/>');
+                                                
+                                        }
                                     }
                                     if (args.type == "endChat")
                                     {

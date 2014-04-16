@@ -53,22 +53,26 @@ public class EventProfilBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance();
         Utilisateur u = getUtilisateurSession();
         boolean aUnChat = false;
+        int nbBoucle = 0;
         
-        while(true){
+        while(nbBoucle < 5){
             if (u.getSessionChatDemarree()!=null){
                 aUnChat = true;
                 break;
             }
             
             try {
-                 sleep(1000);
+                 sleep(200);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ChatBean.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            nbBoucle++;
         }
         if (aUnChat){
-            ctx.addCallbackParam("ok", "true");
+            ctx.addCallbackParam("ok", true);
             ctx.addCallbackParam("type", "goChat");
         }
+        else
+            ctx.addCallbackParam("ok", false);
     }    
 }
