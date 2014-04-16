@@ -6,15 +6,12 @@
             <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/src/java/model/Utilisateur.java</file>
             <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/web/profil.xhtml</file>
             <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/src/java/control/ChatBean.java</file>
-            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/src/conf/persistence.xml</file>
-            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/src/java/control/ThreadEventChat.java</file>
-            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/nbproject/build-impl.xml</file>
             <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/web/chat.xhtml</file>
+            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/src/java/control/SessionBean.java</file>
             <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/src/java/model/SessionChat.java</file>
             <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/src/java/control/EventChatBean.java</file>
-            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/web/listeAmis.xhtml</file>
-            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/web/MessagerieAsynchrone.xhtml</file>
             <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/src/java/control/ProfilBean.java</file>
+            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/src/java/control/EventProfilBean.java</file>
         </group>
     </open-files>
 </project-private>

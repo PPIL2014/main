@@ -39,15 +39,9 @@ and open the template in the editor.
             <h:form>
 
                <div id="page" class="container"> 
-
-                   <c:choose>
-                        <c:when test="#{chatBean.utilisateurSession.pseudo == chatBean.utilisateurSession.sessionChatDemarree.utilisateur1.pseudo}">
-                               <br/><b>Utilisateur  : </b><h:outputText value="#{chatBean.utilisateurSession.sessionChatDemarree.utilisateur2.pseudo}"></h:outputText>
-                        </c:when>
-                        <c:when test="#{chatBean.utilisateurSession.pseudo == chatBean.utilisateurSession.sessionChatDemarree.utilisateur2.pseudo}">
-                               <br/><b>Utilisateur  : </b><h:outputText value="#{chatBean.utilisateurSession.sessionChatDemarree.utilisateur1.pseudo}"></h:outputText>
-                        </c:when>
-                   </c:choose>
+                 
+                   <br/><h:outputText value="En discussion avec #{chatBean.correspondant}"
+                                        style="font-weight: bold;"></h:outputText>
                    <!-- POPUP : QUITTER LE CHAT-->
                    <h:form>
                         <p style="float: right;"> 
@@ -84,7 +78,7 @@ and open the template in the editor.
                    <hr/>
                    <p:remoteCommand name="nextEvent" actionListener="#{eventChatBean.lastEvent}" 
                                     oncomplete="updatePage(xhr, status, args);"/>
-                   <p:commandButton id="basic" value="Basic" onclick="PF('dlg1').show();" type="button" />  
+                   <!--<p:commandButton id="basic" value="Basic" onclick="PF('dlg1').show();" type="button" />  -->
 
                    <p:dialog id="basicDialog" header="Basic Dialog" widgetVar="dlg1">  
                          <h:outputText value="Resistance to PrimeFaces is futile!" />  
@@ -121,8 +115,6 @@ and open the template in the editor.
                                     }
                                 }                    
                             }
-                            else
-                                PF('dlg1').show();
                             nextEvent();
                         } 
                 </script> 

@@ -60,6 +60,17 @@ public class ChatBean implements Serializable {
     public void setLastUpdate(Date lastUpdate){
         this.lastUpdate = lastUpdate;
     }
+    
+    public String getCorrespondant(){
+        if (getChat().getEstDemarree())
+        {
+            if (getChat().getUtilisateur1().getPseudo().equals(utilisateurSession))
+                return getChat().getUtilisateur2().getPseudo();
+            else
+                return getChat().getUtilisateur1().getPseudo();
+        }
+        return "";
+    }
     /**
      * Cette fonction permet de lancer le chat en mode aleatoire
      * @return
