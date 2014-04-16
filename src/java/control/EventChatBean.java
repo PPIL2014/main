@@ -9,6 +9,7 @@ package control;
 
 import java.io.Serializable;
 import static java.lang.Thread.sleep;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -87,8 +88,10 @@ public class EventChatBean implements Serializable {
             lastUpdate = m.getDate();         
             ctx.addCallbackParam("ok", true);
             ctx.addCallbackParam("type", "message");
+            ctx.addCallbackParam("utilisateurCourant", m.getExpediteur().getPseudo().equals( utilisateurSession.getPseudo()));
             ctx.addCallbackParam("user", m.getExpediteur().getPseudo());
-            ctx.addCallbackParam("dateSent", m.getDate().toString()); 
+            DateFormat shortDateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT);
+            ctx.addCallbackParam("dateSent", shortDateFormat.format(m.getDate())); 
             ctx.addCallbackParam("text", m.getContenu());
         }     
     }   

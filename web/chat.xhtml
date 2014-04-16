@@ -7,60 +7,112 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"    
+      xmlns:f="http://xmlns.jcp.org/jsf/core" >
+      
     <h:head>        
         <title>Chat</title>
+       <link href="default.css" rel="stylesheet" type="text/css"></link>
     </h:head>
     
-    <body>
-        <h1>Chat</h1>
-        <h:form>
-            <h:commandButton value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandButton><br/>
-            <br/><b>Utilisateur 1 : </b><h:outputText value="#{chatBean.utilisateurSession.sessionChatDemarree.utilisateur1.pseudo}"></h:outputText>
-       
-            <br/><b>Utilisateur 2 : </b><h:outputText value="#{chatBean.utilisateurSession.sessionChatDemarree.utilisateur2.pseudo}"></h:outputText>
-            
-            <hr/>
-            <br/>Liste des messages : <br/>
-            
-            <br/>Envoyer un message : <h:inputText id="message" value="#{chatBean.message}"></h:inputText>
-            <br/>
-           <!-- <br/><p:commandButton value="ENVOYER" actionListener="#{ChatBean.envoyerMessage}"/>-->
-            <h:commandButton value="Envoyer" action="#{chatBean.envoyerMessage()}">
-            <f:ajax execute="@form" render="@none" />
-                </h:commandButton>
-            <hr/>
-            <p:remoteCommand name="nextEvent" actionListener="#{eventChatBean.lastEvent}" 
-                             oncomplete="updatePage(xhr, status, args);"/>
-            
-            <script type="text/javascript">
-                
-            updatePage(null,null,null);
+    <body>      
+        <div id="wrapper">
+            <div id="header-wrapper">
+                <div id="header">
+			<div id="logo">
+				<h1><a href="#">DateRoulette</a></h1>
+			</div>
+		</div>
+            </div>
+            <div id="menu-wrapper">
+		<div id="menu" >
+                    <ul>
+			<li><h:form><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
+			<li><h:form><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+			<li><h:form><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
+                    </ul>
+		</div>
+		<!-- end #menu --> 
+            </div>
+      
+            <h:form>
 
-            function updatePage(xhr, status, args) {                
-                if (xhr != null)
-                {
-                    var typeMsg = "message";
-                    if (args.ok)
-                    {
-                        if (args.type == typeMsg)
-                            $('#chat').append('<div class="msg">[' +args.dateSent+ '] <strong>'+args.user+'</strong>: '+args.text+'</div>'); 
-                    }
-                }
-                nextEvent();
-            } 
-        </script> 
-        </h:form>
-        
-        <div id="chat" ></div>
-        
-        <h:form>
-             <br/>Liste des utilisateurs en attente : <br/>
-            <h:dataTable value="#{chatBean.listeUtilisateurAttente}" var="item">
-                <h:column>            
-                    <h:outputText value="#{item.pseudo}"/><br/>
-                </h:column>
-            </h:dataTable>
-        </h:form>
+               <div id="page" class="container"> 
+
+                   <c:choose>
+                        <c:when test="#{chatBean.utilisateurSession.pseudo == chatBean.utilisateurSession.sessionChatDemarree.utilisateur1.pseudo}">
+                               <br/><b>Utilisateur  : </b><h:outputText value="#{chatBean.utilisateurSession.sessionChatDemarree.utilisateur2.pseudo}"></h:outputText>
+                        </c:when>
+                        <c:when test="#{chatBean.utilisateurSession.pseudo == chatBean.utilisateurSession.sessionChatDemarree.utilisateur2.pseudo}">
+                               <br/><b>Utilisateur  : </b><h:outputText value="#{chatBean.utilisateurSession.sessionChatDemarree.utilisateur1.pseudo}"></h:outputText>
+                        </c:when>
+                   </c:choose>
+                   
+                   <h:form
+                        <p style="float: right;"> <h:commandButton value="Quitter" action="chat.xhtml"></h:commandButton></p>
+                   </h:form>
+                   
+                   <br/><br/>
+
+                   <hr/>
+
+                   <div id="chat" class="chat"></div>
+
+                   <center>
+                       <br/>
+                       <h:inputTextarea id="message" value="#{chatBean.message}" rows="6" cols="75"></h:inputTextarea>
+
+                       <!-- <br/><p:commandButton value="ENVOYER" actionListener="#{ChatBean.envoyerMessage}"/>-->
+                       <h:commandButton value="Envoyer" action="#{chatBean.envoyerMessage()}">
+                           <f:ajax execute="@form" render="@none" />
+                       </h:commandButton>
+                   </center>
+                    
+                   <hr/>
+                   <p:remoteCommand name="nextEvent" actionListener="#{eventChatBean.lastEvent}" 
+                                    oncomplete="updatePage(xhr, status, args);"/>
+
+
+                   <script type="text/javascript">
+
+                       updatePage(null,null,null);
+
+                       function updatePage(xhr, status, args) {                
+                           if (xhr != null)
+                           {
+                                var typeMsg = "message";
+                                if (args.ok)
+                                {
+                                    if (args.type == typeMsg){
+                                        if(args.utilisateurCourant){
+                                        $('#chat').append('<center><div class="msg"><span class = "receiver"><p>'+args.text+'</p></span></div></center><br/><br/>'); 
+                                        $('#chat').append('<center><div class="msg"><span class = "receiverclock"><p style="font-size:smaller ;color : gray;">' +args.dateSent+'</p></span></div></center><br/><br/>');}
+                                        if(!args.utilisateurCourant){
+                                        $('#chat').append('<center><div class="msg"><span class = "sender"><p> '+args.text+'</p></span></div></center><br/><br/>' );
+                                        $('#chat').append('<center><div class="msg"><span class = "senderclock"><p style="font-size:smaller ;color : gray;">' +args.dateSent+'</p></span></div></center><br/><br/>');}
+                                    }
+                                }
+                            }
+                            nextEvent();
+                       } 
+                   </script>
+
+                </div>  
+            </h:form>
+        </div>
     </body>
+    
+    <body>
+        <div id="footer-wrapper">
+            <div id="footer">
+		<ul>
+                    <li><a href="#">CGU</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contactez-nous</a></li>
+		</ul>
+            </div>
+        </div>
+    </body>
+    
 </html>
