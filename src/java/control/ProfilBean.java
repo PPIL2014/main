@@ -73,19 +73,12 @@ public class ProfilBean {
     }
     
     public String goChat () {
-        /*Utilisateur u1 = getUtilisateurSession() ;
-        
-        //si on est deja dans un chat !
-        if (u1.getSessionChat() != null)
-            return "chat.xhtml" ;
-        */
         return "profil.xhtml" ;
     }
     
     public boolean getSeulEnAttente () {
         ArrayList<Utilisateur> listeAttente =  getListeUtilisateurAttente () ;
         Utilisateur u = getUtilisateurSession () ;
-        System.out.println (((listeAttente.size() == 1) && (!listeAttente.get(0).getPseudo().equals(u.getPseudo())))+"    <---- res ") ;
         return ((listeAttente.size() == 1) && (listeAttente.get(0).getPseudo().equals(u.getPseudo()))) ;
     }
 }

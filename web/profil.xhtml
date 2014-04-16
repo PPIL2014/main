@@ -8,8 +8,6 @@
     <h:head>
         <title>Facelet Title</title>
         <script type="text/javascript">
-            //setInterval("aUnChat()", 200);
-            //update the chart every 200 ms
             
             function afficheFormulaire(xhr, status, args) {
                 if(!args.ok) return;
@@ -38,7 +36,6 @@
             <h:commandButton value="CHAT" action="#{chatBean.chatAleatoire}"></h:commandButton>
             <h:commandButton value="AMIS" action="#{listeAmisBean.afficherAmis}"></h:commandButton> 
             
-            
             <p:remoteCommand name="nextEvent" actionListener="#{eventProfilBean.lastEvent}" 
                              oncomplete="updatePage(xhr, status, args);"/> 
             <script type="text/javascript">    
@@ -66,10 +63,8 @@
     <h:form id="myForm">
         <p:remoteCommand name="aUnChat" actionListener="#{profilBean.chatInfo}" 
                          oncomplete="afficheFormulaire(xhr,status,args);" />      
-        
-        
+              
         <br/>
-
         
         <h:commandButton id="btnGoChat" value="Hidden" action="#{chatBean.goChat}" style="display:none">
             <f:ajax execute="@form" render=""></f:ajax>
@@ -95,7 +90,7 @@
         </h:column>
         </h:dataTable>
         <br/>
-        <p:commandButton value="Show" onclick="PF('bar').show()" type="button" />
+        
     </h:form>
     
     <c:if test="#{profilBean.seulEnAttente}">

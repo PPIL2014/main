@@ -79,19 +79,26 @@ public class EventChatBean implements Serializable {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         ArrayList<String> listCo;
         String correspondant;
-        if (getChat().getUtilisateur1().getPseudo().compareTo(getUtilisateurSession().getPseudo()) == 0)
+        SessionChat c = getChat() ;
+        if (c == null)
+            return ;
+        
+        if (c.getUtilisateur1().getPseudo().compareTo(getUtilisateurSession().getPseudo()) == 0)
             correspondant = getChat().getUtilisateur2().getPseudo();
         else
             correspondant = getChat().getUtilisateur1().getPseudo();
         
-        SessionChat c = null ;
+        c = null ;
         while (m == null && endChat == false && utilDeco == false && nbBoucle < 5) 
         {
             
             //Recherche un eventuelle nouveau message
             c = getChat() ;
             if (c == null)
+            {
+                endChat = true;           
                 break;
+            }
             
             m = c.getFirstAfter(lastMessageUpdate);
             if (m != null)
@@ -116,24 +123,28 @@ public class EventChatBean implements Serializable {
             nbBoucle++;
         }
 
-        if (c == null) {
+        /*if (c == null) {
             ctx.addCallbackParam("ok", true);
             ctx.addCallbackParam("type", "stop");
-        } else if (m != null)
+        } else*/ 
+        if (m != null)
         {
             lastMessageUpdate = m.getDate();         
             ctx.addCallbackParam("ok", true);
             ctx.addCallbackParam("type", "message");
+            ctx.addCallbackParam("utilisateurCourant", m.getExpediteur().getPseudo().equals( utilisateurSession.getPseudo()));
             ctx.addCallbackParam("user", m.getExpediteur().getPseudo());
             DateFormat shortDateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT);
             ctx.addCallbackParam("dateSent", shortDateFormat.format(m.getDate())); 
             ctx.addCallbackParam("text", m.getContenu());
-        } else if( endChat == true)
+        } 
+        else if( endChat == true)
         {
             lastQuitUpdate = new Date();
             ctx.addCallbackParam("ok", true);
-            ctx.addCallbackParam("type", "endChat");            
-        } else if (utilDeco == true)
+            ctx.addCallbackParam("type", "endChatSubi");            
+        } 
+        else if (utilDeco == true)
         {
             lastSignOutUpdate = new Date();
             ctx.addCallbackParam("ok", true);

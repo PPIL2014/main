@@ -43,9 +43,9 @@ public class SessionBean {
         return (ArrayList<String>) servletContext.getAttribute("listeUtilisateursConnecte");
     }
     
-    public ArrayList<String> getListeAttente(){
+    public ArrayList<Utilisateur> getListeAttente(){
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        return (ArrayList<String>) servletContext.getAttribute("listeUtilisateursAttente");
+        return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente");
     }
     
    public String deconnecter() throws Exception{
@@ -55,9 +55,10 @@ public class SessionBean {
         em.merge(u);
         
         ArrayList<String> listeConnecte = getListeUtilisateurConnecte();
-        ArrayList<String> listeAttente = getListeAttente();
+        ArrayList<Utilisateur> listeAttente = getListeAttente();
+        
         listeConnecte.remove(this.getPseudo());
-        listeAttente.remove(this.getPseudo());
+        listeAttente.remove(this.getUtilisateurSession());
         
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);

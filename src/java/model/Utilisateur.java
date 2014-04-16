@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -210,18 +211,7 @@ public class Utilisateur implements Serializable {
         return hash;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the pseudo fields are not set
-        if (!(object instanceof Utilisateur)) {
-            return false;
-        }
-        Utilisateur other = (Utilisateur) object;
-        if ((this.pseudo == null && other.pseudo != null) || (this.pseudo != null && !this.pseudo.equals(other.pseudo))) {
-            return false;
-        }
-        return true;
-    }
+
 
     @Override
     public String toString() {
@@ -261,4 +251,20 @@ public class Utilisateur implements Serializable {
         }
         return null ;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Utilisateur other = (Utilisateur) obj;
+        if (!Objects.equals(this.pseudo, other.pseudo)) {
+            return false;
+        }
+        return true;
+    }
+
 }
