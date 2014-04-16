@@ -52,9 +52,12 @@ public class EventChatBean implements Serializable {
         lastSignOutUpdate = new Date(0);
         lastQuitUpdate = new Date(0);
     }
-        public SessionChat getChat() {
+       
+    public SessionChat getChat() {
         //on recupere le chat de l'utilisateur en session
         Utilisateur u = getUtilisateurSession() ;
+        if (u == null)
+            return null ;
         return u.getSessionChatDemarree() ;
     }
     
@@ -71,6 +74,7 @@ public class EventChatBean implements Serializable {
         MessageChat m = null;
         boolean endChat = false;
         boolean utilDeco = false;
+
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         ArrayList<String> listCo;
         String correspondant;
@@ -79,10 +83,15 @@ public class EventChatBean implements Serializable {
         else
             correspondant = getChat().getUtilisateur1().getPseudo();
         
+        SessionChat c = null ;
         while (m == null && endChat == false && utilDeco == false) 
         {
             //Recherche un eventuelle nouveau message
-            m = getChat().getFirstAfter(lastMessageUpdate);
+            c = getChat() ;
+            if (c == null)
+                break;
+            
+            m = c.getFirstAfter(lastMessageUpdate);
             if (m != null)
                 break;           
 
@@ -104,24 +113,24 @@ public class EventChatBean implements Serializable {
                 }
         }
 
-        if (m != null)
+        if (c == null) {
+            ctx.addCallbackParam("ok", true);
+            ctx.addCallbackParam("type", "stop");
+        } else if (m != null)
         {
             lastMessageUpdate = m.getDate();         
             ctx.addCallbackParam("ok", true);
-            ctx.addCallbackParam("utilisateurCourant", m.getExpediteur().getPseudo().equals( utilisateurSession.getPseudo()));
             ctx.addCallbackParam("type", "message");
             ctx.addCallbackParam("user", m.getExpediteur().getPseudo());
             DateFormat shortDateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT);
             ctx.addCallbackParam("dateSent", shortDateFormat.format(m.getDate())); 
             ctx.addCallbackParam("text", m.getContenu());
-        }
-        if( endChat == true)
+        } else if( endChat == true)
         {
             lastQuitUpdate = new Date();
             ctx.addCallbackParam("ok", true);
             ctx.addCallbackParam("type", "endChat");            
-        }
-        if (utilDeco == true)
+        } else if (utilDeco == true)
         {
             lastSignOutUpdate = new Date();
             ctx.addCallbackParam("ok", true);

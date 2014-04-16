@@ -84,7 +84,8 @@ public class ProfilBean {
     
     public boolean getSeulEnAttente () {
         ArrayList<Utilisateur> listeAttente =  getListeUtilisateurAttente () ;
-        System.out.println (listeAttente.size()) ;
-        return (listeAttente.size() == 1) ;
+        Utilisateur u = getUtilisateurSession () ;
+        System.out.println (((listeAttente.size() == 1) && (!listeAttente.get(0).getPseudo().equals(u.getPseudo())))+"    <---- res ") ;
+        return ((listeAttente.size() == 1) && (listeAttente.get(0).getPseudo().equals(u.getPseudo()))) ;
     }
 }
