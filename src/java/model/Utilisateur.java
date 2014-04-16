@@ -254,7 +254,7 @@ public class Utilisateur implements Serializable {
         sessionsChat.add(c);
     }
 
-    public SessionChat getSessionChatDemarree() {
+    public SessionChat getSessionChatDemarree() {        
         for (SessionChat c : sessionsChat) {
             if (c.getEstDemarree())
                 return c ;

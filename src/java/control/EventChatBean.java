@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package control;
-
 
 import java.io.Serializable;
 import static java.lang.Thread.sleep;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import model.MessageChat;
@@ -41,7 +36,9 @@ public class EventChatBean implements Serializable {
     /*@ManagedProperty(value="#{message}")
     private String message;*/
     
-    private Date lastUpdate;
+    private Date lastMessageUpdate;
+    private Date lastSignOutUpdate;
+    private Date lastQuitUpdate;
     
     @PersistenceContext 
     private EntityManager em;
@@ -50,7 +47,9 @@ public class EventChatBean implements Serializable {
     private UserTransaction ut;
     
     public EventChatBean() {
-        lastUpdate = new Date(0);
+        lastMessageUpdate = new Date(0);
+        lastSignOutUpdate = new Date(0);
+        lastQuitUpdate = new Date(0);
     }
         public SessionChat getChat() {
         //on recupere le chat de l'utilisateur en session
@@ -69,27 +68,62 @@ public class EventChatBean implements Serializable {
     {      
         RequestContext ctx = RequestContext.getCurrentInstance();
         MessageChat m = null;
-        while (m == null)
+        boolean endChat = false;
+        boolean utilDeco = false;
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        ArrayList<String> listCo;
+        String correspondant;
+        if (getChat().getUtilisateur1().getPseudo().compareTo(getUtilisateurSession().getPseudo()) == 0)
+            correspondant = getChat().getUtilisateur2().getPseudo();
+        else
+            correspondant = getChat().getUtilisateur1().getPseudo();
+        
+        while (m == null && endChat == false && utilDeco == false) 
         {
-            m = getChat().getFirstAfter(lastUpdate);
-            if (m == null)
-            {
-                try {
-                    sleep(1000);
+            //Recherche un eventuelle nouveau message
+            m = getChat().getFirstAfter(lastMessageUpdate);
+            if (m != null)
+                break;           
+
+            //Regarde si le chat est toujours actis*fs
+            endChat = !getChat().getEstDemarree();
+            if (endChat)
+                break;
+            
+            //Controle si le correspondant est toujours connecté
+            listCo = (ArrayList<String>) servletContext.getAttribute("listeUtilisateursConnecte");
+            utilDeco = !listCo.contains(correspondant);
+            if (utilDeco)
+                break;
+            
+            try {
+                 sleep(1000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ChatBean.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
         }
 
         if (m != null)
         {
-            lastUpdate = m.getDate();         
+            lastMessageUpdate = m.getDate();         
             ctx.addCallbackParam("ok", true);
+            ctx.addCallbackParam("estCourant",m.getExpediteur()==utilisateurSession);
             ctx.addCallbackParam("type", "message");
             ctx.addCallbackParam("user", m.getExpediteur().getPseudo());
             ctx.addCallbackParam("dateSent", m.getDate().toString()); 
             ctx.addCallbackParam("text", m.getContenu());
-        }     
+        }
+        if( endChat == true)
+        {
+            lastQuitUpdate = new Date();
+            ctx.addCallbackParam("ok", true);
+            ctx.addCallbackParam("type", "endChat");            
+        }
+        if (utilDeco == true)
+        {
+            lastSignOutUpdate = new Date();
+            ctx.addCallbackParam("ok", true);
+            ctx.addCallbackParam("type", "utilDeco");
+        }
     }   
 }

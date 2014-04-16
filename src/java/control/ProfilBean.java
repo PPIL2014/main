@@ -81,4 +81,10 @@ public class ProfilBean {
         */
         return "profil.xhtml" ;
     }
+    
+    public boolean getSeulEnAttente () {
+        ArrayList<Utilisateur> listeAttente =  getListeUtilisateurAttente () ;
+        System.out.println (listeAttente.size()) ;
+        return (listeAttente.size() == 1) ;
+    }
 }

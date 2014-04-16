@@ -8,6 +8,7 @@ and open the template in the editor.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
     <h:head>        
         <title>Chat</title>
     </h:head>
@@ -25,36 +26,56 @@ and open the template in the editor.
             
             <br/>Envoyer un message : <h:inputText id="message" value="#{chatBean.message}"></h:inputText>
             <br/>
-           <!-- <br/><p:commandButton value="ENVOYER" actionListener="#{ChatBean.envoyerMessage}"/>-->
-            <h:commandButton value="Envoyer" action="#{chatBean.envoyerMessage()}">
+            <br/>
+           
+            <h:commandButton value="Envoyer" action="#{chatBean.envoyerMessage}">
             <f:ajax execute="@form" render="@none" />
                 </h:commandButton>
-            <hr/>
             <p:remoteCommand name="nextEvent" actionListener="#{eventChatBean.lastEvent}" 
                              oncomplete="updatePage(xhr, status, args);"/>
             
-            <script type="text/javascript">
-                
-            updatePage(null,null,null);
+            <p:commandButton id="basic" value="Basic" onclick="PF('dlg1').show();" type="button" />  
 
+            <p:dialog id="basicDialog" header="Basic Dialog" widgetVar="dlg1">  
+             <h:outputText value="Resistance to PrimeFaces is futile!" />  
+         </p:dialog> 
+
+            <script type="text/javascript">    
+            updatePage(null,null,null);
+            
+            
             function updatePage(xhr, status, args) {                
                 if (xhr != null)
                 {
-                    var typeMsg = "message";
                     if (args.ok)
                     {
-                        if (args.type == typeMsg)
+                        if (args.type == "message")
+                        {                            
                             $('#chat').append('<div class="msg">[' +args.dateSent+ '] <strong>'+args.user+'</strong>: '+args.text+'</div>'); 
-                    }
+                        }
+                        if (args.type == "endChat")
+                        {
+                            alert("Ton pote veux plus te parler");
+                        }
+                        if (args.type == "utilDeco")
+                        {
+                            //alert("Ton pote c'est barré")
+                            //$('#decoDialog').show();
+                            //document.getElementById("prem:decoDialog").show();
+                            //document.getElementById('j_idt6:decoDialog').show();                        
+                        }
+                    }                    
                 }
+                else
+                    PF('dlg1').show();
                 nextEvent();
             } 
-        </script> 
+            </script> 
         </h:form>
-        
+
         <div id="chat" ></div>
-        
-                <!-- POPUP : QUITTER LE CHAT-->
+                
+        <!-- POPUP : QUITTER LE CHAT-->
         <h:form>
  
             <h:commandButton value="Quitter" onclick="confirmDialog.show()">

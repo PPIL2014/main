@@ -151,7 +151,19 @@ public class ChatBean implements Serializable {
         this.em.merge(chat);
         this.ut.commit();
         //return "chat.xhtml" ;
-    }   
+    }  
+    
+        /*public void envoyerMessage(ActionEvent evt) throws Exception 
+    {         
+        this.ut.begin();
+        Utilisateur u = getUtilisateurSession() ;
+        SessionChat chat = getChat();
+        MessageChat msg = new MessageChat(message,u);
+        this.em.persist(msg);
+        chat.getMessages().add(msg);
+        this.em.merge(chat);
+        this.ut.commit();
+    }*/
 
     private Utilisateur obtenirChatteur(Utilisateur u1) {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
