@@ -57,14 +57,15 @@ public class SessionBean {
         em.merge(u);
         
         ArrayList<String> listeConnecte = getListeUtilisateurConnecte();
-        //ArrayList<String> listeAttente = getListeAttente();
+        ArrayList<String> listeAttente = getListeAttente();
         listeConnecte.remove(this.getPseudo());
-        //listeAttente.remove(this.getPseudo());
+        listeAttente.remove(this.getPseudo());
         
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         session.invalidate();
         
+        ut.commit();
         
         return "index.xhtml";
     }

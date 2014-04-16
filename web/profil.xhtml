@@ -28,8 +28,6 @@
             <h:outputText value="Vous êtes seul en attente!" style="color:#FFCC00;font-size:36px;" />  
         </p:notificationBar>
             
-            <p:commandButton value="Show" onclick="PF('bar').show()" type="button" />  
-            
         Voici votre PROFIL ! <br/>
         <hr/>
             PSEUDO : <h:outputText id="pseudo" value="#{profilBean.pseudo}"></h:outputText> 
@@ -78,12 +76,26 @@
         </h:commandButton>
         <br/>
         <h:commandButton value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandButton>
+        
+        <br/>
+        <hr/>
+        <br/>
+        
         <br/>Liste des utilisateurs connectée : <br/>
         <h:dataTable value="#{sessionBean.listeUtilisateurConnecte}" var="item">
         <h:column>            
             <h:outputText value="#{item}"/><br/>
         </h:column>
         </h:dataTable>
+        
+        <br/>Liste des utilisateurs en attente : <br/>
+        <h:dataTable value="#{profilBean.listeUtilisateurAttente}" var="item">
+        <h:column>            
+            <h:outputText value="#{item.pseudo}"/><br/>
+        </h:column>
+        </h:dataTable>
+        <br/>
+        <p:commandButton value="Show" onclick="PF('bar').show()" type="button" />
     </h:form>
     
     <c:if test="#{profilBean.seulEnAttente}">

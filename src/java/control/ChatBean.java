@@ -62,12 +62,17 @@ public class ChatBean implements Serializable {
     }
     
     public String getCorrespondant(){
-        if (getChat().getEstDemarree())
+        SessionChat c = getChat() ;
+        
+        if (c == null)
+            return null ;
+        
+        if (c.getEstDemarree())
         {
-            if (getChat().getUtilisateur1().getPseudo().equals(utilisateurSession))
-                return getChat().getUtilisateur2().getPseudo();
+            if (c.getUtilisateur1().equals(getUtilisateurSession ()))
+                return c.getUtilisateur2().getPseudo();
             else
-                return getChat().getUtilisateur1().getPseudo();
+                return c.getUtilisateur1().getPseudo();
         }
         return "";
     }
