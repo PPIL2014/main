@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
@@ -22,6 +23,10 @@
             <br/>
         </c:forEach>
         <h:form>
+            <h:commandLink action="#{loginBean.Messagerie()}">
+                Voir Messagerie
+                <f:param name="faces-redirect" value="true"/>
+            </h:commandLink>&nbsp;
             <h:commandLink action="#{loginBean.deconnexion()}">Déconnecter</h:commandLink>
         </h:form>
     </h:body>

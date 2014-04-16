@@ -5,11 +5,21 @@
  */
 
 package control;
+import javax.annotation.Resource;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 import model.Utilisateur;
 
 /**
@@ -21,25 +31,14 @@ import model.Utilisateur;
 @FacesConverter("clientConverter")
 public class ClientConverter implements Converter {
     
-    @ManagedProperty("#{sessionBean.dest2}")
-    public Utilisateur dest;
-    @ManagedProperty("#{sessionBean.dest2}")
-    public Utilisateur dest2;
-    @ManagedProperty("#{sessionBean.dest2}")
-    public Utilisateur dest3;
+    @PersistenceContext(unitName = "DateRoulettePU")
+    private EntityManager em;
+    @Resource
+    private UserTransaction ut;
+    
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        
-        if(value.equals(dest.getPseudo())){
-            return dest;
-        }
-        else if(value.equals(dest2.getPseudo())){
-            return dest2;
-        }
-        else{
-            return dest3;
-        }
-        
+        return getUser(value);
     }
  
     @Override
@@ -50,5 +49,28 @@ public class ClientConverter implements Converter {
         } else {  
             return String.valueOf(((Utilisateur) value).getPseudo());  
         }  
+    }
+    
+    /**
+     * Méthode permettant de récupérer un utilisateur à partir de son id
+     * @param pseudo le pseudo de l'utilisateur
+     * @return l'utilsiateur associé à cet id
+     */
+    public Utilisateur getUser(String pseudo) {
+        Utilisateur results = null;
+        try{
+            ut.begin();
+            Query q = em.createQuery("SELECT u FROM Utilisateur u WHERE u.pseudo=:pse");
+            q.setParameter("pse", pseudo);
+            results = (Utilisateur) q.getSingleResult();
+            System.err.println("Utilisateur : "+results.getPseudo());
+            ut.commit();
+        }catch(NotSupportedException | SystemException | RollbackException | 
+                HeuristicMixedException | HeuristicRollbackException | 
+                SecurityException | IllegalStateException e){
+            e.printStackTrace();
+        }
+        
+        return results;
     }
 }

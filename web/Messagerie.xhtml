@@ -11,23 +11,23 @@
     <h:body>
         
         <h:form id="form">
-                <h:outputLabel value="Client's name : " for="clientName" />
-               
+            <h:outputLabel value="Client's name : " for="clientName" />
               <p:autoComplete id="clientName"
-                        value="#{autoCompleteClientBean.selectedClient}"   
-                        completeMethod="#{autoCompleteClientBean.complete}" 
-                        converter="clientConverter"
-                        var="c"
-                        itemLabel="#{c.pseudo}"
-                        itemValue="#{c}"
-                        forceSelection="true"   
-                        required="true"/>&nbsp;
-                <h:commandButton value="Submit" action="#{autoCompleteClientBean.submit}"/> 
-        </h:form>   
+                            value="#{autoCompleteClientBean.selectedClient}"
+                            completeMethod="#{autoCompleteClientBean.complete}"
+                            converter="clientConverter"
+                            var="c"
+                            itemLabel="#{c.pseudo}"
+                            itemValue="#{c}"
+                            forceSelection="true"
+                            />&nbsp;
+              
+              <h:commandButton value="Submit" action="#{autoCompleteClientBean.submit()}"/> 
+        </h:form>
         
         
         <h1>Mes conversations</h1>
-        <c:forEach var="conv" items="#{messagerieControl.user.conversations}">
+        <c:forEach var="conv" items="#{autoCompleteClientBean.getConversations()}">
             <p>
                 <ui:composition template="/itemConv.xhtml" id="itemConv">
                     <ui:param name="idConv" value="#{conv.destinataire.pseudo}"/>

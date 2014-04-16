@@ -16,10 +16,15 @@ import javax.faces.bean.ManagedBean;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 import model.Conversation;
 import model.Image;
 import model.MessageConversation;
@@ -32,29 +37,31 @@ import model.Utilisateur;
 @ManagedBean
 @Named(value = "gestionMessagerie")
 @ApplicationScoped
-public class GestionMessagerie {
+public final class GestionMessagerie {
 
-    @PersistenceUnit (unitName="DateRoulettePU")
-    public EntityManagerFactory emf;
-    
-    @PersistenceContext
-    public EntityManager em;
-    
+    @PersistenceContext(unitName = "DateRoulettePU")
+    private EntityManager em;
     @Resource
-    public EntityTransaction ut;
+    private UserTransaction ut;
     
-    /**
-     * Creates a new instance of GestionMessagerie
-     */
+    private static GestionMessagerie instance;
+    
+    /*
     public GestionMessagerie() {
         
+    }*/
+    
+    public static GestionMessagerie getInstance(){
+        if(instance == null)
+            instance = new GestionMessagerie() ;
+        return instance ;
     }
-
+    
     @PostConstruct
     public void init() {
-        em = emf.createEntityManager();
-        ut = em.getTransaction();
-        //try{
+        //em = emf.createEntityManager();
+        //ut = em.getTransaction();
+        try{
         ut.begin();
         Utilisateur u = new Utilisateur();
         u.setPseudo("Micka");
@@ -134,16 +141,33 @@ public class GestionMessagerie {
         em.persist(c3);
         
         ut.commit();
-        /*}catch(NotSupportedException | SystemException | RollbackException | 
+        }catch(NotSupportedException | SystemException | RollbackException | 
                 HeuristicMixedException | HeuristicRollbackException | 
                 SecurityException | IllegalStateException e){
             e.printStackTrace();
-        }*/
+        }
     }
     
+    public List<Utilisateur> getContacts(Utilisateur user){
+        if(user==null)
+            return null;
+        try{
+        ut.begin();
+        Query q = em.createQuery("SELECT c.destinataire FROM Conversation c WHERE c.expediteur=:exp");
+        q.setParameter("exp", user);
+        List<Utilisateur> results = (List<Utilisateur>) q.getResultList();
+        ut.commit();
+        return results;
+        }catch(NotSupportedException | SystemException | RollbackException | 
+                HeuristicMixedException | HeuristicRollbackException | 
+                SecurityException | IllegalStateException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
     
-    public  List<Conversation> getConversations(Utilisateur user){
-        //try{
+    public List<Conversation> getConversations(Utilisateur user){
+        try{
             if(user==null)
                 return null;
             ut.begin();
@@ -158,11 +182,11 @@ public class GestionMessagerie {
                 return results;
             }
             
-        /*}catch(NotSupportedException | SystemException | RollbackException | 
+        }catch(NotSupportedException | SystemException | RollbackException | 
                 HeuristicMixedException | HeuristicRollbackException | 
                 SecurityException | IllegalStateException e){
             e.printStackTrace();
-        }*/
+        }
             
         return null;
     }
@@ -173,8 +197,8 @@ public class GestionMessagerie {
      * @param destinataire l'utilisateur associé à la conversation (utilisateur avec qui l'expediteur veut discuter)
      * @return la (première et en théorie unique) conversation entre les deux utilisateurs
      */
-    public  Conversation getConversation(Utilisateur expediteur, Utilisateur destinataire) {
-        //try{
+    public Conversation getConversation(Utilisateur expediteur, Utilisateur destinataire) {
+        try{
             if(expediteur==null || destinataire==null)
                 return null;
             ut.begin();
@@ -190,12 +214,12 @@ public class GestionMessagerie {
                 return results.get(0);
             }
             
-        /*}catch(NotSupportedException | SystemException | RollbackException | 
+        }catch(NotSupportedException | SystemException | RollbackException | 
                 HeuristicMixedException | HeuristicRollbackException | 
                 SecurityException | IllegalStateException e){
             e.printStackTrace();
-        }*/
-            
+        }
+           
         return null;
     }
     
@@ -204,9 +228,9 @@ public class GestionMessagerie {
      * @param c la conversation dont on veut récupérer la liste de messages
      * @return la liste des messages privés (MessageConversation)
      */
-    public  List<MessageConversation> getPrivateMessages(Conversation c) {
+    public List<MessageConversation> getPrivateMessages(Conversation c) {
         List<MessageConversation> results=null;
-        //try{
+        try{
             if(c==null)
                 return null;
             ut.begin();
@@ -215,11 +239,11 @@ public class GestionMessagerie {
             results = (List<MessageConversation>) q.getResultList();
             ut.commit();
 
-        /*}catch(NotSupportedException | SystemException | RollbackException | 
+        }catch(NotSupportedException | SystemException | RollbackException | 
                 HeuristicMixedException | HeuristicRollbackException | 
                 SecurityException | IllegalStateException e){
             e.printStackTrace();
-        }*/
+        }
         
         return results;
         
@@ -231,9 +255,9 @@ public class GestionMessagerie {
      * @param destinataire l'utilisateur avec qui l'expediteur veut discuter
      * @return la liste des messages privés (MessageConversation)
      */
-    public  List<MessageConversation> getPrivateMessages(Utilisateur expediteur, Utilisateur destinataire){
+    public List<MessageConversation> getPrivateMessages(Utilisateur expediteur, Utilisateur destinataire){
         List<MessageConversation> results=null;
-        //try{
+        try{
             if(expediteur==null || destinataire==null)
                 return null;
             ut.begin();
@@ -242,11 +266,11 @@ public class GestionMessagerie {
             q.setParameter("dest", destinataire);
             results = (List<MessageConversation>) q.getResultList();
             ut.commit();
-        /*}catch(NotSupportedException | SystemException | RollbackException | 
+        }catch(NotSupportedException | SystemException | RollbackException | 
                 HeuristicMixedException | HeuristicRollbackException | 
                 SecurityException | IllegalStateException e){
             e.printStackTrace();
-        }*/
+        }
         return results;
     }
     
@@ -255,17 +279,17 @@ public class GestionMessagerie {
      * @param id l'id de l'utilisateur à récupérer
      * @return l'utilsiateur associé à cet id
      */
-    public  Utilisateur getUser(long id) {
+    public Utilisateur getUser(long id) {
         Utilisateur u = null;
-        //try{
+        try{
             ut.begin();
             u = em.find(Utilisateur.class, id);
             ut.commit();
-       /*}catch(NotSupportedException | SystemException | RollbackException | 
+       }catch(NotSupportedException | SystemException | RollbackException | 
                 HeuristicMixedException | HeuristicRollbackException | 
                 SecurityException | IllegalStateException e){
             e.printStackTrace();
-        }*/
+        }
         
         return u;
     }
@@ -275,20 +299,20 @@ public class GestionMessagerie {
      * @param pseudo le pseudo de l'utilisateur
      * @return l'utilsiateur associé à cet id
      */
-    public  Utilisateur getUser(String pseudo) {
+    public Utilisateur getUser(String pseudo) {
         Utilisateur results = null;
-        //try{
+        try{
             ut.begin();
             Query q = em.createQuery("SELECT u FROM Utilisateur u WHERE u.pseudo=:pse");
             q.setParameter("pse", pseudo);
             results = (Utilisateur) q.getSingleResult();
             ut.commit();
-        /*}catch(NotSupportedException | SystemException | RollbackException | 
+        }catch(NotSupportedException | SystemException | RollbackException | 
                 HeuristicMixedException | HeuristicRollbackException | 
                 SecurityException | IllegalStateException e){
             e.printStackTrace();
-        }*/
-        
+        }
+       
         return results;
     }
     
@@ -297,21 +321,21 @@ public class GestionMessagerie {
      * @param id l'id de l'utilisateur dont on veut récupérer l'avatar
      * @return l'avatar (Image) de l'utilisateur
      */
-    public  Image getAvatar(long id){
+    public Image getAvatar(long id){
          List<Image> results = null;
          
-        //try{
+        try{
             ut.begin();
             Query q = em.createQuery("SELECT u.avatar FROM Utilisateur u WHERE u.id=:id");
             q.setParameter("id", id);
             results= (List<Image>) q.getResultList();
             ut.commit();
         
-        /*}catch(NotSupportedException | SystemException | RollbackException | 
+        }catch(NotSupportedException | SystemException | RollbackException | 
                 HeuristicMixedException | HeuristicRollbackException | 
                 SecurityException | IllegalStateException e){
             e.printStackTrace();
-        }*/
+        }
         
         if(results==null || results.isEmpty())
             return null;

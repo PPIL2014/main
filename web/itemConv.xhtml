@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Date-Roulette</title>
         <h:head>
@@ -12,7 +13,14 @@
     <h:body>
         <ui:composition>
             <div id="contact">
-                <p align="center" class="avatar">Conversation avec <a href="MessagerieAsynchrone.xhtml">#{conv.getDestinataire().getPseudo()}</a></p>
+                <h:form >
+                    <p align="center" class="avatar">Conversation avec 
+                        <h:commandLink action="MessagerieAsynchrone.xhtml">#{conv.getDestinataire().getPseudo()}
+                            <f:param name="face-redirect=true"/>
+                            <f:param name="conv" value="#{conv.id}"/>
+                        </h:commandLink>
+                    </p>
+                </h:form>
             </div>
         </ui:composition>
     </h:body>

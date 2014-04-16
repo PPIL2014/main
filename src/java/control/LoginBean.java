@@ -1,5 +1,6 @@
 package control;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +25,7 @@ import model.Utilisateur;
 
 @ManagedBean
 @SessionScoped
-public class LoginBean {
+public class LoginBean implements Serializable {
     @PersistenceContext(unitName = "DateRoulettePU")
     private EntityManager em;
     @Resource
@@ -96,6 +97,8 @@ public class LoginBean {
                     this.ut.begin();
                     this.em.merge(this.utilisateur);
                     this.ut.commit();
+                    HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+                    session.setAttribute("user", this.utilisateur);
                     return "fakeListe.xhtml";
                 } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
                     Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -123,6 +126,10 @@ public class LoginBean {
         ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).invalidate();
         this.utilisateur = null;
         return "index.xhtml";
+    }
+    
+    public String Messagerie(){
+        return "Messagerie.xhtml";
     }
     
 }
