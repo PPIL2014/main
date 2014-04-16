@@ -84,16 +84,20 @@ public class LoginBean {
         return mdp.equals(mdp_bdd) ;
     }
     
-    public String connecter() { 
+    public String connecter() throws Exception{ 
         //if (verifPseudo()) { 
             //if (verifMdp()) {
+                //this.ut.begin();
                 utilisateur = em.find(Utilisateur.class, pseudo);
                 FacesContext context = FacesContext.getCurrentInstance();
                 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
                 ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
                 ArrayList<String> listeConnecte = (ArrayList<String>)servletContext.getAttribute("listeUtilisateursConnecte");
                 listeConnecte.add(utilisateur.getPseudo());
+                //utilisateur.closeAllChat();
+                //this.em.merge(utilisateur);
                 session.setAttribute("pseudoUtilisateur", utilisateur.getPseudo());
+                //this.ut.commit();
                 return "profil"; 
             /*} else {
                 setMdp("");

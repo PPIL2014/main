@@ -54,6 +54,24 @@ and open the template in the editor.
         
         <div id="chat" ></div>
         
+                <!-- POPUP : QUITTER LE CHAT-->
+        <h:form>
+ 
+            <h:commandButton value="Quitter" onclick="confirmDialog.show()">
+                <f:ajax execute="@form" render="@none" />
+            </h:commandButton>
+
+            <p:confirmDialog id="confirmDialog" message="Voulez-vous vraiment quitter le chat ?" header="Quitter" severity="alert" widgetVar="confirmDialog">
+
+                <h:commandButton id="oui" value="Oui" actionListener="#{chatBean.quitterChat()}" action="profil?faces-redirect=true"/>
+
+                <h:commandButton id="non" value="Non" />
+
+            </p:confirmDialog>
+
+        </h:form>
+        <!-- FIN POPUP : QUITTER LE CHAT-->
+        
         <h:form>
              <br/>Liste des utilisateurs en attente : <br/>
             <h:dataTable value="#{chatBean.listeUtilisateurAttente}" var="item">

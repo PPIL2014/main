@@ -73,8 +73,6 @@ public class Utilisateur implements Serializable {
      */
     @OneToMany
     private List<SessionChat>  sessionsChat;
-    //@OneToOne
-    //private SessionChat sessionChat;
     
     /**
      * 
@@ -82,8 +80,6 @@ public class Utilisateur implements Serializable {
      */
     @OneToOne
     private Image avatar;
-    /*@OneToOne
-    private Session session;*/
     
     public Utilisateur() {
         
