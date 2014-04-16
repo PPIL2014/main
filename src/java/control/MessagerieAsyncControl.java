@@ -4,7 +4,7 @@
  */
 package control;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import javax.enterprise.context.Dependent;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -50,7 +50,7 @@ public class MessagerieAsyncControl {
     public MessagerieAsyncControl() {
     }
     
-    public ArrayList<MessageConversation> getMessages(){
+    public Collection<MessageConversation> getMessages(){
         return conversation.getMessages() ;
     }
 

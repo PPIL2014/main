@@ -7,7 +7,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,7 +32,7 @@ public class QuestionQCM extends Question implements Serializable {
      * @element-type Choix
      */
     @OneToMany
-    private ArrayList<Choix> choix;
+    private Collection<Choix> choix;
     
     public Integer getNombreChoixMax() {
         return nombreChoixMax;
@@ -50,11 +50,11 @@ public class QuestionQCM extends Question implements Serializable {
         this.type = type;
     }
 
-    public ArrayList<Choix> getChoix() {
+    public Collection<Choix> getChoix() {
         return choix;
     }
 
-    public void setChoix(ArrayList<Choix> choix) {
+    public void setChoix(Collection<Choix> choix) {
         this.choix = choix;
     }
 

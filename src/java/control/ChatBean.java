@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
+import java.util.Collection;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -46,7 +48,7 @@ public class ChatBean implements Serializable {
     }
     
     public String chat() throws Exception {
-        ArrayList<Utilisateur> listeAttente = getListeUtilisateurAttente() ;
+        /*ArrayList<Utilisateur> listeAttente = getListeUtilisateurAttente() ;
         Utilisateur u1 = getUtilisateurSession() ;
         Utilisateur u2 = null ;
         
@@ -79,7 +81,8 @@ public class ChatBean implements Serializable {
             //on ajoute l'utilisateur à la liste
             listeAttente.add(u1) ;
             return "profil.xhtml" ;
-        }
+        }*/
+        return null;
     }
     
     public String chatCopain(Utilisateur ami) throws Exception {
@@ -141,9 +144,9 @@ public class ChatBean implements Serializable {
         this.ut.commit();
     }
     
-    public ArrayList<Utilisateur> getListeUtilisateurAttente () {
+    public Collection<Utilisateur> getListeUtilisateurAttente () {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
+        return (Collection<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
     }
     
     public String getMessage () {

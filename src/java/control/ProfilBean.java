@@ -2,6 +2,7 @@ package control;
 
 import java.util.ArrayList;
 import javax.annotation.Resource;
+import java.util.Collection;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -16,7 +17,7 @@ import model.Utilisateur;
 
 @ManagedBean
 @RequestScoped
-public class ProfilBean {   
+public class ProfilBean {
 
     @PersistenceContext 
     private EntityManager em;
@@ -80,5 +81,9 @@ public class ProfilBean {
             return "chat.xhtml" ;
         
         return "profil.xhtml" ;
+
+    public Collection<Utilisateur> getListeUtilisateurAttente () {
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        return (Collection<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
     }
 }

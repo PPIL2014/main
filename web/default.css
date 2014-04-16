@@ -50,69 +50,69 @@ hr {
 /* List Styles                                                                   */
 /*********************************************************************************/
 
-	ul.style1
-	{
-		margin: 0;
-		padding: 0;
-		list-style: none;
-	}
-	
-	ul.style1 li
-	{
-		border-top: solid 1px #E5E5E5;
-		padding: 0.80em 0;
-	}
-	
-	ul.style1 li:first-child
-	{
-		border-top: 0;
-		padding-top: 0;
-	}
+ul.style1
+{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+}
 
-	ul.style2
-	{
-		margin: 0;
-		padding: 0;
-		list-style: none;
-	}
-	
-	ul.style2 li
-	{
-		border-top: solid 1px #E5E5E5;
-		padding: 0.80em 0;
-	}
-	
-	ul.style2 li:first-child
-	{
-		border-top: 0;
-		padding-top: 0;
-	}
+ul.style1 li
+{
+        border-top: solid 1px #E5E5E5;
+        padding: 0.80em 0;
+}
+
+ul.style1 li:first-child
+{
+        border-top: 0;
+        padding-top: 0;
+}
+
+ul.style2
+{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+}
+
+ul.style2 li
+{
+        border-top: solid 1px #E5E5E5;
+        padding: 0.80em 0;
+}
+
+ul.style2 li:first-child
+{
+        border-top: 0;
+        padding-top: 0;
+}
 
 /*********************************************************************************/
 /* Heading Titles                                                                */
 /*********************************************************************************/
 
-	.title
-	{
-		margin-bottom: 2em;
-		text-transform: uppercase;
-	}
+.title
+{
+        margin-bottom: 2em;
+        text-transform: uppercase;
+}
 
-	.title h2
-	{
-		font-weight: 400;
-		font-size: 2em;
-		color: #B10058;
-	}
-	
-	.title .byline
-	{
-		letter-spacing: 0.15em;
-		text-transform: uppercase;
-		font-weight: 400;
-		font-size: 0.90em;
-		color: #6F6F6F;
-	}
+.title h2
+{
+        font-weight: 400;
+        font-size: 2em;
+        color: #B10058;
+}
+
+.title .byline
+{
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        font-weight: 400;
+        font-size: 0.90em;
+        color: #6F6F6F;
+}
 
 /** WRAPPER */
 
@@ -159,43 +159,43 @@ hr {
 /* Header                                                                        */
 /*********************************************************************************/
 
-	#header 
-	{
-		position: relative;
-		overflow: hidden;
-		text-align: center;
-	}
+#header 
+{
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+}
 
 /*********************************************************************************/
 /* Logo                                                                          */
 /*********************************************************************************/
 
-	#logo 
-	{
-		width: 500px;
-		height: 100px;
-		margin: 0 auto;
-		padding: 2em 0em;
-		text-transform: uppercase;
-	}
-	
-	#logo h1
-	{
-		letter-spacing: 0.10em;
-		font-size: 3em;
-	}
-	
-	#logo p 
-	{
-		letter-spacing: 0.10em;
-		color: #FFF;
-	}
-	
-	#logo a 
-	{
-		text-decoration: none;
-		color: #FFF;
-	}
+#logo 
+{
+        width: 500px;
+        height: 100px;
+        margin: 0 auto;
+        padding: 2em 0em;
+        text-transform: uppercase;
+}
+
+#logo h1
+{
+        letter-spacing: 0.10em;
+        font-size: 3em;
+}
+
+#logo p 
+{
+        letter-spacing: 0.10em;
+        color: #FFF;
+}
+
+#logo a 
+{
+        text-decoration: none;
+        color: #FFF;
+}
 
 
 /** MENU */
@@ -271,108 +271,108 @@ hr {
 /* Sidebar                                                                       */
 /*********************************************************************************/
 
-	#sidebar
-	{
-		float: left;
-		width: 15%;
-	}
-	
-	#sidebar .title h2
-	{
-		font-size: 1.6em;
-	}
-	
-	#sidebar .box1
-	{
-		margin-bottom: 3em;
-	}
+#sidebar
+{
+        float: left;
+        width: 15%;
+}
+
+#sidebar .title h2
+{
+        font-size: 1.6em;
+}
+
+#sidebar .box1
+{
+        margin-bottom: 3em;
+}
 
 /*********************************************************************************/
 /* Footer                                                                        */
 /*********************************************************************************/
-	
-	#footer-wrapper
-	{
-		overflow: hidden;
-		padding: 0em 0em;
-		background: #1E1B1A;
-	}
-	
-	#footer-wrapper ul{
-			margin: 0;
-		padding: 0px 0px 0px 0px;
-		list-style: none;
-		line-height: normal;
-		text-align: center;
-	}
-	
-	#footer-wrapper li {
-		display: inline-block;
-	}
-	
-	#footer-wrapper a {
-		display: block;
-		letter-spacing: 1px;
-		padding: 0px 40px;
-		text-decoration: none;
-		text-align: center;
-		text-transform: uppercase;
-		font-size: 0.80em;
-		line-height: 100px;
-		border: none;
-		color: #FFF;
-	}
 
-	
-	#footer
-	{
-		color: #ADADAD;
-	}
-	
-	#footer .title h2
-	{
-		font-weight: 400;
-		font-size: 1.2em;
-		color: #FFF;
-	}
+#footer-wrapper
+{
+        overflow: hidden;
+        padding: 0em 0em;
+        background: #1E1B1A;
+}
 
-	#footer .title
-	{
-		border-color: #2D2926 !important;
-	}
-	
-	#footer .style1 li
-	{
-		border-color: #2D2926 !important;
-	}
-	
-	#footer .style1 a
-	{
-		font-size:1em;
-		color: #B1B1B1;
-	}
-	
-	#box1
-	{
-		float: left;
-		width: 354px;
-		margin-right: 24px;
-		padding-right: 30px;
-	}
-	
-	#box2
-	{
+#footer-wrapper ul{
+                margin: 0;
+        padding: 0px 0px 0px 0px;
+        list-style: none;
+        line-height: normal;
+        text-align: center;
+}
 
-		float: left;
-		width: 354px;
-		padding-right: 30px;
-	}
-	
-	#box3
-	{
-		float: right;
-		width: 344px;
-	}
+#footer-wrapper li {
+        display: inline-block;
+}
+
+#footer-wrapper a {
+        display: block;
+        letter-spacing: 1px;
+        padding: 0px 40px;
+        text-decoration: none;
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 0.80em;
+        line-height: 100px;
+        border: none;
+        color: #FFF;
+}
+
+
+#footer
+{
+        color: #ADADAD;
+}
+
+#footer .title h2
+{
+        font-weight: 400;
+        font-size: 1.2em;
+        color: #FFF;
+}
+
+#footer .title
+{
+        border-color: #2D2926 !important;
+}
+
+#footer .style1 li
+{
+        border-color: #2D2926 !important;
+}
+
+#footer .style1 a
+{
+        font-size:1em;
+        color: #B1B1B1;
+}
+
+#box1
+{
+        float: left;
+        width: 354px;
+        margin-right: 24px;
+        padding-right: 30px;
+}
+
+#box2
+{
+
+        float: left;
+        width: 354px;
+        padding-right: 30px;
+}
+
+#box3
+{
+        float: right;
+        width: 344px;
+}
 
 .contact{
 	float : left;
@@ -473,13 +473,3 @@ hr {
 	top: 9px;
 	padding-right : 10px;
 }
-
-
-
-
-
-
-
-
-
-	

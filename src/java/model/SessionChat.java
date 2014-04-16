@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -80,7 +81,7 @@ public class SessionChat implements Serializable {
         return messages;
     }
 
-    public void setMessages(ArrayList<MessageChat> messages) {
+    public void setMessages(Collection<MessageChat> messages) {
         this.messages = messages;
     }
 
