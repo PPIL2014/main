@@ -9,7 +9,7 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"    
       xmlns:f="http://xmlns.jcp.org/jsf/core" >
-      
+
     <h:head>        
         <title>Chat</title>
        <link href="default.css" rel="stylesheet" type="text/css"></link>
@@ -48,11 +48,23 @@ and open the template in the editor.
                                <br/><b>Utilisateur  : </b><h:outputText value="#{chatBean.utilisateurSession.sessionChatDemarree.utilisateur1.pseudo}"></h:outputText>
                         </c:when>
                    </c:choose>
-                   
-                   <h:form
-                        <p style="float: right;"> <h:commandButton value="Quitter" action="chat.xhtml"></h:commandButton></p>
+                   <!-- POPUP : QUITTER LE CHAT-->
+                   <h:form>
+                        <p style="float: right;"> 
+                            <h:commandButton value="Quitter" onclick="confirmDialog.show()">
+                            <f:ajax execute="@form" render="@none" />
+                            </h:commandButton>
+
+                            <p:confirmDialog id="confirmDialog" message="Voulez-vous vraiment quitter le chat ?" header="Quitter" severity="alert" widgetVar="confirmDialog">
+
+                                <h:commandButton id="oui" value="Oui" actionListener="#{chatBean.quitterChat()}" action="profil?faces-redirect=true"/>
+
+                                <h:commandButton id="non" value="Non" />
+
+                            </p:confirmDialog>
+                       </p>
                    </h:form>
-                   
+                   <!-- FIN POPUP : QUITTER LE CHAT-->
                    <br/><br/>
 
                    <hr/>
@@ -72,38 +84,53 @@ and open the template in the editor.
                    <hr/>
                    <p:remoteCommand name="nextEvent" actionListener="#{eventChatBean.lastEvent}" 
                                     oncomplete="updatePage(xhr, status, args);"/>
+                   <p:commandButton id="basic" value="Basic" onclick="PF('dlg1').show();" type="button" />  
+
+                   <p:dialog id="basicDialog" header="Basic Dialog" widgetVar="dlg1">  
+                         <h:outputText value="Resistance to PrimeFaces is futile!" />  
+                   </p:dialog>
+                   
+                   <script type="text/javascript">    
+                        updatePage(null,null,null);
 
 
-                   <script type="text/javascript">
-
-                       updatePage(null,null,null);
-
-                       function updatePage(xhr, status, args) {                
-                           if (xhr != null)
-                           {
-                                var typeMsg = "message";
+                        function updatePage(xhr, status, args) {                
+                            if (xhr != null)
+                            {
                                 if (args.ok)
                                 {
-                                    if (args.type == typeMsg){
+                                    if (args.type == "message")
+                                    {                            
                                         if(args.utilisateurCourant){
-                                        $('#chat').append('<center><div class="msg"><span class = "receiver"><p>'+args.text+'</p></span></div></center><br/><br/>'); 
-                                        $('#chat').append('<center><div class="msg"><span class = "receiverclock"><p style="font-size:smaller ;color : gray;">' +args.dateSent+'</p></span></div></center><br/><br/>');}
+                                                $('#chat').append('<center><div class="msg"><span class = "receiver"><p>'+args.text+'</p></span></div></center><br/><br/>'); 
+                                                $('#chat').append('<center><div class="msg"><span class = "receiverclock"><p style="font-size:smaller ;color : gray;">' +args.dateSent+'</p></span></div></center><br/><br/>');}
                                         if(!args.utilisateurCourant){
-                                        $('#chat').append('<center><div class="msg"><span class = "sender"><p> '+args.text+'</p></span></div></center><br/><br/>' );
-                                        $('#chat').append('<center><div class="msg"><span class = "senderclock"><p style="font-size:smaller ;color : gray;">' +args.dateSent+'</p></span></div></center><br/><br/>');}
+                                                $('#chat').append('<center><div class="msg"><span class = "sender"><p> '+args.text+'</p></span></div></center><br/><br/>' );
+                                                $('#chat').append('<center><div class="msg"><span class = "senderclock"><p style="font-size:smaller ;color : gray;">' +args.dateSent+'</p></span></div></center><br/><br/>');}
                                     }
-                                }
+                                    if (args.type == "endChat")
+                                    {
+                                        alert("Ton pote veux plus te parler");
+                                    }
+                                    if (args.type == "utilDeco")
+                                    {
+                                        //alert("Ton pote c'est barré")
+                                        //$('#decoDialog').show();
+                                        //document.getElementById("prem:decoDialog").show();
+                                        //document.getElementById('j_idt6:decoDialog').show();                        
+                                    }
+                                }                    
                             }
+                            else
+                                PF('dlg1').show();
                             nextEvent();
-                       } 
-                   </script>
+                        } 
+                </script> 
 
                 </div>  
             </h:form>
         </div>
-    </body>
-    
-    <body>
+   
         <div id="footer-wrapper">
             <div id="footer">
 		<ul>

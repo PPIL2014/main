@@ -73,8 +73,6 @@ public class Utilisateur implements Serializable {
      */
     @OneToMany
     private List<SessionChat>  sessionsChat;
-    //@OneToOne
-    //private SessionChat sessionChat;
     
     /**
      * 
@@ -82,8 +80,6 @@ public class Utilisateur implements Serializable {
      */
     @OneToOne
     private Image avatar;
-    /*@OneToOne
-    private Session session;*/
     
     public Utilisateur() {
         
@@ -258,7 +254,7 @@ public class Utilisateur implements Serializable {
         sessionsChat.add(c);
     }
 
-    public SessionChat getSessionChatDemarree() {
+    public SessionChat getSessionChatDemarree() {        
         for (SessionChat c : sessionsChat) {
             if (c.getEstDemarree())
                 return c ;

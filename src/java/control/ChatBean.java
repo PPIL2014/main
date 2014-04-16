@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.annotation.Resource;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
@@ -85,7 +87,6 @@ public class ChatBean implements Serializable {
         
         // on récupère ou on crée le chat
         obtenirChat (u1,u2) ;
-        
         return "chat.xhtml" ;
     }
     
@@ -107,7 +108,6 @@ public class ChatBean implements Serializable {
             return "chat.xhtml" ;
         
         obtenirChat(u1, ami) ;
-        
         return "chat.xhtml" ;
     }
     
@@ -151,7 +151,19 @@ public class ChatBean implements Serializable {
         this.em.merge(chat);
         this.ut.commit();
         //return "chat.xhtml" ;
-    }   
+    }  
+    
+        /*public void envoyerMessage(ActionEvent evt) throws Exception 
+    {         
+        this.ut.begin();
+        Utilisateur u = getUtilisateurSession() ;
+        SessionChat chat = getChat();
+        MessageChat msg = new MessageChat(message,u);
+        this.em.persist(msg);
+        chat.getMessages().add(msg);
+        this.em.merge(chat);
+        this.ut.commit();
+    }*/
 
     private Utilisateur obtenirChatteur(Utilisateur u1) {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
@@ -183,7 +195,7 @@ public class ChatBean implements Serializable {
             this.ut.commit();
         }
         c.setEstDemarree(true);
-        return u1.getSessionChatDemarree();//c ;
+        return u1.getSessionChatDemarree();
     }
 
     private void removeFromWaitList(Utilisateur u1) {
@@ -191,6 +203,12 @@ public class ChatBean implements Serializable {
         ArrayList<Utilisateur> listeAttente = (ArrayList<Utilisateur>)servletContext.getAttribute("listeUtilisateursAttente") ;
         
         listeAttente.remove(u1);
-    }   
-
+    }  
+    
+    public void quitterChat() throws Exception{
+        this.ut.begin();
+        this.utilisateurSession.getSessionChatDemarree().setEstDemarree(false);
+        this.em.merge(this.utilisateurSession);
+        this.ut.commit();
+    }
 }
