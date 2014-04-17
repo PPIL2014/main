@@ -18,10 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
-/**
- *
- * @author mac
- */
 @Entity
 
 public class Utilisateur implements Serializable {
@@ -74,8 +70,12 @@ public class Utilisateur implements Serializable {
      * 
      * @element-type SessionChat
      */
-    @OneToMany
-    private Collection<SessionChat>  sessionsChat;
+
+    //@OneToMany
+    //private ArrayList<SessionChat>  sessionsChat;
+    @OneToOne
+    private SessionChat sessionChat;
+    
     /**
      * 
      * @element-type Contact
@@ -186,12 +186,13 @@ public class Utilisateur implements Serializable {
     public void setReponsesOuvertes(Collection<ReponseOuverte> reponsesOuvertes) {
         this.reponsesOuvertes = reponsesOuvertes;
     }
+    /*
     public Collection<SessionChat> getSessionsChat() {
         return sessionsChat;
     }
     public void setSessionsChat(Collection<SessionChat> sessionsChat) {
         this.sessionsChat = sessionsChat;
-    }
+    }*/
     public Image getAvatar() {
         return avatar;
     }
@@ -245,4 +246,12 @@ public class Utilisateur implements Serializable {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    public SessionChat getSessionChat()
+    {
+        return sessionChat;
+    }
+
+    public void setSessionChat(SessionChat chat) {
+        this.sessionChat = chat;
+    }
 }

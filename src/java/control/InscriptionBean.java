@@ -28,10 +28,7 @@ import javax.transaction.UserTransaction;
 import model.Session;
 import model.Utilisateur;
 
-/**
- *
- * @author laurent84u
- */
+
 @Named(value = "inscriptionBean")
 @ManagedBean
 @RequestScoped

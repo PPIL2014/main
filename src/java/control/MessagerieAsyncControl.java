@@ -24,10 +24,7 @@ import model.Conversation;
 import model.MessageConversation;
 import model.Utilisateur;
 
-/**
- *
- * @author charles9u
- */
+
 @ManagedBean
 @Named(value = "messagerieAsyncControl")
 @Dependent
