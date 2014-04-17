@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -90,6 +88,24 @@ public class Utilisateur implements Serializable {
     
     public Utilisateur() {
         
+    }
+    
+    public List<Utilisateur> getContactsByName(String pieceOfName) {
+        ArrayList<Utilisateur> contactsByName = new ArrayList<Utilisateur>();
+        for(Conversation c : conversations) {  
+            if(c.getDestinataire().getPseudo().toLowerCase().startsWith(pieceOfName.toLowerCase()))  
+                contactsByName.add(c.getDestinataire());
+        }
+        return contactsByName;
+    }
+    
+    public Conversation getConv(Utilisateur dest) {
+        if(dest == null)
+            return null ;
+        for (Conversation conv : dest.getConversations())
+            if(conv.getExpediteur().getPseudo().equals(pseudo))
+                return conv ;
+        return null ;
     }
     
     public String getPseudo() {

@@ -112,6 +112,7 @@ public class LoginBean {
                 //utilisateur.closeAllChat();
                 //this.em.merge(utilisateur);
                 session.setAttribute("pseudoUtilisateur", utilisateur.getPseudo());
+                session.setAttribute("user", utilisateur);
                 //this.ut.commit();
                 return "profil"; 
                 /*} else {
@@ -191,5 +192,9 @@ public class LoginBean {
             this.listeUtilisateurs = em.createQuery("SELECT u FROM Utilisateur u").getResultList();
         }
         return this.listeUtilisateurs;
-    }    
+    }
+    
+    public String Messagerie(){
+        return "Messagerie.xhtml";
+    }
 }
