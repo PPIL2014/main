@@ -7,6 +7,12 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,10 +21,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-/**
- *
- * @author thomas
- */
 @Entity
 public class SessionChat implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -35,8 +37,18 @@ public class SessionChat implements Serializable {
      * @element-type MessageChat
      */
     @OneToMany
-    private Collection<MessageChat>  messages;
+    private List<MessageChat>  messages;
 
+    public SessionChat() {
+    }
+
+    public SessionChat(Utilisateur user1, Utilisateur user2){
+        this.utilisateur1 = user1;
+        this.utilisateur2 = user2;
+        this.messages = Collections.synchronizedList(new LinkedList());
+    }
+
+    
     public Boolean getEstDemarree() {
         return estDemarree;
     }
@@ -66,7 +78,7 @@ public class SessionChat implements Serializable {
     }
 
     public void setMessages(Collection<MessageChat> messages) {
-        this.messages = messages;
+        this.messages = (List<MessageChat>) messages;
     }
 
     public Boolean demarrerSessionChat() {
@@ -109,5 +121,19 @@ public class SessionChat implements Serializable {
     public String toString() {
         return "ul.dateroulette.entity.SessionChat[ id=" + id + " ]";
     }
-    
+
+    public MessageChat getFirstAfter(Date lastUpdate) {
+        if(messages.isEmpty()) 
+            return null; 
+        if(lastUpdate == null) 
+            return messages.get(0); 
+        
+        for(MessageChat m : messages) { 
+            if(m.getDate().after(lastUpdate)) 
+                return m; 
+        } 
+        
+        return null; 
+    }      
+
 }

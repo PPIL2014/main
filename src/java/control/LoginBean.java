@@ -1,6 +1,6 @@
 package control;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,8 +12,10 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -25,13 +27,14 @@ import model.Utilisateur;
 
 @ManagedBean
 @SessionScoped
-public class LoginBean implements Serializable {
+public class LoginBean {
     @PersistenceContext(unitName = "DateRoulettePU")
     private EntityManager em;
     @Resource
     private UserTransaction ut;
     
     Utilisateur utilisateur;
+    private List<Utilisateur> listeUtilisateurs;
     
     @ManagedProperty(value="#{pseudo}")
     private String pseudo;
@@ -42,7 +45,13 @@ public class LoginBean implements Serializable {
     private UIComponent mdpText;
             
     public LoginBean() {
-        utilisateur = null;
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        if(servletContext.getAttribute("listeUtilisateursAttente") == null){
+            servletContext.setAttribute("listeUtilisateursAttente", new ArrayList<Utilisateur>());
+        }
+        if(servletContext.getAttribute("listeUtilisateursConnecte") == null){
+            servletContext.setAttribute("listeUtilisateursConnecte", new ArrayList<String>());
+        }
     }
     
     public String getPseudo(){
@@ -66,7 +75,53 @@ public class LoginBean implements Serializable {
     public void setMdp(String mdp) {
         this.mdp = mdp;
     }
+
+    public boolean verifPseudo() { 
+        Query query = em.createQuery("select u.pseudo from Utilisateur u where u.pseudo=\"" + pseudo + "\""); 
+        boolean res = true; 
+        try { 
+            query.getSingleResult().toString(); 
+        } catch (NoResultException e) { 
+            res = false; 
+        } 
+ 
+        return res; 
+    } 
+ 
+    /** 
+     * Verifie si le mot de passe rentre correspond à celui de la BDD 
+     * 
+     * @return true si correct, false sinon 
+     */ 
+    public boolean verifMdp() { 
+        Query query = em.createQuery("select u.mdp from Utilisateur u where u.pseudo=\"" + pseudo + "\""); 
+        String mdp_bdd = query.getSingleResult().toString();
+        return mdp.equals(mdp_bdd) ;
+    }
     
+    public String connecterList() throws Exception{ 
+        //if (verifPseudo()) { 
+            //if (verifMdp()) {
+                //this.ut.begin();
+                utilisateur = em.find(Utilisateur.class, pseudo);
+                FacesContext context = FacesContext.getCurrentInstance();
+                HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+                ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                ArrayList<String> listeConnecte = (ArrayList<String>)servletContext.getAttribute("listeUtilisateursConnecte");
+                listeConnecte.add(utilisateur.getPseudo());
+                //utilisateur.closeAllChat();
+                //this.em.merge(utilisateur);
+                session.setAttribute("pseudoUtilisateur", utilisateur.getPseudo());
+                //this.ut.commit();
+                return "profil"; 
+                /*} else {
+            setPseudo("");
+            setMdp("");
+            context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Nom d'utilisateur ou mot de passe incorrect !", null)); 
+        } 
+         return "index" ;*/
+    } 
+
     public UIComponent getPseudoText() {
         return pseudoText;
     }
@@ -84,6 +139,7 @@ public class LoginBean implements Serializable {
     }
     
     public String connecter() { 
+
         FacesContext context = FacesContext.getCurrentInstance(); 
         this.utilisateur = em.find(Utilisateur.class, this.pseudo);
         if (this.utilisateur != null) { 
@@ -92,13 +148,14 @@ public class LoginBean implements Serializable {
                 context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Nom d'utilisateur ou mot de passe incorrect !", null)); 
             } else {
                 try {
+                    HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+                    ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                    session.setAttribute("pseudoUtilisateur", this.utilisateur.getPseudo());
                     context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Vous êtes connecté en tant que " + this.utilisateur.getPseudo() + " !", null));
                     this.utilisateur.getSession().setEstConnecte(Boolean.TRUE);
                     this.ut.begin();
                     this.em.merge(this.utilisateur);
                     this.ut.commit();
-                    HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-                    session.setAttribute("user", this.utilisateur);
                     return "fakeListe.xhtml";
                 } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
                     Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -109,7 +166,8 @@ public class LoginBean implements Serializable {
             setMdp("");
             context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Nom d'utilisateur ou mot de passe incorrect !", null)); 
         } 
-        return null; 
+        return null;
+
     }
     
     public String deconnexion() {
@@ -128,8 +186,10 @@ public class LoginBean implements Serializable {
         return "index.xhtml";
     }
     
-    public String Messagerie(){
-        return "Messagerie.xhtml";
-    }
-    
+    public List<Utilisateur> getListeUtilisateursDeroul(){
+        if (this.listeUtilisateurs == null || this.listeUtilisateurs.isEmpty()) {
+            this.listeUtilisateurs = em.createQuery("SELECT u FROM Utilisateur u").getResultList();
+        }
+        return this.listeUtilisateurs;
+    }    
 }

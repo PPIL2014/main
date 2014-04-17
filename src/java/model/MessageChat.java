@@ -15,10 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
-/**
- *
- * @author thomas
- */
+
 @Entity
 public class MessageChat implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -26,13 +23,22 @@ public class MessageChat implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String contenu;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
     @OneToOne
     private SessionChat sessionChat;
     @OneToOne
     private Utilisateur expediteur;
     
+    public MessageChat(){
+        
+    }
+    
+    public MessageChat(String contenu, Utilisateur user){
+        this.contenu = contenu;
+        this.expediteur = user;
+        this.date =  new Date();
+    }
     public String getContenu() {
         return contenu;
     }

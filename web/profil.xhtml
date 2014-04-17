@@ -1,13 +1,102 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Facelet Title</title>
+        <script type="text/javascript">
+            
+            function afficheFormulaire(xhr, status, args) {
+                if(!args.ok) return;
+
+                if (args.copain != null)
+                    document.getElementById('formulaire').innerHTML=args.copain+' veut chatter !'+'<a href="chat.xhtml">CHAT</a>'; 
+            }
+        </script>
+        
     </h:head>
+    
     <h:body>
-        <h:form> Voici votre PROFIL ! <br/>
-      
+        <h:form>
+
+        <p:notificationBar id="bar" position="bottom" effect="slide" widgetVar="bar" styleClass="top">  
+            <h:outputText value="Vous êtes seul en attente!" style="color:#FFCC00;font-size:36px;" />  
+        </p:notificationBar>
+            
+        Voici votre PROFIL ! <br/>
+        <hr/>
+            PSEUDO : <h:outputText id="pseudo" value="#{profilBean.pseudo}"></h:outputText> 
+            <br/>
+            <h:graphicImage url="#{profilBean.urlAvatar}" />
+
+            <br/><hr/><br/>     
+            <h:commandButton value="CHAT" action="#{chatBean.chatAleatoire}"></h:commandButton>
+            <h:commandButton value="AMIS" action="#{listeAmisBean.afficherAmis}"></h:commandButton> 
+            
+            <p:remoteCommand name="nextEvent" actionListener="#{eventProfilBean.lastEvent}" 
+                             oncomplete="updatePage(xhr, status, args);"/> 
+            <script type="text/javascript">    
+                updatePage(null,null,null);
+
+                function updatePage(xhr, status, args) {                
+                    if (xhr != null)
+                    {
+                        if (args.ok)
+                        {
+                            if (args.type == "goChat")
+                            {
+                                document.location = 'chat.xhtml'
+                                return;
+                            }
+                        }                    
+                    }
+                    nextEvent();
+                } 
+            </script> 
         </h:form>
+    
+    <div id="formulaire"></div>
+    
+    <h:form id="myForm">
+        <p:remoteCommand name="aUnChat" actionListener="#{profilBean.chatInfo}" 
+                         oncomplete="afficheFormulaire(xhr,status,args);" />      
+              
+        <br/>
+        
+        <h:commandButton id="btnGoChat" value="Hidden" action="#{chatBean.goChat}" style="display:none">
+            <f:ajax execute="@form" render=""></f:ajax>
+        </h:commandButton>
+        <br/>
+        <h:commandButton value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandButton>
+        
+        <br/>
+        <hr/>
+        <br/>
+        
+        <br/>Liste des utilisateurs connectée : <br/>
+        <h:dataTable value="#{sessionBean.listeUtilisateurConnecte}" var="item">
+        <h:column>            
+            <h:outputText value="#{item}"/><br/>
+        </h:column>
+        </h:dataTable>
+        
+        <br/>Liste des utilisateurs en attente : <br/>
+        <h:dataTable value="#{profilBean.listeUtilisateurAttente}" var="item">
+        <h:column>            
+            <h:outputText value="#{item.pseudo}"/><br/>
+        </h:column>
+        </h:dataTable>
+        <br/>
+        
+    </h:form>
+    
+    <c:if test="#{profilBean.seulEnAttente}">
+        <h:outputText value="Vous êtes seul en attente! Vous serrez redirigé quand quelqu'un arrivera" style="color:#FFCC00;font-size:36px;" />
+    </c:if>
+    
     </h:body>
+    
 </html>

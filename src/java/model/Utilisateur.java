@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,10 +19,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
-/**
- *
- * @author mac
- */
 @Entity
 
 public class Utilisateur implements Serializable {
@@ -63,19 +60,22 @@ public class Utilisateur implements Serializable {
      * @element-type ReponseQCM
      */
     @OneToMany
-    private Collection<ReponseQCM>  reponsesQCM;
+    private Collection<ReponseQCM>  reponsesQCM = new ArrayList<ReponseQCM>();
     /**
      * 
      * @element-type ReponseOuverte
      */
     @OneToMany
-    private Collection<ReponseOuverte>  reponsesOuvertes;
+    private Collection<ReponseOuverte>  reponsesOuvertes = new ArrayList<ReponseOuverte>();;
     /**
      * 
      * @element-type SessionChat
      */
+    
     @OneToMany
-    private Collection<SessionChat>  sessionsChat;
+    private List<SessionChat>  sessionsChat;
+
+    
     /**
      * 
      * @element-type Contact
@@ -204,10 +204,11 @@ public class Utilisateur implements Serializable {
     public void setReponsesOuvertes(Collection<ReponseOuverte> reponsesOuvertes) {
         this.reponsesOuvertes = reponsesOuvertes;
     }
-    public Collection<SessionChat> getSessionsChat() {
+
+    public List<SessionChat> getSessionsChat() {
         return sessionsChat;
     }
-    public void setSessionsChat(Collection<SessionChat> sessionsChat) {
+    public void setSessionsChat(List<SessionChat> sessionsChat) {
         this.sessionsChat = sessionsChat;
     }
     public Image getAvatar() {
@@ -222,6 +223,7 @@ public class Utilisateur implements Serializable {
     public void setSession(Session session) {
         this.session = session;
     }
+
     public String getMdp() {
         return this.mdp;
     }
@@ -238,29 +240,87 @@ public class Utilisateur implements Serializable {
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Utilisateur)) {
-            return false;
-        }
-        Utilisateur other = (Utilisateur) object;
-        if ((this.pseudo == null && other.pseudo != null) || (this.pseudo != null && !this.pseudo.equals(other.pseudo))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public String toString() {
         return "model.entity.Utilisateur[ id=" + pseudo + " ]";
     }
 
-    public Chat getChat() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void closeAllChat() {
+        for (SessionChat c : sessionsChat) {
+            c.setEstDemarree(false) ;
+        }
     }
 
-    public void setChat(Chat c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public SessionChat recupererChat(Utilisateur u2) {
+        for (SessionChat c : sessionsChat) {
+            if (c.getUtilisateur1().equals(u2) || c.getUtilisateur2().equals(u2))
+                return c ;
+        }
+        return null ;
+    }
+
+
+    public void ajouterChat(SessionChat c) {
+        sessionsChat.add(c);
+    }
+
+    public SessionChat getSessionChatDemarree() {        
+        for (SessionChat c : sessionsChat) {
+            if (c.getEstDemarree())
+                return c ;
+        }
+        return null ;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Utilisateur other = (Utilisateur) obj;
+        if (!Objects.equals(this.pseudo, other.pseudo)) {
+            return false;
+        }
+        return true;
     }
     
+    public void ajouterReponseQCM(ReponseQCM rep){
+        if(rep.getId() == null){
+            System.out.println("Nouvelle question  : " + rep);
+            this.reponsesQCM.add(rep);
+            System.out.println("Liste Questions : " + this.getReponsesQCM());
+        }else{
+            for(ReponseQCM repq : this.reponsesQCM){
+                if(repq.getId() == rep.getId()){
+                    repq = rep;
+                }
+            }
+        }
+    }
+        
+    public void ajouterReponseOuverte(ReponseOuverte rep){
+        boolean b = false;
+        for(ReponseOuverte repo : this.reponsesOuvertes){
+            if(repo.getId() == rep.getId()){
+                repo = rep;
+                b = true;
+            }
+        }
+        
+        if(!b){
+            this.reponsesOuvertes.add(rep);
+        }
+    }
+            
+    public boolean estAmisAvec (Utilisateur u) {
+        for (Contact c : contacts){
+            if ((c.getEstEnContactAvec().equals(u)) && (c.getEstAccepte())) {
+                return true ;
+            }
+        }
+        return false ;
+    }    
+
 }

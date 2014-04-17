@@ -1,11 +1,13 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Date Roulette</title>
     </h:head>
     <h:body>
+
         <h:messages />
         <h:form>
             <table>
@@ -14,7 +16,8 @@
                        Pseudo :  
                     </td>
                     <td>
-                        <h:inputText id="pseudo" value="#{loginBean.pseudo}" binding="#{loginBean.pseudoText}" required="true" requiredMessage="Veuillez entrer votre pseudo"></h:inputText>
+                        <h:inputText id="pseudo" value="#{loginBean.pseudo}" binding="#{loginBean.pseudoText}" required="false" requiredMessage="Veuillez entrer votre pseudo"></h:inputText>
+
                     </td>
                     <td>
                         <h:message errorStyle="color:red" for="pseudo"></h:message>
@@ -25,7 +28,7 @@
                         Mot de passe : 
                     </td>
                     <td>
-                        <h:inputSecret id="mdp" value="#{loginBean.mdp}" binding="#{loginBean.mdpText}" required="true" requiredMessage="Veuillez entrer votre mot de passe" ></h:inputSecret>
+                        <h:inputSecret id="mdp" value="#{loginBean.mdp}" binding="#{loginBean.mdpText}" required="false" requiredMessage="Veuillez entrer votre mot de passe" ></h:inputSecret>
                     </td>
                     <td>
                         <h:message errorStyle="color:red" for="mdp"></h:message>
@@ -36,10 +39,20 @@
                         <h:commandButton value="Login" action="#{loginBean.connecter}" style="width: 100%"></h:commandButton>
                     </td>
                     <td>
-                        <a href="inscription.xhtml">s'inscrire</a>
+                        <a href="/main/faces/inscription.xhtml">s'inscrire</a>
                     </td>
                 </tr>
             </table>
+
+        <br/><br/>
+        <hr/><br/>
+        page de LOGIN ---- Date Roulette
+            <br/> Pseudo : 
+            <h:selectOneMenu value="#{loginBean.pseudo}">
+                <f:selectItems id="pseudoList" value="#{loginBean.listeUtilisateursDeroul}" var="u" itemLabel="#{u.pseudo}" itemValue="#{u.pseudo}"/>
+            </h:selectOneMenu>
+            <h:commandButton value="Login" action="#{loginBean.connecterList}"></h:commandButton>
+
         </h:form>
     </h:body>
 </html>

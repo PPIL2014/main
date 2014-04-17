@@ -86,5 +86,9 @@ public class Questionnaire implements Serializable {
     public String toString() {
         return "ul.dateroulette.entity.Questionnaire[ id=" + id + " ]";
     }
+
+    public Question getQuestion(int countRep) {
+        return (Question)this.questions.toArray()[countRep];
+    }
     
 }
