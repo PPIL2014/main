@@ -21,6 +21,26 @@
         </script>
     
     <h:body>
+         <div id="wrapper">
+            <div id="header-wrapper">
+                <div id="header">
+			<div id="logo">
+				<h1><a href="#">DateRoulette</a></h1>
+			</div>
+		</div>
+            </div>
+            <div id="menu-wrapper">
+		<div id="menu" >
+                    <ul>
+                        <li><h:form rendered="false"><h:commandLink value="Acceuil" action="profil.xhtml"></h:commandLink></h:form></li>
+			<li><h:form rendered="false"><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+			<li><h:form rendered="false"><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
+                    </ul>
+		</div>
+		<!-- end #menu --> 
+            </div>
+            <div id="page" class="container">
         <h:form> Voici votre PROFIL ! <br/>
         <hr/>
             PSEUDO : <h:outputText id="pseudo" value="#{profilBean.pseudo}"></h:outputText> 
@@ -31,6 +51,18 @@
             <h:commandButton value="CHAT" action="#{chatBean.chat}"></h:commandButton>
             <h:commandButton value="AMIS" action="#{listeAmisBean.afficherAmis}"></h:commandButton> 
         </h:form>
+           </div>
+        </div>
+   
+        <div id="footer-wrapper">
+            <div id="footer">
+		<ul>
+                    <li><a href="#">CGU</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contactez-nous</a></li>
+		</ul>
+            </div>
+        </div>
     </h:body>
     <div id="formulaire"></div>
     
