@@ -82,7 +82,7 @@ public class SessionChat implements Serializable {
     }
 
     public void setMessages(Collection<MessageChat> messages) {
-        this.messages = messages;
+        this.messages = (List<MessageChat>) messages;
     }
 
     public Boolean demarrerSessionChat() {

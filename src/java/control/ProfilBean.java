@@ -47,11 +47,6 @@ public class ProfilBean {
         return utilisateurSession ;
     }
     
-    public ArrayList<Utilisateur> getListeUtilisateurAttente () {
-        ServletContext servletContext = (ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext();
-        return (ArrayList<Utilisateur>)servletContext.getAttribute("listeUtilisateursAttente") ;
-    }
-    
     public void chatInfo (ActionEvent evt) {
         RequestContext ctx = RequestContext.getCurrentInstance();
         
@@ -81,6 +76,7 @@ public class ProfilBean {
             return "chat.xhtml" ;
         
         return "profil.xhtml" ;
+    }
 
     public Collection<Utilisateur> getListeUtilisateurAttente () {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();

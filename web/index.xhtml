@@ -10,21 +10,21 @@
         <div id="wrapper">
             <div id="header-wrapper">
                 <div id="header">
-			<div id="logo">
-				<h1><a href="#">DateRoulette</a></h1>
-			</div>
-		</div>
+                    <div id="logo">
+                        <h1><a href="#">DateRoulette</a></h1>
+                    </div>
+                </div>
             </div>
             <div id="menu-wrapper">
-		<div id="menu" >
+                <div id="menu" >
                     <ul>
                         <li><h:form rendered="false"><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
-			<li><h:form rendered="false"><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
-			<li><h:form rendered="false"><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
                         <li><h:form rendered="false"><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
                     </ul>
-		</div>
-		<!-- end #menu --> 
+                </div>
+                <!-- end #menu --> 
             </div>
             <div id="page" class="container">
                 <h:messages />
@@ -32,7 +32,7 @@
                     <table>
                         <tr>
                             <td>
-                               Pseudo :  
+                                Pseudo :  
                             </td>
                             <td>
                                 <h:inputText id="pseudo" value="#{loginBean.pseudo}" binding="#{loginBean.pseudoText}" required="true" requiredMessage="Veuillez entrer votre pseudo"></h:inputText>
@@ -64,15 +64,17 @@
                 </h:form>
             </div>
         </div>
-   
+
         <div id="footer-wrapper">
             <div id="footer">
-		<ul>
+                <ul>
                     <li><a href="#">CGU</a></li>
                     <li><a href="#">FAQ</a></li>
                     <li><a href="#">Contactez-nous</a></li>
-		</ul>
+                </ul>
             </div>
         </div>
+        <br />
+        <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
     </h:body>
 </html>
