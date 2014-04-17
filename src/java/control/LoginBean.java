@@ -49,6 +49,8 @@ public class LoginBean {
     }
     
     public List<Utilisateur> getListeUtilisateurs() {
+        if(this.utilisateur == null)
+            return null;
         Query q = em.createQuery("SELECT u FROM Utilisateur u WHERE u.pseudo != :pseudo ORDER BY u.session.estConnecte ASC");
         q.setParameter("pseudo", this.utilisateur.getPseudo());
         return q.getResultList();
@@ -110,12 +112,14 @@ public class LoginBean {
     }
     
     public String deconnexion() {
+        FacesContext context = FacesContext.getCurrentInstance(); 
         if (this.utilisateur != null) {
             try {
                 this.utilisateur.getSession().setEstConnecte(false);
                 this.ut.begin();
                 this.em.merge(this.utilisateur);
                 this.ut.commit();
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Vous êtes maintenant déconnecté", null)); 
             } catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
                 Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
             }
