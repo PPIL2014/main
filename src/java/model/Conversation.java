@@ -7,7 +7,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,7 +34,7 @@ public class Conversation implements Serializable {
      * @element-type MessageConversation
      */
     @OneToMany
-    private ArrayList<MessageConversation>  messages;
+    private Collection<MessageConversation>  messages;
     
     public Utilisateur getDestinataire() {
         return destinataire;
@@ -48,10 +48,10 @@ public class Conversation implements Serializable {
     public void setExpediteur(Utilisateur expediteur) {
         this.expediteur = expediteur;
     }
-    public ArrayList<MessageConversation> getMessages() {
+    public Collection<MessageConversation> getMessages() {
         return messages;
     }
-    public void setMessages(ArrayList<MessageConversation> messages) {
+    public void setMessages(Collection<MessageConversation> messages) {
         this.messages = messages;
     }
 

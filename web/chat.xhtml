@@ -57,19 +57,19 @@ and open the template in the editor.
                                 <h:commandButton id="bloquer" value="BLOQUER"  action="#{chatBean.bloquerEtQuitter}" />
                                 <h:commandButton id="annuler" value="ANNULER"  action="chat.xhtml" />
                             </p:confirmDialog>
-                            
+
                             <p:confirmDialog id="confirmDialogSuivant" message="Voulez-vous vraiment passer au suivant ? Voulez être amis avec votre corespondant ?" header="Suivant" severity="alert" widgetVar="dlgSuivChat">
                                 <h:commandButton id="ajouterSuiv" value="AJOUTER" action="#{chatBean.ajouterEtSuivantDemande}"/>
                                 <h:commandButton id="passerSuiv" value="SUIVANT"  action="#{chatBean.rienEtSuivantDemande}" />                                
                                 <h:commandButton id="bloquerSuiv" value="BLOQUER"  action="#{chatBean.bloquerEtSuivantDemande}" />
                                 <h:commandButton id="annulerSuiv" value="ANNULER"  action="chat.xhtml" />
                             </p:confirmDialog>
-                            
+
                             <p:confirmDialog id="confirmDialogSubi" message="Votre correpondant a quitté le chat. Vous pouvez l'ajouter en amis :" header="Quitter" severity="alert" widgetVar="dlgFinChatSubi">
                                 <h:commandButton id="ajouterSubi" value="AJOUTER" action="#{chatBean.ajouterEtContinuer}"/>
                                 <h:commandButton id="passerSubi" value="PASSER"  action="#{chatBean.passerEtContinuer}" />                                
                                 <h:commandButton id="bloquerSubi" value="BLOQUER"  action="#{chatBean.bloquerEtContinuer}" />
-                         </p:confirmDialog>
+                            </p:confirmDialog>
                        </p>
                    </h:form>
                    <!-- FIN POPUP : QUITTER LE CHAT-->
@@ -159,3 +159,4 @@ and open the template in the editor.
     </body>
     
 </html>
+

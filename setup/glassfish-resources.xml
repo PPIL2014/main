@@ -10,5 +10,5 @@
         <property name="URL" value="jdbc:derby://localhost:1527/dateroulette"/>
         <property name="driverClass" value="org.apache.derby.jdbc.ClientDriver"/>
     </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="jdbc/dateroulette" object-type="user" pool-name="derby_net_dateroulette_appPool"/>
+    <jdbc-resource enabled="true" jndi-name="DateRouletteV2" object-type="user" pool-name="derby_net_dateroulette_appPool"/>
 </resources>

@@ -23,6 +23,15 @@ public class QuestionOuverte extends Question implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    private String type;
+
     public Long getId() {
         return id;
     }

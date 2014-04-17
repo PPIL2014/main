@@ -8,9 +8,11 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,10 +21,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
-
 @Entity
+
 public class Utilisateur implements Serializable {
-    private static final long serialVersionUID = 1L;
     @Id
     private String pseudo;
     private String nom;
@@ -43,35 +44,36 @@ public class Utilisateur implements Serializable {
      * @element-type Galerie
      */
     @OneToMany
-    private ArrayList<Galerie>  galeries;
+    private Collection<Galerie>  galeries;
     /**
      * 
      * @element-type Utilisateur
      */
     @OneToMany
-    private ArrayList<Contact>  contacts;
+    private Collection<Contact>  contacts;
     /**
      * 
      * @element-type Conversation
      */
     @OneToMany
-    private ArrayList<Conversation>  conversations;
+    private Collection<Conversation>  conversations;
     /**
      * 
      * @element-type ReponseQCM
      */
     @OneToMany
-    private ArrayList<ReponseQCM>  reponsesQCM;
+    private Collection<ReponseQCM>  reponsesQCM = new ArrayList<ReponseQCM>();
     /**
      * 
      * @element-type ReponseOuverte
      */
     @OneToMany
-    private ArrayList<ReponseOuverte>  reponsesOuvertes;
+    private Collection<ReponseOuverte>  reponsesOuvertes = new ArrayList<ReponseOuverte>();;
     /**
      * 
      * @element-type SessionChat
      */
+    
     @OneToMany
     private List<SessionChat>  sessionsChat;
     
@@ -79,8 +81,12 @@ public class Utilisateur implements Serializable {
      * 
      * @element-type Contact
      */
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     private Image avatar;
+
+    
+    @OneToOne(cascade=CascadeType.ALL)
+    private Session session;
     
     public Utilisateur() {
         
@@ -152,36 +158,37 @@ public class Utilisateur implements Serializable {
     public void setEstSupprime(Boolean estSupprime) {
         this.estSupprime = estSupprime;
     }
-    public ArrayList<Galerie> getGaleries() {
+    public Collection<Galerie> getGaleries() {
         return galeries;
     }
-    public void setGaleries(ArrayList<Galerie> galeries) {
+    public void setGaleries(Collection<Galerie> galeries) {
         this.galeries = galeries;
     }
-    public ArrayList<Contact> getContacts() {
+    public Collection<Contact> getContacts() {
         return contacts;
     }
-    public void setContacts(ArrayList<Contact> contacts) {
+    public void setContacts(Collection<Contact> contacts) {
         this.contacts = contacts;
     }
-    public ArrayList<Conversation> getConversations() {
+    public Collection<Conversation> getConversations() {
         return conversations;
     }
-    public void setConversations(ArrayList<Conversation> conversations) {
+    public void setConversations(Collection<Conversation> conversations) {
         this.conversations = conversations;
     }
-    public ArrayList<ReponseQCM> getReponsesQCM() {
+    public Collection<ReponseQCM> getReponsesQCM() {
         return reponsesQCM;
     }
-    public void setReponsesQCM(ArrayList<ReponseQCM> reponsesQCM) {
+    public void setReponsesQCM(Collection<ReponseQCM> reponsesQCM) {
         this.reponsesQCM = reponsesQCM;
     }
-    public ArrayList<ReponseOuverte> getReponsesOuvertes() {
+    public Collection<ReponseOuverte> getReponsesOuvertes() {
         return reponsesOuvertes;
     }
-    public void setReponsesOuvertes(ArrayList<ReponseOuverte> reponsesOuvertes) {
+    public void setReponsesOuvertes(Collection<ReponseOuverte> reponsesOuvertes) {
         this.reponsesOuvertes = reponsesOuvertes;
     }
+
     public List<SessionChat> getSessionsChat() {
         return sessionsChat;
     }
@@ -194,14 +201,20 @@ public class Utilisateur implements Serializable {
     public void setAvatar(Image avatar) {
         this.avatar = avatar;
     }
-    /*public Session getSession() {
+    public Session getSession() {
         return session;
     }
     public void setSession(Session session) {
         this.session = session;
-    }*/
+
+    }
+
+    public String getMdp() {
+        return this.mdp;
+    }
     public void setMdp(String mdp) {
         //this.mdp = sha1(mdp);
+        this.mdp = mdp;
     }
 
     @Override
@@ -211,21 +224,11 @@ public class Utilisateur implements Serializable {
         return hash;
     }
 
-
-
     @Override
     public String toString() {
-        return "model.entity.Utilisateur[ pseudo=" + pseudo + " ]";
-    }
-    
-    /*public SessionChat getSessionChat()
-    {
-        return sessionChat;
+        return "model.entity.Utilisateur[ id=" + pseudo + " ]";
     }
 
-    public void setSessionChat(SessionChat chat) {
-        this.sessionChat = chat;
-    }*/
     public void closeAllChat() {
         for (SessionChat c : sessionsChat) {
             c.setEstDemarree(false) ;
@@ -266,5 +269,41 @@ public class Utilisateur implements Serializable {
         }
         return true;
     }
-
+    
+    public void ajouterReponseQCM(ReponseQCM rep){
+        if(rep.getId() == null){
+            System.out.println("Nouvelle question  : " + rep);
+            this.reponsesQCM.add(rep);
+            System.out.println("Liste Questions : " + this.getReponsesQCM());
+        }else{
+            for(ReponseQCM repq : this.reponsesQCM){
+                if(repq.getId() == rep.getId()){
+                    repq = rep;
+                }
+            }
+        }
+    }
+        
+            public void ajouterReponseOuverte(ReponseOuverte rep){
+        boolean b = false;
+        for(ReponseOuverte repo : this.reponsesOuvertes){
+            if(repo.getId() == rep.getId()){
+                repo = rep;
+                b = true;
+            }
+        }
+        
+        if(!b){
+            this.reponsesOuvertes.add(rep);
+        }
+    }
+            
+    public boolean estAmisAvec (Utilisateur u) {
+        for (Contact c : contacts){
+            if ((c.getEstEnContactAvec().equals(u)) && (c.getEstAccepte())) {
+                return true ;
+            }
+        }
+        return false ;
+    }
 }

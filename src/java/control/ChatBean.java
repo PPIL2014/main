@@ -55,6 +55,7 @@ public class ChatBean implements Serializable {
             servletContext.setAttribute("listeUtilisateursAttente", new ArrayList<Utilisateur>());
         }
         lastUpdate = new Date(0);
+        
     }
 
     public Utilisateur getU1() {
@@ -310,4 +311,33 @@ public class ChatBean implements Serializable {
         return chatAleatoire() ;
     }
     
+    
+    //quand on ets ami et qu'on subit un quittage
+    public String sortirDuChat () {
+        return "profil.xhtml" ;
+    }
+    
+    public boolean getEstUnChatCopain () {
+        // on remplit les utilisateur
+        u1 = getUtilisateurSession() ;
+        SessionChat c = u1.getSessionChatDemarree() ;
+        if (c != null) {
+            if (c.getUtilisateur1().equals(u1)) {
+                u2 = c.getUtilisateur2();
+            } else {
+                u2 = c.getUtilisateur1() ;
+            }
+        }
+        
+        if ((u1 == null) || (u2 == null)) {
+            return false ;
+        }
+        
+        return u1.estAmisAvec(u2) ;
+    }
+    
+    public boolean getEstUnChatAlea () {
+        System.out.println (getEstUnChatCopain()) ;
+        return !getEstUnChatCopain() ;
+    }
 }

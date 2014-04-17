@@ -7,7 +7,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,7 +34,7 @@ public class Galerie implements Serializable {
      * @element-type Image
      */
     @OneToMany
-    private ArrayList<Image>  images;
+    private Collection<Image>  images;
     
     public void ajouterImage(Image image) {
     }
@@ -74,11 +74,11 @@ public class Galerie implements Serializable {
         this.proprietaire = proprietaire;
     }
 
-    public ArrayList<Image> getImages() {
+    public Collection<Image> getImages() {
         return images;
     }
 
-    public void setImages(ArrayList<Image> images) {
+    public void setImages(Collection<Image> images) {
         this.images = images;
     }
 

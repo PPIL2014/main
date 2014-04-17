@@ -2,11 +2,14 @@ package control;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -14,13 +17,17 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import model.Utilisateur;
 
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class LoginBean {
-
     @PersistenceContext(unitName = "DateRoulettePU")
     private EntityManager em;
     @Resource
@@ -33,6 +40,9 @@ public class LoginBean {
     private String pseudo;
     @ManagedProperty(value="#{mdp}")
     private String mdp;
+    
+    private UIComponent pseudoText;
+    private UIComponent mdpText;
             
     public LoginBean() {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
@@ -47,6 +57,12 @@ public class LoginBean {
     public String getPseudo(){
         return this.pseudo;
     }
+    
+    public List<Utilisateur> getListeUtilisateurs() {
+        Query q = em.createQuery("SELECT u FROM Utilisateur u WHERE u.pseudo != :pseudo ORDER BY u.session.estConnecte ASC");
+        q.setParameter("pseudo", this.utilisateur.getPseudo());
+        return q.getResultList();
+    }
 
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
@@ -60,7 +76,6 @@ public class LoginBean {
         this.mdp = mdp;
     }
 
-    
     public boolean verifPseudo() { 
         Query query = em.createQuery("select u.pseudo from Utilisateur u where u.pseudo=\"" + pseudo + "\""); 
         boolean res = true; 
@@ -84,7 +99,7 @@ public class LoginBean {
         return mdp.equals(mdp_bdd) ;
     }
     
-    public String connecter() throws Exception{ 
+    public String connecterList() throws Exception{ 
         //if (verifPseudo()) { 
             //if (verifMdp()) {
                 //this.ut.begin();
@@ -99,28 +114,79 @@ public class LoginBean {
                 session.setAttribute("pseudoUtilisateur", utilisateur.getPseudo());
                 //this.ut.commit();
                 return "profil"; 
-            /*} else {
-                setMdp("");
-                FacesContext context = FacesContext.getCurrentInstance(); 
-                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Mot de passe incorrect !", "Impossible de se connecter : Mot de passe incorrect !")); 
-            } 
-        } else { 
-            setPseudo(""); 
-            FacesContext context = FacesContext.getCurrentInstance(); 
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Utilisateur introuvable !", "Impossible de se connecter : Utilisateur introuvable !")); 
+                /*} else {
+            setPseudo("");
+            setMdp("");
+            context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Nom d'utilisateur ou mot de passe incorrect !", null)); 
         } 
          return "index" ;*/
-                
+    } 
+
+    public UIComponent getPseudoText() {
+        return pseudoText;
+    }
+
+    public void setPseudoText(UIComponent pseudoText) {
+        this.pseudoText = pseudoText;
+    }
+
+    public UIComponent getMdpText() {
+        return mdpText;
+    }
+
+    public void setMdpText(UIComponent mdpText) {
+        this.mdpText = mdpText;
+    }
+    
+    public String connecter() { 
+
+        FacesContext context = FacesContext.getCurrentInstance(); 
+        this.utilisateur = em.find(Utilisateur.class, this.pseudo);
+        if (this.utilisateur != null) { 
+            if (! this.utilisateur.getMdp().equals(this.mdp)) {
+                setMdp("");
+                context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Nom d'utilisateur ou mot de passe incorrect !", null)); 
+            } else {
+                try {
+                    HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+                    ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                    session.setAttribute("pseudoUtilisateur", this.utilisateur.getPseudo());
+                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Vous êtes connecté en tant que " + this.utilisateur.getPseudo() + " !", null));
+                    this.utilisateur.getSession().setEstConnecte(Boolean.TRUE);
+                    this.ut.begin();
+                    this.em.merge(this.utilisateur);
+                    this.ut.commit();
+                    return "fakeListe.xhtml";
+                } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                    Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            setPseudo("");
+            setMdp("");
+            context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Nom d'utilisateur ou mot de passe incorrect !", null)); 
+        } 
+        return null;
+
     }
     
     public String deconnexion() {
-        //Destroy session
+        if (this.utilisateur != null) {
+            try {
+                this.utilisateur.getSession().setEstConnecte(false);
+                this.ut.begin();
+                this.em.merge(this.utilisateur);
+                this.ut.commit();
+            } catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).invalidate();
-        
-        return "faces/index.xhtml";
+        this.utilisateur = null;
+        return "index.xhtml";
     }
     
-    public List<Utilisateur> getListeUtilisateurs(){
+    public List<Utilisateur> getListeUtilisateursDeroul(){
         if (this.listeUtilisateurs == null || this.listeUtilisateurs.isEmpty()) {
             this.listeUtilisateurs = em.createQuery("SELECT u FROM Utilisateur u").getResultList();
         }

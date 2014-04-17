@@ -7,7 +7,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +30,7 @@ public class Questionnaire implements Serializable {
      * @element-type Question
      */
     @OneToMany
-    private ArrayList<Question>  questions;
+    private Collection<Question>  questions;
     
     public String getNom() {
         return nom;
@@ -40,11 +40,11 @@ public class Questionnaire implements Serializable {
         this.nom = nom;
     }
 
-    public ArrayList<Question> getQuestions() {
+    public Collection<Question> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(ArrayList<Question> questions) {
+    public void setQuestions(Collection<Question> questions) {
         this.questions = questions;
     }
 
@@ -85,6 +85,10 @@ public class Questionnaire implements Serializable {
     @Override
     public String toString() {
         return "ul.dateroulette.entity.Questionnaire[ id=" + id + " ]";
+    }
+
+    public Question getQuestion(int countRep) {
+        return (Question)this.questions.toArray()[countRep];
     }
     
 }

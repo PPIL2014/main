@@ -2,6 +2,7 @@ package control;
 
 import java.util.ArrayList;
 import javax.annotation.Resource;
+import java.util.Collection;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -16,7 +17,7 @@ import model.Utilisateur;
 
 @ManagedBean
 @RequestScoped
-public class ProfilBean {   
+public class ProfilBean {
 
     @PersistenceContext 
     private EntityManager em;
@@ -81,4 +82,5 @@ public class ProfilBean {
         Utilisateur u = getUtilisateurSession () ;
         return ((listeAttente.size() == 1) && (listeAttente.get(0).getPseudo().equals(u.getPseudo()))) ;
     }
+
 }

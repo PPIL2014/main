@@ -7,7 +7,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,18 +24,19 @@ public class ReponseQCM implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private QuestionQCM question;
     /**
    * 
    * @element-type Choix
    */
     @OneToMany
-    private ArrayList<Choix>  reponses;
+    private Collection<Choix>  reponses;
     
-    public ArrayList<Choix> getReponses() {
+    public Collection<Choix> getReponses() {
         return reponses;
     }
 
-    public void setReponses(ArrayList<Choix> reponses) {
+    public void setReponses(Collection<Choix> reponses) {
         this.reponses = reponses;
     }
     
@@ -70,6 +71,14 @@ public class ReponseQCM implements Serializable {
     @Override
     public String toString() {
         return "ul.dateroulette.entity.ReponseQCM[ id=" + id + " ]";
+    }
+
+    public Question getQuestion() {
+        return this.question;
+    }
+
+    public void setQuestion(QuestionQCM qcm) {
+        this.question = qcm;
     }
     
 }
