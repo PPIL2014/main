@@ -12,9 +12,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -43,18 +41,16 @@ public class AutoCompleteClientBean implements Serializable {
     @Resource
     private UserTransaction ut;
     
-    @ManagedProperty(value="#{SessionBean.utilsiateur}")
     public Utilisateur user;
     
-    @ManagedProperty(value = "#{selectedClient}")
     private Utilisateur selectedClient;
     
     public AutoCompleteClientBean(){
-
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        user = (Utilisateur) session.getAttribute("user");
     }
     
-    public List<Utilisateur> complete(String query) {  
-        System.out.println(query);
+    public List<Utilisateur> complete(String query) {
         FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"complete "+user.toString(),null));
         return user.getContactsByName(query);
     }
@@ -82,7 +78,7 @@ public class AutoCompleteClientBean implements Serializable {
     }
     
     public List<Conversation> getConversations() throws Exception{
-        System.out.println("GetConversations");
+        
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         //context.addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,session.getAttribute("user").toString(),null));
@@ -147,10 +143,17 @@ public class AutoCompleteClientBean implements Serializable {
         return null;
     }
     
-    public String submit()
-    {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, selectedClient.toString(), null));
-        return "MessagerieAsynchrone.xhtml?pseudo="+selectedClient.getPseudo();
+    public Utilisateur getDest(Conversation conv){
+        if(conv.getExpediteur().getPseudo().equals(user.getPseudo()))
+            return conv.getDestinataire();
+        else
+            return conv.getExpediteur();
+    }
+    
+    public String submit(){
+        System.out.println("selected Client : "+selectedClient);
+        
+        return "MessagerieAsynchrone.xhtml";
     }
 
     public Utilisateur getSelectedClient() {

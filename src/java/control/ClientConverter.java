@@ -6,7 +6,6 @@
 
 package control;
 import javax.annotation.Resource;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -43,7 +42,7 @@ public class ClientConverter implements Converter {
  
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        System.out.println("Value2 : "+value);
+        
         if (value == null || value.equals("")) {  
             return "";  
         } else {  
@@ -63,7 +62,7 @@ public class ClientConverter implements Converter {
             Query q = em.createQuery("SELECT u FROM Utilisateur u WHERE u.pseudo=:pse");
             q.setParameter("pse", pseudo);
             results = (Utilisateur) q.getSingleResult();
-            System.err.println("Utilisateur : "+results.getPseudo());
+            
             ut.commit();
         }catch(NotSupportedException | SystemException | RollbackException | 
                 HeuristicMixedException | HeuristicRollbackException | 

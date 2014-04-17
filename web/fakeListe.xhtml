@@ -27,7 +27,9 @@
                 Voir Messagerie
                 <f:param name="faces-redirect" value="true"/>
             </h:commandLink>&nbsp;
-            <h:commandLink action="#{loginBean.deconnexion()}">Déconnecter</h:commandLink>
+            <h:commandLink action="#{loginBean.deconnexion()}">
+                <f:param name="faces-redirect" value="true"/>
+                Déconnecter</h:commandLink>
         </h:form>
     </h:body>
 </html>

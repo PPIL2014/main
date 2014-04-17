@@ -5,26 +5,61 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Messagerie Privée</title>
+       <link href="default.css" rel="stylesheet" type="text/css"></link>
     </h:head>
+        <div id="wrapper">
+            <div id="header-wrapper">
+                <div id="header">
+                    <div id="logo">
+                    <h1><a href="#">DateRoulette</a></h1>
+                    </div>
+                </div>
+            </div>
+            <div id="menu-wrapper">
+            <div id="menu" >
+                    <ul>
+                        <li><h:form><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form><h:commandLink value="Messagerie" action="Messagerie.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form><h:commandLink value="Deconnexion" action="#{loginBean.deconnexion()}"><f:param name="contenu" value=""/></h:commandLink></h:form></li>	
+                    </ul>
+            </div>
+            </div>
+            </div>
     <h:body>
         
-        <img src="#{messagerieAsyncControl.destinataire.avatar}" alt="Pas de photo"/>
-        <h1>Messagerie avec #{messagerieAsyncControl.conversation.destinataire.pseudo}</h1>
-        <c:forEach var="message" items="#{messagerieAsyncControl.privateMessages}">
-            <p>#{message.conversation.expediteur.pseudo} <br/>
-               #{message.date} : <br/>
-               #{message.contenu} <br/>
-            </p>
-        </c:forEach>
-        
-        <h:form>
-            <h:inputText id="message" value="#{messagerieAsyncControl.contenu}" required="true" requiredMessage=""/>
-            <h:commandButton value="Envoyer" action="#{messagerieAsyncControl.send()}">
-                <f:param name="faces-redirect" value="true"/>
-                <f:param name="conv" value="#{param.conv}"/>
-            </h:commandButton>
-        </h:form>
+        <img src="#{messagerieAsyncControl.getDest().avatar}" alt="Pas de photo"/>
+        <h1>Messagerie avec #{messagerieAsyncControl.getDest().pseudo}</h1>
+        <div class="container" style="width: 50%; border: 1">
+            <c:set var="align" value="sender" />
+            <c:forEach var="message" items="#{messagerieAsyncControl.privateMessages}">
+                <c:set var="align" value="sender"/>
+                <c:if test="${message.expediteur == messagerieAsyncControl.getDest()}">
+                    <c:set var="align" value="receiver" />
+                </c:if>
+                <span class="${align}"><p>#{message.expediteur.pseudo} <br/>
+                   #{message.date.toLocaleString()} : <br/>
+                   #{message.contenu} <br/></p>
+                </span>
+            </c:forEach>
+            <h:form>
+                <h:inputTextarea rows="3" cols="35" id="message" value="#{messagerieAsyncControl.contenu}" required="true"/>
+                <h:commandButton id="buttons" value="Envoyer" action="#{messagerieAsyncControl.send}">
+                    <f:param name="faces-redirect" value="true"/>
+                    <f:param name="conv" value="#{param.conv}"/>
+                </h:commandButton>
+            </h:form>
+        </div>
+        <div id="footer-wrapper">
+            <div id="footer">
+                <ul>
+                    <li><a href="#">CGU</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contactez-nous</a></li>
+                </ul>
+            </div>
+        </div>
     </h:body>
 </html>
 

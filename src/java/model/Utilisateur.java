@@ -99,6 +99,15 @@ public class Utilisateur implements Serializable {
         return contactsByName;
     }
     
+    public Conversation getConv(Utilisateur dest) {
+        if(dest == null)
+            return null ;
+        for (Conversation conv : dest.getConversations())
+            if(conv.getExpediteur().getPseudo().equals(pseudo))
+                return conv ;
+        return null ;
+    }
+    
     public String getPseudo() {
         return pseudo;
     }

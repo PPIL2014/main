@@ -13,12 +13,16 @@
     <h:body>
         <ui:composition>
             <div id="contact">
-                <h:form >
-                    <p align="center" class="avatar">Conversation avec 
-                        <h:commandLink action="MessagerieAsynchrone.xhtml">#{conv.getDestinataire().getPseudo()}
-                            <f:param name="face-redirect=true"/>
+                <h:form>
+                    <p>Conversation avec
+                        <h:commandLink action="MessagerieAsynchrone.xhtml">#{autoCompleteClientBean.getDest(conv).pseudo}
+                            <f:param name="face-redirect" value="true"/>
                             <f:param name="conv" value="#{conv.id}"/>
-                        </h:commandLink>
+                        </h:commandLink><br/>
+                        Dernier message : 
+                        <h:outputText value="#{last}"/>
+                        Recu le : 
+                        <h:outputText value="#{date}"/>
                     </p>
                 </h:form>
             </div>

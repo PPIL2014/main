@@ -9,15 +9,14 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.enterprise.context.Dependent;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.servlet.http.HttpSession;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -34,25 +33,19 @@ import model.Utilisateur;
  */
 @ManagedBean
 @Named(value = "messagerieAsyncControl")
-@Dependent
-@ViewScoped
+@RequestScoped
 public class MessagerieAsyncControl {
     @PersistenceContext(unitName = "DateRoulettePU")
     private EntityManager em;
     @Resource
     private UserTransaction ut;
     
-    private Utilisateur expediteur;
-    
-    private Utilisateur destinataire;
-    
-    @ManagedProperty("#{sessionBean.utilisateur.getConversation()}")
     private Conversation conversation;
     
-    private String contenu;
+    private Utilisateur user;
     
-    @ManagedProperty("#{param.pseudo}")
-    private String pseudo;
+    @ManagedProperty(value="#{contenu}")
+    private String contenu;
     
     /**
      * Creates a new instance of MessagerieAsyncControl
@@ -63,30 +56,29 @@ public class MessagerieAsyncControl {
     @PostConstruct
     public void init(){
         String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("conv");
-        System.err.println("id : "+id);
+        System.out.println("conv : "+FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("conv"));
         conversation = getConversation(Long.parseLong(id));
-        destinataire = conversation.getDestinataire();
-        expediteur = conversation.getExpediteur();
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        user = (Utilisateur) session.getAttribute("user");
+        
+    }
+    
+    public Utilisateur getDest(){
+        if(conversation.getExpediteur().getPseudo().equals(user.getPseudo()))
+            return conversation.getDestinataire();
+        else
+            return conversation.getExpediteur();
+    }
+    
+    public Utilisateur getExp(){
+        if(conversation.getExpediteur().getPseudo().equals(user.getPseudo()))
+            return conversation.getExpediteur();
+        else
+            return conversation.getDestinataire();
     }
     
     public Collection<MessageConversation> getMessages(){
         return conversation.getMessages() ;
-    }
-
-    public Utilisateur getExpediteur() {
-        return expediteur;
-    }
-    
-    public void setExpediteur(Utilisateur expediteur) {
-        this.expediteur = expediteur;
-    }
-
-    public Utilisateur getDestinataire() {
-        return destinataire;
-    }
-
-    public void setDestinataire(Utilisateur destinataire) {
-        this.destinataire = destinataire;
     }
     
     public Conversation getConversation() {
@@ -105,12 +97,12 @@ public class MessagerieAsyncControl {
         this.contenu = contenu;
     }
 
-    public void setPseudo(String pseudo) {
-        this.pseudo = pseudo;
+    public Utilisateur getUser() {
+        return user;
     }
 
-    public String getPseudo() {
-        return pseudo;
+    public void setUser(Utilisateur user) {
+        this.user = user;
     }
     
     /**
@@ -152,7 +144,8 @@ public class MessagerieAsyncControl {
             MessageConversation m = new MessageConversation();
             m.setConversation(conversation);
             m.setContenu(contenu);
-            m.setExpediteur(expediteur);
+            System.err.println("user : "+user.getPseudo());
+            m.setExpediteur(user);
             Date d = new Date();
             m.setDate(d);
             conversation.getMessages().add(m);
