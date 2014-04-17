@@ -199,7 +199,6 @@ ul.style2 li:first-child
 }
 
 
-
 /** MENU */
 
 #menu-wrapper
@@ -518,4 +517,5 @@ ul.style2 li:first-child
 	position : relative;
 	top: 9px;
 	padding-right : 10px;
+
 }

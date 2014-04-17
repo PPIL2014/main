@@ -76,6 +76,7 @@ public class Utilisateur implements Serializable {
     
     @OneToMany
     private List<SessionChat>  sessionsChat;
+
     
     /**
      * 
@@ -83,7 +84,6 @@ public class Utilisateur implements Serializable {
      */
     @OneToOne(cascade=CascadeType.ALL)
     private Image avatar;
-
     
     @OneToOne(cascade=CascadeType.ALL)
     private Session session;
@@ -206,7 +206,6 @@ public class Utilisateur implements Serializable {
     }
     public void setSession(Session session) {
         this.session = session;
-
     }
 
     public String getMdp() {
@@ -242,6 +241,7 @@ public class Utilisateur implements Serializable {
         }
         return null ;
     }
+
 
     public void ajouterChat(SessionChat c) {
         sessionsChat.add(c);
@@ -284,7 +284,7 @@ public class Utilisateur implements Serializable {
         }
     }
         
-            public void ajouterReponseOuverte(ReponseOuverte rep){
+    public void ajouterReponseOuverte(ReponseOuverte rep){
         boolean b = false;
         for(ReponseOuverte repo : this.reponsesOuvertes){
             if(repo.getId() == rep.getId()){
@@ -305,5 +305,6 @@ public class Utilisateur implements Serializable {
             }
         }
         return false ;
-    }
+    }    
+
 }

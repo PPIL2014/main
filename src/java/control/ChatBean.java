@@ -7,6 +7,8 @@ import java.util.Objects;
 import javax.annotation.Resource;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import java.util.Collection;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -81,7 +83,7 @@ public class ChatBean implements Serializable {
     public void setLastUpdate(Date lastUpdate){
         this.lastUpdate = lastUpdate;
     }
-    
+
     public String getCorrespondant(){
         SessionChat c = getChat() ;
         

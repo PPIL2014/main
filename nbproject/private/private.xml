@@ -3,11 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/src/java/control/LoginBean.java</file>
-            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/src/java/model/Utilisateur.java</file>
-            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/nbproject/project.properties</file>
-            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/src/java/control/ChatBean.java</file>
-            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/src/conf/persistence.xml</file>
+            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/PPIL/src/java/control/EventProfilBean.java</file>
+            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/PPIL/src/conf/persistence.xml</file>
+            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/PPIL/web/MessagerieAsynchrone.xhtml</file>
+            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/PPIL/src/java/model/Utilisateur.java</file>
+            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/PPIL/src/java/model/Administrateur.java</file>
+            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/PPIL/nbproject/project.properties</file>
+            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/PPIL/src/java/control/ProfilBean.java</file>
+            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/PPIL/src/java/control/ChatBean.java</file>
+            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/PPIL/web/index.xhtml</file>
+            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/PPIL/web/chat.xhtml</file>
+            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/PPIL/src/java/control/LoginBean.java</file>
+            <file>file:/C:/Users/Florian/Documents/NetBeansProjects/PPIL/PPIL/web/default.css</file>
         </group>
     </open-files>
 </project-private>

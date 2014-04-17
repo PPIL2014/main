@@ -17,6 +17,7 @@
                     </td>
                     <td>
                         <h:inputText id="pseudo" value="#{loginBean.pseudo}" binding="#{loginBean.pseudoText}" required="false" requiredMessage="Veuillez entrer votre pseudo"></h:inputText>
+
                     </td>
                     <td>
                         <h:message errorStyle="color:red" for="pseudo"></h:message>
@@ -51,6 +52,7 @@
                 <f:selectItems id="pseudoList" value="#{loginBean.listeUtilisateursDeroul}" var="u" itemLabel="#{u.pseudo}" itemValue="#{u.pseudo}"/>
             </h:selectOneMenu>
             <h:commandButton value="Login" action="#{loginBean.connecterList}"></h:commandButton>
+
         </h:form>
     </h:body>
 </html>
