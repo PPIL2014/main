@@ -1,0 +1,475 @@
+html, body {
+	height: 100%;
+
+}
+
+body {
+	margin: 0px;
+	padding: 0px;
+	background: #FFFFFF;
+	font-family: 'Chivo', sans-serif;
+	font-size: 12pt;
+	font-weight: 300;
+	color: #363636;
+}
+
+
+h1, h2, h3 {
+	padding: 0;
+}
+
+p, ol, ul {
+	margin-top: 0px;
+}
+
+p {
+	line-height: 190%;
+}
+
+strong {
+}
+
+a {
+	color: #171717;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+a img {
+	border: none;
+}
+
+
+hr {
+	display: none;
+}
+
+/*********************************************************************************/
+/* List Styles                                                                   */
+/*********************************************************************************/
+
+ul.style1
+{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+}
+
+ul.style1 li
+{
+        border-top: solid 1px #E5E5E5;
+        padding: 0.80em 0;
+}
+
+ul.style1 li:first-child
+{
+        border-top: 0;
+        padding-top: 0;
+}
+
+ul.style2
+{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+}
+
+ul.style2 li
+{
+        border-top: solid 1px #E5E5E5;
+        padding: 0.80em 0;
+}
+
+ul.style2 li:first-child
+{
+        border-top: 0;
+        padding-top: 0;
+}
+
+/*********************************************************************************/
+/* Heading Titles                                                                */
+/*********************************************************************************/
+
+.title
+{
+        margin-bottom: 2em;
+        text-transform: uppercase;
+}
+
+.title h2
+{
+        font-weight: 400;
+        font-size: 2em;
+        color: #B10058;
+}
+
+.title .byline
+{
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        font-weight: 400;
+        font-size: 0.90em;
+        color: #6F6F6F;
+}
+
+/** WRAPPER */
+
+#wrapper {
+	background: #FFFFFF;
+}
+
+#footer-wrapper
+{	
+	height : 100px;
+	background: #0F0F0F;
+}
+
+#footer-wrapper a
+{	
+	color : white;
+	text-align : center;
+}
+
+.container {
+	width : 90%;
+	margin: 0px auto;
+}
+
+.clearfix {
+	clear: both;
+}
+
+
+/*********************************************************************************/
+/* Wrappers                                                                      */
+/*********************************************************************************/
+
+#header-wrapper
+{
+	overflow: hidden;
+	background-size: 100%;
+	padding: 6em 0em 2em 0em;
+	background: #333333;
+}
+
+
+/*********************************************************************************/
+/* Header                                                                        */
+/*********************************************************************************/
+
+#header 
+{
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+}
+
+/*********************************************************************************/
+/* Logo                                                                          */
+/*********************************************************************************/
+
+#logo 
+{
+        width: 500px;
+        height: 100px;
+        margin: 0 auto;
+        padding: 2em 0em;
+        text-transform: uppercase;
+}
+
+#logo h1
+{
+        letter-spacing: 0.10em;
+        font-size: 3em;
+}
+
+#logo p 
+{
+        letter-spacing: 0.10em;
+        color: #FFF;
+}
+
+#logo a 
+{
+        text-decoration: none;
+        color: #FFF;
+}
+
+
+/** MENU */
+
+#menu-wrapper
+{
+	background: #B10058;
+}
+
+#menu {
+	overflow: hidden;
+	height: 100px;
+}
+
+#menu ul {
+	margin: 0;
+	padding: 0px 0px 0px 0px;
+	list-style: none;
+	line-height: normal;
+	text-align: center;
+}
+
+#menu li {
+	display: inline-block;
+}
+
+#menu a {
+	display: block;
+	letter-spacing: 1px;
+	padding: 0px 40px;
+	text-decoration: none;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 0.80em;
+	line-height: 100px;
+	border: none;
+	color: #FFF;
+}
+
+#menu a:hover, #menu .current_page_item a {
+	text-decoration: none;
+}
+
+#menu .current_page_item a {
+	background: #C0005F;
+}
+
+/** PAGE */
+
+#page
+{
+	position: relative;
+	overflow: hidden;
+	padding: 2em 0em 5em 0em;
+}
+
+/** CONTENT */
+
+#content
+{
+	float: right;
+	width: 75%;
+	height : 40em;
+}
+
+#content h1
+{
+	margin-left : 20px;
+	padding-bottom : 20px;
+}
+
+/*********************************************************************************/
+/* Sidebar                                                                       */
+/*********************************************************************************/
+
+#sidebar
+{
+        float: left;
+        width: 15%;
+}
+
+#sidebar .title h2
+{
+        font-size: 1.6em;
+}
+
+#sidebar .box1
+{
+        margin-bottom: 3em;
+}
+
+/*********************************************************************************/
+/* Footer                                                                        */
+/*********************************************************************************/
+
+#footer-wrapper
+{
+        overflow: hidden;
+        padding: 0em 0em;
+        background: #1E1B1A;
+}
+
+#footer-wrapper ul{
+                margin: 0;
+        padding: 0px 0px 0px 0px;
+        list-style: none;
+        line-height: normal;
+        text-align: center;
+}
+
+#footer-wrapper li {
+        display: inline-block;
+}
+
+#footer-wrapper a {
+        display: block;
+        letter-spacing: 1px;
+        padding: 0px 40px;
+        text-decoration: none;
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 0.80em;
+        line-height: 100px;
+        border: none;
+        color: #FFF;
+}
+
+
+#footer
+{
+        color: #ADADAD;
+}
+
+#footer .title h2
+{
+        font-weight: 400;
+        font-size: 1.2em;
+        color: #FFF;
+}
+
+#footer .title
+{
+        border-color: #2D2926 !important;
+}
+
+#footer .style1 li
+{
+        border-color: #2D2926 !important;
+}
+
+#footer .style1 a
+{
+        font-size:1em;
+        color: #B1B1B1;
+}
+
+#box1
+{
+        float: left;
+        width: 354px;
+        margin-right: 24px;
+        padding-right: 30px;
+}
+
+#box2
+{
+
+        float: left;
+        width: 354px;
+        padding-right: 30px;
+}
+
+#box3
+{
+        float: right;
+        width: 344px;
+}
+
+.contact{
+	float : left;
+	margin-bottom : 10px;
+}
+
+#presentation img{
+	box-shadow: 0px 0px 2px #000000;
+	float : left;
+	border : 2px solid;
+}
+
+#presentation p{
+	display : inline-block;
+	width : 200px;
+	padding-left : 20px;
+	font-size : 25px;
+	margin-bottom : 0px;
+}
+
+#input-text form{
+	list-style : none;
+	position : absolute;
+	bottom : 10px;
+}
+
+#prez p{
+	box-shadow: 0px 0px 5px #000000;
+	display : inline-block;
+	padding-top : 5px;
+	padding-bottom : 5px;
+	padding-left : 5px;
+	padding-right : 5px;
+	position : absolute;
+	width : 550px;
+	right : 20px;
+	display : inline-block;
+	background : #fffff8;
+}
+
+#buttons img{
+	box-shadow : none;
+	border : none;
+	margin-left : 15px;
+}
+
+#messages {
+	margin-top : 120px;
+}
+
+#messages p{
+	font-size : 20px;
+}
+
+.sender p {
+	text-align : left;
+	margin-right : 30px;
+	padding-left : 15px;
+	background-color : #bf61a0;
+
+}
+
+.receiver p{
+	margin-left : 30px;
+	text-align : right;
+	padding-right : 15px;
+	background-color : pink;
+}
+
+
+/* Contact */
+
+#contact p {
+	font-size : 20px;
+	font-weight : bold;
+	display : inline-block;
+	margin-left : 20px;
+	padding-bottom : 100px;
+}
+
+.avatar{
+	box-shadow: 0px 0px 4px #000000;
+	float : left;
+
+}
+
+.favcheck {
+	float : right;
+}
+
+.icon-con {
+	margin-left : 25px;
+	
+}
+
+.icon-con a{
+	position : relative;
+	top: 9px;
+	padding-right : 10px;
+}

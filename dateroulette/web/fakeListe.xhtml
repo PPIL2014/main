@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+     <h:head>
+        <link href="default.css" media="all" rel="stylesheet" type="text/css" />
+        <title>Fake Liste</title>
+    </h:head>
+    <h:body>
+          <div id="wrapper">
+            <div id="header-wrapper">
+                <div id="header">
+			<div id="logo">
+				<h1><a href="#">DateRoulette</a></h1>
+			</div>
+		</div>
+            </div>
+            <div id="menu-wrapper">
+		<div id="menu" >
+                    <ul>
+                        <li><h:form rendered="false"><h:commandLink value="Acceuil" action="profil.xhtml"></h:commandLink></h:form></li>
+			<li><h:form rendered="false"><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+			<li><h:form rendered="false"><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
+                    </ul>
+		</div>
+		<!-- end #menu --> 
+            </div>
+            <div id="page" class="container">
+        <h:messages />
+        
+        <c:forEach items="#{loginBean.listeUtilisateurs}" var="utilisateur">
+            #{utilisateur.pseudo} est 
+            <c:choose>
+                <c:when test="#{utilisateur.session.estConnecte}">
+                    connecté
+                </c:when>
+                <c:otherwise>
+                    déconnecté
+                </c:otherwise>
+            </c:choose>
+            <br/>
+        </c:forEach>
+        <h:form>
+            <h:commandLink action="#{loginBean.deconnexion()}">Déconnecter</h:commandLink>
+        </h:form>
+            </div>
+        </div>
+   
+        <div id="footer-wrapper">
+            <div id="footer">
+		<ul>
+                    <li><a href="#">CGU</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contactez-nous</a></li>
+		</ul>
+            </div>
+        </div>
+    </h:body>
+</html>
+
