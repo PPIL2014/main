@@ -28,7 +28,8 @@
             
         Voici votre PROFIL ! <br/>
         <hr/>
-            PSEUDO : <h:outputText id="pseudo" value="#{profilBean.pseudo}"></h:outputText> 
+            PSEUDO : <h:outputText id="pseudo" value="#{profilBean.pseudo}"></h:outputText><br/>
+            Si vous etes authentifié administrateur, vous verrai ce lien : <h:commandLink action="outilsAdmin"> Gestion Site</h:commandLink>
             <br/>
             <h:graphicImage url="#{profilBean.urlAvatar}" />
 

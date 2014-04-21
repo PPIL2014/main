@@ -48,6 +48,9 @@ and open the template in the editor.
                             <h:commandButton value="Suivant" onclick="dlgSuivChat.show()">
                                 <f:ajax execute="@form" render="@none" />
                             </h:commandButton>
+                            <h:commandButton value="Signaler" onclick="dlgSignalementChat.show()">
+                                <f:ajax execute="@form" render="@none" />
+                            </h:commandButton>
                             <h:commandButton value="Quitter" onclick="dlgFinChat.show()">
                                 <f:ajax execute="@form" render="@none" />
                             </h:commandButton>
@@ -69,6 +72,12 @@ and open the template in the editor.
                                 <h:commandButton id="ajouterSubi" value="AJOUTER" action="#{chatBean.ajouterEtContinuer}"/>
                                 <h:commandButton id="passerSubi" value="PASSER"  action="#{chatBean.passerEtContinuer}" />                                
                                 <h:commandButton id="bloquerSubi" value="BLOQUER"  action="#{chatBean.bloquerEtContinuer}" />
+                            </p:confirmDialog>
+
+                            <p:confirmDialog id="confirmDialogSignalement" message="Veuillez préciser le motif du signalement :" header="Quitter" severity="alert" widgetVar="dlgSignalementChat">
+                                <h:inputTextarea id="motif_signalement" value="{signalementProfilBean.motif}"></h:inputTextarea>
+                                <h:commandButton id="ajouterSignalement" value="CONFIRMER" action="#{signalementProfilBean.signaler()}"/>
+                                <h:commandButton id="annulerSignalement" value="ANNULER"  action="chat.xhtml" />
                             </p:confirmDialog>
                        </p>
                    </h:form>
@@ -101,6 +110,7 @@ and open the template in the editor.
                         var dlgFinChatSubi ;
                         var dlgSuivChat ;
                         var dlgFinChat ;
+                        var dlgSignalementChat ;
                         
                         function eraseInputText(){
                             document.getElementById("FormPrincipal:message").value = "";
@@ -112,6 +122,10 @@ and open the template in the editor.
                         
                         function showDlgFinSubi(){
                             dlgFinChatSubi.show();
+                        }
+                        
+                        function showDlgSignalement(){
+                            dlgSignalementChat.show();
                         }
                         
                         function updatePage(xhr, status, args) {    
