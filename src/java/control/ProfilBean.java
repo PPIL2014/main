@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import javax.annotation.Resource;
 import java.util.Collection;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -82,5 +83,9 @@ public class ProfilBean {
         Utilisateur u = getUtilisateurSession () ;
         return ((listeAttente.size() == 1) && (listeAttente.get(0).getPseudo().equals(u.getPseudo()))) ;
     }
-
+    
+    //Affiche un message à l'utilisateur si il est seul en attente. 
+    public void addInfo() {  
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Vous êtes seul(e) en attente !", "Vous serez redirigé(e) automatiquement lorsque quelqu'un d'autre arrivera !"));  
+    }
 }

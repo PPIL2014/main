@@ -22,9 +22,11 @@
     <h:body>
         <h:form>
 
-        <p:notificationBar id="bar" position="bottom" effect="slide" widgetVar="bar" styleClass="top">  
+        <p:messages id="messages" showDetail="true" autoUpdate="true" />     
+            
+        <!--<p:notificationBar id="bar" position="bottom" effect="slide" widgetVar="bar" styleClass="top">  
             <h:outputText value="Vous êtes seul en attente!" style="color:#FFCC00;font-size:36px;" />  
-        </p:notificationBar>
+        </p:notificationBar>-->
             
         Voici votre PROFIL ! <br/>
         <hr/>
@@ -94,7 +96,7 @@
     </h:form>
     
     <c:if test="#{profilBean.seulEnAttente}">
-        <h:outputText value="Vous êtes seul en attente! Vous serrez redirigé quand quelqu'un arrivera" style="color:#FFCC00;font-size:36px;" />
+        <f:event listener="#{profilBean.addInfo()}" type="postValidate"/>
     </c:if>
     
     </h:body>
