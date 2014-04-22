@@ -24,6 +24,7 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import model.*;
+import model.SessionChat.* ;
 
 
 @ManagedBean
@@ -82,6 +83,14 @@ public class ChatBean implements Serializable {
     
     public void setLastUpdate(Date lastUpdate){
         this.lastUpdate = lastUpdate;
+    }
+    
+    public String getMessage () {
+        return "" ;
+    }
+    
+    public void setMessage (String message) {
+        this.message = message ;
     }
 
     public String getCorrespondant(){
@@ -149,6 +158,11 @@ public class ChatBean implements Serializable {
         
         obtenirChat(u1, ami) ;
         u2 = ami ;
+        ut.begin();
+        SessionChat c = u1.recupererChat(u2) ;
+        c.setType (Type.AMIS) ;
+        em.merge(c);
+        ut.commit();
         return "chat.xhtml" ;
     }
     
@@ -163,19 +177,11 @@ public class ChatBean implements Serializable {
         //on recupere le chat de l'utilisateur en session
         Utilisateur u = getUtilisateurSession() ;
         return u.getSessionChatDemarree() ;
-    } 
+    }
 
     public ArrayList<Utilisateur> getListeUtilisateurAttente () {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
-    }
-    
-    public String getMessage () {
-        return "" ;
-    }
-    
-    public void setMessage (String message) {
-        this.message = message ;
     }
     
     public void envoyerMessage () throws Exception {
