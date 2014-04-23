@@ -20,7 +20,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 @Entity
-
 public class Utilisateur implements Serializable {
     @Id
     private String pseudo;
@@ -47,7 +46,7 @@ public class Utilisateur implements Serializable {
      * 
      * @element-type Utilisateur
      */
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     private Collection<Contact>  contacts;
     /**
      * 

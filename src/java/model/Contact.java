@@ -27,6 +27,16 @@ public class Contact implements Serializable {
     private Boolean estAccepte;
     @OneToOne
     private Utilisateur estEnContactAvec;
+
+    public Contact() {
+        
+    }
+    
+    public Contact(boolean estAccepte, boolean estBloque, Utilisateur contact){
+        this.estAccepte = estAccepte;
+        this.estBloque = estBloque;
+        this.estEnContactAvec = contact;
+    }
     
     public Boolean bloquer() {
         return null;
