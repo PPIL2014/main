@@ -1,6 +1,7 @@
 package control;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -12,6 +13,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.transaction.HeuristicMixedException;
@@ -88,15 +90,12 @@ public class SessionBean {
     }
      
     public Utilisateur getUtilisateurSession () {
-       FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-        Utilisateur utilisateurSession = (Utilisateur)em.find(Utilisateur.class,(String)session.getAttribute("pseudoUtilisateur")) ;
-        return utilisateurSession ;
+        return this.utilisateur;
     }
     
-    public ArrayList<String> getListeUtilisateurConnecte(){
-        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        return (ArrayList<String>) servletContext.getAttribute("listeUtilisateursConnecte");
+    public List<String> getListeUtilisateurConnecte(){
+        Query query = em.createQuery("SELECT u.pseudo FROM Utilisateur u where u.session.estConnecte=true");
+        return (List<String>) query.getResultList();
     }
     
     public ArrayList<Utilisateur> getListeAttente(){
@@ -120,12 +119,9 @@ public class SessionBean {
                     
                     
                     ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-                    ArrayList<String> listeConnecte = new ArrayList<>();
-                    listeConnecte.add(this.utilisateur.getPseudo());
                     
                     ArrayList<Utilisateur> listeAttente = new ArrayList<>();
                     
-                    servletContext.setAttribute("listeUtilisateursConnecte", listeConnecte);
                     servletContext.setAttribute("listeUtilisateursAttente", listeAttente);
                     
                     this.ut.commit();
@@ -144,19 +140,22 @@ public class SessionBean {
     }
     
    public String deconnecter() throws Exception{
-        ut.begin();
-        Utilisateur u = getUtilisateurSession();
-        u.closeAllChat();
-        em.merge(u);
-        
-        getListeUtilisateurConnecte().remove(this.getPseudo());
-        getListeAttente().remove(this.getUtilisateurSession());
-        
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-        session.invalidate();
-        
-        ut.commit();
+        FacesContext context = FacesContext.getCurrentInstance(); 
+        if (this.utilisateur != null) {
+            try {
+                getListeAttente().remove(this.utilisateur);
+                this.utilisateur.getSession().setEstConnecte(Boolean.FALSE);
+                this.ut.begin();
+                this.utilisateur.closeAllChat();
+                this.em.merge(this.utilisateur);
+                this.ut.commit();
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Vous êtes maintenant déconnecté", null)); 
+            } catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException | SystemException | NotSupportedException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false)).invalidate();
+        this.utilisateur = null;
         
         return "index.xhtml";
     }
