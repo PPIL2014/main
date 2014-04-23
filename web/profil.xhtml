@@ -33,7 +33,8 @@
 
             <br/><hr/><br/>     
             <h:commandButton value="CHAT" action="#{chatBean.chatAleatoire}"></h:commandButton>
-            <h:commandButton value="AMIS" action="#{listeAmisBean.afficherAmis}"></h:commandButton> 
+            <h:commandButton value="AMIS" action="#{listeAmisBean.afficherAmis}"></h:commandButton>
+            <h:commandButton value="Rechercher des amis" action="#{listeAmisBean.rechercherAmis}"></h:commandButton> 
             
             <p:remoteCommand name="nextEvent" actionListener="#{eventProfilBean.lastEvent}" 
                              oncomplete="updatePage(xhr, status, args);"/> 
@@ -77,16 +78,16 @@
         
         <br/>Liste des utilisateurs connectée : <br/>
         <h:dataTable value="#{sessionBean.listeUtilisateurConnecte}" var="item">
-        <h:column>            
-            <h:outputText value="#{item}"/><br/>
-        </h:column>
+            <h:column>            
+                <h:outputText value="#{item}"/><br/>
+            </h:column>
         </h:dataTable>
         
         <br/>Liste des utilisateurs en attente : <br/>
         <h:dataTable value="#{profilBean.listeUtilisateurAttente}" var="item">
-        <h:column>            
-            <h:outputText value="#{item.pseudo}"/><br/>
-        </h:column>
+            <h:column>            
+                <h:outputText value="#{item.pseudo}"/><br/>
+            </h:column>
         </h:dataTable>
         <br/>
         
