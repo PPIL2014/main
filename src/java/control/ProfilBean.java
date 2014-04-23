@@ -45,7 +45,7 @@ public class ProfilBean {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         Utilisateur utilisateurSession = (Utilisateur)em.find(Utilisateur.class,(String)session.getAttribute("pseudoUtilisateur")) ;
-        return utilisateurSession ;
+        return utilisateurSession;
     }
     
     public ArrayList<Utilisateur> getListeUtilisateurAttente () {
@@ -84,7 +84,7 @@ public class ProfilBean {
         return ((listeAttente.size() == 1) && (listeAttente.get(0).getPseudo().equals(u.getPseudo()))) ;
     }
     
-    @ManagedProperty(value="#{param.pseudo}") // appelle setParam();
+    @ManagedProperty(value="#{param.pseudoUtilisateur}") // appelle setParam();
     private String param;
 
     private Utilisateur utilisateur;
