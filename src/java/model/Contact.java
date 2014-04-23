@@ -7,11 +7,13 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -27,7 +29,7 @@ public class Contact implements Serializable {
     private Boolean estAccepte;
     @OneToOne
     private Utilisateur estEnContactAvec;
-    
+       
     public Boolean bloquer() {
         return null;
     }
