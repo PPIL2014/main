@@ -226,7 +226,6 @@ public class ChatBean implements Serializable {
         this.ut.begin();
         if (c == null) {
             c =  new SessionChat (u1,u2) ;
-            c.setEstDemarree(true);
             this.em.persist(c);
             u1.ajouterChat(c);
             this.em.merge(u1);

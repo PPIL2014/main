@@ -98,7 +98,7 @@ public class LoginBean {
                     this.ut.begin();
                     this.em.merge(this.utilisateur);
                     this.ut.commit();
-                    return "profil.xhtml";
+                    return "profil";
                 } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
                     Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
                 }

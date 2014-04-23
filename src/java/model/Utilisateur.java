@@ -245,7 +245,7 @@ public class Utilisateur implements Serializable {
 
     public void closeAllChat() {
         for (SessionChat c : sessionsChat) {
-            c.setEstDemarree(false) ;
+            c.setEstDemarree(false);
         }
     }
 
@@ -283,28 +283,6 @@ public class Utilisateur implements Serializable {
             return false;
         }
         return true;
-    }
-    
-    @Override
-    public String toString() {
-        return "model.entity.Utilisateur[ id=" + pseudo + " ]";
-    }
-    
-    public Chat getChat() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    public void setChat(Chat c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    public SessionChat getSessionChat()
-    {
-        return sessionChat;
-    }
-    
-    public void setSessionChat(SessionChat chat) {
-        this.sessionChat = chat;
     }
     
     public void ajouterReponseQCM(ReponseQCM rep){

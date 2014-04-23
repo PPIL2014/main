@@ -35,7 +35,7 @@
                                 Pseudo :  
                             </td>
                             <td>
-                                <h:inputText id="pseudo" value="#{loginBean.pseudo}" binding="#{loginBean.pseudoText}" required="true" requiredMessage="Veuillez entrer votre pseudo"></h:inputText>
+                                <h:inputText id="pseudo" value="#{sessionBean.pseudo}" binding="#{sessionBean.pseudoText}" required="true" requiredMessage="Veuillez entrer votre pseudo"></h:inputText>
                             </td>
                             <td>
                                 <h:message errorStyle="color:red" for="pseudo"></h:message>
@@ -46,7 +46,7 @@
                                 Mot de passe : 
                             </td>
                             <td>
-                                <h:inputSecret id="mdp" value="#{loginBean.mdp}" binding="#{loginBean.mdpText}" required="true" requiredMessage="Veuillez entrer votre mot de passe" ></h:inputSecret>
+                                <h:inputSecret id="mdp" value="#{sessionBean.mdp}" binding="#{sessionBean.mdpText}" required="true" requiredMessage="Veuillez entrer votre mot de passe" ></h:inputSecret>
                             </td>
                             <td>
                                 <h:message errorStyle="color:red" for="mdp"></h:message>
@@ -54,7 +54,7 @@
                         </tr>
                         <tr>
                             <td colspan="1">
-                                <h:commandButton value="Login" action="#{loginBean.connecter}" style="width: 100%"></h:commandButton>
+                                <h:commandButton value="Login" action="#{sessionBean.connecter}" style="width: 100%"></h:commandButton>
                             </td>
                             <td>
                                 <a href="inscription.xhtml">s'inscrire</a>
