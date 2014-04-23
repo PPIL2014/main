@@ -147,6 +147,8 @@ public class LoginBean {
             if (! this.utilisateur.getMdp().equals(this.mdp)) {
                 setMdp("");
                 context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Nom d'utilisateur ou mot de passe incorrect !", null)); 
+            }else if(this.utilisateur.getEstBloque()){
+                context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : l'utilisateur est bloqué !", null)); 
             } else {
                 try {
                     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);

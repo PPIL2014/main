@@ -3,16 +3,11 @@ package control;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 import javax.annotation.Resource;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import java.util.Collection;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
@@ -23,7 +18,9 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
-import model.*;
+import model.MessageChat;
+import model.SessionChat;
+import model.Utilisateur;
 
 
 @ManagedBean

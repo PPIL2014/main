@@ -6,7 +6,14 @@
         <title>DateRoulette : Photos signaleés</title>
     </h:head>
     <h:body>
-        Ici la vue type mockup galerie des photos signalées.
+        <h:dataTable id ="photos" value="#{signalementPhotoBean.consulterSignalementsImage}" var="item">
+            <h:column>
+                <b><h:outputText value="#{item.imageSignalee.nom}"></h:outputText></b><br/>
+                <h:graphicImage url="#{item.imageSignalee}" />
+                <h:commandButton value="OK" action="#{signalementPhotoBean.traiterOk(item)}"></h:commandButton>
+                <h:commandButton value="PAS OK" action="#{signalementPhotoBean.traiterPasOk(item)}"></h:commandButton>
+            </h:column>
+        </h:dataTable>
     </h:body>
 </html>
 
