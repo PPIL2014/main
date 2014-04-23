@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import java.util.Collection;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.persistence.EntityManager;
@@ -82,5 +83,25 @@ public class ProfilBean {
         Utilisateur u = getUtilisateurSession () ;
         return ((listeAttente.size() == 1) && (listeAttente.get(0).getPseudo().equals(u.getPseudo()))) ;
     }
+    
+    @ManagedProperty(value="#{param.pseudo}") // appelle setParam();
+    private String param;
+
+    private Utilisateur utilisateur;
+    
+    public String getParam() {
+        return param;
+    }
+
+    public void setParam(String param) {
+        this.param = param;
+        utilisateur = getUtilisateurSession();
+    }
+    
+    public Utilisateur getUtilisateur(){
+        return utilisateur;
+    }
+    
+    
 
 }
