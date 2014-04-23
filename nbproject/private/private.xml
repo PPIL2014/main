@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/main/web/itemConv.xhtml</file>
-            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/main/web/Messagerie.xhtml</file>
-            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/main/web/MessagerieAsynchrone.xhtml</file>
-            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/main/src/java/control/AutoCompleteClientBean.java</file>
-            <file>file:/C:/Users/ASUS/Documents/NetBeansProjects/main/src/java/control/MessagerieAsyncControl.java</file>
+            <file>file:/C:/ppil/main/src/java/model/Utilisateur.java</file>
+            <file>file:/C:/ppil/main/src/java/control/EditProfilBean.java</file>
+            <file>file:/C:/ppil/main/web/editProfil.xhtml</file>
+            <file>file:/C:/ppil/main/src/java/control/ProfilBean.java</file>
         </group>
     </open-files>
 </project-private>
