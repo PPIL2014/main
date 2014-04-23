@@ -7,6 +7,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -62,7 +63,12 @@ public class Conversation implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
+    public MessageConversation getLastMessage(){
+        ArrayList<MessageConversation> list = new ArrayList<>();
+        list.addAll(messages);
+        if(list.size()>=1)return list.get(list.size()-1);
+        else return null;
+    }
     @Override
     public int hashCode() {
         int hash = 0;

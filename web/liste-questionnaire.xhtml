@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <link href="default.css" rel="stylesheet" type="text/css" media="screen" />
+    </h:head>
+    <h:body>
+        <div id="header-wrapper">
+			<div id="header">
+				<div id="logo">
+				<h1><a href="#">DateRoulette</a></h1>
+				</div>
+			</div>
+		</div>
+		
+		<div id="menu-wrapper">
+			<div id="menu">
+				<ul>
+					<li><a href="#">Accueil</a></li>
+					<li><a href="#">Ma Page</a></li>
+					<li><a href="#">Contact</a></li>
+					<li><a href="#">Messagerie</a></li>
+					<li><a href="#">Chat</a></li>
+					<li><a href="#">Déconnexion</a></li>				
+				</ul>
+			</div>
+		</div>
+        
+        <div id="page" class = "container">
+            <div id = "content">
+                <h1>Questionnaires</h1>
+            <br></br><br></br>    
+            <c:forEach var="questionnaire" items="${beanQuestionnaire.quests}">  
+            <h:form>
+            <p align="left">
+                <h4>${questionnaire.nom}&nbsp;</h4>
+            </p>
+         
+            <p align="left">
+             Questions complétées : 
+            #{beanQuestionnaire.getNbQuestionsRepondues(questionnaire.id)} /
+            #{beanQuestionnaire.getNbQuestionsQuestionnaire(questionnaire.id)}
+            <!--</p><p align="right">-->
+            <h:commandButton value="Répondre" action="#{beanQuestionnaire.setIdQuest(questionnaire.id)}"></h:commandButton>
+            </p>
+            
+            <br/>         
+            </h:form>
+                <br></br><br></br>
+            </c:forEach>
+                
+            </div>
+       
+        <div id="sidebar">
+				<div class="box2">
+					<div class="title">
+						<h2>Contenu à determiner</h2>
+					</div>					
+						<ul class="style2">
+							<li><a href="#">BlaBla</a></li>
+							<li><a href="#">BlaBla</a></li>
+							<li><a href="#">BlaBla</a></li>
+							<li><a href="#">BlaBla</a></li>
+							<li><a href="#">BlaBla</a></li>
+							<li><a href="#">BlaBla</a></li>
+							<li><a href="#">BlaBla</a></li>
+						</ul>
+					
+				</div>
+			
+        </div> </div>
+	<div id="footer-wrapper">
+			<div id="menu">
+				<ul>
+					<li><a href="#">CGU</a></li>	
+					<li><a href="#">FAQ</a></li>	
+					<li><a href="#">Contactez-nous</a></li>				
+				</ul>
+			</div>
+	</div>
+    </h:body>
+</html>
+

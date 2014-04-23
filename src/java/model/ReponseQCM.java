@@ -24,6 +24,7 @@ public class ReponseQCM implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private QuestionQCM question;
     /**
    * 
    * @element-type Choix
@@ -70,6 +71,14 @@ public class ReponseQCM implements Serializable {
     @Override
     public String toString() {
         return "ul.dateroulette.entity.ReponseQCM[ id=" + id + " ]";
+    }
+
+    public Question getQuestion() {
+        return this.question;
+    }
+
+    public void setQuestion(QuestionQCM qcm) {
+        this.question = qcm;
     }
     
 }

@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import java.util.Collection;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.persistence.EntityManager;
@@ -47,6 +48,11 @@ public class ProfilBean {
         return utilisateurSession ;
     }
     
+    public ArrayList<Utilisateur> getListeUtilisateurAttente () {
+        ServletContext servletContext = (ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext();
+        return (ArrayList<Utilisateur>)servletContext.getAttribute("listeUtilisateursAttente") ;
+    }
+    
     public void chatInfo (ActionEvent evt) {
         RequestContext ctx = RequestContext.getCurrentInstance();
         
@@ -56,30 +62,46 @@ public class ProfilBean {
         if (u==null)
             return;
         
-       if (u.getSessionChat() == null)
+       if (u.getSessionChatDemarree() == null)
             return ;
         
-        Utilisateur u2 = u.getSessionChat().getUtilisateur2() ;
+        Utilisateur u2 = u.getSessionChatDemarree().getUtilisateur2() ;
         
         //si le tcvhat est à l'envers
         if (u.equals(u2))
-            u2 = u.getSessionChat().getUtilisateur1() ;
+            u2 = u.getSessionChatDemarree().getUtilisateur1() ;
         
         ctx.addCallbackParam("copain", u2.getPseudo());
     }
     
     public String goChat () {
-        Utilisateur u1 = getUtilisateurSession() ;
-        
-        //si on est deja dans un chat !
-        if (u1.getSessionChat() != null)
-            return "chat.xhtml" ;
-        
         return "profil.xhtml" ;
     }
-
-    public Collection<Utilisateur> getListeUtilisateurAttente () {
-        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        return (Collection<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
+    
+    public boolean getSeulEnAttente () {
+        ArrayList<Utilisateur> listeAttente =  getListeUtilisateurAttente () ;
+        Utilisateur u = getUtilisateurSession () ;
+        return ((listeAttente.size() == 1) && (listeAttente.get(0).getPseudo().equals(u.getPseudo()))) ;
     }
+    
+    @ManagedProperty(value="#{param.pseudo}") // appelle setParam();
+    private String param;
+
+    private Utilisateur utilisateur;
+    
+    public String getParam() {
+        return param;
+    }
+
+    public void setParam(String param) {
+        this.param = param;
+        utilisateur = getUtilisateurSession();
+    }
+    
+    public Utilisateur getUtilisateur(){
+        return utilisateur;
+    }
+    
+    
+
 }

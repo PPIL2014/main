@@ -21,10 +21,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-/**
- *
- * @author thomas
- */
 @Entity
 public class SessionChat implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -139,4 +135,5 @@ public class SessionChat implements Serializable {
         
         return null; 
     }      
+
 }

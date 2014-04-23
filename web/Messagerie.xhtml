@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Messagerie</title>
+       <link href="default.css" rel="stylesheet" type="text/css"></link>
+    </h:head>
+        <div id="wrapper">
+            <div id="header-wrapper">
+                <div id="header">
+                    <div id="logo">
+                        <h1><a href="#">DateRoulette</a></h1>
+                    </div>
+                </div>
+            </div>
+            <div id="menu-wrapper">
+                <div id="menu" >
+                <ul>
+                    <li><h:form><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
+                    <li><h:form><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+                    <li><h:form><h:commandLink value="Messagerie" action="Messagerie.xhtml"></h:commandLink></h:form></li>
+                    <li><h:form><h:commandLink value="Deconnexion" action="#{loginBean.deconnexion()}"><f:param name="contenu" value=""/></h:commandLink></h:form></li>	
+                </ul>
+                </div>
+
+            </div>
+        </div>
+    <h:body>
+        <div class="container">
+            <h:form id="form">
+                <h:outputLabel value="Pseudo : " for="clientName" />
+                  <p:autoComplete id="clientName"
+                                value="#{autoCompleteClientBean.selectedClient}"
+                                completeMethod="#{autoCompleteClientBean.complete}"
+                                converter="clientConverter"
+                                var="c"
+                                itemLabel="#{c.pseudo}"
+                                itemValue="#{c}"
+                                forceSelection="true"
+                                />&nbsp;
+
+                  <h:commandButton value="Submit" action="#{autoCompleteClientBean.submit()}">
+                      <f:param name="faces-redirect" value="true"/>
+                      <f:param name="conv" value="#{autoCompleteClientBean.selectedClient.getConv(session['user']).getId()}"/>
+                      <f:param name="contenu" value=""/>
+                  </h:commandButton>
+            </h:form>
+
+
+            <h1>Mes conversations</h1>
+            <center>
+                <dir class="container">
+                    <c:forEach var="conv" items="#{autoCompleteClientBean.getConversations()}">
+                        <ui:composition template="/itemConv.xhtml" id="itemConv">
+                            <ui:param name="date" value="#{conv.getLastMessage().date.toLocaleString()}"/>
+                            <ui:param name="last" value="#{conv.getLastMessage().contenu}"/>
+                        </ui:composition>
+                    </c:forEach>
+                </dir>
+            </center>
+        </div>
+      
+    </h:body>
+    
+</html>
+

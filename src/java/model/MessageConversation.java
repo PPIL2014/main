@@ -30,6 +30,17 @@ public class MessageConversation implements Serializable {
     private Date date;
     @OneToOne
     private Conversation conversation;
+    @OneToOne
+    private Utilisateur expediteur ;
+
+    public Utilisateur getExpediteur() {
+        return expediteur;
+    }
+
+    public void setExpediteur(Utilisateur expediteur) {
+        this.expediteur = expediteur;
+    }
+    
     
     public String getContenu() {
         return contenu;

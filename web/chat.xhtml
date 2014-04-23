@@ -6,30 +6,156 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"    
+      xmlns:f="http://xmlns.jcp.org/jsf/core" >
+
     <h:head>        
         <title>Chat</title>
+       <link href="default.css" rel="stylesheet" type="text/css"></link>
     </h:head>
-        <script type="text/javascript">
-            setInterval("nextMessage()", 200);
-            //update the chart every 200 ms
-            
-            function updateMessages(xhr, status, args) {
-                if(!args.ok) return;
-            
-            $('#chat').append('<div class="msg">[' +args.dateSent+ '] <strong>'+args.user+'</strong>: '+args.text+'</div>'); 
-            } 
-        </script>
- 
-    <body>
-        <h1>Chat</h1>
-        <h:form>
-            <h:commandButton value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandButton><br/>
-            <h:graphicImage width="100" height="100" url="#{chatBean.utilisateurSession.sessionChat.utilisateur1.avatar.url}" />
-            <br/><b>Utilisateur 1 : </b><h:outputText value="#{chatBean.utilisateurSession.sessionChat.utilisateur1.pseudo}"></h:outputText>
-       
-            <br/><h:graphicImage width="100" height="100" url="#{chatBean.utilisateurSession.sessionChat.utilisateur2.avatar.url}" />
-            <br/><b>Utilisateur 2 : </b><h:outputText value="#{chatBean.utilisateurSession.sessionChat.utilisateur2.pseudo}"></h:outputText>
-            
-            <hr/>
-            <h:commandButton value="RELOAD" action="#{chatBean.chat}"></h:commandButton>
+    
+    <body>      
+        <div id="wrapper">
+            <div id="header-wrapper">
+                <div id="header">
+			<div id="logo">
+				<h1><a href="#">DateRoulette</a></h1>
+			</div>
+		</div>
+            </div>
+            <div id="menu-wrapper">
+		<div id="menu" >
+                    <ul>
+			<li><h:form><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
+			<li><h:form><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+			<li><h:form><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
+                    </ul>
+		</div>
+		<!-- end #menu --> 
+            </div>
+      
+            <h:form id="FormPrincipal">
+
+               <div id="page" class="container"> 
+                 
+                   <br/><h:outputText value="En discussion avec #{chatBean.correspondant}"
+                                        style="font-weight: bold;"></h:outputText>
+                   <!-- POPUP : QUITTER LE CHAT-->
+                   <h:form>
+                        <p style="float: right;">
+                            <h:commandButton value="Suivant" onclick="dlgSuivChat.show()">
+                                <f:ajax execute="@form" render="@none" />
+                            </h:commandButton>
+                            <h:commandButton value="Quitter" onclick="dlgFinChat.show()">
+                                <f:ajax execute="@form" render="@none" />
+                            </h:commandButton>
+                            <p:confirmDialog id="confirmDialog" message="Voulez-vous vraiment quitter le chat ? Voulez être amis avec votre corespondant ?" header="Quitter" severity="alert" widgetVar="dlgFinChat">
+                                <h:commandButton id="ajouter" value="AJOUTER" action="#{chatBean.ajouterEtQuitter}"/>
+                                <h:commandButton id="passer" value="QUITTER"  action="#{chatBean.rienEtQuitter}" />                                
+                                <h:commandButton id="bloquer" value="BLOQUER"  action="#{chatBean.bloquerEtQuitter}" />
+                                <h:commandButton id="annuler" value="ANNULER"  action="chat.xhtml" />
+                            </p:confirmDialog>
+
+                            <p:confirmDialog id="confirmDialogSuivant" message="Voulez-vous vraiment passer au suivant ? Voulez être amis avec votre corespondant ?" header="Suivant" severity="alert" widgetVar="dlgSuivChat">
+                                <h:commandButton id="ajouterSuiv" value="AJOUTER" action="#{chatBean.ajouterEtSuivantDemande}"/>
+                                <h:commandButton id="passerSuiv" value="SUIVANT"  action="#{chatBean.rienEtSuivantDemande}" />                                
+                                <h:commandButton id="bloquerSuiv" value="BLOQUER"  action="#{chatBean.bloquerEtSuivantDemande}" />
+                                <h:commandButton id="annulerSuiv" value="ANNULER"  action="chat.xhtml" />
+                            </p:confirmDialog>
+
+                            <p:confirmDialog id="confirmDialogSubi" message="Votre correpondant a quitté le chat. Vous pouvez l'ajouter en amis :" header="Quitter" severity="alert" widgetVar="dlgFinChatSubi">
+                                <h:commandButton id="ajouterSubi" value="AJOUTER" action="#{chatBean.ajouterEtContinuer}"/>
+                                <h:commandButton id="passerSubi" value="PASSER"  action="#{chatBean.passerEtContinuer}" />                                
+                                <h:commandButton id="bloquerSubi" value="BLOQUER"  action="#{chatBean.bloquerEtContinuer}" />
+                            </p:confirmDialog>
+                       </p>
+                   </h:form>
+                   <!-- FIN POPUP : QUITTER LE CHAT-->
+                   <br/><br/>
+
+                   <hr/>
+
+                   <div id="chat" class="chat"></div>
+
+                   <center>
+                       <br/>
+                       <h:inputTextarea id="message" value="#{chatBean.message}" rows="6" cols="75"></h:inputTextarea>
+
+                       <!-- <br/><p:commandButton value="ENVOYER" actionListener="#{ChatBean.envoyerMessage}"/>-->
+                       <h:commandButton value="Envoyer" action="#{chatBean.envoyerMessage()}">
+                           <f:ajax execute="@form" render="@none" />
+                       </h:commandButton>
+                   </center>
+                    
+                   <hr/>
+                   <p:remoteCommand name="nextEvent" actionListener="#{eventChatBean.lastEvent}" 
+                                    oncomplete="updatePage(xhr, status, args);"/>
+                   <!--<p:commandButton id="basic" value="Basic" onclick="PF('dlg1').show();" type="button" />  -->
+
+
+                             
+                   <script type="text/javascript">    
+                        updatePage(null,null,null);
+                        var dlgFinChatSubi ;
+                        var dlgSuivChat ;
+                        var dlgFinChat ;
+                        
+                        function eraseInputText(){
+                            document.getElementById("FormPrincipal:message").value = "";
+                        }
+                        
+                        function showDlgFin(){
+                            dlgFinChat.show();
+                        }
+                        
+                        function showDlgFinSubi(){
+                            dlgFinChatSubi.show();
+                        }
+                        
+                        function updatePage(xhr, status, args) {    
+                            if (xhr != null)
+                            {                                
+                                if (args.ok)
+                                {
+                                    if (args.type == "message")
+                                    {
+                                        if(args.utilisateurCourant){
+                                                $('#chat').append('<center><div class="msg"><span class = "receiver"><p>'+args.text+'</p></span></div></center><br/><br/>'); 
+                                                $('#chat').append('<center><div class="msg"><span class = "receiverclock"><p style="font-size:smaller ;color : gray;">' +args.dateSent+'</p></span></div></center><br/><br/>');
+                                                eraseInputText();
+                                        }
+                                        if(!args.utilisateurCourant){
+                                                $('#chat').append('<center><div class="msg"><span class = "sender"><p> '+args.text+'</p></span></div></center><br/><br/>' );
+                                                $('#chat').append('<center><div class="msg"><span class = "senderclock"><p style="font-size:smaller ;color : gray;">' +args.dateSent+'</p></span></div></center><br/><br/>');
+                                        }
+                                        elm = document.getElementById("chat");
+                                        elm.scrollTop = elm.scrollHeight;
+                                    }
+                                    if ((args.type == "endChatSubi") || (args.type == "utilDeco"))
+                                    {
+                                        showDlgFinSubi();
+                                    }
+                                }       
+                            }
+                            nextEvent();
+                        } 
+                </script> 
+
+                </div>  
+            </h:form>
+        </div>
+   
+        <div id="footer-wrapper">
+            <div id="footer">
+		<ul>
+                    <li><a href="#">CGU</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contactez-nous</a></li>
+		</ul>
+            </div>
+        </div>
+    </body>
+    
+</html>

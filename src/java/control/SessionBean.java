@@ -43,18 +43,35 @@ public class SessionBean {
         return (ArrayList<String>) servletContext.getAttribute("listeUtilisateursConnecte");
     }
     
-   public String deconnecter(){
-        ArrayList<String> liste = getListeUtilisateurConnecte();
-        liste.remove(this.getPseudo());
+    public ArrayList<Utilisateur> getListeAttente(){
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente");
+    }
+    
+   public String deconnecter() throws Exception{
+        ut.begin();
+        Utilisateur u = getUtilisateurSession();
+        u.closeAllChat();
+        em.merge(u);
+        
+        ArrayList<String> listeConnecte = getListeUtilisateurConnecte();
+        ArrayList<Utilisateur> listeAttente = getListeAttente();
+        
+        listeConnecte.remove(this.getPseudo());
+        listeAttente.remove(this.getUtilisateurSession());
+        
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         session.invalidate();
+        
+        ut.commit();
+        
         return "index.xhtml";
     }
    
    public boolean aChat () {
        Utilisateur u = getUtilisateurSession () ;
-       return (u.getSessionChat() != null) ;
+       return (u.getSessionChatDemarree()!= null) ;
    }
     
 }
