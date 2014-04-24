@@ -6,8 +6,10 @@ import java.util.Date;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
@@ -23,7 +25,7 @@ import model.SessionChat.* ;
 
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class ChatBean implements Serializable {
    
     @PersistenceContext 
@@ -233,6 +235,16 @@ public class ChatBean implements Serializable {
     */
     
     public String ajouterEtContinuer () throws Exception {
+        this.ut.begin();
+        Contact c = null;
+        if(getUtilisateurSession().getPseudo() == this.sessionChat.getUtilisateur1().getPseudo()){
+            c = new Contact(true, false, this.sessionChat.getUtilisateur2());
+        }else{
+            c = new Contact(true, false, this.sessionChat.getUtilisateur1());
+        }
+        getUtilisateurSession().getContacts().add(c);
+        this.em.merge(getUtilisateurSession());
+        this.ut.commit();
         return chatAleatoire() ;
     }
     
@@ -241,6 +253,16 @@ public class ChatBean implements Serializable {
     }
     
     public String bloquerEtContinuer () throws Exception {
+        this.ut.begin();
+        Contact c = null;
+        if(getUtilisateurSession().getPseudo() == this.sessionChat.getUtilisateur1().getPseudo()){
+            c = new Contact(false, true, this.sessionChat.getUtilisateur2());
+        }else{
+            c = new Contact(false, true, this.sessionChat.getUtilisateur1());
+        }
+        getUtilisateurSession().getContacts().add(c);
+        this.em.merge(getUtilisateurSession());
+        this.ut.commit();
         return chatAleatoire() ;
     }
     
@@ -249,6 +271,16 @@ public class ChatBean implements Serializable {
     */
     
     public String ajouterEtQuitter () throws Exception {
+        this.ut.begin();
+        Contact c = null;
+        if(getUtilisateurSession().getPseudo() == this.sessionChat.getUtilisateur1().getPseudo()){
+            c = new Contact(true, false, this.sessionChat.getUtilisateur2());
+        }else{
+            c = new Contact(true, false, this.sessionChat.getUtilisateur1());
+        }
+        getUtilisateurSession().getContacts().add(c);
+        this.em.merge(getUtilisateurSession());
+        this.ut.commit();
         quitterChat();
         return "profil.xhtml" ;
     }
@@ -259,6 +291,16 @@ public class ChatBean implements Serializable {
     }
     
     public String bloquerEtQuitter () throws Exception {
+        this.ut.begin();
+        Contact c = null;
+        if(getUtilisateurSession().getPseudo() == this.sessionChat.getUtilisateur1().getPseudo()){
+            c = new Contact(false, true, this.sessionChat.getUtilisateur2());
+        }else{
+            c = new Contact(false, true, this.sessionChat.getUtilisateur1());
+        }
+        getUtilisateurSession().getContacts().add(c);
+        this.em.merge(getUtilisateurSession());
+        this.ut.commit();
         quitterChat();
         return "profil.xhtml" ;
     }
@@ -268,6 +310,16 @@ public class ChatBean implements Serializable {
     */
     
     public String ajouterEtSuivantDemande () throws Exception {
+        this.ut.begin();
+        Contact c = null;
+        if(getUtilisateurSession().getPseudo() == this.sessionChat.getUtilisateur1().getPseudo()){
+            c = new Contact(true, false, this.sessionChat.getUtilisateur2());
+        }else{
+            c = new Contact(true, false, this.sessionChat.getUtilisateur1());
+        }
+        getUtilisateurSession().getContacts().add(c);
+        this.em.merge(getUtilisateurSession());
+        this.ut.commit();
         quitterChat();
         return chatAleatoire() ;
     }
@@ -278,6 +330,16 @@ public class ChatBean implements Serializable {
     }
     
     public String bloquerEtSuivantDemande () throws Exception {
+        this.ut.begin();
+        Contact c = null;
+        if(getUtilisateurSession().getPseudo() == getChat().getUtilisateur1().getPseudo()){
+            c = new Contact(false, true, getChat().getUtilisateur2());
+        }else{
+            c = new Contact(false, true, getChat().getUtilisateur1());
+        }
+        getUtilisateurSession().getContacts().add(c);
+        this.em.merge(getUtilisateurSession());
+        this.ut.commit();
         quitterChat();
         return chatAleatoire() ;
     }
@@ -320,5 +382,9 @@ public class ChatBean implements Serializable {
 
     public void setSessionChat(SessionChat sessionChat) {
         this.sessionChat = sessionChat;
+    }
+    
+    public void initSessionChat(ActionEvent evt){
+        this.sessionChat = getUtilisateurSession().getSessionChatDemarree();
     }
 }

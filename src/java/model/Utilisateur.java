@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package model;
 
 import java.io.Serializable;
@@ -18,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
-
 
 @Entity
 public class Utilisateur implements Serializable {
@@ -47,7 +40,7 @@ public class Utilisateur implements Serializable {
      * 
      * @element-type Utilisateur
      */
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     private Collection<Contact>  contacts;
     /**
      * 
