@@ -22,11 +22,7 @@
     <h:body>
         <h:form>
 
-        <p:messages id="messages" showDetail="true" autoUpdate="true" />     
-            
-        <!--<p:notificationBar id="bar" position="bottom" effect="slide" widgetVar="bar" styleClass="top">  
-            <h:outputText value="Vous êtes seul en attente!" style="color:#FFCC00;font-size:36px;" />  
-        </p:notificationBar>-->
+        <p:messages id="messages" showDetail="true" autoUpdate="true" />
             
         Voici votre PROFIL ! <br/>
         <hr/>
@@ -40,6 +36,9 @@
             
             <p:remoteCommand name="nextEvent" actionListener="#{eventProfilBean.lastEvent}" 
                              oncomplete="updatePage(xhr, status, args);"/> 
+            
+            <p:remoteCommand name="setSession" actionListener="#{chatBean.initSessionChat(evt)}"/>
+            
             <script type="text/javascript">    
                 updatePage(null,null,null);
 
@@ -50,6 +49,7 @@
                         {
                             if (args.type == "goChat")
                             {
+                                setSession();
                                 document.location = 'chat.xhtml'
                                 return;
                             }
