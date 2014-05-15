@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import javax.annotation.Resource;
 import java.util.Collection;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.persistence.EntityManager;
@@ -45,7 +45,7 @@ public class ProfilBean {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         Utilisateur utilisateurSession = (Utilisateur)em.find(Utilisateur.class,(String)session.getAttribute("pseudoUtilisateur")) ;
-        return utilisateurSession ;
+        return utilisateurSession;
     }
     
     public ArrayList<Utilisateur> getListeUtilisateurAttente () {
@@ -84,8 +84,24 @@ public class ProfilBean {
         return ((listeAttente.size() == 1) && (listeAttente.get(0).getPseudo().equals(u.getPseudo()))) ;
     }
     
-    //Affiche un message à l'utilisateur si il est seul en attente. 
-    public void addInfo() {  
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Vous êtes seul(e) en attente !", "Vous serez redirigé(e) automatiquement lorsque quelqu'un d'autre arrivera !"));  
+    @ManagedProperty(value="#{param.pseudoUtilisateur}") // appelle setParam();
+    private String param;
+
+    private Utilisateur utilisateur;
+    
+    public String getParam() {
+        return param;
     }
+
+    public void setParam(String param) {
+        this.param = param;
+        utilisateur = getUtilisateurSession();
+    }
+    
+    public Utilisateur getUtilisateur(){
+        return utilisateur;
+    }
+    
+    
+
 }

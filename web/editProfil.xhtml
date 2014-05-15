@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        
+        <br/>
+        <h:form id="form" enctype="multipart/form-data">
+        <h:inputFile id="file" value="#{uploadBean.file}" validator="#{uploadBean.validateFile}"/>
+        <h:commandButton value="Upload" action="#{uploadBean.upload()}">
+                <f:param name="pseudo" value="#{uploadBean.param}" />      
+        </h:commandButton>
+        </h:form>
+        <hr/>
+        <h:form> Profil :  <h:outputText id="pseudo" value="#{profilBean.utilisateur.pseudo}"></h:outputText>
+        <br/>
+        <hr/>
+        Nom : <h:inputTextarea value="#{editProfilBean.utilisateur.nom}" cols="20" rows="1" required="true"/> <br />
+        Prenom : <h:inputTextarea value="#{editProfilBean.utilisateur.prenom}" cols="20" rows="1" required="true"/> <br />
+        Date de naissance : <input type="date" name="date" value="#{editProfilBean.utilisateur.ddn}"/> <br />
+        Sexe : <h:inputTextarea value="#{editProfilBean.utilisateur.sexe}" cols="20" rows="1" required="true"/> <br />
+        Adresse : <h:inputTextarea value="#{editProfilBean.utilisateur.adresse}" cols="20" rows="1" required="true"/> <br />
+        Mail : <h:inputTextarea value="#{editProfilBean.utilisateur.mail}" cols="20" rows="1" required="true"/> <br />
+        Téléphone : <h:inputTextarea value="#{editProfilBean.utilisateur.telephone}" cols="20" rows="1" required="true"/> <br />
+       
+       <br/>
+       <h:commandButton value="Enregistrer" action="#{editProfilBean.edit()}" > 
+            <f:param name="pseudo" value="#{editProfilBean.param}" />
+       </h:commandButton>
+       </h:form>
+        
+        <h:form>
+        <h:commandButton value="Annuler" action="myProfil" >
+            <f:param name="pseudo" value="#{editProfilBean.param}" />      
+        </h:commandButton>
+        </h:form>
+        
+    </h:body>
+</html>
+

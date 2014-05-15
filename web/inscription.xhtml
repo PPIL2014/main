@@ -8,70 +8,102 @@
         <title>Inscription</title>
     </h:head>
     <h:body>
-        <h:form> page d'inscription <br/>
-            <table>
-                <tr>
-                    <td>
-                        Pseudo : 
-                    </td>
-                    <td>
-                        <h:inputText id="pseudo" value="#{inscriptionBean.pseudo}" binding="#{inscriptionBean.pseudoText}" required="true" requiredMessage="Pseudo manquant"></h:inputText>
-                    </td>
-                    <td>
-                        <h:message errorStyle="color:red" for="pseudo"></h:message>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                       Mot de passe : 
-                    </td>
-                    <td>
-                        <h:inputSecret id="mdp" value="#{inscriptionBean.mdp}" binding="#{inscriptionBean.mdpText}" required="true" requiredMessage="Mot de passe manquant"></h:inputSecret>
-                    </td>
-                    <td>
-                        <h:message errorStyle="color:red" for="mdp"></h:message>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                       Confirmation : 
-                    </td>
-                    <td>
-                        <h:inputSecret id="mdp2" value="#{inscriptionBean.mdp2}" binding="#{inscriptionBean.mdp2Text}" required="true" requiredMessage="Verification de mot de passe manquante"></h:inputSecret>
-                    </td>
-                    <td>
-                        <h:message errorStyle="color:red" for="mdp2"></h:message>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                       Courriel :  
-                    </td>
-                    <td>
-                        <h:inputText id="mail" value="#{inscriptionBean.mail}" binding="#{inscriptionBean.mailText}" required="true" requiredMessage="Adresse mail manquante"></h:inputText>
-                    </td>
-                    <td>
-                        <h:message errorStyle="color:red" for="mail"></h:message>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        J'accepte les conditions d'utilisation 
-                    </td>
-                    <td>
-                        <h:selectBooleanCheckbox id="cdu" value="#{inscriptionBean.cdu}" binding="#{inscriptionBean.cduCheck}" required="true" requiredMessage="Vous devez accepter les conditions d'utilisation"/>
-                    </td>
-                    <td>
-                        <h:message errorStyle="color:red" for="cdu"></h:message>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align: center">
-                        <h:commandButton value="inscrire" action="#{inscriptionBean.inscrire}" style="width: 100%"></h:commandButton> 
-                    </td>
-                </tr>
-            </table>
-        </h:form>
+        <div id="wrapper">
+            <div id="header-wrapper">
+                <div id="header">
+			<div id="logo">
+				<h1><a href="#">DateRoulette</a></h1>
+			</div>
+		</div>
+            </div>
+            <div id="menu-wrapper">
+		<div id="menu" >
+                    <ul>
+                        <li><h:form rendered="true"><h:commandLink value="Accueil" action="index.xhtml"></h:commandLink></h:form></li>
+			<li><h:form rendered="false"><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+			<li><h:form rendered="false"><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
+                    </ul>
+		</div>
+		<!-- end #menu --> 
+            </div>
+            <div id="page" class="container">
+                <h:form> page d'inscription <br/>
+                    <table>
+                        <tr>
+                            <td>
+                                Pseudo : 
+                            </td>
+                            <td>
+                                <h:inputText id="pseudo" value="#{inscriptionBean.pseudo}" binding="#{inscriptionBean.pseudoText}" required="true" requiredMessage="Pseudo manquant"></h:inputText>
+                            </td>
+                            <td>
+                                <h:message errorStyle="color:red" for="pseudo"></h:message>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                               Mot de passe : 
+                            </td>
+                            <td>
+                                <h:inputSecret id="mdp" value="#{inscriptionBean.mdp}" binding="#{inscriptionBean.mdpText}" required="true" requiredMessage="Mot de passe manquant"></h:inputSecret>
+                            </td>
+                            <td>
+                                <h:message errorStyle="color:red" for="mdp"></h:message>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                               Confirmation : 
+                            </td>
+                            <td>
+                                <h:inputSecret id="mdp2" value="#{inscriptionBean.mdp2}" binding="#{inscriptionBean.mdp2Text}" required="true" requiredMessage="Verification de mot de passe manquante"></h:inputSecret>
+                            </td>
+                            <td>
+                                <h:message errorStyle="color:red" for="mdp2"></h:message>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                               Courriel :  
+                            </td>
+                            <td>
+                                <h:inputText id="mail" value="#{inscriptionBean.mail}" binding="#{inscriptionBean.mailText}" required="true" requiredMessage="Adresse mail manquante"></h:inputText>
+                            </td>
+                            <td>
+                                <h:message errorStyle="color:red" for="mail"></h:message>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                J'accepte les conditions d'utilisation 
+                            </td>
+                            <td>
+                                <h:selectBooleanCheckbox id="cdu" value="#{inscriptionBean.cdu}" binding="#{inscriptionBean.cduCheck}" required="true" requiredMessage="Vous devez accepter les conditions d'utilisation"/>
+                            </td>
+                            <td>
+                                <h:message errorStyle="color:red" for="cdu"></h:message>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: center">
+                                <h:commandButton value="inscrire" action="#{inscriptionBean.inscrire}" style="width: 100%"></h:commandButton> 
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </div>
+        </div>
+   
+        <div id="footer-wrapper">
+            <div id="footer">
+		<ul>
+                    <li><a href="#">CGU</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contactez-nous</a></li>
+		</ul>
+            </div>
+        </div>
     </h:body>
 </html>
 

@@ -7,7 +7,7 @@
     </h:head>
     <h:body>
         <h:form>
-            <h:commandButton value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandButton>
+            <h:commandButton value="Deconnexion" action="#{loginBean.deconnexion()}"></h:commandButton>
             <h:dataTable id ="messages" value="#{listeAmisBean.contacts}" var="item">
                 <h:column>
                     <b><h:outputText value="#{item.estEnContactAvec.pseudo}"></h:outputText></b><br/>

@@ -1,6 +1,7 @@
-/nbproject/private/
 /build/
-/nbproject/project.properties
-/nbproject/private/private.xml
 /dist/
-/nbproject/
+/dateroulette/nbproject/private/
+/dateroulette/build/
+/DateRoulette/nbproject/private/
+!/nbproject/private/private.properties
+!/nbproject/private/private.xml
