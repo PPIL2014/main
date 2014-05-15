@@ -1,10 +1,8 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
+
     <h:head>
         <link href="default.css" rel="stylesheet" type="text/css"></link>
         <title>Date Roulette</title>
@@ -30,33 +28,20 @@
                 <!-- end #menu --> 
             </div>
             <div id="page" class="container">
-
+                
+                <h1>#{galeriesBean.nomGalerie}</h1>
 
                 <h:form>
-                    <center>
 
-                        <p:autoComplete value="#{contactsBean.rechercheListeNoire}"   
-                                        completeMethod="#{contactsBean.autoCompleteListeNoire}" /> 
-                        <h:commandButton value="Rechercher" action="listeNoire.xhtml" >                        
-                        </h:commandButton>
-                        <br /><br />
-                        <h:dataTable value="#{contactsBean.contactListeNoire}" var="current">  
+                    <h:commandButton value="Ajouter une image" action="ajouterImage.xhtml">
+                        <f:param name="nom" value="#{galeriesBean.nomGalerie}" /> 
+                    </h:commandButton>
 
-                            <h:column>
-                                <h:commandLink value="#{current.estEnContactAvec.pseudo}" action="profil.xhtml" 
-                                               rendered="#{current.type == 'BLOQUE'}">
-                                    <f:param name="pseudo" value="#{current.estEnContactAvec.pseudo}" />
-                                </h:commandLink>
-                            </h:column>
-
-                            <h:column>
-                                <h:commandButton value="Debloquer" action="#{contactsBean.debloquer(current)}"
-                                                 rendered="#{current.type == 'BLOQUE'}"/>    
-                            </h:column>
-
-                        </h:dataTable>
-
-                    </center>
+                    <h:dataTable value="#{galeriesBean.galerie}" var="current"> 
+                        <h:column>
+                            <h:commandLink value="#{current.nom}" action="afficherImage.xhtml"/>
+                        </h:column>
+                    </h:dataTable>
 
                 </h:form>
 
@@ -76,4 +61,3 @@
 
     </h:body>
 </html>
-

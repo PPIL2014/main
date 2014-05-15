@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="DateRoulettePU" transaction-type="JTA">
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>dateroulette</jta-data-source>
+    <class>model.Administrateur</class>
+    <class>model.Choix</class>
+    <class>model.Contact</class>
+    <class>model.Conversation</class>
+    <class>model.Galerie</class>
+    <class>model.Image</class>
+    <class>model.MessageChat</class>
+    <class>model.MessageConversation</class>
+    <class>model.Question</class>
+    <class>model.QuestionOuverte</class>
+    <class>model.QuestionQCM</class>
+    <class>model.Questionnaire</class>
+    <class>model.ReponseOuverte</class>
+    <class>model.ReponseQCM</class>
+    <class>model.Session</class>
+    <class>model.SessionChat</class>
+    <class>model.SessionChatChrono</class>
+    <class>model.Signalement</class>
+    <class>model.SignalementImage</class>
+    <class>model.SignalementUtilisateur</class>
+    <class>model.Utilisateur</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
 </persistence>

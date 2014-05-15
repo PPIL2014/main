@@ -23,43 +23,22 @@ public class Contact implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Boolean estBloque;
-    private Boolean estAccepte;
+
     @OneToOne
     private Utilisateur estEnContactAvec;
     
-    public Boolean bloquer() {
-        return null;
+    public enum Type { ENATTENTE, DEMANDE, REFUSE, AMI, FAVORI, BLOQUE };
+    
+    private Type type;
+
+    public Type getType() {
+        return type;
     }
 
-    public Boolean debloquer() {
-        return null;
+    public void setType(Type type) {
+        this.type = type;
     }
-
-    public Boolean accepter() {
-        return null;
-    }
-
-    public Boolean refuser() {
-        return null;
-    }
-
-    public Boolean getEstBloque() {
-        return estBloque;
-    }
-
-    public void setEstBloque(Boolean estBloque) {
-        this.estBloque = estBloque;
-    }
-
-    public Boolean getEstAccepte() {
-        return estAccepte;
-    }
-
-    public void setEstAccepte(Boolean estAccepte) {
-        this.estAccepte = estAccepte;
-    }
-
+    
     public Utilisateur getEstEnContactAvec() {
         return estEnContactAvec;
     }

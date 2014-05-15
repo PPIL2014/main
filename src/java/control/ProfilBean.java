@@ -1,44 +1,57 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package control;
 
 import java.util.ArrayList;
-import javax.annotation.Resource;
-import java.util.Collection;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
-import javax.transaction.UserTransaction;
-import org.primefaces.context.RequestContext;
 import model.Utilisateur;
+import org.primefaces.context.RequestContext;
 
+/**
+ *
+ * @author nicolas
+ */
 @ManagedBean
 @RequestScoped
 public class ProfilBean {
-
-    @PersistenceContext 
-    private EntityManager em;
-
-    @Resource 
-    private UserTransaction ut;
-    
-    /**
+/**
      * Creates a new instance of ProfilBean
      */
     public ProfilBean() {
-        
     }
+    
+     // Injection du manager, qui s'occupe de la connexion avec la BDD
+    @PersistenceContext( unitName = "DateRoulettePU" )
+    private EntityManager em;
+
+    private Utilisateur utilisateur;
+
+
     
     public String getPseudo () {
         return getUtilisateurSession().getPseudo() ;
     }
+      
+     public String getUrlAvatar () {
+        return getUtilisateurSession() != null?"":System.getProperty("user.home")+"/dateImages/"+ getUtilisateurSession().getAvatar().getDescription() ;
+    }
+     
+
     
-    public String getUrlAvatar () {
-        return "";//getUtilisateurSession().getAvatar().getUrl() ;
+    public Utilisateur getUtilisateur(){
+        return utilisateur;
     }
     
     public Utilisateur getUtilisateurSession () {
@@ -83,25 +96,6 @@ public class ProfilBean {
         Utilisateur u = getUtilisateurSession () ;
         return ((listeAttente.size() == 1) && (listeAttente.get(0).getPseudo().equals(u.getPseudo()))) ;
     }
+  
     
-    @ManagedProperty(value="#{param.pseudoUtilisateur}") // appelle setParam();
-    private String param;
-
-    private Utilisateur utilisateur;
-    
-    public String getParam() {
-        return param;
-    }
-
-    public void setParam(String param) {
-        this.param = param;
-        utilisateur = getUtilisateurSession();
-    }
-    
-    public Utilisateur getUtilisateur(){
-        return utilisateur;
-    }
-    
-    
-
 }

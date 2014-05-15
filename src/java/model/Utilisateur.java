@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -47,7 +48,7 @@ public class Utilisateur implements Serializable {
      * 
      * @element-type Utilisateur
      */
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private Collection<Contact>  contacts;
     /**
      * 
@@ -88,6 +89,10 @@ public class Utilisateur implements Serializable {
     
     public Utilisateur() {
         
+    }
+    
+    public void addGalerie(Galerie g){
+        this.galeries.add(g);
     }
     
     public List<Utilisateur> getContactsByName(String pieceOfName) {
@@ -315,7 +320,7 @@ public class Utilisateur implements Serializable {
             
     public boolean estAmisAvec (Utilisateur u) {
         for (Contact c : contacts){
-            if ((c.getEstEnContactAvec().equals(u)) && (c.getEstAccepte())) {
+            if ((c.getEstEnContactAvec().equals(u)) && (c.getType().equals(Contact.Type.AMI) || c.getType().equals(Contact.Type.FAVORI))) {
                 return true ;
             }
         }

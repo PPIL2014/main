@@ -1,10 +1,8 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
+
     <h:head>
         <link href="default.css" rel="stylesheet" type="text/css"></link>
         <title>Date Roulette</title>
@@ -21,7 +19,7 @@
             <div id="menu-wrapper">
                 <div id="menu" >
                     <ul>
-                        <li><h:form rendered="false"><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Ma page" action="myProfil.xhtml"></h:commandLink></h:form></li>
                         <li><h:form rendered="false"><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
                         <li><h:form rendered="false"><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
                         <li><h:form rendered="false"><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
@@ -30,36 +28,19 @@
                 <!-- end #menu --> 
             </div>
             <div id="page" class="container">
-
-
                 <h:form>
-                    <center>
 
-                        <p:autoComplete value="#{contactsBean.rechercheListeNoire}"   
-                                        completeMethod="#{contactsBean.autoCompleteListeNoire}" /> 
-                        <h:commandButton value="Rechercher" action="listeNoire.xhtml" >                        
-                        </h:commandButton>
-                        <br /><br />
-                        <h:dataTable value="#{contactsBean.contactListeNoire}" var="current">  
-
-                            <h:column>
-                                <h:commandLink value="#{current.estEnContactAvec.pseudo}" action="profil.xhtml" 
-                                               rendered="#{current.type == 'BLOQUE'}">
-                                    <f:param name="pseudo" value="#{current.estEnContactAvec.pseudo}" />
-                                </h:commandLink>
-                            </h:column>
-
-                            <h:column>
-                                <h:commandButton value="Debloquer" action="#{contactsBean.debloquer(current)}"
-                                                 rendered="#{current.type == 'BLOQUE'}"/>    
-                            </h:column>
-
-                        </h:dataTable>
-
-                    </center>
+                    <h:commandButton value="Nouvelle galerie" action="ajouterGalerie.xhtml"/>
+                    <br /><br />
+                    <h:dataTable value="#{galeriesBean.galeries}" var="current"> 
+                        <h:column>
+                            <h:commandLink value="#{current.nom}" action="afficherGalerie.xhtml">
+                                <f:param name="nom" value="#{current.nom}" /> 
+                            </h:commandLink>
+                        </h:column>
+                    </h:dataTable>
 
                 </h:form>
-
             </div>
         </div>
 
@@ -76,4 +57,3 @@
 
     </h:body>
 </html>
-

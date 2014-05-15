@@ -49,17 +49,15 @@ public class UploadBean {
 
     private Part file;
 
-
     @ManagedProperty(value = "#{param.pseudo}") // appelle setParam();
     private String param;
 
-    
-    @PersistenceContext( unitName = "DateRoulettePU" )
+    @PersistenceContext(unitName = "DateRoulettePU")
     private EntityManager em;
-    @Resource 
+    @Resource
     private UserTransaction ut;
     private Utilisateur utilisateur;
-    
+
     public void setParam(String param) {
         this.param = param;
     }
@@ -68,58 +66,48 @@ public class UploadBean {
         return param;
     }
     
-    
-    
+    public Utilisateur getUtilisateurSession () {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+        Utilisateur utilisateurSession = (Utilisateur)em.find(Utilisateur.class,(String)session.getAttribute("pseudoUtilisateur")) ;
+        return utilisateurSession;
+    }
+
     public void upload() throws IOException {
-        utilisateur = em.find(Utilisateur.class, param);
-        if(utilisateur != null)
-        {   
-            try {              
+        utilisateur = getUtilisateurSession();
+        if(utilisateur.getAvatar() == null){
+            Image avatar = new Image();
+            avatar.setDate(new Date());
+            avatar.setNom(this.utilisateur.getPseudo() + "."+ this.getTypeFile(file));
+            avatar.setDescription("file://"+System.getProperty("user.home") + "/dateImages/" + this.utilisateur.getPseudo() + "." + this.getTypeFile(file));
+        }
+        else if (utilisateur != null) {
+            utilisateur.getAvatar().setDate(new Date());
+            utilisateur.getAvatar().setNom(this.utilisateur.getPseudo() + "."+ this.getTypeFile(file));
+            utilisateur.getAvatar().setDescription("file://"+System.getProperty("user.home") + "/dateImages/" + this.utilisateur.getPseudo() + "." + this.getTypeFile(file));
+            try {
+
                 ut.begin();
                 em.merge(utilisateur);
                 ut.commit();
-                
+
             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
                 Logger.getLogger(EditProfilBean.class.getName()).log(Level.SEVERE, null, ex);
             }
-        
-        /*
-        long i = utilisateur.getAvatar().getId();
-        Image img = em.find(Image.class,i);
-        img.setNom(this.utilisateur.getNom()+".jpg");
-        */
-            
-        Image avatar = new Image();
-        avatar.setDate(new Date());
-        avatar.setNom(this.utilisateur.getNom() + ".jpg");
-        utilisateur.setAvatar(avatar);
-        
-        try {
-                
-                ut.begin();
-                em.merge(utilisateur);
-                ut.commit();
-                
-            } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                Logger.getLogger(EditProfilBean.class.getName()).log(Level.SEVERE, null, ex);
+
+            InputStream input = file.getInputStream();
+            File image = new File(System.getProperty("user.home") + "/dateImages/" + this.utilisateur.getPseudo() + "." + this.getTypeFile(file));
+            FileOutputStream output = new FileOutputStream(new File(image, ""));
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = input.read(buf)) > 0) {
+                output.write(buf, 0, len);
             }
-        
-        InputStream input = file.getInputStream();
-        File image = new File("/chatimages/" + this.utilisateur.getNom());
-        image.mkdirs();
-        FileOutputStream output = new FileOutputStream(new File(image, this.utilisateur.getNom() + ".jpg"));
-        byte[] buf = new byte[1024];
-        int len;
-        while ((len = input.read(buf)) > 0) {
-            output.write(buf, 0, len);
+            input.close();
+            output.close();
         }
-        input.close();
-        output.close();
-        }
-        
 
     }
-     
 
     public void validateFile(FacesContext ctx, UIComponent comp, Object value) {
         List<FacesMessage> msgs = new ArrayList<FacesMessage>();
@@ -127,12 +115,18 @@ public class UploadBean {
         /* if (file.getSize() > 1024) {
          msgs.add(new FacesMessage("file too big"));
          }*/
-       /* if (!"image/jpeg".equals(file.getContentType())) {
-            msgs.add(new FacesMessage("Type not supported"));
-        }*/
+        /* if (!"image/jpeg".equals(file.getContentType())) {
+         msgs.add(new FacesMessage("Type not supported"));
+         }*/
         if (!msgs.isEmpty()) {
             throw new ValidatorException(msgs);
         }
+    }
+
+    public String getTypeFile(Part file) {
+        String type = this.file.getContentType();
+        type = type.split("/")[1];
+        return type;
     }
 
     public Part getFile() {
