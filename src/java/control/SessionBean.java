@@ -157,7 +157,7 @@ public class SessionBean {
         ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false)).invalidate();
         this.utilisateur = null;
         
-        return "index.xhtml";
+        return "index?faces-redirect=true";
     }
    
    public boolean aChat () {
