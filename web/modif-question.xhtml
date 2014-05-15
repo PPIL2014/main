@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <link href="default.css" rel="stylesheet" type="text/css" media="screen" />
+    </h:head>
+    <h:body>
+        <div id="header-wrapper">
+            <div id="header">
+                <div id="logo">
+                    <h1><a href="#">DateRoulette</a></h1>
+                </div>
+            </div>
+        </div>
+
+        <div id="menu-wrapper">
+            <div id="menu">
+                <ul>
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">Ma Page</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Messagerie</a></li>
+                    <li><a href="#">Chat</a></li>
+                    <li><a href="#">Déconnexion</a></li>				
+                </ul>
+            </div>
+        </div>
+
+        <div id="page" class = "container">
+            <div id = "content">
+                <h1>Modifier une Question</h1>
+                <h:form>
+                Intitulé de la question : <h:inputText size="100" value="#{modifierQuestionBean.intitule}"></h:inputText><br/><br/>
+                
+                <c:set var="type" value="#{modifierQuestionBean.type}"></c:set>
+                
+                <c:if test="${type == 'selectmany'}">
+                    <h:selectBooleanCheckbox value="#{modifierQuestionBean.modifier}" /> Rendre selectone<br/><br/>
+                </c:if>                
+                <c:if test="${type == 'selectone'}">
+                    <h:selectBooleanCheckbox value="#{modifierQuestionBean.modifier}" /> Rendre selectmany<br/><br/>
+                </c:if>
+                
+                <c:if test="${type != 'textarea'}">
+                    <c:forEach var="choix" items="${beanQuestionnaire.getChoix(param['id'])}">
+                    <c:set var="delete" value="#{modifierQuestionBean.estSup(choix.id)}"></c:set>
+                    <c:if test="${delete}">
+                        A supprimer : ${choix.reponse}${choix.id}
+                        <h:commandButton value="Annuler" action="#{modifierQuestionBean.annulerSupprimerChoix()}">
+                            <f:param name="id" value ="#{param['id']}"></f:param>
+                            <f:param name="idchoix" value ="${choix.id}"></f:param>
+                        </h:commandButton><br/>
+                    </c:if>
+                    
+                    <c:if test="${!delete}">
+                        ${choix.reponse}
+                        <h:commandButton value="Supprimer" action="#{modifierQuestionBean.supprimerChoix()}" onclick="return confirm('Etes-vous sûr ?')">
+                            <f:param name="id" value ="#{param['id']}"></f:param>
+                            <f:param name="idchoix" value ="${choix.id}"></f:param>
+                            <f:param name="quest" value ="#{param['quest']}"></f:param>
+                        </h:commandButton><br/>
+                    </c:if>
+                </c:forEach>
+                
+                <br/>
+                <br/>Nombre de choix :
+                <select id="choix" name="choix">
+                        <c:forEach var="i" begin="1" end="20">
+                            <option value="${i}" onclick="afficherChamp2()">${i}</option>
+                        </c:forEach>
+                </select><br/>
+                    <c:forEach var="i" begin="1" end="20">
+                        <p id="choix${i}">Choix n°${i} : <h:inputText  size="50" value="#{modifierQuestionBean.choix}"></h:inputText></p>
+                    </c:forEach><br/>
+                </c:if>
+                <h:commandButton value="Valider" action="#{modifierQuestionBean.modifier()}">
+                    <f:param name="id" value ="#{param['id']}"></f:param>
+                    <f:param name="quest" value ="#{param['quest']}"></f:param>
+                </h:commandButton>
+                </h:form>
+                
+                <script type="text/javascript">
+                    //<![CDATA[
+                    cacherChamp();
+
+                    function cacherChamp() {
+                        for (i = 1; i <= 20; i++)
+                        {
+                            document.getElementById("choix" + i).style.display = "none";
+                        }
+                    }
+
+                    function afficherChamp2() {
+                        var nb = document.getElementById("choix").value;
+                        for (i = 1; i <= 20; i++)
+                        {
+                            document.getElementById("choix" + i).style.display = "none";
+                        }
+                        for (var i = 1; i <= nb; i++)
+                        {
+                            document.getElementById("choix" + i).style.display = "block";
+                        }
+
+                    }
+
+                    //]]>
+                </script>
+            </div>  
+            <div id="sidebar">
+                <div class="box2">
+                    <div class="title">
+                        <h2>Contenu à determiner</h2>
+                    </div>					
+                    <ul class="style2">
+                        <li><a href="#">BlaBla</a></li>
+                        <li><a href="#">BlaBla</a></li>
+                        <li><a href="#">BlaBla</a></li>
+                        <li><a href="#">BlaBla</a></li>
+                        <li><a href="#">BlaBla</a></li>
+                        <li><a href="#">BlaBla</a></li>
+                        <li><a href="#">BlaBla</a></li>
+                    </ul>
+
+                </div>
+
+            </div> </div>
+        <div id="footer-wrapper">
+            <div id="menu">
+                <ul>
+                    <li><a href="#">CGU</a></li>	
+                    <li><a href="#">FAQ</a></li>	
+                    <li><a href="#">Contactez-nous</a></li>				
+                </ul>
+            </div>
+        </div>
+    </h:body>
+</html>
+
