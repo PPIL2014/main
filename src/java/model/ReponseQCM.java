@@ -7,6 +7,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,12 +26,13 @@ public class ReponseQCM implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private QuestionQCM question;
+    private String type;
     /**
    * 
    * @element-type Choix
    */
     @OneToMany
-    private Collection<Choix>  reponses;
+    private Collection<Choix>  reponses = new ArrayList<Choix>();
     
     public Collection<Choix> getReponses() {
         return reponses;
@@ -79,6 +81,14 @@ public class ReponseQCM implements Serializable {
 
     public void setQuestion(QuestionQCM qcm) {
         this.question = qcm;
+    }
+    
+    public String getType(){
+        return this.type;
+    }
+    
+    public void setType(String s){
+        this.type = s;
     }
     
 }

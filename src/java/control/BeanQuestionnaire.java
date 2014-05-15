@@ -49,7 +49,7 @@ public class BeanQuestionnaire {
 
     @Resource 
     private UserTransaction ut;
-    
+    public String newQuest;
     public String reponse = "";
     public List<String> reponsesQcm = new ArrayList<String>();
     public int i = 0;
@@ -62,6 +62,7 @@ public class BeanQuestionnaire {
     private ArrayList<ReponseQCM> repQCM = new ArrayList<ReponseQCM>();
     private ArrayList<ReponseOuverte> repOuvertes = new ArrayList<ReponseOuverte>();
     public int nbQuestionsQuestionnaire;
+public boolean vide = false;
 
     /**
      * Creates a new instance of BeanQuestionnaire
@@ -80,7 +81,13 @@ public class BeanQuestionnaire {
             }
         }
         for(ReponseQCM rq : repQCM){
-            util.ajouterReponseQCM(rq);
+                if(rq.getType().equals("selectone")){
+                   if(rq.getReponses().toArray()[0] == null ){ 
+			util.retirerReponse(rq); 	 	
+                    } 
+                }else{ 	 	
+	                util.ajouterReponseQCM(rq); 	 	
+		} 
             em.merge(rq);
             if(rq.getId() == null){
             }
@@ -150,6 +157,7 @@ public class BeanQuestionnaire {
         
         if(rq == null){
             rq = new ReponseQCM();
+            rq.setType("selectmany");
         }
        
         Collection<Choix> cc = new ArrayList<Choix>();
@@ -265,6 +273,7 @@ public class BeanQuestionnaire {
 
                 if(rq == null){
                     rq = new ReponseQCM();
+                    rq.setType("selectone");
                 }
                 Long id = (long) Integer.parseInt(rep);
                 Choix c = em.find(Choix.class, id);
@@ -387,5 +396,40 @@ public class BeanQuestionnaire {
        HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
        Questionnaire qr = (Questionnaire)em.find(Questionnaire.class,(long)Integer.parseInt(request.getParameter("id")));
        return qr.getNom();
+    }
+
+	public void supprimer() throws IOException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException{
+       HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
+       Questionnaire qr = (Questionnaire)em.find(Questionnaire.class,(long)Integer.parseInt(request.getParameter("id")));
+       
+       ut.begin();
+      for(Question q : qr.getQuestions()){
+          q.retirerQuestionnaire(qr.getId());
+          em.merge(q);
+      }
+      qr.setQuestions(null);   
+      em.remove(em.merge(qr));
+      ut.commit();
+      FacesContext.getCurrentInstance().getExternalContext().redirect("liste-questionnaire-modif.xhtml");
+
+    }
+
+    public String getNewQuest() {
+        return newQuest;
+    }
+
+    public void setNewQuest(String newQuest) {
+        this.newQuest = newQuest;
+    }
+    
+    public void creerQuestionnaire() throws NotSupportedException, SystemException, RollbackException, HeuristicRollbackException, HeuristicMixedException, IOException{
+        Questionnaire q = new Questionnaire();
+        q.setNom(this.newQuest);
+        
+        ut.begin();
+        em.merge(q);
+        ut.commit();
+        
+         FacesContext.getCurrentInstance().getExternalContext().redirect("liste-questionnaire-modif.xhtml");
     }
 }

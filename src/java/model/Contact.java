@@ -32,16 +32,6 @@ public class Contact implements Serializable {
     private Boolean estBloque;
     private Boolean estAccepte;
 
-    public Contact() {
-        
-    }
-    
-    public Contact(boolean estAccepte, boolean estBloque, Utilisateur contact){
-        this.estAccepte = estAccepte;
-        this.estBloque = estBloque;
-        this.estEnContactAvec = contact;
-    }
-    
     public enum Type { ENATTENTE, DEMANDE, REFUSE, AMI, FAVORI, BLOQUE };
     
     private Type type;

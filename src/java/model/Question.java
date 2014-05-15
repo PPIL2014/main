@@ -7,7 +7,9 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,13 +27,24 @@ public class Question implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String question;
+    private String type;
+
     /**
      * 
      * @element-type Questionnaire
      */
     @OneToMany
-    private Collection<Questionnaire>  questionnaires;
+    private Collection<Questionnaire>  questionnaires = new ArrayList<Questionnaire>();
     
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getQuestion() {
         return question;
     }
@@ -79,6 +92,30 @@ public class Question implements Serializable {
     @Override
     public String toString() {
         return "ul.dateroulette.entity.Question[ id=" + id + " ]";
+    }
+
+public void ajouterQuestionnaire(Questionnaire quest) {
+        boolean b = false;
+       // if(){
+            for(Questionnaire q : this.questionnaires){
+                if(q.getId() == quest.getId()){
+                    q = quest;
+                    b = true;
+                }
+            }
+       // }
+        if(!b){
+            this.questionnaires.add(quest);
+        }
+    }
+
+    public void retirerQuestionnaire(long l) {
+        Iterator<Questionnaire> iter = this.getQuestionnaires().iterator();
+        while(iter.hasNext()){
+            if(iter.next().getId() == l){
+                iter.remove();
+            }
+        } 
     }
     
 }

@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -291,9 +292,7 @@ public class Utilisateur implements Serializable {
     
     public void ajouterReponseQCM(ReponseQCM rep){
         if(rep.getId() == null){
-            System.out.println("Nouvelle question  : " + rep);
             this.reponsesQCM.add(rep);
-            System.out.println("Liste Questions : " + this.getReponsesQCM());
         }else{
             for(ReponseQCM repq : this.reponsesQCM){
                 if(repq.getId() == rep.getId()){
@@ -325,5 +324,24 @@ public class Utilisateur implements Serializable {
         }
         return false ;
     }    
+
+    public void retirerReponse(ReponseQCM r) {
+        Iterator<ReponseQCM> iter = this.getReponsesQCM().iterator();
+        while (iter.hasNext()) {
+            if (iter.next().getId() == r.getId()) {
+                iter.remove();
+            }
+        }
+    }
+
+    public void retirerReponse(ReponseOuverte r) {
+        Iterator<ReponseOuverte> iter = this.getReponsesOuvertes().iterator();
+        while (iter.hasNext()) {
+            if (iter.next().getId() == r.getId()) {
+                iter.remove();
+            }
+        }
+
+    }
 
 }
