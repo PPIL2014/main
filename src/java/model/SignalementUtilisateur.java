@@ -7,6 +7,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -50,18 +51,20 @@ public class SignalementUtilisateur extends Signalement implements Serializable 
         hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SignalementUtilisateur)) {
+       
+        if(object == null){
+            return false;
+        }
+        if (getClass() != object.getClass()) {
             return false;
         }
         SignalementUtilisateur other = (SignalementUtilisateur) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+
+        return Objects.equals((Object)this.utilisateurSignale, (Object)other.utilisateurSignale) && Objects.equals((Object)this.getEmetteur(), (Object)other.getEmetteur());
     }
 
     @Override

@@ -7,6 +7,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -76,4 +77,7 @@ public class Choix implements Serializable {
         return "ul.dateroulette.entity.Choix[ id=" + id + " ]";
     }
     
+    public void retirerQuestion() {
+        this.question = null;
+    }
 }

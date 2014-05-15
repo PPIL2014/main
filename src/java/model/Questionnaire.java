@@ -8,6 +8,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Iterator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -49,9 +50,26 @@ public class Questionnaire implements Serializable {
     }
 
     public void ajouterQuestion(Question question) {
+        boolean b = false;
+        for(Question q : this.getQuestions()){
+            if(q.getId() == question.getId()){
+                q = question;
+                b = true;
+            }
+        }
+        
+        if(!b){
+            this.questions.add(question);
+        }
     }
 
     public void retirerQuestion(Question question) {
+        Iterator<Question> iter = this.getQuestions().iterator();
+        while(iter.hasNext()){
+            if(iter.next().getId() == question.getId()){
+                iter.remove();
+            }
+        }    
     }
 
     public Long getId() {
@@ -91,4 +109,12 @@ public class Questionnaire implements Serializable {
         return (Question)this.questions.toArray()[countRep];
     }
     
+    public void retirerQuestion(long id) {
+        Iterator<Question> iter = this.getQuestions().iterator();
+        while(iter.hasNext()){
+            if(iter.next().getId() == id){
+                iter.remove();
+            }
+        }        
+    }
 }

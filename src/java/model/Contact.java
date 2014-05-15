@@ -1,65 +1,49 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package model;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 
-/**
- *
- * @author thomas
- */
 @Entity
 public class Contact implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Boolean estBloque;
-    private Boolean estAccepte;
+
     @OneToOne
     private Utilisateur estEnContactAvec;
+
+    public Contact() {
+        
+    }
     
-    public Boolean bloquer() {
-        return null;
-    }
-
-    public Boolean debloquer() {
-        return null;
-    }
-
-    public Boolean accepter() {
-        return null;
-    }
-
-    public Boolean refuser() {
-        return null;
-    }
-
-    public Boolean getEstBloque() {
-        return estBloque;
-    }
-
-    public void setEstBloque(Boolean estBloque) {
-        this.estBloque = estBloque;
-    }
-
-    public Boolean getEstAccepte() {
-        return estAccepte;
-    }
-
-    public void setEstAccepte(Boolean estAccepte) {
+    public Contact(boolean estAccepte, boolean estBloque, Utilisateur contact){
         this.estAccepte = estAccepte;
+        this.estBloque = estBloque;
+        this.estEnContactAvec = contact;
+    }
+    
+    private Boolean estBloque;
+    private Boolean estAccepte;
+
+    public enum Type { ENATTENTE, DEMANDE, REFUSE, AMI, FAVORI, BLOQUE };
+    
+    private Type type;
+
+    public Type getType() {
+        return type;
     }
 
+    public void setType(Type type) {
+        this.type = type;
+    }
+    
     public Utilisateur getEstEnContactAvec() {
         return estEnContactAvec;
     }
@@ -99,6 +83,5 @@ public class Contact implements Serializable {
     @Override
     public String toString() {
         return "ul.dateroulette.entity.Contact[ id=" + id + " ]";
-    }
-    
+    }    
 }

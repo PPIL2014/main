@@ -4,55 +4,78 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
+        <link href="default.css" rel="stylesheet" type="text/css"></link>
         <title>Date Roulette</title>
     </h:head>
     <h:body>
+        <div id="wrapper">
+            <div id="header-wrapper">
+                <div id="header">
+                    <div id="logo">
+                        <h1><a href="#">DateRoulette</a></h1>
+                    </div>
+                </div>
+            </div>
+            <div id="menu-wrapper">
+                <div id="menu" >
+                    <ul>
+                        <li><h:form rendered="false"><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
+                    </ul>
+                </div>
+                <!-- end #menu --> 
+            </div>
+            <div id="page" class="container">
+                <h:messages />
+                <h:form>
+                    <table>
+                        <tr>
+                            <td>
+                                Pseudo :  
+                            </td>
+                            <td>
+                                <h:inputText id="pseudo" value="#{sessionBean.pseudo}" binding="#{sessionBean.pseudoText}" required="true" requiredMessage="Veuillez entrer votre pseudo"></h:inputText>
+                            </td>
+                            <td>
+                                <h:message errorStyle="color:red" for="pseudo"></h:message>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Mot de passe : 
+                            </td>
+                            <td>
+                                <h:inputSecret id="mdp" value="#{sessionBean.mdp}" binding="#{sessionBean.mdpText}" required="true" requiredMessage="Veuillez entrer votre mot de passe" ></h:inputSecret>
+                            </td>
+                            <td>
+                                <h:message errorStyle="color:red" for="mdp"></h:message>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="1">
+                                <h:commandButton value="Login" action="#{sessionBean.connecter}" style="width: 100%">
+                                </h:commandButton>
+                            </td>
+                            <td>
+                                <a href="inscription.xhtml">s'inscrire</a>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </div>
+        </div>
 
-        <h:messages />
-        <h:form>
-            <table>
-                <tr>
-                    <td>
-                       Pseudo :  
-                    </td>
-                    <td>
-                        <h:inputText id="pseudo" value="#{loginBean.pseudo}" binding="#{loginBean.pseudoText}" required="false" requiredMessage="Veuillez entrer votre pseudo"></h:inputText>
-
-                    </td>
-                    <td>
-                        <h:message errorStyle="color:red" for="pseudo"></h:message>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Mot de passe : 
-                    </td>
-                    <td>
-                        <h:inputSecret id="mdp" value="#{loginBean.mdp}" binding="#{loginBean.mdpText}" required="false" requiredMessage="Veuillez entrer votre mot de passe" ></h:inputSecret>
-                    </td>
-                    <td>
-                        <h:message errorStyle="color:red" for="mdp"></h:message>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="1">
-                        <h:commandButton value="Login" action="#{loginBean.connecter}" style="width: 100%"></h:commandButton>
-                    </td>
-                    <td>
-                        <a href="/main/faces/inscription.xhtml">s'inscrire</a>
-                    </td>
-                </tr>
-            </table>
-
-        <br/><br/>
-        <hr/><br/>
-        page de LOGIN ---- Date Roulette
-            <br/> Pseudo : 
-            <h:selectOneMenu value="#{loginBean.pseudo}">
-                <f:selectItems id="pseudoList" value="#{loginBean.listeUtilisateursDeroul}" var="u" itemLabel="#{u.pseudo}" itemValue="#{u.pseudo}"/>
-            </h:selectOneMenu>
-            <h:commandButton value="Login" action="#{loginBean.connecterList}"></h:commandButton>
-
-        </h:form>
+        <div id="footer-wrapper">
+            <div id="footer">
+                <ul>
+                    <li><a href="#">CGU</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contactez-nous</a></li>
+                </ul>
+            </div>
+        </div>
+        <br />
     </h:body>
 </html>

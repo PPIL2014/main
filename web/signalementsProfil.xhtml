@@ -1,12 +1,43 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>DateRoulette : Profils signalés</title>
     </h:head>
     <h:body>
-        Ici la dataTable des profils signalés.
+        <h:dataTable value="#{signalementProfilBean.listeSignalementsProfils}" var="signalement">
+            <h:column>    				
+                <f:facet name="header">Date</f:facet>    				
+                    #{signalement.date}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Emetteur</f:facet>
+                    #{signalement.emetteur.pseudo}
+
+            </h:column>
+            <h:column>
+                <f:facet name="header">Utilisateur signalé</f:facet>
+                    #{signalement.utilisateurSignale.pseudo}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Motif</f:facet>
+                    #{signalement.motif}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Bloquer</f:facet>
+                <h:form>
+                    <h:commandButton id="bloquer" value="BLOQUER"  action="#{signalementProfilBean.bloquerUtilisateur(signalement.emetteur.pseudo, signalement.utilisateurSignale.pseudo)}"/>
+                </h:form>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Injustifié</f:facet>
+                <h:form>
+                    <h:commandButton id="injustifie" value="INJUSTIFIE"  action="#{signalementProfilBean.injustifie(signalement.emetteur.pseudo, signalement.utilisateurSignale.pseudo)}"/>
+                </h:form>
+            </h:column>
+
+        </h:dataTable>
     </h:body>
 </html>
-

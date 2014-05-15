@@ -10,8 +10,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -33,6 +33,7 @@ public class Utilisateur implements Serializable {
     private String mail;
     private String telephone;
     private String mdp;
+    private Boolean administrateur = false;
     private Boolean estDesinscrit;
     private Boolean estBloque;
     private Boolean estSupprime;
@@ -43,11 +44,19 @@ public class Utilisateur implements Serializable {
      */
     @OneToMany
     private Collection<Galerie>  galeries;
+    
+     /**
+     * 
+     * @element-type SignalementUtilisateur
+     */
+    @OneToMany
+    private Collection<SignalementUtilisateur>  signalementsUtilisateur = new ArrayList<SignalementUtilisateur>();
+    
     /**
      * 
      * @element-type Utilisateur
      */
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private Collection<Contact>  contacts;
     /**
      * 
@@ -88,6 +97,10 @@ public class Utilisateur implements Serializable {
     
     public Utilisateur() {
         
+    }
+    
+    public void addGalerie(Galerie g){
+        this.galeries.add(g);
     }
     
     public List<Utilisateur> getContactsByName(String pieceOfName) {
@@ -156,6 +169,12 @@ public class Utilisateur implements Serializable {
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
+    public Boolean getAdministrateur() {
+        return administrateur;
+    }
+    public void setAdministrateur(Boolean administrateur) {
+        this.administrateur = administrateur;
+    }
     public Boolean getEstDesinscrit() {
         return estDesinscrit;
     }
@@ -178,7 +197,13 @@ public class Utilisateur implements Serializable {
         return galeries;
     }
     public void setGaleries(Collection<Galerie> galeries) {
-        this.galeries = galeries;
+        this.galeries = galeries;    }
+    
+    public Collection<SignalementUtilisateur> getSignalementsUtilisateur() {
+        return signalementsUtilisateur;
+    }
+    public void setSignalementsUtilisateur(Collection<SignalementUtilisateur> signalementsUtilisateur) {
+        this.signalementsUtilisateur = signalementsUtilisateur;
     }
     public Collection<Contact> getContacts() {
         return contacts;
@@ -228,7 +253,6 @@ public class Utilisateur implements Serializable {
         return this.mdp;
     }
     public void setMdp(String mdp) {
-        //this.mdp = sha1(mdp);
         this.mdp = mdp;
     }
 
@@ -246,7 +270,7 @@ public class Utilisateur implements Serializable {
 
     public void closeAllChat() {
         for (SessionChat c : sessionsChat) {
-            c.setEstDemarree(false) ;
+            c.setEstDemarree(false);
         }
     }
 
@@ -273,6 +297,7 @@ public class Utilisateur implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
+        
         if (obj == null) {
             return false;
         }
@@ -280,17 +305,12 @@ public class Utilisateur implements Serializable {
             return false;
         }
         final Utilisateur other = (Utilisateur) obj;
-        if (!Objects.equals(this.pseudo, other.pseudo)) {
-            return false;
-        }
-        return true;
+        return this.pseudo.equals(other.pseudo);
     }
     
     public void ajouterReponseQCM(ReponseQCM rep){
         if(rep.getId() == null){
-            System.out.println("Nouvelle question  : " + rep);
             this.reponsesQCM.add(rep);
-            System.out.println("Liste Questions : " + this.getReponsesQCM());
         }else{
             for(ReponseQCM repq : this.reponsesQCM){
                 if(repq.getId() == rep.getId()){
@@ -316,11 +336,30 @@ public class Utilisateur implements Serializable {
             
     public boolean estAmisAvec (Utilisateur u) {
         for (Contact c : contacts){
-            if ((c.getEstEnContactAvec().equals(u)) && (c.getEstAccepte())) {
+            if ((c.getEstEnContactAvec().equals(u)) && (c.getType().equals(Contact.Type.AMI) || c.getType().equals(Contact.Type.FAVORI))) {
                 return true ;
             }
         }
         return false ;
     }    
+
+    public void retirerReponse(ReponseQCM r) {
+        Iterator<ReponseQCM> iter = this.getReponsesQCM().iterator();
+        while (iter.hasNext()) {
+            if (iter.next().getId() == r.getId()) {
+                iter.remove();
+            }
+        }
+    }
+
+    public void retirerReponse(ReponseOuverte r) {
+        Iterator<ReponseOuverte> iter = this.getReponsesOuvertes().iterator();
+        while (iter.hasNext()) {
+            if (iter.next().getId() == r.getId()) {
+                iter.remove();
+            }
+        }
+
+    }
 
 }

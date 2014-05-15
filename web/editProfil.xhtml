@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <link href="default.css" rel="stylesheet" type="text/css"></link>
+        <title>Date Roulette</title>
+    </h:head>
+    <h:body>
+        <div id="wrapper">
+            <div id="header-wrapper">
+                <div id="header">
+                    <div id="logo">
+                        <h1><a href="#">DateRoulette</a></h1>
+                    </div>
+                </div>
+            </div>
+            <div id="menu-wrapper">
+                <div id="menu" >
+                    <ul>
+                        <li><h:form rendered="false"><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
+                    </ul>
+                </div>
+                <!-- end #menu --> 
+            </div>
+            <div id="page" class="container">
+                <br/>
+                <h1><h:outputText id="pseudo" value="#{editProfilBean.utilisateur.pseudo}"></h:outputText></h1>
+                <h:form id="form" enctype="multipart/form-data">
+                    <h:inputFile id="file" value="#{uploadBean.file}" validator="#{uploadBean.validateFile}"/>
+                    <h:commandButton value="Upload" action="#{uploadBean.upload()}">
+                        <f:param name="pseudo" value="#{uploadBean.param}" />      
+                    </h:commandButton>
+                </h:form>
+                <hr/>
+                <h:form> 
+                    <br/>
+                    <hr/>
+
+
+                    <td>
+                        Adresse *  
+                    </td>
+                    <td>
+                        <h:inputText id="adresse" value="#{editProfilBean.utilisateur.adresse}" binding="#{editProfilBean.adresse}" required="true"/>
+                    </td>
+                    <td>
+                        <h:message errorStyle="color:red" for="adresse"></h:message>
+                    </td>
+                    <br/>
+
+                    <td>
+                        Mail *  
+                    </td>
+                    <td>
+                        <h:inputText id="mail" value="#{editProfilBean.utilisateur.mail}" binding="#{editProfilBean.mail}" required="true"/> 
+                    </td>
+                    <td>
+                        <h:message errorStyle="color:red" for="mail"></h:message>
+                    </td>
+                    <br/>
+
+                    <td>
+                        Téléphone *  
+                    </td>
+                    <td>
+                        <h:inputText id="telephone" value="#{editProfilBean.utilisateur.telephone}" binding="#{editProfilBean.telephone}" required="true"/>
+                    </td>
+                    <td>
+                        <h:message errorStyle="color:red" for="telephone"></h:message>
+                    </td>
+                    <br/><br/>
+
+                    <fieldset>
+                        <legend>Remplir les 3 champs ou les laisser vides</legend>
+                        <td>
+                            Ancien mot de passe  
+                        </td>
+                        <td>
+                            <h:inputSecret id="oldMdp" value="#{editProfilBean.oldMdp}" binding="#{editProfilBean.oldMdpText}" />
+                        </td>
+                        <td>
+                            <h:message errorStyle="color:red" for="oldMdp"></h:message>
+                        </td>
+                        <br/>
+
+                        <td>
+                            Nouveau mot de passe  
+                        </td>
+                        <td>
+                            <h:inputSecret id="newMdp" value="#{editProfilBean.newMdp}" binding="#{editProfilBean.newMdpText}" />
+                        </td>
+                        <td>
+                            <h:message errorStyle="color:red" for="newMdp"></h:message>
+                        </td>
+                        <br/>
+
+                        <td>
+                            Confirmation 
+                        </td>
+                        <td>
+                            <h:inputSecret id="confNewMdp" value="#{editProfilBean.confNewMdp}" binding="#{editProfilBean.confNewMdpText}" />
+                        </td>
+                        <td>
+                            <h:message errorStyle="color:red" for="confNewMdp"></h:message>
+                        </td>
+                        <br/>
+
+                    </fieldset>
+                    <br/>
+                    <td colspan="1">
+                        <h:commandButton value="Enregistrer" action="#{editProfilBean.edit()}" > 
+                        </h:commandButton>
+                    </td><br/>
+
+                </h:form>
+
+                <h:form>
+                    <td colspan="1">
+                        <h:commandButton value="Annuler" action="profil" >     
+                        </h:commandButton>
+                    </td>
+                </h:form>
+            </div>
+        </div>
+
+        <div id="footer-wrapper">
+            <div id="footer">
+                <ul>
+                    <li><a href="#">CGU</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contactez-nous</a></li>
+                </ul>
+            </div>
+        </div>
+        <br />
+
+    </h:body>
+</html>

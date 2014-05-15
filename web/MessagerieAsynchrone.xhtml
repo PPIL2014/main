@@ -3,8 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+      
+      <h:head>
         <title>Messagerie Privée</title>
        <link href="default.css" rel="stylesheet" type="text/css"></link>
     </h:head>
@@ -22,7 +24,7 @@
                         <li><h:form><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
                         <li><h:form><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
                         <li><h:form><h:commandLink value="Messagerie" action="Messagerie.xhtml"></h:commandLink></h:form></li>
-                        <li><h:form><h:commandLink value="Deconnexion" action="#{loginBean.deconnexion()}"><f:param name="contenu" value=""/></h:commandLink></h:form></li>	
+                        <li><h:form><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"><f:param name="contenu" value=""/></h:commandLink></h:form></li>	
                     </ul>
             </div>
             </div>
@@ -31,6 +33,54 @@
         
         <img src="#{messagerieAsyncControl.getDest().avatar}" alt="Pas de photo"/>
         <h1>Messagerie avec #{messagerieAsyncControl.getDest().pseudo}</h1>
+        
+          <div id="page" class="container"> 
+
+
+            <h:form>
+
+                <h:commandButton value="Signaler" onclick="dlgSignaler.show()">
+                    <f:ajax execute="@form" render="@none" />
+                </h:commandButton>
+
+                <p:confirmDialog id="signalerUtilisateur" message="Pour signaler l'utilisateur #{messagerieAsyncControl.getDest().pseudo}, veuillez ajouter le motif du signalement et cliquer sur SIGNALER" header="Signaler" severity="alert" widgetVar="dlgSignaler">
+                    <h:form >
+                        <h:inputTextarea id="motif" value ="#{signalementProfilBean.motif}" required="true" rows="4" cols="100" />
+
+                        <h:commandButton id="signaler" value="SIGNALER" binding="#{signalementProfilBean.boutonSignaler}" action="#{signalementProfilBean.signaler(messagerieAsyncControl.getDest().pseudo)}"/>
+
+                        <h:commandButton id="annulerSignalement" value="ANNULER"  action="MessagerieAsynchrone.xhtml" />
+                    </h:form>
+                </p:confirmDialog>
+
+
+
+            </h:form>
+           
+            <br/><br/>
+
+                   <script type="text/javascript">
+                updatePage(null, null, null);
+                var dlgFinChatSubi;
+                var dlgSuivChat;
+                var dlgFinChat;
+                var dlgSignaler;
+
+
+                function showDlgSignaler() {
+                    dlgSignaler.show();
+                }
+
+                function updatePage(xhr, status, args) {
+
+                    nextEvent();
+                }
+            </script> 
+
+        </div>  
+
+        
+        
         <div id="chat" class="chat" style="width: 70%">
             <c:set var="align" value="sender" />
             <c:forEach var="message" items="#{messagerieAsyncControl.privateMessages}">

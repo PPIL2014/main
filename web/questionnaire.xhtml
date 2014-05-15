@@ -49,6 +49,7 @@
                 <!-- Cas Une seule réponse -->
                 <c:if test="${type == 'selectone'}">
                     <h:selectOneMenu value="#{beanQuestionnaire.reponse}">
+                        <f:selectItem itemValue="0" itemLabel=""/>
                         <c:forEach var="choix" items="${beanQuestionnaire.getChoix(quest)}">
                             <f:selectItem itemValue="${choix.id}" itemLabel="${choix.reponse}" /> 
                         </c:forEach>

@@ -1,21 +1,135 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
     <h:head>
+        <link href="default.css" rel="stylesheet" type="text/css"></link>
         <title>Date Roulette</title>
     </h:head>
     <h:body>
-        <h:form>
-            <h:commandButton value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandButton>
-            <h:dataTable id ="messages" value="#{listeAmisBean.contacts}" var="item">
-                <h:column>
-                    <b><h:outputText value="#{item.estEnContactAvec.pseudo}"></h:outputText></b><br/>
-                    <h:commandButton rendered="#{listeAmisBean.estConnecte(item.estEnContactAvec)}" value="CHAT" action="#{chatBean.chatCopain(item.estEnContactAvec)}"></h:commandButton>           
-                </h:column>
-            </h:dataTable>
-            
-        </h:form>
+        <div id="wrapper">
+            <div id="header-wrapper">
+                <div id="header">
+                    <div id="logo">
+                        <h1><a href="#">DateRoulette</a></h1>
+                    </div>
+                </div>
+            </div>
+            <div id="menu-wrapper">
+                <div id="menu" >
+                    <ul>
+                        <li><h:form rendered="false"><h:commandLink value="Ma page" action="myProfil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
+                    </ul>
+                </div>
+                <!-- end #menu --> 
+            </div>
+            <div id="page" class="container">
+
+                <h:form>
+                    <center>
+
+                        <h:dataTable value="#{contactsBean.contactDemandes}" var="current">  
+
+                            <h:column>
+                                <h:commandLink value="#{current.estEnContactAvec.pseudo}" action="profil.xhtml" 
+                                               rendered="#{current.type == 'DEMANDE'}">
+                                    <f:param name="pseudo" value="#{current.estEnContactAvec.pseudo}" />
+                                </h:commandLink>
+                                <h:outputText value=" souhaite être votre ami" rendered="#{current.type == 'DEMANDE'}" />
+                            </h:column>
+
+                            <h:column>
+                                <h:commandButton value="Accepter" action="#{contactsBean.accepter(current)}" 
+                                                 rendered="#{current.type == 'DEMANDE'}"/>    
+                            </h:column>
+
+                            <h:column>
+                                <h:commandButton value="Refuser" action="#{contactsBean.refuser(current)}" 
+                                                 rendered="#{current.type == 'DEMANDE'}"/>    
+                            </h:column>
+
+                        </h:dataTable>
+             <!--           <h:dataTable value="#{contactsBean.contactListeAmis}" var="current">  
+                            
+                            <h:column>
+                                <h:commandLink value="#{current.estEnContactAvec.pseudo}" action="profil.xhtml" 
+                                               rendered="#{current.type == 'ENATTENTE'}">
+                                    <f:param name="pseudo" value="#{current.estEnContactAvec.pseudo}" />
+                                </h:commandLink>
+                            </h:column>
+                            
+                            <h:column>
+                                <h:outputText rendered="#{current.type == 'ENATTENTE'}" value="Envoyée"/>
+                            </h:column>
+                            
+                        </h:dataTable> -->
+
+                        <br/>
+
+                        <p:autoComplete value="#{contactsBean.rechercheListeAmis}"   
+                                        completeMethod="#{contactsBean.autoCompleteListeAmis}" /> 
+                        <h:commandButton value="Rechercher" action="listeAmis.xhtml" >                        
+                        </h:commandButton>
+                        <br /><br />
+                        <h:dataTable value="#{contactsBean.contactListeAmis}" var="current">  
+
+                            <h:column>
+                                <h:commandButton action="#{contactsBean.favoriser(current)}" image="resources/images/pasFavori.png" 
+                                                 rendered="#{current.type == 'AMI'}"/>
+                                <h:commandButton action="#{contactsBean.defavoriser(current)}" image="resources/images/favori.png" 
+                                                 rendered="#{current.type == 'FAVORI'}"/>
+                            </h:column>
+
+                            <h:column>
+                                <h:commandLink value="#{current.estEnContactAvec.pseudo}" action="profil.xhtml" 
+                                               rendered="#{current.type == 'AMI' || current.type == 'FAVORI'}">
+                                    <f:param name="pseudo" value="#{current.estEnContactAvec.pseudo}" />
+                                </h:commandLink>
+                            </h:column>
+
+                            <h:column>
+                                <h:commandButton value="Chat"
+                                                 rendered="#{(current.type == 'AMI' || current.type == 'FAVORI') and contactsBean.isConnected(current)}"
+                                                 action ="#{chatBean.chatCopain(current.estEnContactAvec)}"/>    
+                            </h:column>
+                            
+                            <h:column>
+                                <h:commandButton value="Message" 
+                                                 rendered="#{current.type == 'AMI' || current.type == 'FAVORI'}"
+                                                 />    
+                            </h:column>
+                            
+                            <h:column>
+                                <h:commandButton value="Bloquer" action="#{contactsBean.bloquer(current)}"
+                                                 rendered="#{current.type == 'AMI' || current.type == 'FAVORI'}"/>    
+                            </h:column>
+
+                        </h:dataTable>
+
+                    </center>
+
+                </h:form>
+            </div>
+        </div>
+
+        <div id="footer-wrapper">
+            <div id="footer">
+                <ul>
+                    <li><a href="#">CGU</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contactez-nous</a></li>
+                </ul>
+            </div>
+        </div>
+        <br />
+
     </h:body>
 </html>
+
 

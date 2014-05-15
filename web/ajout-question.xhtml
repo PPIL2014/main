@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <link href="default.css" rel="stylesheet" type="text/css" media="screen" />
+    </h:head>
+    <h:body>
+        <div id="header-wrapper">
+            <div id="header">
+                <div id="logo">
+                    <h1><a href="#">DateRoulette</a></h1>
+                </div>
+            </div>
+        </div>
+
+        <div id="menu-wrapper">
+            <div id="menu">
+                <ul>
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">Ma Page</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Messagerie</a></li>
+                    <li><a href="#">Chat</a></li>
+                    <li><a href="#">Déconnexion</a></li>				
+                </ul>
+            </div>
+        </div>
+
+        <div id="page" class = "container">
+            <div id = "content">
+                <h1>Créer une Question</h1><br/>
+                Type de la question :&nbsp;
+                Ouverte <input type="radio" name="teakts" value="ouv" id="ouv" onclick="cacher();" /> 
+                QCM <input type="radio" name="teakts" value="qcm" id="qcm" onClick="afficherQCM();"/> 
+
+                <p id="boutouv"/>
+                <h:form id="ouverte">
+                    Intitulé de la question : <h:inputText id="nom" size="100" value="#{ajoutQuestionBean.intitule}" required="true" requiredMessage="Le champ ne peut être vide."></h:inputText><br/><br/>
+                    <h:message for="nom" style="color: red"/><br/><br/>
+                    <h:commandButton id="truc" value="Créer Question Ouverte" action="#{ajoutQuestionBean.creerQuestionOuverte()}">
+                        <f:param name="id" value ="#{param['id']}"></f:param>
+                    </h:commandButton>
+                </h:form>
+
+                <h:form id="mult">
+                    Intitulé de la question : <h:inputText size="100" value="#{ajoutQuestionBean.intitule}"></h:inputText><br/><br/>
+
+                    <br/>Nombre de choix :
+                    <select id="choix" name="choix">
+                        <c:forEach var="i" begin="1" end="20">
+                            <option value="${i}" onclick="afficherChamp()">${i}</option>
+                        </c:forEach>
+                    </select><br/><br/>
+                    <h:selectBooleanCheckbox value="#{ajoutQuestionBean.unique}" /> Réponse unique<br/><br/>
+                    <h:commandButton value="Créer QCM" action="#{ajoutQuestionBean.creerQuestionQCM()}">
+                        <f:param name="id" value ="#{param['id']}"></f:param>
+                    </h:commandButton>
+                    <c:forEach var="i" begin="1" end="20">
+                        <p id="choix${i}">Choix n°${i} : <h:inputText  size="50" value="#{ajoutQuestionBean.choix}"></h:inputText></p>
+                    </c:forEach>
+                </h:form>
+
+                <script type="text/javascript">
+                    //<![CDATA[
+                    document.getElementById("ouverte").style.display = "none";
+                    document.getElementById("mult").style.display = "none";
+                    cacherChamp();
+
+                    function cacherChamp() {
+                        for (i = 1; i <= 20; i++)
+                        {
+                            document.getElementById("choix" + i).style.display = "none";
+                        }
+                    }
+                    function afficherChamp(entier) {
+                        var nb = document.getElementById("choix").value;
+                        for (i = 1; i <= 20; i++)
+                        {
+                            document.getElementById("choix" + i).style.display = "none";
+                        }
+                        for (var i = 1; i <= nb; i++)
+                        {
+                            document.getElementById("choix" + i).style.display = "block";
+                        }
+
+                    }
+
+                    function afficherQCM()
+                    {
+                        cacherChamp();
+                        document.getElementById("ouverte").style.display = "none";
+                        document.getElementById("mult").style.display = "block"
+                    }
+
+                    function cacher()
+                    {
+                        cacherChamp();
+                        document.getElementById("ouverte").style.display = "block";
+                        document.getElementById("mult").style.display = "none";
+
+                    }
+                    //]]>
+                </script>
+
+            </div>  
+            <div id="sidebar">
+                <div class="box2">
+                    <div class="title">
+                        <h2>Contenu à determiner</h2>
+                    </div>					
+                    <ul class="style2">
+                        <li><a href="#">BlaBla</a></li>
+                        <li><a href="#">BlaBla</a></li>
+                        <li><a href="#">BlaBla</a></li>
+                        <li><a href="#">BlaBla</a></li>
+                        <li><a href="#">BlaBla</a></li>
+                        <li><a href="#">BlaBla</a></li>
+                        <li><a href="#">BlaBla</a></li>
+                    </ul>
+
+                </div>
+
+            </div> </div>
+        <div id="footer-wrapper">
+            <div id="menu">
+                <ul>
+                    <li><a href="#">CGU</a></li>	
+                    <li><a href="#">FAQ</a></li>	
+                    <li><a href="#">Contactez-nous</a></li>				
+                </ul>
+            </div>
+        </div>
+    </h:body>
+</html>
+

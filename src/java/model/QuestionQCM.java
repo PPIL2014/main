@@ -8,6 +8,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Iterator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -91,6 +92,19 @@ public class QuestionQCM extends Question implements Serializable {
     @Override
     public String toString() {
         return "ul.dateroulette.entity.QuestionQCM[ id=" + id + " ]";
+    }
+
+	    public void retirerChoix(Choix c) {
+        Iterator<Choix> iter = this.getChoix().iterator();
+        while(iter.hasNext()){
+            if(iter.next().getId() == c.getId()){
+                iter.remove();
+            }
+        }   
+    }
+
+    public void ajouterChoix(Choix c) {
+        this.choix.add(c);
     }
     
 }

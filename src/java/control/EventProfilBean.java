@@ -56,7 +56,7 @@ public class EventProfilBean implements Serializable{
         int nbBoucle = 0;
         
         while(nbBoucle < 5){
-            if (u.getSessionChatDemarree()!=null){
+            if (u.getSessionChatDemarree() != null){
                 aUnChat = true;
                 break;
             }

@@ -38,7 +38,13 @@ public class SessionChat implements Serializable {
      */
     @OneToMany
     private List<MessageChat>  messages;
-
+    /**
+     * Cela permet de differencié les type de chat
+     */
+    private Type type ;
+    public enum Type {
+        AFFNITE, AMIS, CHRONO
+    }
     public SessionChat() {
     }
 
@@ -46,6 +52,7 @@ public class SessionChat implements Serializable {
         this.utilisateur1 = user1;
         this.utilisateur2 = user2;
         this.messages = Collections.synchronizedList(new LinkedList());
+        type = Type.AFFNITE ;
     }
 
     
@@ -95,6 +102,14 @@ public class SessionChat implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     @Override

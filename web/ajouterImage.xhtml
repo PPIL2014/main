@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <link href="default.css" rel="stylesheet" type="text/css"></link>
+        <title>Date Roulette</title>
+    </h:head>
+    <h:body>
+        <div id="wrapper">
+            <div id="header-wrapper">
+                <div id="header">
+                    <div id="logo">
+                        <h1><a href="#">DateRoulette</a></h1>
+                    </div>
+                </div>
+            </div>
+            <div id="menu-wrapper">
+                <div id="menu" >
+                    <ul>
+                        <li><h:form rendered="false"><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
+                    </ul>
+                </div>
+                <!-- end #menu --> 
+            </div>
+            <div id="page" class="container">
+
+                    <h:form>
+                        Nom : <h:inputText id="nom" value="#{galeriesBean.nomImage}" />
+                        <h:commandButton value="Ajouter" action="#{galeriesBean.ajouterImage()}">
+                        </h:commandButton>
+                         <h:commandButton value="Annuler" action="afficherGalerie">
+                         </h:commandButton>
+                    </h:form>
+            </div>
+        </div>
+
+        <div id="footer-wrapper">
+            <div id="footer">
+                <ul>
+                    <li><a href="#">CGU</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contactez-nous</a></li>
+                </ul>
+            </div>
+        </div>
+        <br />
+
+    </h:body>
+</html>
+
+
+  
