@@ -23,6 +23,7 @@ public class SignalementImage extends Signalement implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     @OneToOne
     private Image imageSignalee;
     

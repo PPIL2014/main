@@ -24,6 +24,7 @@ public class SignalementUtilisateur extends Signalement implements Serializable 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     @OneToOne
     private Utilisateur utilisateurSignale;
     

@@ -8,6 +8,7 @@
             <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/rechercherAmis.xhtml</file>
             <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/model/Image.java</file>
             <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/model/SignalementImage.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/conf/persistence.xml</file>
             <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/ImageBean.java</file>
             <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/signalementsProfil.xhtml</file>
             <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/index.xhtml</file>
@@ -20,11 +21,13 @@
             <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/SignalementProfilBean.java</file>
             <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/afficherGalerie.xhtml</file>
             <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/ChatBean.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/model/SignalementUtilisateur.java</file>
             <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/afficherImage.xhtml</file>
             <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/profil.xhtml</file>
             <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/ajouterGalerie.xhtml</file>
             <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/ProfilBean.java</file>
             <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/InscriptionBean.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/model/Signalement.java</file>
             <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/SignalementPhotoBean.java</file>
             <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/outilsAdmin.xhtml</file>
             <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/GaleriesBean.java</file>

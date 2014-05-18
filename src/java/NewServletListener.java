@@ -14,9 +14,7 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
-import model.Contact;
-import model.Session;
-import model.Utilisateur;
+import model.*;
 
 
 /*
@@ -55,7 +53,6 @@ public class NewServletListener implements ServletContextListener  {
         Utilisateur aziz = new Utilisateur();
         aziz.setPseudo("aziz");
         aziz.setMdp("mdp");
-        aziz.setAdministrateur(Boolean.TRUE);
         aziz.setPrenom("aziz");
         aziz.setNom("aziz");
         aziz.setAdresse("3 rue");

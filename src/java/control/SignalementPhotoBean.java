@@ -99,6 +99,7 @@ public class SignalementPhotoBean {
         System.out.println("user = "+user.getPseudo());
        //     user = em.find(Utilisateur.class, pseudo);
         System.out.println("photo = "+photo);
+        motif = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("motif");
         System.out.println("motif = "+motif);
         
       
