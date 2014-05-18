@@ -1,12 +1,87 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Facelet Title</title>
+        <link href="default.css" rel="stylesheet" type="text/css"></link>
+        <title>Date Roulette</title>
     </h:head>
     <h:body>
-        Hello from Facelets
+        <div id="wrapper">
+            <div id="header-wrapper">
+                <div id="header">
+                    <div id="logo">
+                        <h1><a href="#">DateRoulette</a></h1>
+                    </div>
+                </div>
+            </div>
+            <div id="menu-wrapper">
+                <div id="menu" >
+                    <ul>
+                        <li><h:form rendered="false"><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="false"><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
+                    </ul>
+                </div>
+                <!-- end #menu --> 
+            </div>
+            <div id="page" class="container">
+                
+                <h1>#{imageBean.image.id} : #{imageBean.image.nom}</h1>
+                
+                <div id="signaler">
+                    <h:form>
+                        <h:commandButton value="Signaler" onclick="dlgSignaler.show()">
+                            <f:ajax execute="@form" render="@none" />
+                            <f:param name="idImg" value="#{imageBean.image.id}"/>
+                        </h:commandButton>
+
+                        <p:confirmDialog id="signalerPhoto" message="Pour signaler la photo #{imageBean.image.nom}, veuillez ajouter le motif du signalement et cliquer sur SIGNALER" header="Signaler" severity="alert" widgetVar="dlgSignaler">
+
+                                <h:inputTextarea id="motif" value ="#{signalementPhotoBean.motif}" required="true" rows="4" cols="100" />
+
+                                <h:commandButton id="signaler" value="SIGNALER" binding="#{signalementPhotoBean.boutonSignaler}" action="#{signalementPhotoBean.signaler(imageBean.image.id)}">
+                                    <f:param name="idImg" value="#{imageBean.image.id}"/>
+                                    <f:param name="nom" value="#{imageBean.image.galerie.nom}"/>
+                                </h:commandButton>
+
+
+                                <h:commandButton id="annulerSignalement" value="ANNULER"  action="afficherImage.xhtml">
+                                    <f:param name="idImg" value="#{imageBean.image.id}"/>
+                                </h:commandButton>
+
+                        </p:confirmDialog>
+                    </h:form>
+                </div>
+                
+                <p>#{imageBean.i.date.toLocaleString()}</p>
+                
+                <p>#{imageBean.i.description}</p>
+                
+                <h:form>
+                    <h:commandButton value="retour à la galerie" action="afficherGalerie.xhtml">
+                        <f:param name="nom" value="#{imageBean.i.galerie.nom}"/>
+                    </h:commandButton>
+                    <h:commandButton value="liste des galeries" action="listeGaleries.xhtml"/>
+                </h:form>
+
+            </div>
+        </div>
+
+        <div id="footer-wrapper">
+            <div id="footer">
+                <ul>
+                    <li><a href="#">CGU</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contactez-nous</a></li>
+                </ul>
+            </div>
+        </div>
+        <br />
+
     </h:body>
 </html>
 

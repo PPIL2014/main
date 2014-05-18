@@ -7,17 +7,15 @@ package control;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.http.HttpSession;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -41,15 +39,8 @@ public class GaleriesBean {
 
     @ManagedProperty(value = "#{param.nom}")
     private String nomGalerie;
-    private String nomImage;
-
-    public String getNomImage() {
-        return nomImage;
-    }
-
-    public void setNomImage(String nomImage) {
-        this.nomImage = nomImage;
-    }
+    
+    private Utilisateur utilisateur;
 
     public String getNomGalerie() {
         return nomGalerie;
@@ -59,46 +50,45 @@ public class GaleriesBean {
         this.nomGalerie = nomGalerie;
     }
 
-    public boolean isExist(String nameG) {
-        boolean ret = false;
-        FacesContext context = FacesContext.getCurrentInstance();
-        Utilisateur u = em.find(Utilisateur.class, getUtilisateurSession().getPseudo());
-        for (Galerie g : u.getGaleries()) {
-            if (g.getNom().equals(nomGalerie)) {
-                ret = true;
-            }
-        }
+    public boolean exist(String nameG) {
 
-        return ret;
+        return em.find(Galerie.class, nameG)!=null;
     }
 
     public String ajouterGalerie() {
         FacesContext context = FacesContext.getCurrentInstance();
-        Utilisateur u = em.find(Utilisateur.class, getUtilisateurSession().getPseudo());
-        Galerie g = new Galerie();
-        if (this.isExist(nomGalerie)) {
+        utilisateur = getUtilisateurSession(); 
+        if (this.exist(nomGalerie)) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Nom galerie dèja utilisé  !!", null));
-            return "ajouterGalerie";
+            return "listeGaleries.xhtml";
         } else {
-            g.setNom(nomGalerie+"/"+u.getPseudo());
-            g.setProprietaire(u);
-            u.addGalerie(g);
+            Galerie galerie = new Galerie();
+            galerie.setNom(nomGalerie);
+            galerie.setProprietaire(utilisateur);
+            utilisateur.addGalerie(galerie);
             try {
 
                 ut.begin();
-                em.merge(u);
+                em.persist(galerie);
+                em.merge(utilisateur);
                 ut.commit();
                 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Galerie ajoutée", null));
 
             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
             }
-            return "afficherGalerie";
+            return "afficherGalerie.xhtml";
 
         }
     }
 
     public Collection<Galerie> getGaleries() {
-        return getUtilisateurSession().getGaleries();
+        utilisateur=getUtilisateurSession();
+        if(utilisateur!=null)
+            return utilisateur.getGaleries();
+        else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Veuillez vous connecter pour acceder à la galerie", null));
+            return null;
+        }
     }
 
     public Utilisateur getUtilisateurSession() {
@@ -109,37 +99,20 @@ public class GaleriesBean {
     }
 
     public Collection<Image> getGalerie() {
-        for (Galerie g : getUtilisateurSession().getGaleries()) {
+        /*for (Galerie g : getUtilisateurSession().getGaleries()) {
             if (g.getNom().equals(nomGalerie)) {
                 return g.getImages();
             }
-        }
-
-        return null;
+        }*/
+        //System.err.println("nom : "+FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nom"));
+        nomGalerie=FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nom");
+        Galerie g = em.find(Galerie.class, nomGalerie);
+        Query q = em.createQuery("SELECT i FROM Image  i WHERE i.galerie=:g");
+        q.setParameter("g", g);
+        List<Image> results = (List<Image>) q.getResultList();
+        return results;
     }
 
-    public String ajouterImage() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        Utilisateur u = em.find(Utilisateur.class, getUtilisateurSession().getPseudo());
-        Image i = new Image();
-        i.setNom(nomImage);
-        for (Galerie g : u.getGaleries()) {
-            if (g.getNom().equals(nomGalerie)) {
-                g.getImages().add(i);
-                break;
-            }
-        }
-
-        try {
-
-            ut.begin();
-            em.merge(u);
-            ut.commit();
-
-        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-        }
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Image ajoutée", null));
-
-        return "afficherGalerie";
-    }
+    
+    
 }

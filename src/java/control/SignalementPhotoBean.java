@@ -6,12 +6,12 @@
 
 package control;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.enterprise.context.Dependent;
-import javax.faces.bean.ManagedProperty;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -26,6 +26,7 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import model.Image;
 import model.SignalementImage;
+import model.SignalementUtilisateur;
 import model.Utilisateur;
 
 /**
@@ -44,14 +45,12 @@ public class SignalementPhotoBean {
     
     private Utilisateur user;
     
-    //private Utilsiateur userPhoto;
-    
     private Image photo;
     
-    @ManagedProperty(value = "#{motif}")
+    //@ManagedProperty(value = "#{motif}")
     private String motif;
     
-    //private String pseudoUserPhoto;
+    private UIComponent boutonSignaler;
     
     /**
      * Creates a new instance of SignalementPhotoBean
@@ -74,20 +73,43 @@ public class SignalementPhotoBean {
     public void setPhoto(Image photo) {
         this.photo = photo;
     }
-    
-    public String signaler() {
 
-       HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        user = (Utilisateur) session.getAttribute("user");
+    public String getMotif() {
+        return motif;
+    }
+
+    public void setMotif(String motif) {
+        this.motif = motif;
+    }
+
+    public UIComponent getBoutonSignaler() {
+        return boutonSignaler;
+    }
+
+    public void setBoutonSignaler(UIComponent boutonSignaler) {
+        this.boutonSignaler = boutonSignaler;
+    }
+    
+    public String signaler(long id) {
+        System.err.println("idphoto : "+id);
+        photo=em.find(Image.class, id);
+        System.err.println("photo : "+photo.getNom());
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        user = (Utilisateur)em.find(Utilisateur.class,(String)session.getAttribute("pseudoUtilisateur"));
         System.out.println("user = "+user.getPseudo());
        //     user = em.find(Utilisateur.class, pseudo);
         System.out.println("photo = "+photo);
         System.out.println("motif = "+motif);
         
       
-      /*  if (signalementsUtilisateurs.contains((Object)u2)) {
-            System.err.println("Vous avez deja signaler cet utilisateur");
-        } else {*/
+        Query jQuery = em.createQuery("Select s From SignalementImage s Where s.estTraitee = 0 AND s.emetteur = :u1 AND s.imageSignalee = :u2");
+        jQuery.setParameter("u1", user);
+        jQuery.setParameter("u2", photo);
+        List<SignalementUtilisateur> liste = jQuery.getResultList();
+        if (!liste.isEmpty()) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(this.boutonSignaler.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Vous avez deja signalé cette photo !", null));
+        } else {
             try {
                 SignalementImage s = new SignalementImage();
                 s.setMotif(motif);
@@ -95,9 +117,11 @@ public class SignalementPhotoBean {
                 s.setImageSignalee(photo);
                 s.setEstTraitee(false);
                 s.setDate(new Date());
+                photo.setSignalee(Boolean.TRUE);
                 // user.getSignalementsImage().add(s);
                 ut.begin();
                 em.persist(s);
+                em.merge(photo);
                 em.merge(user);
                 ut.commit();
 
@@ -105,28 +129,18 @@ public class SignalementPhotoBean {
                 e.printStackTrace();
             }
 
-     //   }
+        }
 
-        return "chat.xhtml";
+        return "afficherGalerie.xhtml";
     }
     
-    public ArrayList<SignalementImage> consulterSignalementsImage(){
-        try{
-            ut.begin();
-            Query q = em.createQuery("SELECT s FROM SignalementImage s WHERE s.estTraitee=:traite");
-            q.setParameter("traite", Boolean.FALSE);
-            List<SignalementImage> results = (List<SignalementImage>) q.getResultList();
-            ut.commit();
+    public List<SignalementImage> consulterSignalementsImage(){
             
-            return (ArrayList<SignalementImage>) results;
-            
-        }catch(NotSupportedException | SystemException | RollbackException | 
-                HeuristicMixedException | HeuristicRollbackException | 
-                SecurityException | IllegalStateException e){
-            e.printStackTrace();
-        }
-        
-        return null;
+        Query q = em.createQuery("SELECT s FROM SignalementImage s WHERE s.estTraitee=:traite");
+        q.setParameter("traite", Boolean.FALSE);
+        List<SignalementImage> results = (List<SignalementImage>) q.getResultList();
+
+        return results;
     }
     
     public void traiterOk(SignalementImage s){

@@ -1,19 +1,54 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
-        <title>DateRoulette : Photos signaleés</title>
+        <title>DateRoulette : Photos Signalées</title>
+         <link href="default.css" rel="stylesheet" type="text/css" media="screen" />
     </h:head>
     <h:body>
-        <h:dataTable id ="photos" value="#{signalementPhotoBean.consulterSignalementsImage}" var="item">
-            <h:column>
-                <b><h:outputText value="#{item.imageSignalee.nom}"></h:outputText></b><br/>
-                <h:graphicImage url="#{item.imageSignalee}" />
-                <h:commandButton value="OK" action="#{signalementPhotoBean.traiterOk(item)}"></h:commandButton>
-                <h:commandButton value="PAS OK" action="#{signalementPhotoBean.traiterPasOk(item)}"></h:commandButton>
-            </h:column>
-        </h:dataTable>
+         <div id="header-wrapper">
+                <div id="header">
+                        <div id="logo">
+                        <h1><a href="#">DateRoulette</a></h1>
+                        </div>
+                </div>
+        </div>
+		
+        <div id="menu-wrapper">
+                <div id="menu">
+                        <ul>
+                                <li><a href="#">Accueil</a></li>
+                                <li><a href="#">Ma Page</a></li>
+                                <li><a href="#">Contact</a></li>
+                                <li><a href="#">Messagerie</a></li>
+                                <li><a href="#">Chat</a></li>
+                                <li><a href="#">Déconnexion</a></li>				
+                        </ul>
+                </div>
+        </div>
+        <h:form>
+            <h:dataTable id ="photos" value="#{signalementPhotoBean.consulterSignalementsImage()}" var="item">
+                <h:column>
+                    <b><h:outputText value="#{item.imageSignalee.nom}"/></b><br/>
+                    <h:graphicImage  url="#{item.imageSignalee}" width="144px" height="144px"/>
+                    <h:commandButton value="OK" action="#{signalementPhotoBean.traiterOk(item)}"/>
+                    <h:commandButton value="PAS OK" action="#{signalementPhotoBean.traiterPasOk(item)}"/>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+        
+        <div id="footer-wrapper">
+            <div id="footer">
+                <ul>
+                    <li><a href="#">CGU</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contactez-nous</a></li>
+                </ul>
+            </div>
+        </div>
+        <br />
     </h:body>
 </html>
 
