@@ -42,6 +42,7 @@
                 <!-- end #menu --> 
             </div>
             <div id="page" class="container">
+                <p:messages id="messages" showDetail="true" autoUpdate="true" />
                 <h1><h:outputText id="pseudo" value="#{profilBean.utilisateurSession.pseudo}"></h:outputText></h1>
                 <h:graphicImage value="#{profilBean.urlAvatar}" width="144px" height="144px"/>
                 <br /><br />
@@ -206,7 +207,7 @@
     </h:form>
    
     <c:if test="#{profilBean.seulEnAttente}">
-        <h:outputText value="Vous êtes seul en attente! Vous serrez redirigé quand quelqu'un arrivera" style="color:#FFCC00;font-size:36px;" />
+        <f:event listener="#{profilBean.addInfo()}" type="postValidate"/>
     </c:if>
 
 
