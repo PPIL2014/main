@@ -104,6 +104,31 @@ public class Utilisateur implements Serializable {
         return contactsByName;
     }
     
+    public Contact.Type getTypeContact(String pseudo){
+        for(Contact c : this.contacts){
+            if(c.getEstEnContactAvec().getPseudo() == pseudo){
+                return c.getType();
+            }
+        }
+        return null;
+    }
+    
+    public void confirmerAmitie(String pseudo){
+        for(Contact c : this.contacts){
+            if(c.getEstEnContactAvec().getPseudo() == pseudo){
+                c.setType(Contact.Type.AMI);
+            }
+        }
+    }
+    
+    public void refuserAmitie(String pseudo){
+        for(Contact c : this.contacts){
+            if(c.getEstEnContactAvec().getPseudo() == pseudo){
+                c.setType(Contact.Type.REFUSE);
+            }
+        }
+    }
+    
     public Conversation getConv(Utilisateur dest) {
         if(dest == null)
             return null ;

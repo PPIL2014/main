@@ -23,9 +23,10 @@ public class Contact implements Serializable {
         
     }
     
-    public Contact(boolean estAccepte, boolean estBloque, Utilisateur contact){
-        this.estAccepte = estAccepte;
-        this.estBloque = estBloque;
+    public Contact(Type type, Utilisateur contact){
+        /*this.estAccepte = estAccepte;
+        this.estBloque = estBloque;*/
+        this.type = type;
         this.estEnContactAvec = contact;
     }
     
