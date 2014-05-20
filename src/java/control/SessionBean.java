@@ -103,7 +103,7 @@ public class SessionBean {
         return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente");
     }
     
-    public String connecter() { 
+   public String connecter() { 
         FacesContext context = FacesContext.getCurrentInstance(); 
         this.utilisateur = em.find(Utilisateur.class, this.pseudo);
         if (this.utilisateur != null) { 
@@ -116,13 +116,20 @@ public class SessionBean {
                     this.utilisateur.getSession().setEstConnecte(Boolean.TRUE);
                     this.ut.begin();
                     this.em.merge(this.utilisateur);
-                    
-                    
+                    HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+                    session.setAttribute("pseudoUtilisateur", utilisateur.getPseudo());
+                    session.setAttribute("user", utilisateur);
                     ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                    if(servletContext.getAttribute("listeUtilisateursConnecte") == null){
+                        servletContext.setAttribute("listeUtilisateursConnecte", new ArrayList<String>());
+                    }
+                ArrayList<String> listeConnecte = (ArrayList<String>)servletContext.getAttribute("listeUtilisateursConnecte");
+                listeConnecte.add(utilisateur.getPseudo());
+                    /*ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
                     
                     ArrayList<Utilisateur> listeAttente = new ArrayList<>();
                     
-                    servletContext.setAttribute("listeUtilisateursAttente", listeAttente);
+                    servletContext.setAttribute("listeUtilisateursAttente", listeAttente);*/
                     
                     this.ut.commit();
                     ((HttpSession)context.getExternalContext().getSession(true)).setAttribute("pseudoUtilisateur", this.utilisateur.getPseudo());

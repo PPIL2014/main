@@ -151,6 +151,8 @@
 
                     <p:remoteCommand name="nextEvent" actionListener="#{eventProfilBean.lastEvent}" 
                                      oncomplete="updatePage(xhr, status, args);"/> 
+                                <p:remoteCommand name="setSession" actionListener="#{chatBean.initSessionChat(evt)}"/>
+                    
                     <script type="text/javascript">
                         updatePage(null, null, null);
 
@@ -161,6 +163,7 @@
                                 {
                                     if (args.type == "goChat")
                                     {
+                                        setSession();
                                         document.location = 'chat.xhtml'
                                         return;
                                     }

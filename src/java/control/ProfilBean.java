@@ -64,6 +64,9 @@ public class ProfilBean {
     
     public ArrayList<Utilisateur> getListeUtilisateurAttente () {
         ServletContext servletContext = (ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext();
+        if(servletContext.getAttribute("listeUtilisateursAttente") == null){
+            servletContext.setAttribute("listeUtilisateursAttente", new ArrayList<Utilisateur>());
+        }
         return (ArrayList<Utilisateur>)servletContext.getAttribute("listeUtilisateursAttente") ;
     }
     
