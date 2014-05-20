@@ -11,7 +11,7 @@
        
         
                 <p:accordionPanel value="#{signalementProfilBean.listeSignalementsProfils}" var="signalement">
-                    <p:tab title="">
+                    <p:tab title="#{signalement.utilisateurSignale.pseudo}">
                         <h:panelGrid columns="2" cellpadding="10">
                             <p:row>
                         <p:column>

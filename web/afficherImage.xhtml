@@ -4,6 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
+
     <h:head>
         <link href="default.css" rel="stylesheet" type="text/css"></link>
         <title>Date Roulette</title>
@@ -32,6 +33,8 @@
                 
                 <h1>#{imageBean.image.id} : #{imageBean.image.nom}</h1>
                 
+                <p:graphicImage url="#{imageBean.image.url}" width="144px" height="144px"/>
+                
                 <div id="signaler">
                     <h:form>
                         <h:commandButton value="Signaler" onclick="dlgSignaler.show()">
@@ -41,9 +44,9 @@
 
                         <p:confirmDialog id="signalerPhoto" message="Pour signaler la photo #{imageBean.image.nom}, veuillez ajouter le motif du signalement et cliquer sur SIGNALER" header="Signaler" severity="alert" widgetVar="dlgSignaler">
 
-                                <h:inputTextarea id="motif" value ="#{signalementPhotoBean.motif}" required="true" rows="4" cols="100" />
+                            <h:inputTextarea id="motif" value ="#{imageBean.motif}" required="true" rows="4" cols="100" />
 
-                                <h:commandButton id="signaler" value="SIGNALER" binding="#{signalementPhotoBean.boutonSignaler}" action="#{signalementPhotoBean.signaler(imageBean.image.id)}">
+                                <h:commandButton id="signaler" value="SIGNALER" binding="#{signalementPhotoBean.boutonSignaler}" action="#{signalementPhotoBean.signaler(imageBean.image.id, imageBean.motif)}">
                                     <f:param name="idImg" value="#{imageBean.image.id}"/>
                                     <f:param name="nom" value="#{imageBean.image.galerie.nom}"/>
                                 </h:commandButton>

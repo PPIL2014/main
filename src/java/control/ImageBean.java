@@ -15,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.application.FacesMessage;
@@ -38,6 +40,7 @@ import javax.transaction.UserTransaction;
 import model.Galerie;
 import model.Image;
 import model.Utilisateur;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 /**
  *
@@ -77,6 +80,11 @@ public class ImageBean {
     private Part file;
     
     /**
+     * Motif signalement
+     */
+    private String motif;
+    
+    /**
      * Creates a new instance of ImageBean
      */
     public ImageBean() {
@@ -85,13 +93,13 @@ public class ImageBean {
     @PostConstruct
     public void init(){
         FacesContext context = FacesContext.getCurrentInstance();
-        System.err.println("id : "+context.getExternalContext().getRequestParameterMap().get("idImg"));
+        //System.err.println("id : "+context.getExternalContext().getRequestParameterMap().get("idImg"));
         if(context.getExternalContext().getRequestParameterMap().containsKey("idImg")){
             image = em.find(Image.class, Long.parseLong(context.getExternalContext().getRequestParameterMap().get("idImg")));
         }
     }
     
-    public String ajouterImage() throws IOException {
+    public String ajouterImage() {
         FacesContext context = FacesContext.getCurrentInstance();
         utilisateur = getUtilisateurSession();
         if(galerie==null){
@@ -112,19 +120,25 @@ public class ImageBean {
         image.setGalerie(galerie);
         image.setDate(new Date());
         image.setDescription("Ecrivez ici la description de votre image");
-        
         try {
+            Date d = new Date();
+            DateFormat f = new SimpleDateFormat("d-M-y");
+            upload();
+            image.setUrl(System.getProperty("user.home")+"/images_ppil/"+f.format(d)+"/"+utilisateur.getPseudo()+"/"+ this.utilisateur.getPseudo() + "_" + this.image.getNom()+"."+this.getTypeFile(file));
 
             ut.begin();
             em.persist(image);
             em.merge(galerie);
             ut.commit();
+            
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Image ajoutée", null));
 
-        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+        } catch (NotSupportedException | SystemException | RollbackException 
+                | HeuristicMixedException | HeuristicRollbackException | SecurityException 
+                | IllegalStateException | IOException ex) {
+            ex.printStackTrace();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur lors du televersement de l'image", null));
         }
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Image ajoutée", null));
-
-        upload();
         
         return "afficherGalerie.xhtml";
         
@@ -138,10 +152,11 @@ public class ImageBean {
         //System.err.println("user home : "+System.getProperty("user.home"));
         Date d = new Date();
         DateFormat f = new SimpleDateFormat("d-M-y");
-        File rep = new File(System.getProperty("user.home") + "/"+f.format(d)+"/");
+        File rep = new File(System.getProperty("user.home")+"/images_ppil/"+f.format(d)+"/"+utilisateur.getPseudo()+"/");
         if(!rep.exists() || !rep.isDirectory())
-            rep.mkdir();
-        File image = new File(System.getProperty("user.home") + "/"+f.format(d)+"/"+ this.utilisateur.getPseudo() + "_" + this.image.getNom()+"."+this.getTypeFile(file));
+            rep.mkdirs();
+        File image = new File(System.getProperty("user.home")+"/images_ppil/"+f.format(d)+"/"+utilisateur.getPseudo()+"/"+ this.utilisateur.getPseudo() + "_" + this.image.getNom()+"."+this.getTypeFile(file));
+        System.err.println("rep exist : "+image.getAbsolutePath());
         FileOutputStream output = new FileOutputStream(image);
         byte[] buf = new byte[1024];
         int len;
@@ -166,9 +181,11 @@ public class ImageBean {
         /* if (file.getSize() > 1024) {
          msgs.add(new FacesMessage("file too big"));
          }*/
-        if (!"image/jpeg".equals(file.getContentType())) {
+        if (!"image/jpeg".equals(file.getContentType())
+                && !"image/png".equals(file.getContentType())) {
             msgs.add(new FacesMessage("Type not supported"));
         }
+        
         if (!msgs.isEmpty()) {
             throw new ValidatorException(msgs);
         }
@@ -226,6 +243,14 @@ public class ImageBean {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public String getMotif() {
+        return motif;
+    }
+
+    public void setMotif(String motif) {
+        this.motif = motif;
     }
     
 }
