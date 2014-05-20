@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
@@ -7,3 +8,42 @@
         </group>
     </open-files>
 </project-private>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/MessagerieAsynchrone.xhtml</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/GestionMessagerie.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/rechercherAmis.xhtml</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/model/Image.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/model/SignalementImage.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/conf/persistence.xml</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/ImageBean.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/signalementsProfil.xhtml</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/index.xhtml</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/chat.xhtml</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/autreProfil.xhtml</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/ajout-question.xhtml</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/ajouterImage.xhtml</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/Messagerie.xhtml</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/model/Galerie.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/SignalementProfilBean.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/afficherGalerie.xhtml</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/ChatBean.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/model/SignalementUtilisateur.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/afficherImage.xhtml</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/profil.xhtml</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/ajouterGalerie.xhtml</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/ProfilBean.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/InscriptionBean.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/model/Signalement.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/SignalementPhotoBean.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/outilsAdmin.xhtml</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/GaleriesBean.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/signalementsPhoto.xhtml</file>
+        </group>
+    </open-files>
+</project-private>
+>>>>>>> GroupeE

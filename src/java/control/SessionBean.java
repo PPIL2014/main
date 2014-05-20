@@ -22,7 +22,8 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
-import model.*;
+import model.Session;
+import model.Utilisateur;
 
 
 @ManagedBean
@@ -113,7 +114,12 @@ public class SessionBean {
             } else {
                 try {
                     context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Vous êtes connecté en tant que " + this.utilisateur.getPseudo() + " !", null));
-                    this.utilisateur.getSession().setEstConnecte(Boolean.TRUE);
+                    if(this.utilisateur.getSession()!=null)
+                        this.utilisateur.getSession().setEstConnecte(Boolean.TRUE);
+                    else{
+                        this.utilisateur.setSession(new Session());
+                        this.utilisateur.getSession().setEstConnecte(Boolean.TRUE);
+                    }
                     this.ut.begin();
                     this.em.merge(this.utilisateur);
                     

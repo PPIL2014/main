@@ -27,22 +27,19 @@ public class Signalement implements Serializable {
     private Long id;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
-    private String description;
-    private Boolean estTraitee;
-    private Boolean estEnCoursDeTraitement;
-    private Boolean estEnAttente;
+    private String motif;
+    private boolean estTraitee= false;
+    
     @OneToOne
     private Utilisateur emetteur;
     
+    public Signalement(){
+    }
     public Boolean enCoursDeTraitement() {
         return null;
     }
 
     public Boolean traitee() {
-        return null;
-    }
-
-    public Boolean enAttente() {
         return null;
     }
 
@@ -54,12 +51,12 @@ public class Signalement implements Serializable {
         this.date = date;
     }
 
-    public String getDescription() {
-        return description;
+    public String getMotif() {
+        return motif;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setMotif(String motif) {
+        this.motif = motif;
     }
 
     public Boolean getEstTraitee() {
@@ -70,22 +67,7 @@ public class Signalement implements Serializable {
         this.estTraitee = estTraitee;
     }
 
-    public Boolean getEstEnCoursDeTraitement() {
-        return estEnCoursDeTraitement;
-    }
-
-    public void setEstEnCoursDeTraitement(Boolean estEnCoursDeTraitement) {
-        this.estEnCoursDeTraitement = estEnCoursDeTraitement;
-    }
-
-    public Boolean getEstEnAttente() {
-        return estEnAttente;
-    }
-
-    public void setEstEnAttente(Boolean estEnAttente) {
-        this.estEnAttente = estEnAttente;
-    }
-
+   
     public Utilisateur getEmetteur() {
         return emetteur;
     }

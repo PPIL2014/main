@@ -12,7 +12,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -34,6 +33,7 @@ public class Utilisateur implements Serializable {
     private String mail;
     private String telephone;
     private String mdp;
+    private Boolean administrateur = false;
     private Boolean estDesinscrit;
     private Boolean estBloque;
     private Boolean estSupprime;
@@ -44,6 +44,13 @@ public class Utilisateur implements Serializable {
      */
     @OneToMany
     private Collection<Galerie>  galeries;
+     /**
+     * 
+     * @element-type SignalementUtilisateur
+     */
+    @OneToMany
+    private Collection<SignalementUtilisateur>  signalementsUtilisateur = new ArrayList<SignalementUtilisateur>();
+    
     /**
      * 
      * @element-type Utilisateur
@@ -161,6 +168,14 @@ public class Utilisateur implements Serializable {
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
+
+    public Boolean getAdministrateur() {
+        return administrateur;
+    }
+    public void setAdministrateur(Boolean administrateur) {
+        this.administrateur = administrateur;
+    }
+    
     public Boolean getEstDesinscrit() {
         return estDesinscrit;
     }
@@ -183,8 +198,16 @@ public class Utilisateur implements Serializable {
         return galeries;
     }
     public void setGaleries(Collection<Galerie> galeries) {
-        this.galeries = galeries;
+        this.galeries = galeries;    
     }
+    
+    public Collection<SignalementUtilisateur> getSignalementsUtilisateur() {
+        return signalementsUtilisateur;
+    }
+    public void setSignalementsUtilisateur(Collection<SignalementUtilisateur> signalementsUtilisateur) {
+        this.signalementsUtilisateur = signalementsUtilisateur;
+    }
+    
     public Collection<Contact> getContacts() {
         return contacts;
     }
@@ -277,6 +300,7 @@ public class Utilisateur implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
+        
         if (obj == null) {
             return false;
         }
@@ -284,10 +308,8 @@ public class Utilisateur implements Serializable {
             return false;
         }
         final Utilisateur other = (Utilisateur) obj;
-        if (!Objects.equals(this.pseudo, other.pseudo)) {
-            return false;
-        }
-        return true;
+
+        return this.pseudo.equals(other.pseudo);
     }
     
     public void ajouterReponseQCM(ReponseQCM rep){
