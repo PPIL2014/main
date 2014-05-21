@@ -45,15 +45,15 @@ and open the template in the editor.
                    <!-- POPUP : QUITTER LE CHAT-->
                    <h:form>
                         <p style="float: right;">
-                            <h:commandButton value="Suivant" onclick="dlgSuivChat.show()">
+                            <h:commandButton value="Suivant" onclick="dlgSuivChat.show();">
                                 <f:ajax execute="@form" render="@none" />
                             </h:commandButton>
 
-                            <h:commandButton value="Signaler" onclick="dlgSignaler.show()">
+                            <h:commandButton value="Signaler" onclick="dlgSignaler.show();">
                                 <f:ajax execute="@form" render="@none" />
                             </h:commandButton>
                             
-                            <h:commandButton value="Quitter" onclick="dlgFinChat.show()">
+                            <h:commandButton value="Quitter" onclick="dlgFinChat.show();">
                                 <f:ajax execute="@form" render="@none" />
                             </h:commandButton>
                             
@@ -114,10 +114,10 @@ and open the template in the editor.
                              
                    <script type="text/javascript">    
                         updatePage(null,null,null);
-                        var dlgFinChatSubi ;
-                        var dlgSuivChat ;
-                        var dlgFinChat ;
-                        var dlgSignaler ;
+                        var dlgFinChatSubi;
+                        var dlgSuivChat;
+                        var dlgFinChat;
+                        var dlgSignaler;
                         
                         function eraseInputText(){
                             document.getElementById("FormPrincipal:message").value = "";
