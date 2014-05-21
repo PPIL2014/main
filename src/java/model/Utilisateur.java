@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -44,6 +45,13 @@ public class Utilisateur implements Serializable {
      */
     @OneToMany
     private Collection<Galerie>  galeries;
+	/**
+     * 
+     * @element-type SignalementUtilisateur
+     */
+    @OneToMany
+    private Collection<SignalementUtilisateur>  signalementsUtilisateur = new ArrayList<SignalementUtilisateur>();
+    
     /**
      * 
      * @element-type Utilisateur
@@ -109,6 +117,43 @@ public class Utilisateur implements Serializable {
                 return conv ;
         return null ;
     }
+	
+	/*
+	pour le moment les 4 fonction suivante ne servent pas mais il faut les garder !
+	*/
+	public Contact.Type getTypeContact(String pseudo){
+        for(Contact c : this.contacts){
+            if(c.getEstEnContactAvec().getPseudo() == pseudo){
+                return c.getType();
+            }
+        }
+        return null;
+    }
+    
+    public void confirmerAmitie(String pseudo){
+        for(Contact c : this.contacts){
+            if(c.getEstEnContactAvec().getPseudo() == pseudo){
+                c.setType(Contact.Type.AMI);
+            }
+        }
+    }
+    
+    public void refuserAmitie(String pseudo){
+        for(Contact c : this.contacts){
+            if(c.getEstEnContactAvec().getPseudo() == pseudo){
+                c.setType(Contact.Type.REFUSE);
+            }
+        }
+    }
+    
+    public Conversation getConv(Utilisateur dest) {
+        if(dest == null)
+            return null ;
+        for (Conversation conv : dest.getConversations())
+            if(conv.getExpediteur().getPseudo().equals(pseudo))
+                return conv ;
+        return null ;
+    }
     
     public String getPseudo() {
         return pseudo;
@@ -158,6 +203,12 @@ public class Utilisateur implements Serializable {
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
+	public Boolean getAdministrateur() {
+        return administrateur;
+    }
+    public void setAdministrateur(Boolean administrateur) {
+        this.administrateur = administrateur;
+    }
     public Boolean getEstDesinscrit() {
         return estDesinscrit;
     }
@@ -181,6 +232,12 @@ public class Utilisateur implements Serializable {
     }
     public void setGaleries(Collection<Galerie> galeries) {
         this.galeries = galeries;
+    }
+	public Collection<SignalementUtilisateur> getSignalementsUtilisateur() {
+        return signalementsUtilisateur;
+    }
+    public void setSignalementsUtilisateur(Collection<SignalementUtilisateur> signalementsUtilisateur) {
+        this.signalementsUtilisateur = signalementsUtilisateur;
     }
     public Collection<Contact> getContacts() {
         return contacts;

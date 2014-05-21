@@ -9,13 +9,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -75,13 +73,16 @@ public class UploadBean {
 
     public void upload() throws IOException {
         utilisateur = getUtilisateurSession();
-        if(utilisateur.getAvatar() == null){
+        /*if(utilisateur.getAvatar() == null){
             Image avatar = new Image();
             avatar.setDate(new Date());
-            avatar.setNom(this.utilisateur.getPseudo() + "."+ this.getTypeFile(file));
+            avatar.setNom(this.utilisateur.getPseudo() + "."+ this.getTypeFile(file)+(Math.random()+1)*100);
             avatar.setDescription("file://"+System.getProperty("user.home") + "/dateImages/" + this.utilisateur.getPseudo() + "." + this.getTypeFile(file));
         }
-        else if (utilisateur != null) {
+        else*/ if (utilisateur != null) {
+            if(utilisateur.getAvatar()==null){
+                utilisateur.setAvatar(new Image());
+            }
             utilisateur.getAvatar().setDate(new Date());
             utilisateur.getAvatar().setNom(this.utilisateur.getPseudo() + "."+ this.getTypeFile(file));
             utilisateur.getAvatar().setDescription("file://"+System.getProperty("user.home") + "/dateImages/" + this.utilisateur.getPseudo() + "." + this.getTypeFile(file));
@@ -96,8 +97,14 @@ public class UploadBean {
             }
 
             InputStream input = file.getInputStream();
-            File image = new File(System.getProperty("user.home") + "/dateImages/" + this.utilisateur.getPseudo() + "." + this.getTypeFile(file));
-            FileOutputStream output = new FileOutputStream(new File(image, ""));
+            System.err.println("user home : "+System.getProperty("user.home"));
+            Date d = new Date();
+            DateFormat f = new SimpleDateFormat("d-M-y");
+            File rep = new File(System.getProperty("user.home") + "/"+f.format(d)+"/");
+            if(!rep.exists() || !rep.isDirectory())
+                rep.mkdir();
+            File image = new File(System.getProperty("user.home") + "/"+f.format(d)+"/"+ this.utilisateur.getPseudo() + "." + this.getTypeFile(file));
+            FileOutputStream output = new FileOutputStream(image);
             byte[] buf = new byte[1024];
             int len;
             while ((len = input.read(buf)) > 0) {
@@ -115,9 +122,9 @@ public class UploadBean {
         /* if (file.getSize() > 1024) {
          msgs.add(new FacesMessage("file too big"));
          }*/
-        /* if (!"image/jpeg".equals(file.getContentType())) {
-         msgs.add(new FacesMessage("Type not supported"));
-         }*/
+        if (!"image/jpeg".equals(file.getContentType())) {
+            msgs.add(new FacesMessage("Type not supported"));
+        }
         if (!msgs.isEmpty()) {
             throw new ValidatorException(msgs);
         }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+   <h:head>
+        <title>DateRoulette : FAQ</title>
+         <link href="default.css" rel="stylesheet" type="text/css" media="screen" />
+    </h:head>
+    <h:body>
+         <div id="header-wrapper">
+                <div id="header">
+                        <div id="logo">
+                        <h1><a href="#">DateRoulette</a></h1>
+                        </div>
+                </div>
+        </div>
+		
+        <div id="menu-wrapper">
+                <div id="menu">
+                    <h:form>
+                        <ul>
+                            <li><h:commandLink value="Accueil" action="index.xhtml"/></li>
+                            <li><h:commandLink value="Ma page" action="profil.xhtml"/></li>
+                            <li><h:commandLink value="Contact" action="#"/></li>
+                            <li><h:commandLink value="Accueil" action="Messagerie.xhtml"/></li>
+                            <li><h:commandLink value="Chat" action="chat.xhtml"/></li>
+                            <li><h:commandLink value="Déconnexion" action="#{sessionBean.deconnecter()}"/></li>
+                        </ul>
+                    </h:form>
+                </div>
+        </div>
+        <h:form>
+            <p:accordionPanel value="#{faqBean.FAQ}" var="item">
+                <p:tab title="#{item.questionFAQ}">
+                    <b><h:outputText value="#{item.reponseFAQ}"/></b>
+                </p:tab>
+            </p:accordionPanel>
+        
+            
+        </h:form>
+        
+        <div id="footer-wrapper">
+            <div id="footer">
+                <ul>
+                    <li><a href="#">CGU</a></li>
+                    <li><a href="faq.xhtml">FAQ</a></li>
+                    <li><a href="#">Contactez-nous</a></li>
+                </ul>
+            </div>
+        </div>
+        <br />
+    </h:body>
+</html>
