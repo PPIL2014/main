@@ -132,7 +132,10 @@ public class SessionBean {
             
             this.ut.begin();
             Utilisateur u= getUtilisateurSession() ;
-            u.getSessionChatDemarree().setEstDemarree(false);
+            SessionChat sc = u.getSessionChatDemarree();
+            if (sc != null)
+                sc.setEstDemarree(false);
+            
             this.em.merge(u);
             this.ut.commit();
             
