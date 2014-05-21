@@ -38,8 +38,7 @@
                             <h:panelGrid columns="2" cellpadding="20">
                                 
                                 <h:graphicImage id="img" url="#{item.imageSignalee}" width="144px" height="144px"/>
-                                <p:overlayPanel id="imgPanel" for="img" showEffect="blind" hideEffect="explode" showEvent="mouseover" hideEvent="mouseout"
-                dismissable="false" showCloseIcon="false"/>
+                                <p:overlayPanel id="imgPanel" for="img" showEffect="blind" hideEffect="explode" showEvent="mouseover" hideEvent="mouseout" dismissable="false" showCloseIcon="false"/>
                                 
                                 <b><h:outputText value="#{item.imageSignalee.nom}"/></b><br/>
                                 <h:outputText value="#{item.motif}"/>
