@@ -27,7 +27,6 @@
                 <!-- end #menu --> 
             </div>
             <div id="page" class="container">
-
                 <h:form enctype="multipart/form-data">
                     Nom : <h:inputText id="nomImg" value="#{imageBean.nomImage}" required="true" requiredMessage="Nom de l'image requis"/>
                         <h:inputFile id="file" value="#{imageBean.file}" validator="#{imageBean.validateFile}"/>
@@ -40,7 +39,6 @@
                         <f:param name="nom" value="#{param.nom}"/>
                     </h:commandButton>
                 </h:form>
-
             </div>
         </div>
 
@@ -57,3 +55,6 @@
 
     </h:body>
 </html>
+
+
+  

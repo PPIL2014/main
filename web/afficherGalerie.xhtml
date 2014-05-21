@@ -33,6 +33,7 @@
                 <h1>#{galeriesBean.nomGalerie}</h1>
 
                 <h:form>
+                    <h:commandButton value="Retour à la liste des galeries" action="listeGaleries.xhtml" type="submit"/>
                     <h:commandButton value="Ajouter une image" action="ajouterImage.xhtml" type="submit">
                         <f:param name="nom" value="#{galeriesBean.nomGalerie}"/>
                     </h:commandButton>

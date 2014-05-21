@@ -29,6 +29,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.transaction.HeuristicMixedException;
@@ -124,7 +125,8 @@ public class ImageBean {
             Date d = new Date();
             DateFormat f = new SimpleDateFormat("d-M-y");
             upload();
-            image.setUrl(System.getProperty("user.home")+"/images_ppil/"+f.format(d)+"/"+utilisateur.getPseudo()+"/"+ this.utilisateur.getPseudo() + "_" + this.image.getNom()+"."+this.getTypeFile(file));
+            String path = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("resources/images/"+utilisateur.getPseudo()+"/"+nomGalerie+"/");
+            image.setUrl(path.substring(path.indexOf("resources"))+"/"+this.utilisateur.getPseudo() + "_" + this.image.getNom()+"."+this.getTypeFile(file));
 
             ut.begin();
             em.persist(image);
@@ -145,18 +147,16 @@ public class ImageBean {
     }
     
     public void upload() throws IOException {
-        //utilisateur = getUtilisateurSession();
-        //ajouterImage();
-        //System.err.println("file : "+FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("file"));
         InputStream input = file.getInputStream();
-        //System.err.println("user home : "+System.getProperty("user.home"));
-        Date d = new Date();
-        DateFormat f = new SimpleDateFormat("d-M-y");
-        File rep = new File(System.getProperty("user.home")+"/images_ppil/"+f.format(d)+"/"+utilisateur.getPseudo()+"/");
+        /*Date d = new Date();
+        DateFormat f = new SimpleDateFormat("d-M-y");*/
+        String path = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("resources/images/"+utilisateur.getPseudo()+"/"+nomGalerie+"/");
+        File rep = new File(path);
         if(!rep.exists() || !rep.isDirectory())
             rep.mkdirs();
-        File image = new File(System.getProperty("user.home")+"/images_ppil/"+f.format(d)+"/"+utilisateur.getPseudo()+"/"+ this.utilisateur.getPseudo() + "_" + this.image.getNom()+"."+this.getTypeFile(file));
+        File image = new File(path+"/"+ this.utilisateur.getPseudo() + "_" + this.image.getNom()+"."+this.getTypeFile(file));
         System.err.println("rep exist : "+image.getAbsolutePath());
+        System.err.println("path : "+path);
         FileOutputStream output = new FileOutputStream(image);
         byte[] buf = new byte[1024];
         int len;
@@ -166,6 +166,13 @@ public class ImageBean {
         input.close();
         output.close();
 
+    }
+    
+    public String getImagePath(){
+        if(image!=null)
+            return image.getUrl();
+        else
+            return "";
     }
 
     public Utilisateur getUtilisateurSession() {
@@ -178,7 +185,7 @@ public class ImageBean {
     public void validateFile(FacesContext ctx, UIComponent comp, Object value) {
         List<FacesMessage> msgs = new ArrayList<>();
         Part file = (Part) value;
-        /* if (file.getSize() > 1024) {
+        /*if (file.getSize() > 1024) {
          msgs.add(new FacesMessage("file too big"));
          }*/
         if (!"image/jpeg".equals(file.getContentType())

@@ -76,14 +76,12 @@ public class GaleriesBean {
 
             } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
             }
-
             return "afficherGalerie.xhtml";
 
         }
     }
 
     public Collection<Galerie> getGaleries() {
-
         utilisateur=getUtilisateurSession();
         if(utilisateur!=null)
             return utilisateur.getGaleries();
@@ -91,7 +89,6 @@ public class GaleriesBean {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Veuillez vous connecter pour acceder à la galerie", null));
             return null;
         }
-
     }
 
     public Utilisateur getUtilisateurSession() {
@@ -116,4 +113,7 @@ public class GaleriesBean {
         List<Image> results = (List<Image>) q.getResultList();
         return results;
     }
+
+    
+    
 }

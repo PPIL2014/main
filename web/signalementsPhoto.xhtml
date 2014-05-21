@@ -2,7 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>DateRoulette : Photos Signalées</title>
          <link href="default.css" rel="stylesheet" type="text/css" media="screen" />
@@ -32,25 +34,30 @@
             
                     <p:accordionPanel value="#{signalementPhotoBean.consulterSignalementsImage()}" var="item">
                 
-                    
+                        
                         <p:tab title="#{item.imageSignalee.nom}">
-                            <h:panelGrid columns="2" cellpadding="20">
-                                
-                                <p:graphicImage id="img" url="resources/images/apercu.png" width="30px" height="30px"/>
-                                                   <p:overlayPanel id="imgPanel" for="img" showEffect="blind" hideEffect="explode" showEvent="mouseover" hideEvent="mouseout"
-                dismissable="false" showCloseIcon="false">
-                                    <p:graphicImage id="img2" url="#{item.imageSignalee}" width="144px" height="144px"/>
-                 
-                                </p:overlayPanel>
-                                
-                                <b><h:outputText value="#{item.imageSignalee.nom}"/></b><br/>
-                                <h:outputText value="#{item.motif}"/>
+                            <h:panelGrid columns="2" width="100" cellpadding="20">
+                                <h:outputText value="Signalé par : "/>
+                                <h:outputText value="#{item.emetteur.pseudo}"/>
+                                <h:outputText value="Appartient à : "/>
+                                <h:outputText value="#{item.imageSignalee.galerie.proprietaire.pseudo}"/>
+                                <p:graphicImage id="img" value="resources/images/apercu.png" width="64px" height="64px"/>
+                                <p:accordionPanel dir="rtl">
+                                    <p:tab title="motif">
+                                        <h:outputText value="#{item.motif}"/>
+                                    </p:tab>
+                                </p:accordionPanel>
                                 <h:commandButton value="OK" action="#{signalementPhotoBean.traiterOk(item)}"/>
                                 <h:commandButton value="PAS OK" action="#{signalementPhotoBean.traiterPasOk(item)}"/>
                             </h:panelGrid>
+                            <p:overlayPanel id="imgPanel" for="img" showEffect="blind" hideEffect="blind" showEvent="mouseover" hideEvent="mouseout" dismissable="false" showCloseIcon="false">
+                                <p:graphicImage id="img2" value="#{item.imageSignalee.url}" alt="resources/images/apercu.png"/>
+                            </p:overlayPanel>
                         </p:tab>
 
                     </p:accordionPanel>
+            
+        
         </h:form>
         
         <div id="footer-wrapper">

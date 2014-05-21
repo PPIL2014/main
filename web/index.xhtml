@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <link href="default.css" rel="stylesheet" type="text/css"></link>
         <title>Date Roulette</title>
@@ -58,23 +59,49 @@
                                 <h:commandButton value="Login" action="#{sessionBean.connecter}" style="width: 100%">
                                 </h:commandButton>
                             </td>
+                            <td>
+                                <a href="inscription.xhtml">s'inscrire</a>
+                            </td>
                         </tr>
                     </table>
                 </h:form>
-                <h:form><h:commandButton value="s'inscrire" action="inscription.xhtml"></h:commandButton></h:form>
             </div>
         </div>
+        
+        <p:accordionPanel> 
+                  <p:tab title="Qu-est ce que DateRoulette ?    ">
+                    <h:outputText value="DateRoulette est un site de rencontre gratuit par affinités où vous êtes aléatoirement mis en contact avec des personnes qui vous correspondent dans un chat."/>
+                    <br/><h:outputText value="Que vous cherchiez l'amour, une relation sérieuse ou sans prise de tête, DateRoulette est fait pour vous."/>
+                    <br/><h:outputText value="La volonté de DateRoulette est de réunir des célibataires motivés aux affinités communes pour leur permettre de trouver le partenaire qui leur convient.
+" escape="false"/>
+                </p:tab>
+            
+              <p:tab title="Inscription">
+                    <h:outputText value="L'inscription est simple et rapide et vous permettra ensuite de rencontrer des célibataires qui vous correspondent et qui partagent vos centres d'intêrets." />
+                </p:tab>
+            
+                          <p:tab title="Chat">
+                    <h:outputText value="Le chat est véritablement le coeur du site, permettant aux célibataires de se découvrir."/>
+                   <br/> <h:outputText value="Pour rajouter du piment à la découverte, un mode 60 secondes chrono ne vous laisse qu'une minute pour décider si vous souhaitez envoyer une invitation à l'autre utilisateur." />
+                </p:tab>
+            
+             <p:tab title="Inscription">
+                    <h:outputText value="Nous respectons la confidentialité des utilisateurs, votre profil est visible uniquement par les personnes qui vous plaisent après que vous leur ayez envoyé une invitation." />
+                </p:tab>
+        </p:accordionPanel>
+
+        
+
 
         <div id="footer-wrapper">
             <div id="footer">
                 <ul>
                     <li><a href="#">CGU</a></li>
-                    <li><a href="#">FAQ</a></li>
+                    <li><a href="faces/faq.xhtml">FAQ</a></li>
                     <li><a href="#">Contactez-nous</a></li>
                 </ul>
             </div>
         </div>
         <br />
-        
     </h:body>
 </html>

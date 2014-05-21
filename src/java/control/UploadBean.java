@@ -83,7 +83,6 @@ public class UploadBean {
             if(utilisateur.getAvatar()==null){
                 utilisateur.setAvatar(new Image());
             }
-
             utilisateur.getAvatar().setDate(new Date());
             utilisateur.getAvatar().setNom(this.utilisateur.getPseudo() + "."+ this.getTypeFile(file));
             utilisateur.getAvatar().setDescription("file://"+System.getProperty("user.home") + "/dateImages/" + this.utilisateur.getPseudo() + "." + this.getTypeFile(file));
@@ -98,7 +97,6 @@ public class UploadBean {
             }
 
             InputStream input = file.getInputStream();
-
             System.err.println("user home : "+System.getProperty("user.home"));
             Date d = new Date();
             DateFormat f = new SimpleDateFormat("d-M-y");
@@ -107,7 +105,6 @@ public class UploadBean {
                 rep.mkdir();
             File image = new File(System.getProperty("user.home") + "/"+f.format(d)+"/"+ this.utilisateur.getPseudo() + "." + this.getTypeFile(file));
             FileOutputStream output = new FileOutputStream(image);
-
             byte[] buf = new byte[1024];
             int len;
             while ((len = input.read(buf)) > 0) {
@@ -128,7 +125,6 @@ public class UploadBean {
         if (!"image/jpeg".equals(file.getContentType())) {
             msgs.add(new FacesMessage("Type not supported"));
         }
-
         if (!msgs.isEmpty()) {
             throw new ValidatorException(msgs);
         }
