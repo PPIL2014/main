@@ -45,7 +45,7 @@ public class SessionBean {
     private UIComponent mdpText;*/
           
     public SessionBean() {
-         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         ArrayList<String> listeConnecte = (ArrayList<String>)servletContext.getAttribute("listeUtilisateursConnecte");
         if(listeConnecte == null){
             servletContext.setAttribute("listeUtilisateursConnecte", new ArrayList<String>() );
