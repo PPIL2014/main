@@ -41,8 +41,6 @@ public class ChatBean implements Serializable {
     
     private Date lastUpdate;
     
-    private ArrayList<Affinite> listeAffinite ;
-    
     /**
      * Permet de gérer la page de chat. Lors de l'arrivée sur cette page, si la liste d'attente n'éxiste aps elle est crée.
      */
@@ -55,9 +53,11 @@ public class ChatBean implements Serializable {
         if(servletContext.getAttribute("listeUtilisateursAttente60s") == null){
             servletContext.setAttribute("listeUtilisateursAttente60s", new ArrayList<Utilisateur>());
         }
+        if (servletContext.getAttribute("listeAffinite") == null) {
+            servletContext.setAttribute("listeAffinite", new ArrayList<Affinite>());
+        }
         
         lastUpdate = new Date(0);
-        listeAffinite = new ArrayList<Affinite> () ;
     }
  
     public Date getLastUpdate(){
@@ -131,6 +131,7 @@ public class ChatBean implements Serializable {
 
         //est-ce que l'on a déja calculé les affinité pour ce chatteur ?
         calculAffinite(u1) ;
+
         
         //on trouve un copain, si il y en a pas l'utilisateur attend
         u2 = obtenirChatteur (u1,type) ;
@@ -196,6 +197,11 @@ public class ChatBean implements Serializable {
         return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
     }
     
+    public ArrayList<Affinite> getListeAffinite () {
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        return (ArrayList<Affinite>) servletContext.getAttribute("listeAffinite") ;
+    }
+    
     public void envoyerMessage () throws Exception {
         if (!message.isEmpty())
         {
@@ -222,13 +228,36 @@ public class ChatBean implements Serializable {
         if (listeAttente.isEmpty())
             return null ;
 
+        //60s ou affinite, on choisit la personne suivante de la même manière
+        
+        if (listeAttente.size() == 1) {
+            //pas assez de gens, on l'ajoute aussi
+            return null ;
+        }
+        
+        //je cherche la meilleure affinite
+        double bestAffinite = 0.00 ;
+        Utilisateur chatteur = null ;
+        for (Affinite a : getListeAffinite()) {
+            if (a.getUtilisateur1().equals(u1)) {
+                if (a.getAffinite() > bestAffinite) {
+                    chatteur = a.getUtilisateur2() ;
+                }
+            } else if (a.getUtilisateur2().equals(u1)) {
+                if (a.getAffinite() > bestAffinite) {
+                    chatteur = a.getUtilisateur1() ;
+                }
+            }
+        }
+        return chatteur ;
+        /*
         if (u1.equals(listeAttente.get(0))) {
              if (u1.equals(listeAttente.get(listeAttente.size()-1)))
                  return null ;
              return listeAttente.remove(listeAttente.size()-1) ;
         }
         return listeAttente.remove(0) ;
-
+        */
     }
 
     private SessionChat obtenirChat(Utilisateur u1, Utilisateur u2, SessionChat.Type type) throws NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
@@ -482,6 +511,7 @@ public class ChatBean implements Serializable {
     }
 
     private void calculAffinite(Utilisateur u1) {
+        ArrayList<Affinite> listeAffinite = getListeAffinite() ;
         for (Affinite a : listeAffinite) {
             if (a.contientUtilisateur(u1))
                 return ;
