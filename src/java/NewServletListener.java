@@ -14,7 +14,9 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
-import model.*;
+import model.Contact;
+import model.FAQ;
+import model.Utilisateur;
 
 
 /*
@@ -62,13 +64,13 @@ public class NewServletListener implements ServletContextListener  {
             aziz.setTelephone("06");
             aziz.setAdministrateur(Boolean.TRUE);
             
-              Session session = new Session();
+             /* Session session = new Session();
                 session.setEstConnecte(Boolean.FALSE);
                 medi.setSession(session);
                 
                  Session session2 = new Session();
                 session2.setEstConnecte(Boolean.FALSE);
-                aziz.setSession(session2);
+                aziz.setSession(session2);*/
 
         
            Contact c1 = new Contact();

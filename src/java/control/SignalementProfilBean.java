@@ -5,17 +5,18 @@
  */
 package control;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.faces.application.FacesMessage;
-import javax.inject.Named;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -36,7 +37,7 @@ import model.Utilisateur;
 @ManagedBean
 @Named(value = "signalerProfilBean")
 @ViewScoped
-public class SignalementProfilBean {
+public class SignalementProfilBean implements Serializable {
 
     @PersistenceContext(unitName = "DateRoulettePU")
     private EntityManager em;
