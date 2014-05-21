@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+       <title>Profil de #{autreProfilBean.utilisateur.pseudo}</title>
+
+    </h:head>
+
+    <h:body>
+        <h:form>
+
+
+            Voici le profil de #{autreProfilBean.utilisateur.pseudo} ! <br/>
+            <hr/>
+            PSEUDO : <h:outputText id="pseudo" value="#{autreProfilBean.utilisateur.pseudo}"></h:outputText> 
+            <br/>
+            <h:graphicImage url="Photo" />
+
+            <br/><hr/><br/>     
+
+        </h:form>
+
+
+        <div id="page" class="container"> 
+
+
+            <h:form>
+
+                <h:commandButton value="Signaler" onclick="dlgSignaler.show()">
+                    <f:ajax execute="@form" render="@none" />
+                </h:commandButton>
+
+                <p:confirmDialog id="signalerUtilisateur" message="Pour signaler l'utilisateur #{autreProfilBean.utilisateur.pseudo}, veuillez ajouter le motif du signalement et cliquer sur SIGNALER" header="Signaler" severity="alert" widgetVar="dlgSignaler">
+                    <h:form >
+                        <h:inputTextarea id="motif" value ="#{signalementProfilBean.motif}" required="true" rows="4" cols="100" />
+
+                        <h:commandButton id="signaler" value="SIGNALER" binding="#{signalementProfilBean.boutonSignaler}" action="#{signalementProfilBean.signaler(chatBean.correspondant)}"/>
+
+                        <h:commandButton id="annulerSignalement" value="ANNULER"  action="autreProfil.xhtml" />
+                    </h:form>
+                </p:confirmDialog>
+
+
+
+            </h:form>
+            <!-- FIN POPUP : QUITTER LE CHAT-->
+            <br/><br/>
+
+            <hr/>
+
+
+
+            <script type="text/javascript">
+                updatePage(null, null, null);
+                var dlgFinChatSubi;
+                var dlgSuivChat;
+                var dlgFinChat;
+                var dlgSignaler;
+
+
+                function showDlgSignaler() {
+                    dlgSignaler.show();
+                }
+
+                function updatePage(xhr, status, args) {
+
+                    nextEvent();
+                }
+            </script> 
+
+        </div>  
+
+
+
+    </h:body>
+
+</html>

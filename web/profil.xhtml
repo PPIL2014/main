@@ -146,6 +146,11 @@
 
                     <br />
                     <h:commandButton value="CHAT" action="#{chatBean.chatAleatoire}"></h:commandButton>
+
+                    <c:if test="#{profilBean.utilisateurSession.administrateur}" >
+                        <h:commandButton value="Gestion du Site" action="outilsAdmin.xhtml"/>
+                    </c:if>
+
                     <h:commandButton value="AMIS" action="#{listeAmisBean.afficherAmis}"></h:commandButton>
                     <h:commandButton value="Rechercher des amis" action="#{listeAmisBean.rechercherAmis}"></h:commandButton> 
 

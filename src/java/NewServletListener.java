@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -14,7 +15,9 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
-import model.*;
+import model.Contact;
+import model.SignalementUtilisateur;
+import model.Utilisateur;
 
 
 /*
@@ -60,6 +63,7 @@ public class NewServletListener implements ServletContextListener  {
         aziz.setMail("@mail");
         aziz.setSexe("H");
         aziz.setTelephone("06");
+        aziz.setAdministrateur(Boolean.TRUE);
         
         
           Session session = new Session();
@@ -85,11 +89,28 @@ public class NewServletListener implements ServletContextListener  {
        cc2.add(c2);
        aziz.setContacts(cc2);
 
+       SignalementUtilisateur s = new SignalementUtilisateur();
+       s.setDate(new Date());
+       s.setEmetteur(aziz);
+       s.setEstTraitee(false);
+       s.setUtilisateurSignale(medi);
+       s.setMotif("Pas gentil, il embete les autres du site"
+               + "");
+       
+       SignalementUtilisateur s2 = new SignalementUtilisateur();
+       s2.setDate(new Date());
+       s2.setEmetteur(aziz);
+       s2.setEstTraitee(false);
+       s2.setUtilisateurSignale(medi);
+       s2.setMotif("Pas gentil, l'admin avait pas le droit de me signaler !");
+
         try {
             
             ut.begin();
             em.persist(medi);
             em.persist(aziz);
+            em.persist(s);
+            em.persist(s2);
             ut.commit();
             
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
