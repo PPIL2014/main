@@ -90,7 +90,7 @@ public class SignalementPhotoBean {
         this.boutonSignaler = boutonSignaler;
     }
     
-    public String signaler(long id) {
+    public String signaler(long id, String motif) {
         System.err.println("idphoto : "+id);
         photo=em.find(Image.class, id);
         System.err.println("photo : "+photo.getNom());
@@ -98,8 +98,9 @@ public class SignalementPhotoBean {
         user = (Utilisateur)em.find(Utilisateur.class,(String)session.getAttribute("pseudoUtilisateur"));
         System.out.println("user = "+user.getPseudo());
        //     user = em.find(Utilisateur.class, pseudo);
-        System.out.println("photo = "+photo);
-        motif = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("motif");
+        //System.out.println("photo = "+photo);
+        //motif = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("motif");
+        this.motif=motif;
         System.out.println("motif = "+motif);
         
       

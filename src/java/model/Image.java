@@ -34,6 +34,8 @@ public class Image implements Serializable {
     @OneToOne
     private Galerie galerie;
     
+    private String url;
+    
     public Boolean signaler() {
         return null;
     }
@@ -96,6 +98,14 @@ public class Image implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override

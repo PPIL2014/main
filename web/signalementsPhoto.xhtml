@@ -37,8 +37,12 @@
                         <p:tab title="#{item.imageSignalee.nom}">
                             <h:panelGrid columns="2" cellpadding="20">
                                 
-                                <h:graphicImage id="img" url="#{item.imageSignalee}" width="144px" height="144px"/>
-                                <p:overlayPanel id="imgPanel" for="img" showEffect="blind" hideEffect="explode" showEvent="mouseover" hideEvent="mouseout" dismissable="false" showCloseIcon="false"/>
+                                <p:graphicImage id="img" url="resources/images/apercu.png" width="30px" height="30px"/>
+                                                   <p:overlayPanel id="imgPanel" for="img" showEffect="blind" hideEffect="explode" showEvent="mouseover" hideEvent="mouseout"
+                dismissable="false" showCloseIcon="false">
+                                    <p:graphicImage id="img2" url="#{item.imageSignalee}" width="144px" height="144px"/>
+                 
+                                </p:overlayPanel>
                                 
                                 <b><h:outputText value="#{item.imageSignalee.nom}"/></b><br/>
                                 <h:outputText value="#{item.motif}"/>

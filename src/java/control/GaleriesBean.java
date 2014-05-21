@@ -105,7 +105,8 @@ public class GaleriesBean {
             }
         }*/
         //System.err.println("nom : "+FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nom"));
-        nomGalerie=FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nom");
+        if(nomGalerie==null)
+            nomGalerie=FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nom");
         Galerie g = em.find(Galerie.class, nomGalerie);
         Query q = em.createQuery("SELECT i FROM Image  i WHERE i.galerie=:g");
         q.setParameter("g", g);
