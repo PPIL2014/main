@@ -24,7 +24,7 @@ and open the template in the editor.
                 <div id="menu">
                     <h:form>
                         <ul>
-                            <li><h:commandLink value="Accueil" action="profil.xhtml"/></li>
+                            <li><h:commandLink value="Accueil" action="index.xhtml"/></li>
                             <li><h:commandLink value="Ma page" action="profil.xhtml"/></li>
                             <li><h:commandLink value="Contact" action="#"/></li>
                             <li><h:commandLink value="Accueil" action="Messagerie.xhtml"/></li>
@@ -40,81 +40,7 @@ and open the template in the editor.
                     <b><h:outputText value="#{item.reponseFAQ}"/></b>
                 </p:tab>
             </p:accordionPanel>
-             <p:accordionPanel> 
-                  <p:tab title="Comment puis-je m'inscrire ?">
-                    <h:outputText value="Pour vous inscrire cliquez sur le lien Inscription de la page d'accueil. &lt;br/&gt;
-                                     Il vous sera demander votre nom, prenom, pseudo ainsi qu'une adresse mail valide." escape="false"/>
-                </p:tab>
-                <p:tab title="Comment puis-je modifier mon profil ?">
-                    <h:outputText value="Accedez à votre profil et cliquez sur le bouton Modifier profil. &lt;br/&gt;
-                                     Vous aurez alors accès à un formulaire avec les champs préremplis par vos anciennes indications. Vous n'aurez qu'à les modifier et cliquer ensuite sur enregistrer." escape="false"/>
-                </p:tab>
-                <p:tab title="Comment améliorer la precision de mes affinités ?">
-                    <h:outputText value="Pour ameliorer la precision de vos affinités, il vous suffit de repondre aux questions des différents questionnaires mis à disposition par le site." escape="false"/>
-                </p:tab>
-                <p:tab title="Comment acceder au profil d'un autre utilisateur ?">
-                    <h:outputText value="Vous ne pouvez accéder au profil d'un autre utilisateur que s'il vous a envoyé une invitation. &lt;br/&gt;
-Ensuite, il vous suffit de cliquer sur son nom dans votre liste d'amis." escape="false"/>
-                </p:tab>
-                <p:tab title="Comment puis-je avertir l'administrateur d'un abus (profil ou photo) ?">
-                    <h:outputText value="Vous pouvez signaler une photo en accedant à la Galerie d'un autre utilisateur et en visionnant la photo en question. &lt;br/&gt;
-                                     Vous verrez un bouton indiquant Signaler. Vous n'aurez qu'à cliquer sur celui-ci puis à donner un motif pour le signalement. &lt;br/&gt;&lt;br/&gt;
-                                     Un administrateur s'occupant regulièrement des signalements de photos pourra alors la voir apparaitre comme photo signalée. &lt;br/&gt;
-                                     Il jugera de la justesse du signalement :&lt;br/&gt;
-                                     -Suppression si la photo est considéré comme un abus&lt;br/&gt;
-                                     -Relaxe si elle ne n'est pas considéré comme irrespectueuse des règles du site." escape="false"/>
-                </p:tab>
-                <p:tab title="Comment puis-je bloquer/débloquer un utilisateur ?">
-                    <h:outputText value="Sur le profil d'un utilisateur, il vous suffit de cliquer sur le bouton Bloquer. &lt;br/&gt;
-                                     Vous ne pourrez plus envoyer ou recevoir de messages de cette personne. &lt;br/&gt;&lt;br/&gt;
-                                     Pour la débloquer, sur la liste de personne que vous avez bloqué, accessible depuis la page d'accueil, cliquez sur le bouton Débloquer à coté du nom de la personne concernée." escape="false"/>
-                </p:tab>
-                <p:tab title="Comment puis-je voir les photos d'un ami ?">
-                    <h:outputText value="En accedant au profil de l'utilisateur en question (voir Comment acceder au profil d'un autre utilisateur ?). &lt;br/&gt;
-                                     Vous n'aurez qu'à cliquez sur Visiter la Galerie Photos." escape="false"/>
-                </p:tab>
-                <p:tab title="Comment puis-je ajouter/supprimer une/des photo(s) dans ma galerie ?">
-                    <h:outputText value="Depuis la page Galerie de photos, vous pouvez ajouter des photos en cliquant sur le lien Ajouter Photo." escape="false"/>
-                </p:tab>
-                <p:tab title="Je veux faire des rencontres, comment faire ?">
-                    <h:outputText value="Il vous suffit d'acceder au chat disponible depuis la page d'accueil du site (lorsque vous êtes connectés). Vous aurez alors le choix entre plusieurs mode de Chat : &lt;br/&gt;
-
-- Mode avec affinités :&lt;br/&gt;
-Ce mode permet d'utiliser les reponses aux questions des différents questionnaires auxquels vous avez repondu afin de trouver des personnes ayant des affinités les plus similaires aux votres.&lt;br/&gt;&lt;br/&gt;
-
-- Mode 60 secondes chrono :&lt;br/&gt;
-Si vous aimez le challenge, les courtes conversations ou ecnore entrer directement dans le vif du sujet, vous pouvez utiliser le mode 60 secondes chrono. &lt;br/&gt;
-Il consiste en la dematerialisation de la conversation du chat par la limitation de la duree de celle-ci, à savoir une limitation de 60 secondes, et par l'utilisation de la technologie sans support matériel fixes appelée Virtuel ou plus communément Le monde Virtuel. &lt;br/&gt;
-Vous aurez donc 60 secondes pour parler, draguer, rire, pleurer, bref seduire la personne avec qui vous serez en contact. Au bout de ces 60 secondes, il sera demander à vous même et à votre interlocuteur si vous voulez vous ajouter en ami. &lt;br/&gt;
-Selon votre prestation votre interlocuteur pourra repondre oui ou non, et vice versa.&lt;br/&gt;&lt;br/&gt;
-
-- Mode sans affinités :&lt;br/&gt;
-Ce mode est un chat banal, sans limitation de duree et sans recherche de personne ayant plus d'affinités avec vous (les reponses que vous avez fourni aux questionnaires ne seront pas prises en compte). &lt;br/&gt;
-Cela vous permet ainsi d'élargir vos horizons et de ne pas être nécessairement guidé par vos reponses aux questionnaires." escape="false"/>
-                </p:tab>
-                <p:tab title="Comment consulter ou envoyer des messageries privées ?">
-                    <h:outputText value="Depuis n'importe où, il suffit de trouver le bouton Acceder à ma messagerie" escape="false"/>
-                </p:tab>
-                <p:tab title="Comment desactiver/supprimer son compte ?">
-                    <h:outputText value="Sur votre profil, un bouton Gestion permet d'accéder à ces fonctionnalités. Ensuite, il vous suffit de cliquez sir le bouton qui concerne ce que vous souhaitez faire, et confirmer l'action." escape="false"/>
-                </p:tab>
-                <p:tab title="Comment me connecter ?">
-                    <h:outputText value="Sur la page d'accueil du site, il vous suffit de renseigner les champs Pseudo et Mot de passe et de cliquez sur Connexion" escape="false"/>
-                </p:tab>
-                <p:tab title="Comment retrouver mes identifiants ?">
-                    <h:outputText value="Sur la page de connexion, cliquez sur Identifiants oubliés ?, puis renseignez votre adresse mail. Vos identifiants vous seront alors renvoyés dans les plus brefs délais." escape="false"/>
-                </p:tab>
-                <p:tab title="Mon compte a été bloqué, que puis-je faire ?">
-                    <h:outputText value="Sur votre page de profil, vous pouvez envoyer un message à un administrateur expliquant votre situation.&lt;br/&gt;
-S'il juge que la raison de votre blocage n'était pas justifiée, ou s'il souhaite vous accorder une seconde chance, il pourra vous débloquez.&lt;br/&gt;
-N'oubliez cependant pas que vous avez été bloqué pour une raison. Le respect est donc de mise." escape="false"/>
-                </p:tab>
-                <p:tab title="Ma question ne se trouve pas ici ?">
-                    <h:outputText value="Un formulaire de la page Support permet d'envoyer un message à un administrateur qui vous répondra dans les plus brefs délais." escape="false"/>
-                </p:tab>
-              
-                 
-            </p:accordionPanel>
+        
             
         </h:form>
         

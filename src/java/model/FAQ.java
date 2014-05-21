@@ -5,11 +5,9 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import model.Contact.Type;
 
 /**
  *
@@ -18,22 +16,13 @@ import model.Contact.Type;
 @Entity
 public class FAQ implements Serializable {
     private static final long serialVersionUID = 1L;
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    
-    
     private String questionFAQ;
+    
     
     private String reponseFAQ;
     
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getQuestionFAQ() {
         return questionFAQ;
@@ -50,32 +39,35 @@ public class FAQ implements Serializable {
     public void setReponseFAQ(String reponseFAQ) {
         this.reponseFAQ = reponseFAQ;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "FAQ{" + "questionFAQ=" + questionFAQ + ", reponseFAQ=" + reponseFAQ + '}';
+    }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 5;
+        hash = 59 * hash + Objects.hashCode(this.questionFAQ);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof FAQ)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        FAQ other = (FAQ) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final FAQ other = (FAQ) obj;
+        if (!Objects.equals(this.questionFAQ, other.questionFAQ)) {
             return false;
         }
         return true;
     }
-
-    @Override
-    public String toString() {
-        return "model.FAQ[ id=" + id + " ]";
-    }
     
+    
+    
+
 }
