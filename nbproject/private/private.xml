@@ -3,7 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/thibaut/Bureau/Nouveau%20dossier/main/src/java/model/Contact.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/BeanQuestionnaire.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/SignalementPhotoBean.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/GestionMessagerie.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/WEB-INF/beans.xml</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/GaleriesBean.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/model/ReponseQCM.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/model/Utilisateur.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/NewServletListener.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/src/java/control/ImageBean.java</file>
+            <file>file:/C:/Users/Yan/Documents/NetBeansProjects/main/web/listeAmis.xhtml</file>
         </group>
     </open-files>
 </project-private>
