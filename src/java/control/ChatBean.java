@@ -142,6 +142,11 @@ public class ChatBean implements Serializable {
         
         // on récupère ou on crée le chat
         sessionChat = obtenirChat (u1,u2, type) ;
+        
+        this.ut.begin();
+        sessionChat.setDebutSession(new Date());
+        this.em.merge(sessionChat);
+        this.ut.commit();
         return "chat.xhtml" ;        
     }
     
@@ -228,6 +233,9 @@ public class ChatBean implements Serializable {
 
     private SessionChat obtenirChat(Utilisateur u1, Utilisateur u2, SessionChat.Type type) throws NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
         SessionChat c = u1.recupererChat (u2) ;
+        if (c!=null)        
+                c.setType(type);        
+           
         this.ut.begin();
         if (c == null) {
             c =  new SessionChat (u1,u2,type) ;
@@ -289,7 +297,12 @@ public class ChatBean implements Serializable {
     }
     
     public String passerEtContinuer () throws Exception {
-        return chatAleatoire() ;
+         if (sessionChat.getType() == SessionChat.Type.AFFNITE)
+            return chatAleatoire();
+        else if (sessionChat.getType() == SessionChat.Type.CHRONO)
+            return chat60s();
+        else
+            return "profil.xhtml";    
     }
     
     public String bloquerEtContinuer () throws Exception {

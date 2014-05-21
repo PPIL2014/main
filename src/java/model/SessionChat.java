@@ -33,6 +33,8 @@ public class SessionChat implements Serializable {
     private Utilisateur utilisateur2;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date debutSession;
+
+
     /**
      * 
      * @element-type MessageChat
@@ -58,7 +60,13 @@ public class SessionChat implements Serializable {
        // type = Type.AFFNITE ;
     }
 
-    
+    public Date getDebutSession() {
+        return debutSession;
+    }
+
+    public void setDebutSession(Date debutSession) {
+        this.debutSession = debutSession;
+    }
     public Boolean getEstDemarree() {
         return estDemarree;
     }

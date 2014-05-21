@@ -73,7 +73,8 @@ and open the template in the editor.
                             </p:confirmDialog>
                             
                             <p:confirmDialog id="dialogFin60s" message="Le mode 60s est terminé, que voulez vous faire ?" header="Fin de la session" widgetVar="dlgFin60s">
-                                <h:commandButton id="ajouter60s" value="AJOUTER" action="#{chatBean.ajouterEtContinuer}"/>                             
+                                <h:commandButton id="ajouter60s" value="AJOUTER" action="#{chatBean.ajouterEtContinuer}"/>             
+                                <h:commandButton id="passer60s" value="PASSER"  action="#{chatBean.passerEtContinuer}" />       
                                 <h:commandButton id="bloquer60s" value="BLOQUER"  action="#{chatBean.bloquerEtContinuer}" />
                             </p:confirmDialog>
                        </p>
