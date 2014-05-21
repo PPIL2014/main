@@ -80,47 +80,49 @@ public class EventChatBean implements Serializable {
         ArrayList<String> listCo;
         String correspondant;
         SessionChat c = getChat() ;
-        if (c == null)
-            return ;
+        if (c == null) {
+            endChat = true ;
+        } else {
         
-        if (c.getUtilisateur1().getPseudo().compareTo(getUtilisateurSession().getPseudo()) == 0)
-            correspondant = getChat().getUtilisateur2().getPseudo();
-        else
-            correspondant = getChat().getUtilisateur1().getPseudo();
-        
-        c = null ;
-        while (m == null && endChat == false && utilDeco == false && nbBoucle < 5) 
-        {
-            
-            //Recherche un eventuelle nouveau message
-            c = getChat() ;
-            if (c == null)
-            {
-                endChat = true;
-                break;
-            }
-            
-            m = c.getFirstAfter(lastMessageUpdate);
-            if (m != null)
-                break;           
+            if (c.getUtilisateur1().getPseudo().compareTo(getUtilisateurSession().getPseudo()) == 0)
+                correspondant = getChat().getUtilisateur2().getPseudo();
+            else
+                correspondant = getChat().getUtilisateur1().getPseudo();
 
-            //Regarde si le chat est toujours actis*fs
-            endChat = !getChat().getEstDemarree();
-            if (endChat)
-                break;
-            
-            //Controle si le correspondant est toujours connecté
-            listCo = (ArrayList<String>) servletContext.getAttribute("listeUtilisateursConnecte");
-            utilDeco = !listCo.contains(correspondant);
-            if (utilDeco)
-                break;
-            
-            try {
-                 sleep(1000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(ChatBean.class.getName()).log(Level.SEVERE, null, ex);
+            c = null ;
+            while (m == null && endChat == false && utilDeco == false && nbBoucle < 5) 
+            {
+
+                //Recherche un eventuelle nouveau message
+                c = getChat() ;
+                if (c == null)
+                {
+                    endChat = true;
+                    break;
                 }
-            nbBoucle++;
+
+                m = c.getFirstAfter(lastMessageUpdate);
+                if (m != null)
+                    break;           
+
+                //Regarde si le chat est toujours actis*fs
+                endChat = !getChat().getEstDemarree();
+                if (endChat)
+                    break;
+
+                //Controle si le correspondant est toujours connecté
+                listCo = (ArrayList<String>) servletContext.getAttribute("listeUtilisateursConnecte");
+                utilDeco = !listCo.contains(correspondant);
+                if (utilDeco)
+                    break;
+
+                try {
+                     sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ChatBean.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                nbBoucle++;
+            }
         }
 
         /*if (c == null) {

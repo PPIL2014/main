@@ -102,7 +102,7 @@ public class SessionBean {
     }
     
    public String connecter() { 
-        FacesContext context = FacesContext.getCurrentInstance(); 
+        FacesContext context = FacesContext.getCurrentInstance();
         Utilisateur u = em.find(Utilisateur.class, this.pseudo);
         if (u != null) { 
             if (! u.getMdp().equals(this.mdp)) {
@@ -129,15 +129,17 @@ public class SessionBean {
    public String deconnecter() throws Exception{
         FacesContext context = FacesContext.getCurrentInstance(); 
         try {
-            Utilisateur u = getUtilisateurSession();
+            
             this.ut.begin();
-            u.closeAllChat();
+            Utilisateur u= getUtilisateurSession() ;
+            u.getSessionChatDemarree().setEstDemarree(false);
             this.em.merge(u);
             this.ut.commit();
-            List<String> listeConnecte = getListeUtilisateurConnecte();
+            
+            ArrayList<String> listeConnecte = getListeUtilisateurConnecte();
             ArrayList<Utilisateur> listeAttente = getListeAttente();
 
-            listeConnecte.remove(this.getPseudo());
+            listeConnecte.remove(this.getUtilisateurSession().getPseudo());
             listeAttente.remove(this.getUtilisateurSession());
             HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
             session.invalidate();
@@ -146,11 +148,6 @@ public class SessionBean {
             Logger.getLogger(SessionBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "index?faces-redirect=true";
-    }
-   
-   public ArrayList<String> getArrayListeUtilisateurConnecte(){
-        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        return (ArrayList<String>) servletContext.getAttribute("listeUtilisateursConnecte");
     }
    
    public boolean aChat () {

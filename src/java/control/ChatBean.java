@@ -73,8 +73,11 @@ public class ChatBean implements Serializable {
     }
 
     public String getCorrespondant(){        
-        if (sessionChat == null)
-            return null ;
+        
+        if (sessionChat == null) {
+            Utilisateur u = getUtilisateurSession() ;
+            sessionChat = u.getSessionChatDemarree() ;
+        }
         
         if (sessionChat.getEstDemarree())
         {
@@ -101,7 +104,10 @@ public class ChatBean implements Serializable {
             return "index.xhtml" ;
         
         //Tout les chats de l'utilisateur doivent être fermé
-        u1.closeAllChat () ;
+        this.ut.begin();
+        u1.closeAllChat();
+        this.em.merge(u1);
+        this.ut.commit();
 
         //est-ce que l'on a déja calculé les affinité pour ce chatteur ?
         calculAffinite(u1) ;
