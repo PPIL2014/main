@@ -92,6 +92,13 @@ public class Utilisateur implements Serializable {
     
     @OneToOne(cascade=CascadeType.ALL)
     private Session session;
+
+    /**
+     * 
+     * @element-type MyBadge
+     */
+    @OneToMany(cascade=CascadeType.ALL)
+    private Collection<MyBadge>  badges;
     
     public Utilisateur() {
         
@@ -256,6 +263,14 @@ public class Utilisateur implements Serializable {
     }
     public void setMdp(String mdp) {
         this.mdp = mdp;
+    }
+
+    public Collection<MyBadge> getBadges() {
+        return badges;
+    }
+
+    public void setBadges(Collection<MyBadge> badges) {
+        this.badges = badges;
     }
 
     @Override
