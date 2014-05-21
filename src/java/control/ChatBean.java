@@ -280,12 +280,7 @@ public class ChatBean implements Serializable {
         this.em.merge(getUtilisateurSession());
         this.ut.commit();
         
-        if (sessionChat.getType() == SessionChat.Type.AFFNITE)
-            return chatAleatoire() ;
-        else if (sessionChat.getType() == SessionChat.Type.CHRONO)
-            return chchat60s() ;
-        else
-            
+        return chatAleatoire();
     }
     
     public String passerEtContinuer () throws Exception {
