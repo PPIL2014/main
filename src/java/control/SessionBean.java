@@ -148,6 +148,11 @@ public class SessionBean {
         return "index?faces-redirect=true";
     }
    
+   public ArrayList<String> getArrayListeUtilisateurConnecte(){
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        return (ArrayList<String>) servletContext.getAttribute("listeUtilisateursConnecte");
+    }
+   
    public boolean aChat () {
        Utilisateur u = getUtilisateurSession () ;
        return (u.getSessionChatDemarree()!= null) ;

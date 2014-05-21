@@ -41,6 +41,8 @@ public class ChatBean implements Serializable {
     
     private Date lastUpdate;
     
+    private ArrayList<Affinite> listeAffinite ;
+    
     /**
      * Permet de gérer la page de chat. Lors de l'arrivée sur cette page, si la liste d'attente n'éxiste aps elle est crée.
      */
@@ -51,7 +53,7 @@ public class ChatBean implements Serializable {
             servletContext.setAttribute("listeUtilisateursAttente", new ArrayList<Utilisateur>());
         }
         lastUpdate = new Date(0);
-        
+        listeAffinite = new ArrayList<Affinite> () ;
     }
  
     public Date getLastUpdate(){
@@ -101,6 +103,9 @@ public class ChatBean implements Serializable {
         //Tout les chats de l'utilisateur doivent être fermé
         u1.closeAllChat () ;
 
+        //est-ce que l'on a déja calculé les affinité pour ce chatteur ?
+        calculAffinite(u1) ;
+        
         //on trouve un copain, si il y en a pas l'utilisateur attend
         u2 = obtenirChatteur (u1) ;
         if (u2 == null) {
@@ -437,5 +442,34 @@ public class ChatBean implements Serializable {
     
     public void initSessionChat(ActionEvent evt){
         this.sessionChat = getUtilisateurSession().getSessionChatDemarree();
+    }
+
+    private void calculAffinite(Utilisateur u1) {
+        for (Affinite a : listeAffinite) {
+            if (a.contientUtilisateur(u1))
+                return ;
+        }
+        
+        /*
+         * on a pas trouvé l'utilisateur donc il faut calculer les affinités pour toutes les personnes présentes dans le chat et en liste d'attente
+         * Il s'agit des personnes déja présente dans la liste d'affinté
+         */
+        ArrayList<Utilisateur> userDejaGere = new ArrayList<Utilisateur> () ;
+        ArrayList<Affinite> listeAf = new ArrayList<Affinite> () ;
+        for (Affinite a : listeAffinite) {
+            // si on a pas encore geré l'utilisateur la
+            if (!userDejaGere.contains(a.getUtilisateur1())) {
+                listeAf.add(new Affinite(u1,a.getUtilisateur1())) ;
+            }
+            
+            if (!userDejaGere.contains(a.getUtilisateur2())) {
+                listeAf.add(new Affinite(u1,a.getUtilisateur2())) ;
+            }
+        }
+        
+        // on concatene les deux listes
+        for (Affinite a : listeAf) {
+            listeAffinite.add(a);
+        }
     }
 }

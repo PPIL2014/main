@@ -96,7 +96,7 @@ public class EventChatBean implements Serializable {
             c = getChat() ;
             if (c == null)
             {
-                endChat = true;           
+                endChat = true;
                 break;
             }
             
