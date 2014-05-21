@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
@@ -143,17 +143,27 @@
                     </tr>
                 </table>
                 <h:form>
-
                     <br />
-                    <h:commandButton value="CHAT" action="#{chatBean.chatAleatoire}"></h:commandButton>
+                    <h:commandButton value="CHAT" onclick="dlgTypeChat.show()">
+                        <f:ajax execute="@form" render="@none" />
+                    </h:commandButton>
                     <h:commandButton value="AMIS" action="#{listeAmisBean.afficherAmis}"></h:commandButton>
-                    <h:commandButton value="Rechercher des amis" action="#{listeAmisBean.rechercherAmis}"></h:commandButton> 
+                    <h:commandButton value="Rechercher des amis" action="#{listeAmisBean.rechercherAmis}"/>
+  
 
+                    <p:confirmDialog id="dlgChoixChat" message="Quel mode voulez-vous utiliser ?" header="Quel mode" widgetVar="dlgTypeChat">
+                        <h:commandButton id="chatAffinite" value="Affinité" action="#{chatBean.chatAleatoire}"></h:commandButton>
+                        <h:commandButton id="chat60s" value="60s Chrono" action="#{chatBean.chat60s}"></h:commandButton>
+                        <h:commandButton id="annuler" value="Annuler" action="profil.xhtml"/>
+                    </p:confirmDialog>
+                    
                     <p:remoteCommand name="nextEvent" actionListener="#{eventProfilBean.lastEvent}" 
                                      oncomplete="updatePage(xhr, status, args);"/> 
                                 <p:remoteCommand name="setSession" actionListener="#{chatBean.initSessionChat(evt)}"/>
-                    
+                  </h:form>  
                     <script type="text/javascript">
+                        var dlgTypeChat ;
+                        
                         updatePage(null, null, null);
 
                         function updatePage(xhr, status, args) {
@@ -172,9 +182,9 @@
                             nextEvent();
                         }
                     </script> 
-                </h:form>
+                
         
-                <div id="formulaire"></div>
+    <div id="formulaire"></div>
     
     <h:form id="myForm">
         <p:remoteCommand name="aUnChat" actionListener="#{profilBean.chatInfo}" 

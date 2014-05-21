@@ -48,6 +48,7 @@ and open the template in the editor.
                             <h:commandButton value="Suivant" onclick="dlgSuivChat.show()">
                                 <f:ajax execute="@form" render="@none" />
                             </h:commandButton>
+                            
                             <h:commandButton value="Quitter" onclick="dlgFinChat.show()">
                                 <f:ajax execute="@form" render="@none" />
                             </h:commandButton>
@@ -69,6 +70,12 @@ and open the template in the editor.
                                 <h:commandButton id="ajouterSubi" value="AJOUTER" action="#{chatBean.ajouterEtContinuer}"/>
                                 <h:commandButton id="passerSubi" value="PASSER"  action="#{chatBean.passerEtContinuer}" />                                
                                 <h:commandButton id="bloquerSubi" value="BLOQUER"  action="#{chatBean.bloquerEtContinuer}" />
+                            </p:confirmDialog>
+                            
+                            <p:confirmDialog id="dialogFin60s" message="Le mode 60s est terminé, que voulez vous faire ?" header="Fin de la session" widgetVar="dlgFin60s">
+                                <h:commandButton id="ajouter60s" value="AJOUTER" action="#{chatBean.ajouterEtContinuer}"/>             
+                                <h:commandButton id="passer60s" value="PASSER"  action="#{chatBean.passerEtContinuer}" />       
+                                <h:commandButton id="bloquer60s" value="BLOQUER"  action="#{chatBean.bloquerEtContinuer}" />
                             </p:confirmDialog>
                        </p>
                    </h:form>
@@ -101,6 +108,7 @@ and open the template in the editor.
                         var dlgFinChatSubi ;
                         var dlgSuivChat ;
                         var dlgFinChat ;
+                        var dlgFin60s ;
                         
                         function eraseInputText(){
                             document.getElementById("FormPrincipal:message").value = "";
@@ -136,6 +144,12 @@ and open the template in the editor.
                                     if ((args.type == "endChatSubi") || (args.type == "utilDeco"))
                                     {
                                         showDlgFinSubi();
+                                    }
+                                    
+                                    if (args.duree)
+                                    {
+                                        if (parseInt(args.duree) > 10) //Le tchat 60s est terminée
+                                            dlgFin60s.show();
                                     }
                                 }       
                             }

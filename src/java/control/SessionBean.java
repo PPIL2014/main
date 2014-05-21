@@ -41,8 +41,8 @@ public class SessionBean {
     @ManagedProperty(value="#{mdp}")
     private String mdp;
     
-    /*private UIComponent pseudoText;
-    private UIComponent mdpText;*/
+    private UIComponent pseudoText;
+    private UIComponent mdpText;
           
     public SessionBean() {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
@@ -75,7 +75,7 @@ public class SessionBean {
         this.mdp = mdp;
     }
 
-    /*public UIComponent getPseudoText() {
+    public UIComponent getPseudoText() {
         return pseudoText;
     }
 
@@ -89,7 +89,7 @@ public class SessionBean {
 
     public void setMdpText(UIComponent mdpText) {
         this.mdpText = mdpText;
-    }*/
+    }
 
     public ArrayList<String> getListeUtilisateurConnecte(){
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
@@ -101,13 +101,18 @@ public class SessionBean {
         return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente");
     }
     
+    public ArrayList<Utilisateur> getListeAttente60s(){
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente60s");
+    }
+    
    public String connecter() { 
         FacesContext context = FacesContext.getCurrentInstance();
         Utilisateur u = em.find(Utilisateur.class, this.pseudo);
         if (u != null) { 
             if (! u.getMdp().equals(this.mdp)) {
                 setMdp("");
-                //context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Nom d'utilisateur ou mot de passe incorrect !", null)); 
+                context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Nom d'utilisateur ou mot de passe incorrect !", null)); 
             } else {
                     context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Vous êtes connecté en tant que " + u.getPseudo() + " !", null));
                     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
@@ -121,7 +126,7 @@ public class SessionBean {
         } else {
             setPseudo("");
             setMdp("");
-            //context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Nom d'utilisateur ou mot de passe incorrect !", null)); 
+            context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Nom d'utilisateur ou mot de passe incorrect !", null)); 
         } 
         return null; 
     }
@@ -141,9 +146,11 @@ public class SessionBean {
             
             ArrayList<String> listeConnecte = getListeUtilisateurConnecte();
             ArrayList<Utilisateur> listeAttente = getListeAttente();
-
+            ArrayList<Utilisateur> listeAttente60s = getListeAttente60s();
             listeConnecte.remove(this.getUtilisateurSession().getPseudo());
             listeAttente.remove(this.getUtilisateurSession());
+            listeAttente60s.remove(this.getUtilisateurSession());
+            
             HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
             session.invalidate();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Vous êtes maintenant déconnecté", null)); 

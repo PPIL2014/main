@@ -74,6 +74,7 @@ public class EventChatBean implements Serializable {
         MessageChat m = null;
         boolean endChat = false;
         boolean utilDeco = false;
+        boolean chat60s = false;
         int nbBoucle = 0; //Evite les boucle infini
 
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
@@ -83,7 +84,8 @@ public class EventChatBean implements Serializable {
         if (c == null) {
             endChat = true ;
         } else {
-        
+            if ( c.getType() == SessionChat.Type.CHRONO)
+                chat60s = true;
             if (c.getUtilisateur1().getPseudo().compareTo(getUtilisateurSession().getPseudo()) == 0)
                 correspondant = getChat().getUtilisateur2().getPseudo();
             else
@@ -92,7 +94,7 @@ public class EventChatBean implements Serializable {
             c = null ;
             while (m == null && endChat == false && utilDeco == false && nbBoucle < 5) 
             {
-
+                
                 //Recherche un eventuelle nouveau message
                 c = getChat() ;
                 if (c == null)
@@ -129,6 +131,11 @@ public class EventChatBean implements Serializable {
             ctx.addCallbackParam("ok", true);
             ctx.addCallbackParam("type", "stop");
         } else*/ 
+        if (chat60s == true)
+        {
+            Date d = new Date();
+            ctx.addCallbackParam("duree", String.valueOf((d.getTime()- c.getDebut().getTime())/1000)) ;
+        }
         if (m != null)
         {
             lastMessageUpdate = m.getDate();         

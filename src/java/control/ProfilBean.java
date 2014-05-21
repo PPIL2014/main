@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import model.SessionChat;
 import model.Utilisateur;
 import org.primefaces.context.RequestContext;
 
@@ -70,6 +71,14 @@ public class ProfilBean {
         return (ArrayList<Utilisateur>)servletContext.getAttribute("listeUtilisateursAttente") ;
     }
     
+    public ArrayList<Utilisateur> getListeUtilisateurAttente60s () {
+        ServletContext servletContext = (ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext();
+        if(servletContext.getAttribute("listeUtilisateursAttente60s") == null){
+            servletContext.setAttribute("listeUtilisateursAttente60s", new ArrayList<Utilisateur>());
+        }
+        return (ArrayList<Utilisateur>)servletContext.getAttribute("listeUtilisateursAttente60s") ;
+    }
+    
     public void chatInfo (ActionEvent evt) {
         RequestContext ctx = RequestContext.getCurrentInstance();
         
@@ -96,9 +105,12 @@ public class ProfilBean {
     }
     
     public boolean getSeulEnAttente () {
+        
         ArrayList<Utilisateur> listeAttente =  getListeUtilisateurAttente () ;
+        ArrayList<Utilisateur> listeAttente60s = getListeUtilisateurAttente60s();
         Utilisateur u = getUtilisateurSession () ;
-        return ((listeAttente.size() == 1) && (listeAttente.get(0).getPseudo().equals(u.getPseudo()))) ;
+        return ( ((listeAttente.size() == 1) && (listeAttente.get(0).getPseudo().equals(u.getPseudo()))) ||
+                    ((listeAttente60s.size() == 1) && (listeAttente60s.get(0).getPseudo().equals(u.getPseudo()))) ) ;
     }
   
     //Affiche un message à l'utilisateur si il est seul en attente. 
