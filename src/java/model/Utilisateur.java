@@ -35,6 +35,7 @@ public class Utilisateur implements Serializable {
     private String mail;
     private String telephone;
     private String mdp;
+    private Boolean administrateur = false;
     private Boolean estDesinscrit;
     private Boolean estBloque;
     private Boolean estSupprime;
@@ -144,15 +145,6 @@ public class Utilisateur implements Serializable {
                 c.setType(Contact.Type.REFUSE);
             }
         }
-    }
-    
-    public Conversation getConv(Utilisateur dest) {
-        if(dest == null)
-            return null ;
-        for (Conversation conv : dest.getConversations())
-            if(conv.getExpediteur().getPseudo().equals(pseudo))
-                return conv ;
-        return null ;
     }
     
     public String getPseudo() {
