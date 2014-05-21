@@ -19,6 +19,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -368,14 +369,20 @@ public class ContactsBean {
     }
     
     public boolean isConnected(Contact c){
-            return getListeUtilisateurConnecte().contains(c.getEstEnContactAvec().getPseudo()) ;
+        //return getListeUtilisateurConnecte().contains(c.getEstEnContactAvec().getPseudo()) ;
+        ServletContext servletContext = (ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext();
+        ArrayList<String> listeUserConnect = (ArrayList<String>)servletContext.getAttribute("listeUtilisateursConnecte") ;
+        return listeUserConnect.contains(c.getEstEnContactAvec().getPseudo()) ;
     }
     
     
     
-      public List<String> getListeUtilisateurConnecte(){
-        Query query = em.createQuery("SELECT u.pseudo FROM Utilisateur u where u.session.estConnecte=true");
-        return (List<String>) query.getResultList();
+    public List<String> getListeUtilisateurConnecte(){
+        /*Query query = em.createQuery("SELECT u.pseudo FROM Utilisateur u where u.session.estConnecte=true");
+        return (List<String>) query.getResultList();*/
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        ArrayList<String> listeConnecte = (ArrayList<String>)servletContext.getAttribute("listeUtilisateursConnecte");
+        return listeConnecte;
     }
     
 }
