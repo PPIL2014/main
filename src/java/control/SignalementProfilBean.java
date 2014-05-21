@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -35,8 +36,7 @@ import model.Utilisateur;
  * @author Romain
  */
 @ManagedBean
-@Named(value = "signalerProfilBean")
-@ViewScoped
+@RequestScoped
 public class SignalementProfilBean implements Serializable {
 
     @PersistenceContext(unitName = "DateRoulettePU")

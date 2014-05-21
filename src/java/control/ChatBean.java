@@ -234,7 +234,7 @@ public class ChatBean implements Serializable {
             //pas assez de gens, on l'ajoute aussi
             return null ;
         }
-        
+        /*
         //je cherche la meilleure affinite
         double bestAffinite = 0.00 ;
         Utilisateur chatteur = null ;
@@ -249,15 +249,15 @@ public class ChatBean implements Serializable {
                 }
             }
         }
-        return chatteur ;
-        /*
+        return chatteur ;*/
+        
         if (u1.equals(listeAttente.get(0))) {
              if (u1.equals(listeAttente.get(listeAttente.size()-1)))
                  return null ;
              return listeAttente.remove(listeAttente.size()-1) ;
         }
         return listeAttente.remove(0) ;
-        */
+        
     }
 
     private SessionChat obtenirChat(Utilisateur u1, Utilisateur u2, SessionChat.Type type) throws NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {

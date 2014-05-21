@@ -50,6 +50,9 @@ public class SessionBean {
         if(listeConnecte == null){
             servletContext.setAttribute("listeUtilisateursConnecte", new ArrayList<String>() );
         }
+        if (servletContext.getAttribute("listeAffinite") == null) {
+            servletContext.setAttribute("listeAffinite", new ArrayList<Affinite>());
+        }
     }
 
      public Utilisateur getUtilisateurSession () {
