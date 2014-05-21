@@ -280,7 +280,12 @@ public class ChatBean implements Serializable {
         this.em.merge(getUtilisateurSession());
         this.ut.commit();
         
-        return chatAleatoire();
+        if (sessionChat.getType() == SessionChat.Type.AFFNITE)
+            return chatAleatoire();
+        else if (sessionChat.getType() == SessionChat.Type.CHRONO)
+            return chat60s();
+        else
+            return "profil.xhtml";              
     }
     
     public String passerEtContinuer () throws Exception {
@@ -290,7 +295,7 @@ public class ChatBean implements Serializable {
     public String bloquerEtContinuer () throws Exception {
         this.ut.begin();
         Contact c = null;
-        if(getUtilisateurSession().getPseudo() == this.sessionChat.getUtilisateur1().getPseudo()){
+        if(getUtilisateurSession().getPseudo().equals(this.sessionChat.getUtilisateur1().getPseudo())){
             c = new Contact(Contact.Type.BLOQUE, this.sessionChat.getUtilisateur2());
         }else{
             c = new Contact(Contact.Type.BLOQUE, this.sessionChat.getUtilisateur1());
@@ -298,7 +303,12 @@ public class ChatBean implements Serializable {
         getUtilisateurSession().getContacts().add(c);
         this.em.merge(getUtilisateurSession());
         this.ut.commit();
-        return chatAleatoire() ;
+        if (sessionChat.getType() == SessionChat.Type.AFFNITE)
+            return chatAleatoire();
+        else if (sessionChat.getType() == SessionChat.Type.CHRONO)
+            return chat60s();
+        else
+            return "profil.xhtml";    
     }
     
     /*
@@ -323,7 +333,7 @@ public class ChatBean implements Serializable {
     public String rienEtQuitter () throws Exception {
         this.ut.begin();
         Contact c = null;
-        if(getUtilisateurSession().getPseudo() == this.sessionChat.getUtilisateur1().getPseudo()){
+        if(getUtilisateurSession().getPseudo().equals(this.sessionChat.getUtilisateur1().getPseudo())){
             c = new Contact(Contact.Type.REFUSE, this.sessionChat.getUtilisateur2());
         }else{
             c = new Contact(Contact.Type.REFUSE, this.sessionChat.getUtilisateur1());
@@ -338,7 +348,7 @@ public class ChatBean implements Serializable {
     public String bloquerEtQuitter () throws Exception {
         this.ut.begin();
         Contact c = null;
-        if(getUtilisateurSession().getPseudo() == this.sessionChat.getUtilisateur1().getPseudo()){
+        if(getUtilisateurSession().getPseudo().equals(this.sessionChat.getUtilisateur1().getPseudo())){
             c = new Contact(Contact.Type.BLOQUE, this.sessionChat.getUtilisateur2());
         }else{
             c = new Contact(Contact.Type.BLOQUE, this.sessionChat.getUtilisateur1());
@@ -357,7 +367,7 @@ public class ChatBean implements Serializable {
     public String ajouterEtSuivantDemande () throws Exception {
         this.ut.begin();
         Contact c = null;
-         if(getUtilisateurSession().getPseudo() == this.sessionChat.getUtilisateur1().getPseudo()){
+         if(getUtilisateurSession().getPseudo().equals(this.sessionChat.getUtilisateur1().getPseudo())){
             c = new Contact(Contact.Type.AMI, this.sessionChat.getUtilisateur2());
         }else{
             c = new Contact(Contact.Type.AMI, this.sessionChat.getUtilisateur1());
@@ -366,13 +376,18 @@ public class ChatBean implements Serializable {
         this.em.merge(getUtilisateurSession());
         this.ut.commit();
         quitterChat();
-        return chatAleatoire() ;
+        if (sessionChat.getType() == SessionChat.Type.AFFNITE)
+            return chatAleatoire();
+        else if (sessionChat.getType() == SessionChat.Type.CHRONO)
+            return chat60s();
+        else
+            return "profil.xhtml";   
     }
     
     public String rienEtSuivantDemande () throws Exception {
         this.ut.begin();
         Contact c = null;
-        if(getUtilisateurSession().getPseudo() == this.sessionChat.getUtilisateur1().getPseudo()){
+        if(getUtilisateurSession().getPseudo().equals(this.sessionChat.getUtilisateur1().getPseudo())){
             c = new Contact(Contact.Type.REFUSE, this.sessionChat.getUtilisateur2());
         }else{
             c = new Contact(Contact.Type.REFUSE, this.sessionChat.getUtilisateur1());
@@ -381,13 +396,18 @@ public class ChatBean implements Serializable {
         this.em.merge(getUtilisateurSession());
         this.ut.commit();
         quitterChat();
-        return chatAleatoire() ;
+        if (sessionChat.getType() == SessionChat.Type.AFFNITE)
+            return chatAleatoire();
+        else if (sessionChat.getType() == SessionChat.Type.CHRONO)
+            return chat60s();
+        else
+            return "profil.xhtml";   
     }
     
     public String bloquerEtSuivantDemande () throws Exception {
         this.ut.begin();
         Contact c = null;
-         if(getUtilisateurSession().getPseudo() == this.sessionChat.getUtilisateur1().getPseudo()){
+         if(getUtilisateurSession().getPseudo().equals(this.sessionChat.getUtilisateur1().getPseudo())){
             c = new Contact(Contact.Type.BLOQUE, this.sessionChat.getUtilisateur2());
         }else{
             c = new Contact(Contact.Type.BLOQUE, this.sessionChat.getUtilisateur1());
@@ -396,7 +416,12 @@ public class ChatBean implements Serializable {
         this.em.merge(getUtilisateurSession());
         this.ut.commit();
         quitterChat();
-        return chatAleatoire() ;
+        if (sessionChat.getType() == SessionChat.Type.AFFNITE)
+            return chatAleatoire();
+        else if (sessionChat.getType() == SessionChat.Type.CHRONO)
+            return chat60s();
+        else
+            return "profil.xhtml";   
     }
     
     
