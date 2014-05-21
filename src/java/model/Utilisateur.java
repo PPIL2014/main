@@ -301,8 +301,7 @@ public class Utilisateur implements Serializable {
         }
         return null ;
     }
-
-
+    
     public void ajouterChat(SessionChat c) {
         sessionsChat.add(c);
     }
