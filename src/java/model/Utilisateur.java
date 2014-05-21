@@ -84,9 +84,6 @@ public class Utilisateur implements Serializable {
     @OneToOne(cascade=CascadeType.ALL)
     private Image avatar;
     
-    @OneToOne(cascade=CascadeType.ALL)
-    private Session session;
-    
     public Utilisateur() {
         
     }
@@ -246,12 +243,6 @@ public class Utilisateur implements Serializable {
     }
     public void setAvatar(Image avatar) {
         this.avatar = avatar;
-    }
-    public Session getSession() {
-        return session;
-    }
-    public void setSession(Session session) {
-        this.session = session;
     }
 
     public String getMdp() {

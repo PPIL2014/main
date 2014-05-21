@@ -25,7 +25,6 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
-import model.Session;
 import model.Utilisateur;
 
 
@@ -193,9 +192,6 @@ public class InscriptionBean {
             u.setMail(mail);
             u.setPseudo(pseudo);
             u.setMdp(mdp);
-            Session session = new Session();
-            session.setEstConnecte(Boolean.FALSE);
-            u.setSession(session);
             try {
                 ut.begin();
                 em.persist(u);

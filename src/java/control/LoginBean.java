@@ -1,5 +1,6 @@
 package control;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,6 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -41,7 +43,13 @@ public class LoginBean {
     private UIComponent mdpText;
             
     public LoginBean() {
-        utilisateur = null;
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        if(servletContext.getAttribute("listeUtilisateursAttente") == null){
+            servletContext.setAttribute("listeUtilisateursAttente", new ArrayList<Utilisateur>());
+        }
+        if(servletContext.getAttribute("listeUtilisateursConnecte") == null){
+            servletContext.setAttribute("listeUtilisateursConnecte", new ArrayList<String>());
+        }
     }
     
     public String getPseudo(){
@@ -92,16 +100,14 @@ public class LoginBean {
                 setMdp("");
                 context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Nom d'utilisateur ou mot de passe incorrect !", null)); 
             } else {
-                try {
-                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Vous êtes connecté en tant que " + this.utilisateur.getPseudo() + " !", null));
-                    this.utilisateur.getSession().setEstConnecte(Boolean.TRUE);
-                    this.ut.begin();
-                    this.em.merge(this.utilisateur);
-                    this.ut.commit();
-                    return "profil";
-                } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
-                    Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Vous êtes connecté en tant que " + this.utilisateur.getPseudo() + " !", null));
+                HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+                ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                ArrayList<String> listeConnecte = (ArrayList<String>)servletContext.getAttribute("listeUtilisateursConnecte");
+                listeConnecte.add(utilisateur.getPseudo());
+                session.setAttribute("pseudoUtilisateur", utilisateur.getPseudo());
+                session.setAttribute("user", utilisateur);
+                return "profil"; 
             }
         } else {
             setPseudo("");
@@ -111,7 +117,7 @@ public class LoginBean {
         return null; 
     }
     
-    public String deconnexion() {
+    /*public String deconnexion() {
         FacesContext context = FacesContext.getCurrentInstance(); 
         if (this.utilisateur != null) {
             try {
@@ -127,6 +133,6 @@ public class LoginBean {
         ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).invalidate();
         this.utilisateur = null;
         return "index.xhtml";
-    }
+    }*/
     
 }

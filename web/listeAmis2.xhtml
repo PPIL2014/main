@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Date Roulette</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:commandButton value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandButton>
+            <h:dataTable id ="messages" value="#{listeAmisBean.contacts}" var="item">
+                <h:column>
+                    <b><h:outputText value="#{item.estEnContactAvec.pseudo}"></h:outputText></b><br/>
+                    <h:commandButton rendered="#{listeAmisBean.estConnecte(item.estEnContactAvec)}" value="CHAT" action="#{chatBean.chatCopain(item.estEnContactAvec)}"></h:commandButton>           
+                </h:column>
+            </h:dataTable>
+            
+        </h:form>
+    </h:body>
+</html>

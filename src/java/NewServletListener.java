@@ -38,7 +38,7 @@ public class NewServletListener implements ServletContextListener  {
     public void contextInitialized(ServletContextEvent sce) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
-        Utilisateur medi = new Utilisateur();
+        /*Utilisateur medi = new Utilisateur();
         medi.setPseudo("medi");
         medi.setMdp("mdp");
         medi.setPrenom("medi1");
@@ -94,7 +94,7 @@ public class NewServletListener implements ServletContextListener  {
             
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
             Logger.getLogger(NewServletListener.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
 
     }
 
