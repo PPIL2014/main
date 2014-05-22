@@ -203,6 +203,7 @@ public class ChatBean implements Serializable {
     }
     
     public void envoyerMessage () throws Exception {
+        System.out.println("KDJHGFLKQSJHLKDSJHFQLSDKJHFLDSKJHFQSDLKJHFSQDKLJFHSQDKLJHFSDQLKJHFQSLKDJHFQSKLJDHFQSKJDHFKQSJHDFLKSQJHFD");
         if (!message.isEmpty())
         {
             this.ut.begin();

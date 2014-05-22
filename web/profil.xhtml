@@ -147,6 +147,9 @@
                     <h:commandButton value="CHAT" onclick="dlgTypeChat.show()">
                         <f:ajax execute="@form" render="@none" />
                     </h:commandButton>
+                    <c:if test="#{sessionBean.utilisateurSession.administrateur}">
+                        <h:commandButton value="Gestion Site" action="outilsAdmin.xhtml"/>
+                    </c:if>
                     <h:commandButton value="AMIS" action="#{listeAmisBean.afficherAmis}"></h:commandButton>
                     <h:commandButton value="Rechercher des amis" action="#{listeAmisBean.rechercherAmis}"/>
   
