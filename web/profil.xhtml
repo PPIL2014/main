@@ -149,7 +149,7 @@
                     </h:commandButton>
                     <h:commandButton value="AMIS" action="#{listeAmisBean.afficherAmis}"></h:commandButton>
                     <h:commandButton value="Rechercher des amis" action="#{listeAmisBean.rechercherAmis}"/>
-  
+  		    <h:button value="Répondre aux questionnaires" outcome="liste-questionnaire.xhtml"/>
 
                     <p:confirmDialog id="dlgChoixChat" message="Quel mode voulez-vous utiliser ?" header="Quel mode" widgetVar="dlgTypeChat">
                         <h:commandButton id="chatAffinite" value="Affinité" action="#{chatBean.chatAleatoire}"></h:commandButton>
