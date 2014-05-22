@@ -41,6 +41,16 @@ public class ListeAmisBean {
         ArrayList<String> listeUserConnect = (ArrayList<String>)servletContext.getAttribute("listeUtilisateursConnecte") ;
         return listeUserConnect.contains(u.getPseudo()) ;
     }
+
+    public Collection<Utilisateur> rechercherListeAmis() {
+        System.out.println(pseudoAmi);
+        if(pseudoAmi == null)
+            return new ArrayList<>();
+
+        Query query = em.createQuery("SELECT u FROM Utilisateur u where u.pseudo LIKE :pseudo");
+        query.setParameter("pseudo", "%"+pseudoAmi+"%");
+        return (List<Utilisateur>) query.getResultList();
+    }
     
     public Utilisateur getUtilisateurSession () {
         FacesContext context = FacesContext.getCurrentInstance();
