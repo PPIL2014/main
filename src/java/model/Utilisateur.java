@@ -330,6 +330,7 @@ public class Utilisateur implements Serializable {
     }
     
     public void ajouterReponseQCM(ReponseQCM rep){
+	this.reponsesQCM.size();
         if(rep.getId() == null){
             this.reponsesQCM.add(rep);
         }else{
@@ -342,16 +343,13 @@ public class Utilisateur implements Serializable {
     }
         
     public void ajouterReponseOuverte(ReponseOuverte rep){
-        boolean b = false;
-        for(ReponseOuverte repo : this.reponsesOuvertes){
+	this.reponsesOuvertes.size();
+        if(rep.getId() == null){
+		this.reponsesOuvertes.add(rep);
+        }for(ReponseOuverte repo : this.reponsesOuvertes){
             if(repo.getId() == rep.getId()){
                 repo = rep;
-                b = true;
             }
-        }
-        
-        if(!b){
-            this.reponsesOuvertes.add(rep);
         }
     }
             

@@ -56,12 +56,12 @@
                         </c:forEach>
                     </select><br/><br/>
                     <h:selectBooleanCheckbox value="#{ajoutQuestionBean.unique}" /> Réponse unique<br/><br/>
-                    <h:commandButton value="Créer QCM" action="#{ajoutQuestionBean.creerQuestionQCM()}">
-                        <f:param name="id" value ="#{param['id']}"></f:param>
-                    </h:commandButton>
                     <c:forEach var="i" begin="1" end="20">
                         <p id="choix${i}">Choix n°${i} : <h:inputText  size="50" value="#{ajoutQuestionBean.choix}"></h:inputText></p>
                     </c:forEach>
+		    <h:commandButton value="Créer QCM" action="#{ajoutQuestionBean.creerQuestionQCM()}">
+                        <f:param name="id" value ="#{param['id']}"></f:param>
+                    </h:commandButton>
                 </h:form>
 
                 <script type="text/javascript">
