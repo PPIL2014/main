@@ -114,6 +114,11 @@ public class SignalementProfilBean implements Serializable {
         jQuery.setParameter("u1", user.getPseudo());
         jQuery.setParameter("u2", correspondant);
         List<SignalementUtilisateur> liste = jQuery.getResultList();
+        
+        if(motif.isEmpty()){
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(this.boutonSignaler.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Vous devez remplir le champ motif !", null));
+        }else{
         if (!liste.isEmpty()) {
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(this.boutonSignaler.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Vous avez deja signalé cet utilisateur !", null));
@@ -138,6 +143,7 @@ public class SignalementProfilBean implements Serializable {
             }
 
         }
+       }
 
         // return "chat.xhtml";
     }
