@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <link href="default.css" rel="stylesheet" type="text/css"></link>
         <title>Date Roulette</title>
@@ -28,42 +29,20 @@
                 <!-- end #menu --> 
             </div>
             <div id="page" class="container">
-                <h:messages />
-                <h:form>
-                    <table>
-                        <tr>
-                            <td>
-                                Pseudo :  
-                            </td>
-                            <td>
-                                <h:inputText id="pseudo" value="#{sessionBean.pseudo}" binding="#{sessionBean.pseudoText}" required="true" requiredMessage="Veuillez entrer votre pseudo"></h:inputText>
-                            </td>
-                            <td>
-                                <h:message errorStyle="color:red" for="pseudo"></h:message>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Mot de passe : 
-                            </td>
-                            <td>
-                                <h:inputSecret id="mdp" value="#{sessionBean.mdp}" binding="#{sessionBean.mdpText}" required="true" requiredMessage="Veuillez entrer votre mot de passe" ></h:inputSecret>
-                            </td>
-                            <td>
-                                <h:message errorStyle="color:red" for="mdp"></h:message>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="1">
-                                <h:commandButton value="Login" action="#{sessionBean.connecter}" style="width: 100%">
-                                </h:commandButton>
-                            </td>
-                            <td>
-                                <a href="inscription.xhtml">S'inscrire</a>
-                            </td>
-                        </tr>
-                    </table>
-                </h:form>
+                Obtenus : <br />
+                <c:forEach items="#{badgeBean.listeBadgesObtenus()}" var="badge">
+                    <h:outputText value="#{badge.name}"></h:outputText><br/>
+                </c:forEach>
+                
+                Non obtenus : <br />
+                <c:forEach items="#{badgeBean.listeBadgesNonObtenus()}" var="badge">
+                    <h:outputText value="#{badge.name}"></h:outputText><br/>
+                </c:forEach>
+                
+                Viennent d'être obtenus : <br />
+                <c:forEach items="#{badgeBean.verification()}" var="badge">
+                    <h:outputText value="#{badge.badge.name}"></h:outputText><br/>
+                </c:forEach>
             </div>
         </div>
 

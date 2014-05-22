@@ -26,11 +26,13 @@ public class Badge implements Serializable {
     private Long id;
     private Integer counter;
     private String field;
+    private String fieldPseudo;
     private String tableName;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date startDate;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date endDate;
+    private String name;
 
     public Integer getCounter() {
         return counter;
@@ -46,6 +48,14 @@ public class Badge implements Serializable {
 
     public void setField(String field) {
         this.field = field;
+    }
+
+    public String getFieldPseudo() {
+        return fieldPseudo;
+    }
+
+    public void setFieldPseudo(String fieldPseudo) {
+        this.fieldPseudo = fieldPseudo;
     }
 
     public String getTableName() {
@@ -78,6 +88,14 @@ public class Badge implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

@@ -23,7 +23,15 @@ public class MyBadge implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private Utilisateur utilisateur;
     private Boolean estApparu;
+        
+    /**
+     * 
+     * @element-type Badge
+     */
+    @ManyToOne
+    private Badge badge;
 
     public Long getId() {
         return id;
@@ -40,13 +48,6 @@ public class MyBadge implements Serializable {
     public void setEstApparu(Boolean estApparu) {
         this.estApparu = estApparu;
     }
-    
-    /**
-     * 
-     * @element-type Utilisateur
-     */
-    @ManyToOne
-    private Badge badge;
 
     public Badge getBadge() {
         return badge;
@@ -55,6 +56,15 @@ public class MyBadge implements Serializable {
     public void setBadge(Badge badge) {
         this.badge = badge;
     }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+    
 
     @Override
     public int hashCode() {

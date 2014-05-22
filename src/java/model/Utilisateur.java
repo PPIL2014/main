@@ -52,7 +52,7 @@ public class Utilisateur implements Serializable {
     
     /**
      * 
-     * @element-type Utilisateur
+     * @element-type Contact
      */
     @OneToMany(cascade = CascadeType.ALL)
     private Collection<Contact>  contacts;
@@ -60,6 +60,7 @@ public class Utilisateur implements Serializable {
      * 
      * @element-type Conversation
      */
+    
     @OneToMany
     private Collection<Conversation>  conversations;
     /**
