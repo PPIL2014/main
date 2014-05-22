@@ -2,12 +2,14 @@ package control;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
