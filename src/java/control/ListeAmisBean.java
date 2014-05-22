@@ -23,6 +23,7 @@ public class ListeAmisBean {
 
     @Resource 
     private UserTransaction ut;
+    private String pseudoAmi;
     
     public ListeAmisBean() {
         
@@ -34,6 +35,14 @@ public class ListeAmisBean {
     
     public Collection<Contact> getContacts () {
         return getUtilisateurSession ().getContacts () ;
+    }
+
+    public String getPseudoAmi() {
+        return pseudoAmi;
+    }
+
+    public void setPseudoAmi(String pseudoAmi) {
+        this.pseudoAmi = pseudoAmi;
     }
     
     public boolean estConnecte (Utilisateur u) {
