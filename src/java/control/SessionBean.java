@@ -113,7 +113,6 @@ public class SessionBean {
                 context.addMessage(this.pseudoText.getClientId(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible de se connecter : Nom d'utilisateur ou mot de passe incorrect !", null)); 
             } else {
                 try {
-                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Vous êtes connecté en tant que " + this.utilisateur.getPseudo() + " !", null));
                     if(this.utilisateur.getSession()!=null)
                         this.utilisateur.getSession().setEstConnecte(Boolean.TRUE);
                     else{

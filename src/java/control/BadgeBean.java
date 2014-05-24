@@ -13,9 +13,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,6 +30,7 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import model.Badge;
+import model.Contact;
 import model.MyBadge;
 import model.Utilisateur;
 
@@ -36,7 +39,7 @@ import model.Utilisateur;
  * @author thomas
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class BadgeBean implements Serializable{
     @PersistenceContext( unitName = "DateRoulettePU" )
     private EntityManager em;
@@ -44,21 +47,56 @@ public class BadgeBean implements Serializable{
     @Resource 
     private UserTransaction ut;
     
+    private Collection<MyBadge> nouveauxBadges;
+
+    public Collection<MyBadge> getNouveauxBadges() {
+        return nouveauxBadges;
+    }
+
+    public void setNouveauxBadges(Collection<MyBadge> nouveauxBadges) {
+        this.nouveauxBadges = nouveauxBadges;
+    }
+    
+    @PostConstruct
+    public void init() {
+        this.initBadges();
+        this.nouveauxBadges = this.verification();
+        
+        Utilisateur utilisateur = this.getUtilisateurSession();
+        for(int i = 0; i < 5; i++) {
+            Contact contact = new Contact();
+            contact.setEstEnContactAvec(utilisateur);
+            contact.setType(Contact.Type.AMI);
+            utilisateur.getContacts().add(contact);
+        }
+        
+        try {
+            ut.begin();
+                em.merge(utilisateur);
+            ut.commit(); 
+        } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+            Logger.getLogger(BadgeBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void initBadges() {
         Query query = em.createQuery("SELECT b FROM Badge b");
         List<Badge> badgesListe = (List<Badge>)query.getResultList();
-        int[] counters = {10, 20, 30};
-        String[] names = {"Plus de 10", "Plus de 20", "Plus de 30"};
-        String[] tbn = {"Contact", "Contact", "Contact"};
-        String[] fields = {"", "", ""};
-        String[] fieldsPseudo = {"estEnContactAvec.pseudo", "estEnContactAvec.pseudo", "estEnContactAvec.pseudo"};
-        Date[] startDates = {new Date(), new Date(), new Date()};
-        Date[] endDates = {new Date(), new Date(), new Date()};
+        Long[] id = {0l, 1l, 2l, 3l, 4l, 5l};
+        int[] counters = {1, 10, 20, 30, 40, 50};
+        String[] names = {"Vous avez ajouté votre premier contact", "Vous avez ajouté 10 contacts", "Vous avez ajouté 20 contacts", "Vous avez ajouté 30 contacts",
+            "Vous avez ajouté 40 contacts", "Vous avez ajouté 50 contacts"};
+        String[] tbn = {"Contact", "Contact", "Contact", "Contact", "Contact", "Contact"};
+        String[] fields = {"", "", "", "", "", ""};
+        String[] fieldsPseudo = {"estEnContactAvec.pseudo", "estEnContactAvec.pseudo", "estEnContactAvec.pseudo", "estEnContactAvec.pseudo", "estEnContactAvec.pseudo", "estEnContactAvec.pseudo"};
+        Date[] startDates = {new Date(), new Date(), new Date(), new Date(), new Date(), new Date()};
+        Date[] endDates = {new Date(), new Date(), new Date(), new Date(), new Date(), new Date()};
         if(badgesListe.isEmpty()) {
             try{
                 ut.begin();
                 for(int i = 0; i < counters.length; i++) {
                     Badge badge = new Badge();
+                    badge.setId(id[i]);
                     badge.setCounter(counters[i]);
                     badge.setEndDate(endDates[i]);
                     badge.setField(fields[i]);
@@ -76,7 +114,6 @@ public class BadgeBean implements Serializable{
     }
     
     public Utilisateur getUtilisateurSession () {
-        this.initBadges();
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         Utilisateur utilisateurSession = (Utilisateur)em.find(Utilisateur.class,(String)session.getAttribute("pseudoUtilisateur")) ;
@@ -152,7 +189,6 @@ public class BadgeBean implements Serializable{
                 for(MyBadge mb : badges) {
                     if(! mb.isEstApparu()) {
                         badgesResult.add(mb);
-                        mb.setEstApparu(Boolean.TRUE);
                     }
                 }
                 ut.begin();
@@ -164,5 +200,27 @@ public class BadgeBean implements Serializable{
             }
             return badgesResult;
         }
+    }
+    
+    public void vu() {
+        Utilisateur utilisateur = this.getUtilisateurSession();
+        Collection<MyBadge> badges = utilisateur.getBadges();
+        for(MyBadge mb : badges) {
+            if(! mb.isEstApparu()) {
+                mb.setEstApparu(Boolean.TRUE);
+            }
+        }
+        try{
+            ut.begin();
+                em.merge(utilisateur);
+            ut.commit();
+        } catch (NotSupportedException | SystemException | RollbackException |
+                HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+            Logger.getLogger(BadgeBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public String mesBadges() {
+        return "listeBadges.xhtml";
     }
 }
