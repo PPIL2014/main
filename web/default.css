@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 html, body {
 	height: 100%;
 
@@ -518,4 +519,47 @@ ul.style2 li:first-child
 	top: 9px;
 	padding-right : 10px;
 
+}
+
+/* Badge */
+
+#containerBadge{
+    text-align: center;
+    margin: 0px auto;
+    width: 1024px;
+}
+.badge{
+    width: 1024px;
+    height: 100px;
+    margin: 5px 0px;
+    box-shadow: 0px 0px 5px silver;
+    border: 1px solid silver;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.badgeIcon{
+    float: left;
+    width: 100px;
+    height: 100px;
+    border-radius: 10px 0px 0px 10px;
+}
+.badgeIcon > img{
+    width: 100px;
+    height: 100px;
+    border-radius: 10px 0px 0px 10px;
+}
+
+.badgeTitle{
+    line-height: 100px;
+}
+
+.badgeObtenu{
+    border-color: cornflowerblue;
+}
+
+.badgeNonObtenu {
+    background-image: url("resources/images/badges/stripe.png");
+    background-repeat: repeat;
+    opacity: 0.5;
 }
