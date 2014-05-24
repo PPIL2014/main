@@ -55,7 +55,6 @@ public class ListeAmisBean {
     }
     
     public Collection<Utilisateur> rechercherListeAmis() {
-        System.out.println(pseudoAmi);
         if(pseudoAmi == null)
             return new ArrayList<>();
 

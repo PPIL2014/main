@@ -62,6 +62,8 @@ public class BadgeBean implements Serializable{
         this.initBadges();
         this.nouveauxBadges = this.verification();
         
+        /*TEST : AJOUT DE CONTACTS POUR TESTER LES BADGES
+        
         Utilisateur utilisateur = this.getUtilisateurSession();
         for(int i = 0; i < 5; i++) {
             Contact contact = new Contact();
@@ -76,7 +78,7 @@ public class BadgeBean implements Serializable{
             ut.commit(); 
         } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
             Logger.getLogger(BadgeBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }
     
     public void initBadges() {
