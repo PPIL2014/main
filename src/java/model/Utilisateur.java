@@ -4,7 +4,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model;
 
 import java.io.Serializable;
@@ -55,7 +54,7 @@ public class Utilisateur implements Serializable {
     
     /**
      * 
-     * @element-type Utilisateur
+     * @element-type Contact
      */
     @OneToMany(cascade = CascadeType.ALL)
     private Collection<Contact>  contacts  = new ArrayList<Contact>();
@@ -63,6 +62,7 @@ public class Utilisateur implements Serializable {
      * 
      * @element-type Conversation
      */
+    
     @OneToMany
     private Collection<Conversation>  conversations;
     /**
@@ -92,6 +92,13 @@ public class Utilisateur implements Serializable {
      */
     @OneToOne(cascade=CascadeType.ALL)
     private Image avatar;
+   
+    /**
+     * 
+     * @element-type MyBadge
+     */
+    @OneToMany(cascade=CascadeType.ALL)
+    private Collection<MyBadge>  badges;
     
     public Utilisateur() {
         
@@ -114,7 +121,7 @@ public class Utilisateur implements Serializable {
         if(dest == null)
             return null ;
         for (Conversation conv : dest.getConversations())
-            if(conv.getExpediteur().getPseudo().equals(pseudo))
+            if(conv.getExpediteur().getPseudo().equals(pseudo) || conv.getDestinataire().getPseudo().equals(pseudo))
                 return conv ;
         return null ;
     }
@@ -274,6 +281,14 @@ public class Utilisateur implements Serializable {
     }
     public void setMdp(String mdp) {
         this.mdp = mdp;
+    }
+
+    public Collection<MyBadge> getBadges() {
+        return badges;
+    }
+
+    public void setBadges(Collection<MyBadge> badges) {
+        this.badges = badges;
     }
 
     @Override

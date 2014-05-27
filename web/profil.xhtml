@@ -9,8 +9,8 @@
     <h:head>
         <link href="default.css" rel="stylesheet" type="text/css"></link>
         <title>Date Roulette</title>
+        <script src="resources/js/jquery-2.1.1.min.js"></script>
         <script type="text/javascript">
-
             function afficheFormulaire(xhr, status, args) {
                 if (!args.ok)
                     return;
@@ -18,10 +18,44 @@
                 if (args.copain != null)
                     document.getElementById('formulaire').innerHTML = args.copain + ' veut chatter !' + '<a href="chat.xhtml">CHAT</a>';
             }
+            
+            function afficherBadgesObtenus() {
+                var obj = $("#badgesObtenus");
+                var decalage = ($(window).width() / 2) - (obj.width() / 2);
+                obj.css({top: 0, left: decalage, opacity: 0, display: "inline-block"});
+                $(obj).animate({
+                    opacity: 1,
+                    top: "+=20"
+                }, 500, function() {
+                   $(obj).delay(1000 + $(obj).children().length * 1000).animate({
+                        opacity: 0,
+                        top: "-=20"
+                   }, 500, function () {
+                       obj.css({display: "none"});
+                   })
+                });
+            }
+            
+            $(function() {
+                afficherBadgesObtenus();
+            });
         </script>
 
     </h:head>
     <h:body>
+        <div id="badgesObtenus" style="display: none;position: fixed;width: 1024px;">
+            <c:forEach items="#{badgeBean.nouveauxBadges}" var="badge">
+                <div class="badge badgeObtenu">
+                    <div class="badgeIcon">
+                        <img src="resources/images/badges/#{badge.badge.id}.png" alt="badge" />
+                    </div>
+                    <div class="badgeTitle">
+                        <span style="color: cornflowerblue;">New : </span>#{badge.badge.name}
+                    </div>
+                </div>
+            </c:forEach>
+            #{badgeBean.vu()}
+        </div>
         <div id="wrapper">
             <div id="header-wrapper">
                 <div id="header">
@@ -131,16 +165,18 @@
                     <h:commandButton value="CHAT" onclick="dlgTypeChat.show()">
                         <f:ajax execute="@form" render="@none" />
                     </h:commandButton>
+                    <c:if test="#{sessionBean.utilisateurSession.administrateur}">
+                        <h:commandButton value="Gestion Site" action="outilsAdmin.xhtml"/>
+                    </c:if>
                     <h:commandButton value="AMIS" action="#{listeAmisBean.afficherAmis}"></h:commandButton>
-                    <h:commandButton value="Rechercher des amis" action="#{listeAmisBean.rechercherAmis}"/>
-                    <h:button value="Répondre aux questionnaires" outcome="liste-questionnaire.xhtml"/>
+  		    <h:button value="Répondre aux questionnaires" outcome="liste-questionnaire.xhtml"/>
 
                     <p:confirmDialog id="dlgChoixChat" message="Quel mode voulez-vous utiliser ?" header="Quel mode" widgetVar="dlgTypeChat">
                         <h:commandButton id="chatAffinite" value="Affinité" action="#{chatBean.chatAleatoire}"></h:commandButton>
                         <h:commandButton id="chat60s" value="60s Chrono" action="#{chatBean.chat60s}"></h:commandButton>
                         <h:commandButton id="annuler" value="Annuler" action="profil.xhtml"/>
                     </p:confirmDialog>
-
+                    <h:commandButton value="Mes badges" action="#{badgeBean.mesBadges()}"></h:commandButton>
                     <p:remoteCommand name="nextEvent" actionListener="#{eventProfilBean.lastEvent}" 
                                      oncomplete="updatePage(xhr, status, args);"/> 
                     <p:remoteCommand name="setSession" actionListener="#{chatBean.initSessionChat(evt)}"/>

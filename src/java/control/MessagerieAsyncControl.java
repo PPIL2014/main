@@ -7,7 +7,6 @@ package control;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -16,6 +15,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.http.HttpSession;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -40,6 +40,9 @@ public class MessagerieAsyncControl {
     @Resource
     private UserTransaction ut;
     
+    @ManagedProperty(value="#{param.conv}")
+    private String id;
+    
     private Conversation conversation;
     
     private Utilisateur user;
@@ -53,15 +56,15 @@ public class MessagerieAsyncControl {
     public MessagerieAsyncControl() {
     }
     
-    @PostConstruct
+    /*@PostConstruct
     public void init(){
-        String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("conv");
+        id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("conv");
         System.out.println("conv : "+FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("conv"));
         conversation = getConversation(Long.parseLong(id));
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         user = (Utilisateur) session.getAttribute("user");
         
-    }
+    }*/
     
     public Utilisateur getDest(){
         if(conversation.getExpediteur().getPseudo().equals(user.getPseudo()))
@@ -104,12 +107,26 @@ public class MessagerieAsyncControl {
     public void setUser(Utilisateur user) {
         this.user = user;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
     
     /**
      * Methode permettant de récupérer une liste de messages privés (MessageConversation)
      * @return la liste des messages privés (MessageConversation)
      */
     public List<MessageConversation> getPrivateMessages() {
+        if(id==null || id.isEmpty())
+            id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("conv");
+        System.err.println("conv : "+FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("conv"));
+         conversation = getConversation(Long.parseLong(id));
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        user = (Utilisateur) session.getAttribute("user");
         return (List<MessageConversation>) conversation.getMessages();
     }
     
@@ -118,23 +135,39 @@ public class MessagerieAsyncControl {
      * @return la (première et en théorie unique) conversation entre les deux utilisateurs
      */
     public Conversation getConversation(Long id) {
-        try{
             
-            if(id==null)
-                return null;
-            ut.begin();
-            Conversation results =  (Conversation) em.find(Conversation.class, id);
-            ut.commit();
-            
-            return results;
-            
-        }catch(NotSupportedException | SystemException | RollbackException | 
-                HeuristicMixedException | HeuristicRollbackException | 
-                SecurityException | IllegalStateException e){
-            e.printStackTrace();
-        }
-           
-        return null;
+        if(id==null)
+            id = Long.parseLong(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("conv"));
+
+
+        Conversation results =  (Conversation) em.find(Conversation.class, id);
+
+        return results;
+    }
+    
+    public String getConv(Utilisateur u){
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        user = (Utilisateur) em.find(Utilisateur.class, (String) session.getAttribute("pseudoUtilisateur"));
+        
+        if(u==null)
+            return "Messagerie.xhtml";
+        
+        Query q = em.createQuery("SELECT c FROM Conversation c "
+                + "WHERE c.expediteur=:nous AND c.destinataire=:autre "
+                + "OR c.destinataire=:n AND c.expediteur=:a");
+        q.setParameter("nous", user);
+        q.setParameter("autre", u);
+        q.setParameter("n", user);
+        q.setParameter("a", u);
+        
+        conversation = (Conversation) q.getSingleResult();
+        
+        if(conversation==null)
+            return "Messagerie.xhtml";
+        
+        id=""+conversation.getId();
+        System.err.println("id : "+id);
+        return "MessagerieAsynchrone.xhtml";
     }
     
     public String send() {

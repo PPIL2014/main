@@ -6,18 +6,13 @@
 
 package control;
 
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -57,7 +52,7 @@ public final class GestionMessagerie {
         return instance ;
     }
     
-    @PostConstruct
+   /* @PostConstruct
     public void init() {
         //em = emf.createEntityManager();
         //ut = em.getTransaction();
@@ -146,7 +141,7 @@ public final class GestionMessagerie {
                 SecurityException | IllegalStateException e){
             e.printStackTrace();
         }
-    }
+    }*/
     
     public List<Utilisateur> getContacts(Utilisateur user){
         if(user==null)

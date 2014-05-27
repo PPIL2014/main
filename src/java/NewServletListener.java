@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import model.Contact;
 import model.FAQ;
+import model.SignalementUtilisateur;
 import model.Utilisateur;
 
 
@@ -98,16 +100,17 @@ public class NewServletListener implements ServletContextListener  {
      //      Collection cc2 = new ArrayList<Contact>(); 
             aziz.getContacts().add(c2);
 
-           Contact c3 = new Contact();
-           c3.setType(Contact.Type.DEMANDE);
-           c3.setEstEnContactAvec(aziz);
-           medi.getContacts().add(c3);
-          
-           Contact c4 = new Contact();
-           c4.setType(Contact.Type.ENATTENTE);
-           c4.setEstEnContactAvec(medi);
-           aziz.getContacts().add(c4);
+           SignalementUtilisateur s = new SignalementUtilisateur();
+           s.setDate(new Date());
+           s.setEmetteur(aziz);
+           s.setMotif("Utilisateur perturbateur");
+           s.setUtilisateurSignale(medi);
            
+           SignalementUtilisateur s2 = new SignalementUtilisateur();
+           s2.setDate(new Date());
+           s2.setEmetteur(medi);
+           s2.setMotif("Administrateur véreux");
+           s2.setUtilisateurSignale(aziz);
            
            FAQ q1 = new FAQ();
            q1.setQuestionFAQ("Comment puis-je m'inscrire ?");
@@ -197,8 +200,8 @@ public class NewServletListener implements ServletContextListener  {
                 
                 em.persist(medi);
                 em.persist(aziz);
-                em.persist(nicolas);
-                
+                em.persist(s);
+                em.persist(s2);
                  ut.commit();
                  
             }catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {

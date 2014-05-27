@@ -203,6 +203,7 @@ public class ChatBean implements Serializable {
     }
     
     public void envoyerMessage () throws Exception {
+        System.out.println("KDJHGFLKQSJHLKDSJHFQLSDKJHFLDSKJHFQSDLKJHFSQDKLJFHSQDKLJHFSDQLKJHFQSLKDJHFQSKLJDHFQSKJDHFKQSJHDFLKSQJHFD");
         if (!message.isEmpty())
         {
             this.ut.begin();
@@ -468,18 +469,18 @@ public class ChatBean implements Serializable {
         }*/
         
         
-                if(getUtilisateurSession().getPseudo().equals(this.sessionChat.getUtilisateur1().getPseudo())){
+        if(getUtilisateurSession().getPseudo().equals(this.sessionChat.getUtilisateur1().getPseudo())){
            
               
-                c = new Contact(Contact.Type.ENATTENTE, this.sessionChat.getUtilisateur2());
-                getUtilisateurSession().getContacts().add(c);
-            
-                Utilisateur u = em.find(Utilisateur.class, this.sessionChat.getUtilisateur2().getPseudo());
-                Contact c2 = new Contact(Contact.Type.DEMANDE, this.sessionChat.getUtilisateur1());
-                u.getContacts().add(c2);
-                this.em.merge(u);
-                this.em.merge(getUtilisateurSession());
-                this.ut.commit();
+            c = new Contact(Contact.Type.ENATTENTE, this.sessionChat.getUtilisateur2());
+            getUtilisateurSession().getContacts().add(c);
+
+            Utilisateur u = em.find(Utilisateur.class, this.sessionChat.getUtilisateur2().getPseudo());
+            Contact c2 = new Contact(Contact.Type.DEMANDE, this.sessionChat.getUtilisateur1());
+            u.getContacts().add(c2);
+            this.em.merge(u);
+            this.em.merge(getUtilisateurSession());
+            this.ut.commit();
                   
                 
         }else{
@@ -493,7 +494,7 @@ public class ChatBean implements Serializable {
                 this.em.merge(getUtilisateurSession());
                 this.em.merge(u);
                 this.ut.commit();
-         
+        
         }
         
         getUtilisateurSession().getContacts().add(c);
