@@ -102,7 +102,11 @@
                             <h:column>
                                 <h:commandButton value="Message" 
                                                  rendered="#{current.type == 'AMI' || current.type == 'FAVORI'}"
-                                                 />    
+                                                 action="#{messagerieAsyncControl.getConv(current.estEnContactAvec)}"
+                                                 >
+                                    <f:param name="faces-redirect" value="true"/>
+                                    <f:param name="conv" value="#{current.estEnContactAvec.getConv(contactsBean.getUtilisateurSession())}"/>
+                                </h:commandButton>
                             </h:column>
                             
                             <h:column>

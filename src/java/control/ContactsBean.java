@@ -6,19 +6,15 @@
 package control;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.transaction.HeuristicMixedException;
@@ -123,15 +119,20 @@ public class ContactsBean {
             
             // accepte l'autre contact(en attente)
            
-            String pseudo = (String) getUtilisateurSession().getPseudo();
+            Utilisateur u = getUtilisateurSession();
             Utilisateur he = em.find(Utilisateur.class, c.getEstEnContactAvec().getPseudo());
              
             for(Contact co : he.getContacts())
             {
-                if(co.getEstEnContactAvec().getPseudo().equals(pseudo))
+                if(co.getEstEnContactAvec().getPseudo().equals(u.getPseudo()))
                 {
                     co.setType(Contact.Type.AMI);
+                    Conversation conv = new Conversation();
+                    conv.setExpediteur(u);
+                    conv.setDestinataire(he);
+                    u.getConversations().add(conv);
                     ut.begin();
+                    em.persist(conv);
                     em.merge(co);
                     ut.commit();
                     break;
@@ -361,7 +362,7 @@ public class ContactsBean {
         this.rechercheListeNoire = rechercheListeNoire;
     }
 
-    public Utilisateur getUtilisateurSession () {
+    public Utilisateur getUtilisateurSession() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
         Utilisateur utilisateurSession = (Utilisateur)em.find(Utilisateur.class,(String)session.getAttribute("pseudoUtilisateur")) ;

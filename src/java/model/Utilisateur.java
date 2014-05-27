@@ -121,7 +121,7 @@ public class Utilisateur implements Serializable {
         if(dest == null)
             return null ;
         for (Conversation conv : dest.getConversations())
-            if(conv.getExpediteur().getPseudo().equals(pseudo))
+            if(conv.getExpediteur().getPseudo().equals(pseudo) || conv.getDestinataire().getPseudo().equals(pseudo))
                 return conv ;
         return null ;
     }
