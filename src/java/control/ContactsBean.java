@@ -42,24 +42,54 @@ public class ContactsBean {
     @Resource
     private UserTransaction ut;
     
+    private boolean searchFavoris;
+
+    public boolean isSearchFavoris() {
+        return searchFavoris;
+    }
+
+    public void setSearchFavoris(boolean searchFavoris) {
+        this.searchFavoris = searchFavoris;
+    }
+    
     public List<Contact> getContactListeAmis() {
         
 
         String pseudo = (String) getUtilisateurSession().getPseudo();
         Utilisateur u = em.find(Utilisateur.class, pseudo);
         List<Contact> alc = new ArrayList<>();
-
-        for(Contact c : u.getContacts())
+       
+        if(!searchFavoris) // amis et favoris
         {
-            if(c.getType().equals(Contact.Type.AMI) || c.getType().equals(Contact.Type.FAVORI))
+            for(Contact c : u.getContacts())
             {
-                if(rechercheListeAmis != null)
+                if(c.getType().equals(Contact.Type.AMI) || c.getType().equals(Contact.Type.FAVORI))
                 {
-                    if(c.getEstEnContactAvec().getPseudo().matches(rechercheListeAmis+".*"))
+                    if(rechercheListeAmis != null)
+                    {
+                        if(c.getEstEnContactAvec().getPseudo().matches(rechercheListeAmis+".*"))
+                            alc.add(c);
+                    }
+                    else
                         alc.add(c);
                 }
-                else
-                    alc.add(c);
+            }
+        }
+        else // que les favoris
+        {
+           
+            for(Contact c : u.getContacts())
+            {
+                if(c.getType().equals(Contact.Type.FAVORI))
+                {
+                    if(rechercheListeAmis != null)
+                    {
+                        if(c.getEstEnContactAvec().getPseudo().matches(rechercheListeAmis+".*"))
+                            alc.add(c);
+                    }
+                    else
+                        alc.add(c);
+                }
             }
         }
         
@@ -75,7 +105,7 @@ public class ContactsBean {
 
         for(Contact c : u.getContacts())
         {
-            if(c.getType().equals(Contact.Type.DEMANDE) || c.getType().equals(Contact.Type.ENATTENTE) || c.getType().equals(Contact.Type.REFUSE))
+            if(c.getType().equals(Contact.Type.DEMANDE))
             {
                 alc.add(c);
             }
@@ -168,6 +198,24 @@ public class ContactsBean {
             ut.commit();
             
             
+     
+           
+            String pseudo = (String) getUtilisateurSession().getPseudo();
+            Utilisateur he = em.find(Utilisateur.class, c.getEstEnContactAvec().getPseudo());
+             
+            for(Contact co : he.getContacts())
+            {
+                if(co.getEstEnContactAvec().getPseudo().equals(pseudo))
+                {
+                    co.setType(Contact.Type.REFUSE);
+                    ut.begin();
+                    em.merge(co);
+                    ut.commit();
+                    break;
+                }
+            }  
+            
+            
         } catch (NotSupportedException ex) {
             Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SystemException ex) {
@@ -195,6 +243,22 @@ public class ContactsBean {
             ut.begin();
             em.merge(c);
             ut.commit();
+           
+           
+            String pseudo = (String) getUtilisateurSession().getPseudo();
+            Utilisateur he = em.find(Utilisateur.class, c.getEstEnContactAvec().getPseudo());
+             
+            for(Contact co : he.getContacts())
+            {
+                if(co.getEstEnContactAvec().getPseudo().equals(pseudo))
+                {
+                    co.setType(Contact.Type.AMI);
+                    ut.begin();
+                    em.merge(co);
+                    ut.commit();
+                    break;
+                }
+            } 
             
             
         } catch (NotSupportedException ex) {
@@ -215,61 +279,7 @@ public class ContactsBean {
     }
     
     public void refuser(Contact c){
-        
-        try {
-            
-          
-            c.setType(Contact.Type.REFUSE);
-            
-            ut.begin();
-            em.merge(c);
-            ut.commit();
-            
-            
-        } catch (NotSupportedException ex) {
-            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
-            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RollbackException ex) {
-            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (HeuristicMixedException ex) {
-            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (HeuristicRollbackException ex) {
-            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
-            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalStateException ex) {
-            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-     public void favoriser(Contact c){
-        
-        try {
-            
-          
-            c.setType(Contact.Type.FAVORI);
-            
-            ut.begin();
-            em.merge(c);
-            ut.commit();
-            
-            
-        } catch (NotSupportedException ex) {
-            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
-            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RollbackException ex) {
-            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (HeuristicMixedException ex) {
-            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (HeuristicRollbackException ex) {
-            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
-            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalStateException ex) {
-            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            supprimer(c);     
     }
      
     public void defavoriser(Contact c){
@@ -385,4 +395,114 @@ public class ContactsBean {
         return listeConnecte;
     }
     
+    public boolean haveNotifs(){
+        
+        String pseudo = (String) getUtilisateurSession().getPseudo();
+        Utilisateur u = em.find(Utilisateur.class, pseudo);
+
+        //----------------------------------------- accepter les demandes faites en "même temps"
+  /**      for (Contact c : u.getContacts()) {
+            if (c.getType().equals(Contact.Type.ENATTENTE)) {
+                if (getContactDemandes().contains(c)) {
+                    supprimer(c);
+
+              /**      Utilisateur he = em.find(Utilisateur.class, c.getEstEnContactAvec().getPseudo());
+                    for (Contact co : he.getContacts()) {
+                        List<Contact> alc = new ArrayList<>();
+
+                        for (Contact con : u.getContacts()) {
+                            if (con.getType().equals(Contact.Type.DEMANDE)) {
+                                alc.add(con);
+                            }
+                        }
+
+                        if (alc.contains(co)) {
+                            supprimer(co);
+                        }
+                    }
+                }
+            }
+        }**/
+        
+        try {
+            
+            ut.begin();
+            em.merge(u);
+            ut.commit();
+            
+        } catch (NotSupportedException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SystemException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RollbackException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HeuristicMixedException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HeuristicRollbackException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalStateException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+           
+        //---------------------------------------------
+        
+        
+        
+        for(Contact c : u.getContacts())
+        {
+            if(c.getType().equals(Contact.Type.DEMANDE))
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    public void supprimer(Contact c){
+        try {
+            
+            String pseudo = getUtilisateurSession().getPseudo();
+            
+            Utilisateur u = em.find(Utilisateur.class, pseudo);
+            u.getContacts().remove(c);
+            ut.begin();
+            em.merge(u);
+            ut.commit();
+
+           
+            Utilisateur he = em.find(Utilisateur.class, c.getEstEnContactAvec().getPseudo());
+            
+            for(Contact co : he.getContacts())
+            {
+                if(co.getEstEnContactAvec().getPseudo().equals(pseudo))
+                {
+                    he.getContacts().remove(co);
+                    break;
+                }
+            }
+           
+            ut.begin();
+            em.merge(he);
+            ut.commit();
+               
+                    
+        } catch (NotSupportedException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SystemException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RollbackException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HeuristicMixedException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HeuristicRollbackException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalStateException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

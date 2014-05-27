@@ -58,7 +58,7 @@ public class Utilisateur implements Serializable {
      * @element-type Utilisateur
      */
     @OneToMany(cascade = CascadeType.ALL)
-    private Collection<Contact>  contacts;
+    private Collection<Contact>  contacts  = new ArrayList<Contact>();
     /**
      * 
      * @element-type Conversation

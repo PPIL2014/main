@@ -33,115 +33,99 @@
             <div id="menu-wrapper">
                 <div id="menu" >
                     <ul>
-                        <li><h:form rendered="false"><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
-                        <li><h:form rendered="false"><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
-                        <li><h:form rendered="false"><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
-                        <li><h:form rendered="false"><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
+                        <li><h:form rendered="true"><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="true"><h:commandLink value="Contacts" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="true"><h:commandLink value="Galeries" action="listeGaleries.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="true"><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="true"><h:commandLink value="Notifications" action="notifications.xhtml" rendered="#{contactsBean.haveNotifs()}"></h:commandLink></h:form></li>
+                        <li><h:form rendered="true"><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
                     </ul>
                 </div>
                 <!-- end #menu --> 
             </div>
             <div id="page" class="container">
                 <p:messages id="messages" showDetail="true" autoUpdate="true" />
-                <h1><h:outputText id="pseudo" value="#{profilBean.utilisateurSession.pseudo}"></h:outputText></h1>
-                <h:graphicImage value="#{profilBean.urlAvatar}" width="144px" height="144px"/>
-                <br /><br />
+                <fieldset>
+                    <legend> 
+                        <h1><h:outputText id="pseudo" value="#{profilBean.utilisateurSession.pseudo}"></h:outputText></h1>
+                    </legend>
+                    <h:graphicImage value="#{profilBean.urlAvatar}" width="144px" height="144px"/>
+                    <br /><br />
 
-                <table>
+                    <table>
 
-                    <tr>
-                        <td>
-                            <b>Nom : </b>
-                        </td>
-                        <td>
-                            <h:outputText id="nom" value="#{profilBean.utilisateurSession.nom}"></h:outputText>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b>Prenom : </b>
-                        </td>
-                        <td> 
-                            <h:outputText id="prenom" value="#{profilBean.utilisateurSession.prenom}"></h:outputText>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b>Date de naissance : </b>
-                        </td>
-                        <td>
-                            <h:outputText id="ddn" value="#{profilBean.utilisateurSession.ddn.day}/#{profilBean.utilisateur.ddn.month}/#{profilBean.utilisateur.ddn.year}"></h:outputText>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b>Sexe : </b>
-                        </td>
-                        <td>
-                            <h:outputText id="sexe" value="#{profilBean.utilisateurSession.sexe}"></h:outputText>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b>Adresse : </b>
-                        </td>
-                        <td>
-                            <h:outputText id="adresse" value="#{profilBean.utilisateurSession.adresse}"></h:outputText>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b>Mail : </b>
-                        </td>
-                        <td>
-                            <h:outputText id="mail" value="#{profilBean.utilisateurSession.mail}"></h:outputText>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b>Téléphone :</b>
-                        </td>
-                        <td>
-                            <h:outputText id="telephone" value="#{profilBean.utilisateurSession.telephone}"></h:outputText>
-                        </td>
-                    </tr>
-                </table>
-
-                <table>
-                    <h:form>
                         <tr>
-                            <td colspan="1">
-                                <h:commandButton value="Modifier" action="editProfil">
-                                </h:commandButton>
+                            <td>
+                                <b>Nom : </b>
+                            </td>
+                            <td>
+                                <h:outputText id="nom" value="#{profilBean.utilisateurSession.nom}"></h:outputText>
                             </td>
                         </tr>
-                    </h:form>
+                        <tr>
+                            <td>
+                                <b>Prenom : </b>
+                            </td>
+                            <td> 
+                                <h:outputText id="prenom" value="#{profilBean.utilisateurSession.prenom}"></h:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Date de naissance : </b>
+                            </td>
+                            <td>
+                                <h:outputText id="ddn" value="#{profilBean.utilisateurSession.ddn.day}/#{profilBean.utilisateur.ddn.month}/#{profilBean.utilisateur.ddn.year}"></h:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Sexe : </b>
+                            </td>
+                            <td>
+                                <h:outputText id="sexe" value="#{profilBean.utilisateurSession.sexe}"></h:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Adresse : </b>
+                            </td>
+                            <td>
+                                <h:outputText id="adresse" value="#{profilBean.utilisateurSession.adresse}"></h:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Mail : </b>
+                            </td>
+                            <td>
+                                <h:outputText id="mail" value="#{profilBean.utilisateurSession.mail}"></h:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Téléphone :</b>
+                            </td>
+                            <td>
+                                <h:outputText id="telephone" value="#{profilBean.utilisateurSession.telephone}"></h:outputText>
+                            </td>
+                        </tr>
+                    </table>
 
-                </table>
+                    <table>
+                        <h:form>
+                            <tr>
+                                <td colspan="1">
+                                    <h:commandButton value="Modifier" action="editProfil">
+                                    </h:commandButton>
+                                </td>
+                            </tr>
+                        </h:form>
+
+                    </table>
+                </fieldset>
                 <br />
-                <table>
-                    <tr>
-                        <td>
-                            <h:outputLink value="listeAmis.xhtml">
-                                <h:outputText value="Liste amis " /> 
-                            </h:outputLink>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h:outputLink value="listeNoire.xhtml">
-                                <h:outputText value="Liste noire " />  
-                            </h:outputLink>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h:outputLink value="listeGaleries.xhtml">
-                                <h:outputText value="Liste Galeries " />  
-                            </h:outputLink>
-                        </td>
-                    </tr>
-                </table>
+
                 <h:form>
                     <br />
                     <h:commandButton value="CHAT" onclick="dlgTypeChat.show()">
@@ -149,79 +133,79 @@
                     </h:commandButton>
                     <h:commandButton value="AMIS" action="#{listeAmisBean.afficherAmis}"></h:commandButton>
                     <h:commandButton value="Rechercher des amis" action="#{listeAmisBean.rechercherAmis}"/>
-  		    <h:button value="Répondre aux questionnaires" outcome="liste-questionnaire.xhtml"/>
+                    <h:button value="Répondre aux questionnaires" outcome="liste-questionnaire.xhtml"/>
 
                     <p:confirmDialog id="dlgChoixChat" message="Quel mode voulez-vous utiliser ?" header="Quel mode" widgetVar="dlgTypeChat">
                         <h:commandButton id="chatAffinite" value="Affinité" action="#{chatBean.chatAleatoire}"></h:commandButton>
                         <h:commandButton id="chat60s" value="60s Chrono" action="#{chatBean.chat60s}"></h:commandButton>
                         <h:commandButton id="annuler" value="Annuler" action="profil.xhtml"/>
                     </p:confirmDialog>
-                    
+
                     <p:remoteCommand name="nextEvent" actionListener="#{eventProfilBean.lastEvent}" 
                                      oncomplete="updatePage(xhr, status, args);"/> 
-                                <p:remoteCommand name="setSession" actionListener="#{chatBean.initSessionChat(evt)}"/>
-                  </h:form>  
-                    <script type="text/javascript">
-                        var dlgTypeChat ;
-                        
-                        updatePage(null, null, null);
+                    <p:remoteCommand name="setSession" actionListener="#{chatBean.initSessionChat(evt)}"/>
+                </h:form>  
+                <script type="text/javascript">
+                    var dlgTypeChat;
 
-                        function updatePage(xhr, status, args) {
-                            if (xhr != null)
+                    updatePage(null, null, null);
+
+                    function updatePage(xhr, status, args) {
+                        if (xhr != null)
+                        {
+                            if (args.ok)
                             {
-                                if (args.ok)
+                                if (args.type == "goChat")
                                 {
-                                    if (args.type == "goChat")
-                                    {
-                                        setSession();
-                                        document.location = 'chat.xhtml'
-                                        return;
-                                    }
+                                    setSession();
+                                    document.location = 'chat.xhtml'
+                                    return;
                                 }
                             }
-                            nextEvent();
                         }
-                    </script> 
-                
-        
-    <div id="formulaire"></div>
-    
-    <h:form id="myForm">
-        <p:remoteCommand name="aUnChat" actionListener="#{profilBean.chatInfo}" 
-                         oncomplete="afficheFormulaire(xhr,status,args);" />      
-              
-        <br/>
-        
-        <h:commandButton id="btnGoChat" value="Hidden" action="#{chatBean.goChat}" style="display:none">
-            <f:ajax execute="@form" render=""></f:ajax>
-        </h:commandButton>
-        <br/>
-        <h:commandButton value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandButton>
-        <h:commandButton value="Messagerie Privé" action="#{sessionBean.Messagerie()}"></h:commandButton>
-        <br/>
-        <hr/>
-        <br/>
-        
-        <br/>Liste des utilisateurs connectée : <br/>
-        <h:dataTable value="#{sessionBean.listeUtilisateurConnecte}" var="item">
-            <h:column>            
-                <h:outputText value="#{item}"/><br/>
-            </h:column>
-        </h:dataTable>
-        
-        <br/>Liste des utilisateurs en attente : <br/>
-        <h:dataTable value="#{profilBean.listeUtilisateurAttente}" var="item">
-            <h:column>            
-                <h:outputText value="#{item.pseudo}"/><br/>
-            </h:column>
-        </h:dataTable>
-        <br/>
-        
-    </h:form>
-   
-    <c:if test="#{profilBean.seulEnAttente}">
-        <f:event listener="#{profilBean.addInfo()}" type="postValidate"/>
-    </c:if>
+                        nextEvent();
+                    }
+                </script> 
+
+
+                <div id="formulaire"></div>
+
+                <h:form id="myForm">
+                    <p:remoteCommand name="aUnChat" actionListener="#{profilBean.chatInfo}" 
+                                     oncomplete="afficheFormulaire(xhr,status,args);" />      
+
+                    <br/>
+
+                    <h:commandButton id="btnGoChat" value="Hidden" action="#{chatBean.goChat}" style="display:none">
+                        <f:ajax execute="@form" render=""></f:ajax>
+                    </h:commandButton>
+                    <br/>
+                    <h:commandButton value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandButton>
+                    <h:commandButton value="Messagerie Privé" action="#{sessionBean.Messagerie()}"></h:commandButton>
+                    <br/>
+                    <hr/>
+                    <br/>
+
+                    <br/>Liste des utilisateurs connectée : <br/>
+                    <h:dataTable value="#{sessionBean.listeUtilisateurConnecte}" var="item">
+                        <h:column>            
+                            <h:outputText value="#{item}"/><br/>
+                        </h:column>
+                    </h:dataTable>
+
+                    <br/>Liste des utilisateurs en attente : <br/>
+                    <h:dataTable value="#{profilBean.listeUtilisateurAttente}" var="item">
+                        <h:column>            
+                            <h:outputText value="#{item.pseudo}"/><br/>
+                        </h:column>
+                    </h:dataTable>
+                    <br/>
+
+                </h:form>
+
+                <c:if test="#{profilBean.seulEnAttente}">
+                    <f:event listener="#{profilBean.addInfo()}" type="postValidate"/>
+                </c:if>
 
 
             </div>

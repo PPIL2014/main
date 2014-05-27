@@ -85,7 +85,7 @@ public class UploadBean {
             }
             utilisateur.getAvatar().setDate(new Date());
             utilisateur.getAvatar().setNom(this.utilisateur.getPseudo() + "."+ this.getTypeFile(file));
-            utilisateur.getAvatar().setDescription("file://"+System.getProperty("user.home") + "/dateImages/" + this.utilisateur.getPseudo() + "." + this.getTypeFile(file));
+            utilisateur.getAvatar().setDescription(System.getProperty("user.home") + "/ressources/images" + this.utilisateur.getPseudo() + "." + this.getTypeFile(file));
             try {
 
                 ut.begin();

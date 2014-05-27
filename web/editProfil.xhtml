@@ -31,10 +31,16 @@
             <div id="page" class="container">
                 <br/>
                 <h1><h:outputText id="pseudo" value="#{editProfilBean.utilisateur.pseudo}"></h:outputText></h1>
-                <h:form id="form" enctype="multipart/form-data">
-                    <h:inputFile id="file" value="#{uploadBean.file}" validator="#{uploadBean.validateFile}"/>
-                    <h:commandButton value="Upload" action="#{uploadBean.upload()}">
-                        <f:param name="pseudo" value="#{uploadBean.param}" />      
+                         <h:form enctype="multipart/form-data">
+                    Nom : <h:inputText id="nomImg" value="#{imageBean.nomImage}" required="true" requiredMessage="Nom de l'image requis"/>
+                        <h:inputFile id="file" value="#{imageBean.file}" validator="#{imageBean.validateFile}"/>
+                        <h:commandButton value="Upload" action="#{imageBean.ajouterImageProfil()}">
+                            <f:param name="nom" value="#{param.nom}"/>
+                        </h:commandButton>
+                    </h:form>
+                <h:form>
+                    <h:commandButton value="Annuler" action="afficherGalerie.xhtml">
+                        <f:param name="nom" value="#{param.nom}"/>
                     </h:commandButton>
                 </h:form>
                 <hr/>

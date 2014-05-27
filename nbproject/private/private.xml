@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/thibaut/Bureau/Nouveau%20dossier/main/web/outilsAdmin.xhtml</file>
-            <file>file:/home/thibaut/Bureau/Nouveau%20dossier/main/web/profil.xhtml</file>
+            <file>file:/home/nicolas/NetBeansProjects/MasterMarche545/main/web/profil.xhtml</file>
+            <file>file:/home/nicolas/NetBeansProjects/MasterMarche545/main/src/java/control/ContactsBean.java</file>
+            <file>file:/home/nicolas/NetBeansProjects/MasterMarche545/main/src/java/model/Contact.java</file>
+            <file>file:/home/nicolas/NetBeansProjects/MasterMarche545/main/src/java/control/ListeAmisBean.java</file>
+            <file>file:/home/nicolas/NetBeansProjects/MasterMarche545/main/src/java/control/ChatBean.java</file>
         </group>
     </open-files>
 </project-private>

@@ -33,7 +33,7 @@ public class Contact implements Serializable {
     private Boolean estBloque;
     private Boolean estAccepte;
 
-    public enum Type { ENATTENTE, DEMANDE, REFUSE, AMI, FAVORI, BLOQUE };
+    public enum Type { ENATTENTE, DEMANDE, REFUSE, AMI, FAVORI, BLOQUE,BLOQUECHAT };
     
     private Type type;
 

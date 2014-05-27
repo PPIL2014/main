@@ -168,6 +168,65 @@ public class ImageBean {
 
     }
     
+    
+    
+    
+    public String ajouterImageProfil() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        utilisateur = getUtilisateurSession();
+   
+        if(nomImage.isEmpty())
+            nomImage="Image sans nom";
+        image = new Image();
+        image.setNom(nomImage);
+        image.setDate(new Date());
+        this.utilisateur.setAvatar(image);
+        try {
+            Date d = new Date();
+            DateFormat f = new SimpleDateFormat("d-M-y");
+            upload();
+            String path = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("resources/images/"+utilisateur.getPseudo()+"/"+nomGalerie+"/");
+            image.setUrl(path.substring(path.indexOf("resources"))+"/"+this.utilisateur.getPseudo() + "_" + image.getNom() +"."+this.getTypeFile(file));
+
+            ut.begin();
+            em.merge(utilisateur);
+            ut.commit();
+            
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Image ajoutée", null));
+
+        } catch (NotSupportedException | SystemException | RollbackException 
+                | HeuristicMixedException | HeuristicRollbackException | SecurityException 
+                | IllegalStateException | IOException ex) {
+            ex.printStackTrace();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur lors du televersement de l'image", null));
+        }
+        
+        return "editProfil.xhtml";
+        
+    }
+    
+    public void uploadProfil() throws IOException {
+        InputStream input = file.getInputStream();
+        /*Date d = new Date();
+        DateFormat f = new SimpleDateFormat("d-M-y");*/
+        String path = ((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("resources/images/"+utilisateur.getPseudo()+"/"+nomGalerie+"/");
+        File rep = new File(path);
+        if(!rep.exists() || !rep.isDirectory())
+            rep.mkdirs();
+        File image = new File(path+"/"+ this.utilisateur.getPseudo() + "_" + "profil"+"."+this.getTypeFile(file));
+        System.err.println("rep exist : "+image.getAbsolutePath());
+        System.out.println("path : "+path);
+        FileOutputStream output = new FileOutputStream(image);
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = input.read(buf)) > 0) {
+            output.write(buf, 0, len);
+        }
+        input.close();
+        output.close();
+
+    }
+    
     public String getImagePath(){
         if(image!=null)
             return image.getUrl();

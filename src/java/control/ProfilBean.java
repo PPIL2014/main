@@ -47,10 +47,10 @@ public class ProfilBean {
     }
       
      public String getUrlAvatar () {
-        return getUtilisateurSession() != null?"":System.getProperty("user.home")+"/dateImages/"+ getUtilisateurSession().getAvatar().getDescription() ;
+        return getUtilisateurSession().getAvatar() == null?"/resources/images/apercu.png":getUtilisateurSession().getAvatar().getUrl() ;
     }
      
-
+     
     
     public Utilisateur getUtilisateur(){
         return utilisateur;

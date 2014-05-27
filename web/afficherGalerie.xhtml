@@ -2,7 +2,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <h:head>
         <link href="default.css" rel="stylesheet" type="text/css"></link>
@@ -37,20 +40,18 @@
                     <h:commandButton value="Ajouter une image" action="ajouterImage.xhtml" type="submit">
                         <f:param name="nom" value="#{galeriesBean.nomGalerie}"/>
                     </h:commandButton>
-                </h:form>
-                
-                <h:form>
-                    <h:dataTable value="#{galeriesBean.galerie}" var="img"> 
-                        <h:column>
-                            #{img.id} : 
+                    <br></br>
+                    <ui:repeat value="#{galeriesBean.galerie}" var="img">
                             <h:commandLink value="#{img.nom}" action="afficherImage.xhtml">
+                                <h:graphicImage value="#{img.url}" style="width:100px;height:75px;"/>
                                 <f:param name="nom" value="#{galeriesBean.nomGalerie}"/>
                                 <f:param name="idImg" value="#{img.id}"/>
                             </h:commandLink>
-                        </h:column>
-                    </h:dataTable>
+                    </ui:repeat>
                 </h:form>
+                
 
+                
             </div>
         </div>
 

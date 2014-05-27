@@ -21,10 +21,10 @@
             <div id="menu-wrapper">
                 <div id="menu" >
                     <ul>
-                        <li><h:form rendered="false"><h:commandLink value="Ma page" action="myProfil.xhtml"></h:commandLink></h:form></li>
-                        <li><h:form rendered="false"><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
-                        <li><h:form rendered="false"><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
-                        <li><h:form rendered="false"><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
+                        <li><h:form rendered="true"><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="true"><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="true"><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="true"><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
                     </ul>
                 </div>
                 <!-- end #menu --> 
@@ -32,51 +32,29 @@
             <div id="page" class="container">
 
                 <h:form>
+                    
+                    <h:outputLink value="listeNoire.xhtml">
+                                <h:outputText value="Liste noire " />  
+                            </h:outputLink>
+                    
                     <center>
+                        
+                        <fieldset>
+                            <legend>Rechercher</legend>
+                            <br />
+                            <p:autoComplete value="#{contactsBean.rechercheListeAmis}"   
+                                            completeMethod="#{contactsBean.autoCompleteListeAmis}" /> 
 
-                        <h:dataTable value="#{contactsBean.contactDemandes}" var="current">  
+                            <br />
 
-                            <h:column>
-                                <h:commandLink value="#{current.estEnContactAvec.pseudo}" action="profil.xhtml" 
-                                               rendered="#{current.type == 'DEMANDE'}">
-                                    <f:param name="pseudo" value="#{current.estEnContactAvec.pseudo}" />
-                                </h:commandLink>
-                                <h:outputText value=" souhaite être votre ami" rendered="#{current.type == 'DEMANDE'}" />
-                            </h:column>
+                            <h:selectBooleanCheckbox id="fav" value="#{contactsBean.searchFavoris}" />
+                            <h:outputLabel value="Favoris" for="fav" />
+                            <br /><br />
+                            <h:commandButton value="Rechercher" action="listeAmis.xhtml" >                        
+                            </h:commandButton>
+                        </fieldset>
 
-                            <h:column>
-                                <h:commandButton value="Accepter" action="#{contactsBean.accepter(current)}" 
-                                                 rendered="#{current.type == 'DEMANDE'}"/>    
-                            </h:column>
-
-                            <h:column>
-                                <h:commandButton value="Refuser" action="#{contactsBean.refuser(current)}" 
-                                                 rendered="#{current.type == 'DEMANDE'}"/>    
-                            </h:column>
-
-                        </h:dataTable>
-             <!--           <h:dataTable value="#{contactsBean.contactListeAmis}" var="current">  
-                            
-                            <h:column>
-                                <h:commandLink value="#{current.estEnContactAvec.pseudo}" action="profil.xhtml" 
-                                               rendered="#{current.type == 'ENATTENTE'}">
-                                    <f:param name="pseudo" value="#{current.estEnContactAvec.pseudo}" />
-                                </h:commandLink>
-                            </h:column>
-                            
-                            <h:column>
-                                <h:outputText rendered="#{current.type == 'ENATTENTE'}" value="Envoyée"/>
-                            </h:column>
-                            
-                        </h:dataTable> -->
-
-                        <br/>
-
-                        <p:autoComplete value="#{contactsBean.rechercheListeAmis}"   
-                                        completeMethod="#{contactsBean.autoCompleteListeAmis}" /> 
-                        <h:commandButton value="Rechercher" action="listeAmis.xhtml" >                        
-                        </h:commandButton>
-                        <br /><br />
+                        <br />
                         <h:dataTable value="#{contactsBean.contactListeAmis}" var="current">  
 
                             <h:column>
@@ -87,7 +65,7 @@
                             </h:column>
 
                             <h:column>
-                                <h:commandLink value="#{current.estEnContactAvec.pseudo}" action="profil.xhtml" 
+                                <h:commandLink value="#{current.estEnContactAvec.pseudo}" action="profilAmi.xhtml" 
                                                rendered="#{current.type == 'AMI' || current.type == 'FAVORI'}">
                                     <f:param name="pseudo" value="#{current.estEnContactAvec.pseudo}" />
                                 </h:commandLink>
@@ -98,15 +76,20 @@
                                                  rendered="#{(current.type == 'AMI' || current.type == 'FAVORI') and contactsBean.isConnected(current)}"
                                                  action ="#{chatBean.chatCopain(current.estEnContactAvec)}"/>    
                             </h:column>
-                            
+
                             <h:column>
                                 <h:commandButton value="Message" 
                                                  rendered="#{current.type == 'AMI' || current.type == 'FAVORI'}"
                                                  />    
                             </h:column>
-                            
+
                             <h:column>
                                 <h:commandButton value="Bloquer" action="#{contactsBean.bloquer(current)}"
+                                                 rendered="#{current.type == 'AMI' || current.type == 'FAVORI'}"/>    
+                            </h:column>
+                            
+                              <h:column>
+                                <h:commandButton value="Supprimer" action="#{contactsBean.supprimer(current)}"
                                                  rendered="#{current.type == 'AMI' || current.type == 'FAVORI'}"/>    
                             </h:column>
 

@@ -34,7 +34,7 @@ public class Image implements Serializable {
     @OneToOne
     private Galerie galerie;
     
-    private String url;
+    private String url = null;
     
     public Boolean signaler() {
         return null;
