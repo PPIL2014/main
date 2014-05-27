@@ -52,18 +52,6 @@ public class NewServletListener implements ServletContextListener  {
             medi.setMail("@coco.fr");
             medi.setSexe("H");
             medi.setTelephone("06");
-            
-            
-            Utilisateur nicolas = new Utilisateur();
-            nicolas.setPseudo("nico");
-            nicolas.setMdp("mdp");
-            nicolas.setPrenom("medi2");
-            nicolas.setNom("huss");
-            nicolas.setAdresse("3 rue");
-         //   medi.setDdn(1990, 10, 01);
-            nicolas.setMail("@coco.fr");
-            nicolas.setSexe("H");
-            nicolas.setTelephone("06");
 
 
             Utilisateur aziz = new Utilisateur();
@@ -90,15 +78,16 @@ public class NewServletListener implements ServletContextListener  {
            Contact c1 = new Contact();
            c1.setType(Contact.Type.ENATTENTE);
            c1.setEstEnContactAvec(aziz);
-   //        Collection cc1 = new ArrayList<Contact>(); 
-           medi.getContacts().add(c1);
-        //   medi.setContacts(cc1);
-          
+           Collection cc1 = new ArrayList<Contact>(); 
+           cc1.add(c1);
+           medi.setContacts(cc1);
+           
            Contact c2 = new Contact();
            c2.setType(Contact.Type.DEMANDE);
            c2.setEstEnContactAvec(medi);
-     //      Collection cc2 = new ArrayList<Contact>(); 
-            aziz.getContacts().add(c2);
+           Collection cc2 = new ArrayList<Contact>(); 
+           cc2.add(c2);
+           aziz.setContacts(cc2);
 
            SignalementUtilisateur s = new SignalementUtilisateur();
            s.setDate(new Date());
