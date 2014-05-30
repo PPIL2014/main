@@ -6,44 +6,55 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-   <h:head>
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
         <title>DateRoulette : FAQ</title>
-         <link href="default.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="default.css" rel="stylesheet" type="text/css" media="screen" />
     </h:head>
     <h:body>
-         <div id="header-wrapper">
-                <div id="header">
-                        <div id="logo">
-                        <h1><a href="#">DateRoulette</a></h1>
-                        </div>
+        <div id="header-wrapper">
+            <div id="header">
+                <div id="logo">
+                    <h1><a href="#">DateRoulette</a></h1>
                 </div>
+            </div>
         </div>
-		
+
         <div id="menu-wrapper">
-                <div id="menu">
-                    <h:form>
-                        <ul>
-                            <li><h:commandLink value="Accueil" action="index.xhtml"/></li>
+            <div id="menu">
+                <h:form>
+                    <ul>
+                        <c:if test="#{!faqBean.estConnecte()}"><li><h:commandLink value="Connexion" action="index.xhtml"/></li></c:if>
+                        <c:if test="#{faqBean.estConnecte()}">
                             <li><h:commandLink value="Ma page" action="profil.xhtml"/></li>
-                            <li><h:commandLink value="Contact" action="#"/></li>
-                            <li><h:commandLink value="Accueil" action="Messagerie.xhtml"/></li>
-                            <li><h:commandLink value="Chat" action="chat.xhtml"/></li>
+                            <li><h:commandLink value="Messagerie" action="MessagerieAsynchrone.xhtml"/></li>
                             <li><h:commandLink value="Déconnexion" action="#{sessionBean.deconnecter()}"/></li>
-                        </ul>
-                    </h:form>
-                </div>
+                        </c:if>
+                    </ul>
+                </h:form>
+            </div>
         </div>
         <h:form>
+            <c:if test="#{faqBean.isAdmin()}"><h:commandButton value="Ajouter une question" action="formulaireFaq.xhtml"/></c:if>
             <p:accordionPanel value="#{faqBean.FAQ}" var="item">
+
                 <p:tab title="#{item.questionFAQ}">
-                    <b><h:outputText value="#{item.reponseFAQ}"/></b>
+                    <b><h:outputText value="#{item.reponseFAQ}" escape="false"/></b>
+                    <h:outputText value="&lt;br /&gt;" escape="false"/>
+                    <c:if test="#{faqBean.isAdmin()}">
+                        <h:commandLink value="Supprimer" action="#{faqBean.supprimerFAQ(item.questionFAQ)}" onclick="PF('bar').show()"/>
+                    </c:if>
                 </p:tab>
             </p:accordionPanel>
-        
-            
+
+
         </h:form>
-        
+
+        <p:notificationBar position="top" effect="slide" widgetVar="bar" >
+            <h:outputText value="Question supprimée !" style="font-size:36px;" />
+        </p:notificationBar>
+
         <div id="footer-wrapper">
             <div id="footer">
                 <ul>
