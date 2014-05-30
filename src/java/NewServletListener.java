@@ -104,15 +104,15 @@ public class NewServletListener implements ServletContextListener  {
            FAQ q1 = new FAQ();
            q1.setQuestionFAQ("Comment puis-je m'inscrire ?");
            q1.setReponseFAQ("Pour vous inscrire cliquez sur le lien Inscription de la page d'accueil\n" +
-    "Il vous sera demander votre nom, prenom, pseudo ainsi qu'une adresse mail (valide).");
+    "Il vous sera demander votre nom, prenom, pseudo ainsi qu'une adresse mail valide.");
            
            FAQ q2 = new FAQ();
            q2.setQuestionFAQ("Comment puis-je modifier mon profil ?");
-           q2.setReponseFAQ("Accedez à votre profil et cliquez sur le bouton Modifier profil. Vous aurez alors accès à un formulaire avec les champs préremplis par vos anciennes indications. Vous n'aurez qu'à les modifier et cliquer ensuite sur enregistrer. (Voir si les noms de boutons sont corrects).");
+           q2.setReponseFAQ("Accedez à votre profil et cliquez sur le bouton Modifier profil. Vous aurez alors accès à un formulaire avec les champs préremplis par vos anciennes indications. Vous n'aurez qu'à les modifier et cliquer ensuite sur enregistrer.");
            
            FAQ q3 = new FAQ();
            q3.setQuestionFAQ("Comment améliorer la precision de mes affinités ?");
-           q3.setReponseFAQ("Pour ameliorer la precision de vos affinités, il vous suffit de repondre aux questions des différents questionnaires mis à disposition par le site. Pour repondre à ces questionnaires, visitez ce lien (ATTENTION : vous devez être connecté pour y avoir accès)");
+           q3.setReponseFAQ("Pour ameliorer la precision de vos affinités, il vous suffit de repondre aux questions des différents questionnaires mis à disposition par le site.");
            
            FAQ q4 = new FAQ();
            q4.setQuestionFAQ("Comment acceder au profil d'un autre utilisateur ?");
@@ -133,8 +133,7 @@ public class NewServletListener implements ServletContextListener  {
            
            FAQ q7 = new FAQ();
            q7.setQuestionFAQ("Comment puis-je voir les photos d'un ami ?");
-           q7.setReponseFAQ("En accedant au profil de l'utilisateur en question (voir Comment acceder au profil d'un autre utilisateur ?).\n" +
-    "Vous n'aurez qu'à cliquez sur Visiter la Galerie Photos.");
+           q7.setReponseFAQ("Une fois sur le profil de l'utilisateur en question, il vous suffit de cliquer sur Visiter la Galerie Photos.");
            
            FAQ q8 = new FAQ();
            q8.setQuestionFAQ("Comment puis-je ajouter/supprimer une/des photo(s) dans ma galerie ?");

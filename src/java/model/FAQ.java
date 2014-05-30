@@ -6,6 +6,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -18,9 +19,10 @@ public class FAQ implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
+    @Column(length=700)
     private String questionFAQ;
     
-    
+    @Column(length=2500)
     private String reponseFAQ;
     
 
