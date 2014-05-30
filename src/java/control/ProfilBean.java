@@ -104,17 +104,15 @@ public class ProfilBean {
         return "profil.xhtml" ;
     }
     
-    public boolean getSeulEnAttente () {
-        
+    public boolean getSeulEnAttente () {        
         ArrayList<Utilisateur> listeAttente =  getListeUtilisateurAttente () ;
         ArrayList<Utilisateur> listeAttente60s = getListeUtilisateurAttente60s();
         Utilisateur u = getUtilisateurSession () ;
-        return ( ((listeAttente.size() == 1) && (listeAttente.get(0).getPseudo().equals(u.getPseudo()))) ||
-                    ((listeAttente60s.size() == 1) && (listeAttente60s.get(0).getPseudo().equals(u.getPseudo()))) ) ;
+        return ( listeAttente.contains(u) || listeAttente60s.contains(u) ) ;
     }
   
     //Affiche un message à l'utilisateur si il est seul en attente. 
     public void addInfo() {  
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Vous êtes seul(e) en attente !", "Vous serez redirigé(e) automatiquement lorsque quelqu'un d'autre arrivera !"));  
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Vous êtes en attente !", "Vous serez redirigé(e) automatiquement lorsque quelqu'un d'autre arrivera !"));  
     }
 }
