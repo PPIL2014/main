@@ -203,7 +203,6 @@ public class ChatBean implements Serializable {
     }
     
     public void envoyerMessage () throws Exception {
-        System.out.println("KDJHGFLKQSJHLKDSJHFQLSDKJHFLDSKJHFQSDLKJHFSQDKLJFHSQDKLJHFSDQLKJHFQSLKDJHFQSKLJDHFQSKJDHFKQSJHDFLKSQJHFD");
         if (!message.isEmpty())
         {
             this.ut.begin();
@@ -424,8 +423,8 @@ public class ChatBean implements Serializable {
     }
     
     public String rienEtQuitter () throws Exception {
-        this.ut.begin();
-     /*   Contact c = null;
+        /*this.ut.begin();
+        Contact c = null;
         if(getUtilisateurSession().getPseudo().equals(this.sessionChat.getUtilisateur1().getPseudo())){
             c = new Contact(Contact.Type.REFUSE, this.sessionChat.getUtilisateur2());
         }else{
