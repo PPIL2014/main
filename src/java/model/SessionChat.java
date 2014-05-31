@@ -46,7 +46,7 @@ public class SessionChat implements Serializable {
      */
     private Type type ;
     public enum Type {
-        AFFNITE, AMIS, CHRONO
+        AFFNITE, AMIS, CHRONO, ALEATOIRE
     }
     public SessionChat() {
     }

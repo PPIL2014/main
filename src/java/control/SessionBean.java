@@ -1,7 +1,6 @@
 package control;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -9,12 +8,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.transaction.HeuristicMixedException;
@@ -114,6 +111,11 @@ public class SessionBean {
         return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente60s");
     }
     
+    public ArrayList<Utilisateur> getListeAttenteAlea(){
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttenteAlea");
+    }
+    
    public String connecter() { 
         FacesContext context = FacesContext.getCurrentInstance();
         Utilisateur u = em.find(Utilisateur.class, this.pseudo);
@@ -155,10 +157,12 @@ public class SessionBean {
             ArrayList<String> listeConnecte = getListeUtilisateurConnecte();
             ArrayList<Utilisateur> listeAttente = getListeAttente();
             ArrayList<Utilisateur> listeAttente60s = getListeAttente60s();
-                        
+            ArrayList<Utilisateur> listeAttenteAlea = getListeAttenteAlea();
+            
             listeConnecte.remove(this.getUtilisateurSession().getPseudo());
             listeAttente.remove(this.getUtilisateurSession());
             listeAttente60s.remove(this.getUtilisateurSession());
+            listeAttenteAlea.remove(this.getUtilisateurSession());
             getListeAffinite().supprimerUtilisateur(u);
             
             HttpSession session = (HttpSession) context.getExternalContext().getSession(false);

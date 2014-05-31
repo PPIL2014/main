@@ -75,6 +75,14 @@ public class ProfilBean {
         return (ArrayList<Utilisateur>)servletContext.getAttribute("listeUtilisateursAttente60s") ;
     }
     
+    public ArrayList<Utilisateur> getListeUtilisateurAttenteAlea () {
+        ServletContext servletContext = (ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext();
+        if(servletContext.getAttribute("listeUtilisateursAttenteAlea") == null){
+            servletContext.setAttribute("listeUtilisateursAttenteAlea", new ArrayList<Utilisateur>());
+        }
+        return (ArrayList<Utilisateur>)servletContext.getAttribute("listeUtilisateursAttenteAlea") ;
+    }
+    
     public void chatInfo (ActionEvent evt) {
         RequestContext ctx = RequestContext.getCurrentInstance();
         
@@ -103,8 +111,9 @@ public class ProfilBean {
     public boolean getSeulEnAttente () {        
         ArrayList<Utilisateur> listeAttente =  getListeUtilisateurAttente () ;
         ArrayList<Utilisateur> listeAttente60s = getListeUtilisateurAttente60s();
+        ArrayList<Utilisateur> listeAttenteAlea = getListeUtilisateurAttenteAlea();
         Utilisateur u = getUtilisateurSession () ;
-        return ( listeAttente.contains(u) || listeAttente60s.contains(u) ) ;
+        return ( listeAttente.contains(u) || listeAttente60s.contains(u) || listeAttenteAlea.contains(u)) ;
     }
     
     public String quitterAttente(){
@@ -112,6 +121,7 @@ public class ProfilBean {
         getListeAffinite().supprimerUtilisateur(u);
         getListeUtilisateurAttente().remove(u);
         getListeUtilisateurAttente60s().remove(u);
+        getListeUtilisateurAttenteAlea().remove(u);
         return "profil.xhtml" ;        
     }
     //Affiche un message à l'utilisateur si il est seul en attente. 

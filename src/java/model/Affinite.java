@@ -42,6 +42,7 @@ public class Affinite {
             }
             affinite = (double)repEq/totRep;
         }       
+        System.out.println("Affinite: " + u1.getPseudo() + " et " + u2.getPseudo() + " " + affinite);
     }
 
     public Utilisateur getUtilisateur1() {

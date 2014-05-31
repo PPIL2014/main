@@ -53,6 +53,9 @@ public class ChatBean implements Serializable {
         if(servletContext.getAttribute("listeUtilisateursAttente60s") == null){
             servletContext.setAttribute("listeUtilisateursAttente60s", new ArrayList<Utilisateur>());
         }
+        if(servletContext.getAttribute("listeUtilisateursAttenteAlea") == null){
+            servletContext.setAttribute("listeUtilisateursAttenteAlea", new ArrayList<Utilisateur>());
+        }
         if (servletContext.getAttribute("listeAffinite") == null) {
             servletContext.setAttribute("listeAffinite", new ListeAffinite());
         }
@@ -94,14 +97,17 @@ public class ChatBean implements Serializable {
      * @return
      * @throws Exception 
      */
-    public String chatAleatoire() throws Exception {
+    public String chatAffinite() throws Exception {
         return chat(SessionChat.Type.AFFNITE);
     }
     
     public String chat60s() throws Exception{
         return chat(SessionChat.Type.CHRONO);
     }
-            
+    
+    public String chatAleatoire() throws Exception {
+        return chat(SessionChat.Type.ALEATOIRE);
+    }
     
     public String chat(SessionChat.Type type) throws Exception
     {
@@ -112,6 +118,8 @@ public class ChatBean implements Serializable {
             listeAttente = (ArrayList<Utilisateur>)servletContext.getAttribute("listeUtilisateursAttente") ;
         else if (type == SessionChat.Type.CHRONO)
             listeAttente = (ArrayList<Utilisateur>)servletContext.getAttribute("listeUtilisateursAttente60s") ;
+        else if (type == SessionChat.Type.ALEATOIRE)
+            listeAttente = (ArrayList<Utilisateur>)servletContext.getAttribute("listeUtilisateursAttenteAlea") ;
         
         Utilisateur u1 = getUtilisateurSession() ;
         Utilisateur u2 = null ;
@@ -128,7 +136,8 @@ public class ChatBean implements Serializable {
 
         //est-ce que l'on a déja calculé les affinité pour ce chatteur ?
         //calculAffinite(u1) ;
-        getListeAffinite().ajouterUtilisateur(u1);
+        if (type != SessionChat.Type.ALEATOIRE)
+            getListeAffinite().ajouterUtilisateur(u1);
         
         //on trouve un copain, si il y en a pas l'utilisateur attend
         u2 = obtenirChatteur (u1,type) ;
@@ -197,7 +206,12 @@ public class ChatBean implements Serializable {
     
     public ArrayList<Utilisateur> getListeUtilisateurAttente60s () {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
+        return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente60s") ;
+    }
+    
+    public ArrayList<Utilisateur> getListeUtilisateurAttenteAlea () {
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttenteAlea") ;
     }
     
     public ListeAffinite getListeAffinite () {
@@ -227,7 +241,9 @@ public class ChatBean implements Serializable {
             listeAttente = (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
         else if (type == SessionChat.Type.CHRONO)
             listeAttente = (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente60s") ;
-
+        else if (type == SessionChat.Type.ALEATOIRE)
+            listeAttente = (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttenteAlea") ;
+        
         if (listeAttente.isEmpty())
             return null ;
 
@@ -239,7 +255,11 @@ public class ChatBean implements Serializable {
         }
         
         //On chercher le meilleur correspondant
-        Utilisateur chatteur = getListeAffinite().getCorrespondant(u1, listeAttente) ;        
+        Utilisateur chatteur = null;
+        if (type == SessionChat.Type.ALEATOIRE)        
+            chatteur = getListeUtilisateurAttenteAlea().remove(0);  
+        else
+            chatteur = getListeAffinite().getCorrespondant(u1, listeAttente) ;        
         return chatteur ;
         
         /*if (u1.equals(listeAttente.get(0))) {
@@ -273,10 +293,9 @@ public class ChatBean implements Serializable {
     }
 
     private void removeFromWaitList(Utilisateur u1) {
-        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        ArrayList<Utilisateur> listeAttente = (ArrayList<Utilisateur>)servletContext.getAttribute("listeUtilisateursAttente") ;
-        
-        listeAttente.remove(u1);
+        getListeUtilisateurAttente().remove(u1);
+        getListeUtilisateurAttente60s().remove(u1);
+        getListeUtilisateurAttenteAlea().remove(u1);
     }  
     
     /**
@@ -333,18 +352,22 @@ public class ChatBean implements Serializable {
        */
         
         if (sessionChat.getType() == SessionChat.Type.AFFNITE)
-            return chatAleatoire();
+            return chatAffinite();
         else if (sessionChat.getType() == SessionChat.Type.CHRONO)
             return chat60s();
+        else if (sessionChat.getType() == SessionChat.Type.ALEATOIRE)
+            return chatAleatoire();
         else
             return "profil.xhtml";              
     }
     
     public String passerEtContinuer () throws Exception {
          if (sessionChat.getType() == SessionChat.Type.AFFNITE)
-            return chatAleatoire();
+            return chatAffinite();
         else if (sessionChat.getType() == SessionChat.Type.CHRONO)
             return chat60s();
+        else if (sessionChat.getType() == SessionChat.Type.ALEATOIRE)
+            return chatAleatoire();
         else
             return "profil.xhtml";    
     }
@@ -361,9 +384,11 @@ public class ChatBean implements Serializable {
         this.em.merge(getUtilisateurSession());
         this.ut.commit();
         if (sessionChat.getType() == SessionChat.Type.AFFNITE)
-            return chatAleatoire();
+            return chatAffinite();
         else if (sessionChat.getType() == SessionChat.Type.CHRONO)
             return chat60s();
+        else if (sessionChat.getType() == SessionChat.Type.ALEATOIRE)
+            return chatAleatoire();
         else
             return "profil.xhtml";    
     }
@@ -476,7 +501,7 @@ public class ChatBean implements Serializable {
         this.ut.commit();
         quitterChat();
         if (sessionChat.getType() == SessionChat.Type.AFFNITE)
-            return chatAleatoire();
+            return chatAffinite();
         else if (sessionChat.getType() == SessionChat.Type.CHRONO)
             return chat60s();
         else
@@ -498,7 +523,7 @@ public class ChatBean implements Serializable {
         */
         quitterChat();
         if (sessionChat.getType() == SessionChat.Type.AFFNITE)
-            return chatAleatoire();
+            return chatAffinite();
         else if (sessionChat.getType() == SessionChat.Type.CHRONO)
             return chat60s();
         else
@@ -518,7 +543,7 @@ public class ChatBean implements Serializable {
         this.ut.commit();
         quitterChat();
         if (sessionChat.getType() == SessionChat.Type.AFFNITE)
-            return chatAleatoire();
+            return chatAffinite();
         else if (sessionChat.getType() == SessionChat.Type.CHRONO)
             return chat60s();
         else

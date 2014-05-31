@@ -99,7 +99,7 @@ and open the template in the editor.
 
                    <center>
                        <br/>
-                       <h:inputTextarea id="message" value="#{chatBean.message}" rows="6" cols="75"></h:inputTextarea>
+                       <h:inputTextarea id="message" value="#{chatBean.message}" rows="6" cols="75" ></h:inputTextarea>
 
                        <h:commandButton value="Envoyer" action="#{chatBean.envoyerMessage()}">
                            <f:ajax execute="@form" render="@none" />
@@ -109,10 +109,7 @@ and open the template in the editor.
                    <hr/>
                    <p:remoteCommand name="nextEvent" actionListener="#{eventChatBean.lastEvent}" 
                                     oncomplete="updatePage(xhr, status, args);"/>
-                   <!--<p:commandButton id="basic" value="Basic" onclick="PF('dlg1').show();" type="button" />  -->
-
-
-                             
+                   <!--<p:commandButton id="basic" value="Basic" onclick="PF('dlg1').show();" type="button" />  -->                             
                    <script type="text/javascript">    
                         updatePage(null,null,null);
                         var dlgFinChatSubi ;

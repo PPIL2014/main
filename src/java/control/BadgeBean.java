@@ -118,10 +118,10 @@ public class BadgeBean implements Serializable{
     public Utilisateur getUtilisateurSession () {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-        Utilisateur utilisateurSession = (Utilisateur)em.find(Utilisateur.class,(String)session.getAttribute("pseudoUtilisateur")) ;
-        return utilisateurSession;
+        Utilisateur u = (Utilisateur)em.find(Utilisateur.class,(String)session.getAttribute("pseudoUtilisateur")) ;
+        return u ;
     }
-    
+
     public Collection<Badge> listeBadgesObtenus() {
         if(this.getUtilisateurSession() == null) {
             return new ArrayList<>();

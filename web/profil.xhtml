@@ -180,8 +180,9 @@
   		    <h:button value="Répondre aux questionnaires" outcome="liste-questionnaire.xhtml"/>
 
                     <p:confirmDialog id="dlgChoixChat" message="Quel mode voulez-vous utiliser ?" header="Quel mode" widgetVar="dlgTypeChat">
-                        <h:commandButton id="chatAffinite" value="Affinité" action="#{chatBean.chatAleatoire}"></h:commandButton>
+                        <h:commandButton id="chatAffinite" value="Affinité" action="#{chatBean.chatAffinite()}"></h:commandButton>
                         <h:commandButton id="chat60s" value="60s Chrono" action="#{chatBean.chat60s}"></h:commandButton>
+                        <h:commandButton id="chatAleatoire" value="Aléatoire" action="#{chatBean.chatAleatoire()}"></h:commandButton>
                         <h:commandButton id="annuler" value="Annuler" action="profil.xhtml"/>
                     </p:confirmDialog>
                     <h:commandButton value="Mes badges" action="#{badgeBean.mesBadges()}"></h:commandButton>
@@ -230,20 +231,6 @@
                     <hr/>
                     <br/>
 
-                    <br/>Liste des utilisateurs connectée : <br/>
-                    <h:dataTable value="#{sessionBean.listeUtilisateurConnecte}" var="item">
-                        <h:column>            
-                            <h:outputText value="#{item}"/><br/>
-                        </h:column>
-                    </h:dataTable>
-
-                    <br/>Liste des utilisateurs en attente : <br/>
-                    <h:dataTable value="#{profilBean.listeUtilisateurAttente}" var="item">
-                        <h:column>            
-                            <h:outputText value="#{item.pseudo}"/><br/>
-                        </h:column>
-                    </h:dataTable>
-                    <br/>
 
                 </h:form>
 
