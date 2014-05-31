@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import model.Affinite;
+import model.ListeAffinite;
 import model.SessionChat;
 import model.Utilisateur;
 import org.primefaces.context.RequestContext;
@@ -106,19 +107,21 @@ public class ProfilBean {
         return ( listeAttente.contains(u) || listeAttente60s.contains(u) ) ;
     }
     
-    public void quitterAttente(){
+    public String quitterAttente(){
         Utilisateur u = getUtilisateurSession();
-        getListeAffinite().remove(u);
+        getListeAffinite().supprimerUtilisateur(u);
         getListeUtilisateurAttente().remove(u);
         getListeUtilisateurAttente60s().remove(u);
+        return "profil.xhtml" ;        
     }
     //Affiche un message à l'utilisateur si il est seul en attente. 
     public void addInfo() {  
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Vous êtes en attente !", "Vous serez redirigé(e) automatiquement lorsque quelqu'un d'autre arrivera !"));  
     }
     
-    public ArrayList<Affinite> getListeAffinite () {
+    
+    public ListeAffinite getListeAffinite () {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        return (ArrayList<Affinite>) servletContext.getAttribute("listeAffinite") ;
+        return (ListeAffinite) servletContext.getAttribute("listeAffinite") ;
     }
 }

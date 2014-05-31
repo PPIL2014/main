@@ -54,7 +54,7 @@ public class ChatBean implements Serializable {
             servletContext.setAttribute("listeUtilisateursAttente60s", new ArrayList<Utilisateur>());
         }
         if (servletContext.getAttribute("listeAffinite") == null) {
-            servletContext.setAttribute("listeAffinite", new ArrayList<Affinite>());
+            servletContext.setAttribute("listeAffinite", new ListeAffinite());
         }
         
         lastUpdate = new Date(0);
@@ -127,8 +127,8 @@ public class ChatBean implements Serializable {
         this.ut.commit();
 
         //est-ce que l'on a déja calculé les affinité pour ce chatteur ?
-        calculAffinite(u1) ;
-
+        //calculAffinite(u1) ;
+        getListeAffinite().ajouterUtilisateur(u1);
         
         //on trouve un copain, si il y en a pas l'utilisateur attend
         u2 = obtenirChatteur (u1,type) ;
@@ -137,6 +137,7 @@ public class ChatBean implements Serializable {
                 listeAttente.add(u1);
             return "profil.xhtml" ;
         }
+        
         
         // on récupère ou on crée le chat
         sessionChat = obtenirChat (u1,u2, type) ;
@@ -194,9 +195,14 @@ public class ChatBean implements Serializable {
         return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
     }
     
-    public ArrayList<Affinite> getListeAffinite () {
+    public ArrayList<Utilisateur> getListeUtilisateurAttente60s () {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        return (ArrayList<Affinite>) servletContext.getAttribute("listeAffinite") ;
+        return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
+    }
+    
+    public ListeAffinite getListeAffinite () {
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        return (ListeAffinite) servletContext.getAttribute("listeAffinite") ;
     }
     
     public void envoyerMessage () throws Exception {
@@ -231,29 +237,17 @@ public class ChatBean implements Serializable {
             //pas assez de gens, on l'ajoute aussi
             return null ;
         }
-        /*
-        //je cherche la meilleure affinite
-        double bestAffinite = 0.00 ;
-        Utilisateur chatteur = null ;
-        for (Affinite a : getListeAffinite()) {
-            if (a.getUtilisateur1().equals(u1)) {
-                if (a.getAffinite() > bestAffinite) {
-                    chatteur = a.getUtilisateur2() ;
-                }
-            } else if (a.getUtilisateur2().equals(u1)) {
-                if (a.getAffinite() > bestAffinite) {
-                    chatteur = a.getUtilisateur1() ;
-                }
-            }
-        }
-        return chatteur ;*/
         
-        if (u1.equals(listeAttente.get(0))) {
+        //On chercher le meilleur correspondant
+        Utilisateur chatteur = getListeAffinite().getCorrespondant(u1, listeAttente) ;        
+        return chatteur ;
+        
+        /*if (u1.equals(listeAttente.get(0))) {
              if (u1.equals(listeAttente.get(listeAttente.size()-1)))
                  return null ;
              return listeAttente.remove(listeAttente.size()-1) ;
         }
-        return listeAttente.remove(0) ;
+        return listeAttente.remove(0) ;*/
         
     }
 
@@ -293,7 +287,7 @@ public class ChatBean implements Serializable {
         this.ut.begin();
         Utilisateur u= getUtilisateurSession() ;
         u.getSessionChatDemarree().setEstDemarree(false);
-        getListeAffinite().remove(u);
+        getListeAffinite().supprimerUtilisateur(u);
         this.em.merge(u);
         this.ut.commit();
     }
@@ -465,11 +459,8 @@ public class ChatBean implements Serializable {
             this.em.merge(u);
             this.em.merge(getUtilisateurSession());
             this.ut.commit();
-                  
-                
+            
     }else{
-
-
             c = new Contact(Contact.Type.ENATTENTE, this.sessionChat.getUtilisateur1());
             getUtilisateurSession().getContacts().add(c); 
             Utilisateur u = em.find(Utilisateur.class, this.sessionChat.getUtilisateur1().getPseudo());
@@ -478,7 +469,6 @@ public class ChatBean implements Serializable {
             this.em.merge(getUtilisateurSession());
             this.em.merge(u);
             this.ut.commit();
-
         }
         
         getUtilisateurSession().getContacts().add(c);
@@ -579,33 +569,4 @@ public class ChatBean implements Serializable {
         this.sessionChat = getUtilisateurSession().getSessionChatDemarree();
     }
 
-    private void calculAffinite(Utilisateur u1) {
-        ArrayList<Affinite> listeAffinite = getListeAffinite() ;
-        for (Affinite a : listeAffinite) {
-            if (a.contientUtilisateur(u1))
-                return ;
-        }
-        
-        /*
-         * on a pas trouvé l'utilisateur donc il faut calculer les affinités pour toutes les personnes présentes dans le chat et en liste d'attente
-         * Il s'agit des personnes déja présente dans la liste d'affinté
-         */
-        ArrayList<Utilisateur> userDejaGere = new ArrayList<Utilisateur> () ;
-        ArrayList<Affinite> listeAf = new ArrayList<Affinite> () ;
-        for (Affinite a : listeAffinite) {
-            // si on a pas encore geré l'utilisateur la
-            if (!userDejaGere.contains(a.getUtilisateur1())) {
-                listeAf.add(new Affinite(u1,a.getUtilisateur1())) ;
-            }
-            
-            if (!userDejaGere.contains(a.getUtilisateur2())) {
-                listeAf.add(new Affinite(u1,a.getUtilisateur2())) ;
-            }
-        }
-        
-        // on concatene les deux listes
-        for (Affinite a : listeAf) {
-            listeAffinite.add(a);
-        }
-    }
 }

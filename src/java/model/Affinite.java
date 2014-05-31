@@ -22,9 +22,26 @@ public class Affinite {
     public Affinite(Utilisateur u1 , Utilisateur u2) {
         utilisateur1 = u1 ;
         utilisateur2 = u2 ;
+             
+        //QuestionQCM
+        int repEq, totRep;
+        repEq = 0;
+        if (u1.getReponsesQCM().size() < u2.getReponsesQCM().size())
+            totRep = u1.getReponsesQCM().size();
+        else
+            totRep = u2.getReponsesQCM().size();
         
-        //calcul de l'affinité
-        affinite =  Math.round(Math.random()*100) / 100 ;
+        if (totRep == 0)
+            affinite = 0.5;
+        else
+        {
+            for (ReponseQCM r : u1.getReponsesQCM())
+            {
+                if (u2.getReponsesQCM().contains(r))
+                    repEq++;
+            }
+            affinite = (double)repEq/totRep;
+        }       
     }
 
     public Utilisateur getUtilisateur1() {

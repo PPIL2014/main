@@ -9,6 +9,7 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -58,6 +59,25 @@ public class ReponseQCM implements Serializable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ReponseQCM other = (ReponseQCM) obj;
+        if (!Objects.equals(this.question, other.question)) {
+            return false;
+        }
+        if (!Objects.equals(this.reponses, other.reponses)) {
+            return false;
+        }
+        return true;
+    }
+
+
+   /* @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof ReponseQCM)) {
@@ -68,7 +88,7 @@ public class ReponseQCM implements Serializable {
             return false;
         }
         return true;
-    }
+    }*/
 
     @Override
     public String toString() {

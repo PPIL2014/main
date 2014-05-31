@@ -51,7 +51,7 @@ public class SessionBean {
             servletContext.setAttribute("listeUtilisateursConnecte", new ArrayList<String>() );
         }
         if (servletContext.getAttribute("listeAffinite") == null) {
-            servletContext.setAttribute("listeAffinite", new ArrayList<Affinite>());
+            servletContext.setAttribute("listeAffinite", new ListeAffinite());
         }
     }
 
@@ -104,6 +104,11 @@ public class SessionBean {
         return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente");
     }
     
+    public ListeAffinite getListeAffinite () {
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        return (ListeAffinite) servletContext.getAttribute("listeAffinite") ;
+    }
+    
     public ArrayList<Utilisateur> getListeAttente60s(){
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         return (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente60s");
@@ -150,9 +155,11 @@ public class SessionBean {
             ArrayList<String> listeConnecte = getListeUtilisateurConnecte();
             ArrayList<Utilisateur> listeAttente = getListeAttente();
             ArrayList<Utilisateur> listeAttente60s = getListeAttente60s();
+                        
             listeConnecte.remove(this.getUtilisateurSession().getPseudo());
             listeAttente.remove(this.getUtilisateurSession());
             listeAttente60s.remove(this.getUtilisateurSession());
+            getListeAffinite().supprimerUtilisateur(u);
             
             HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
             session.invalidate();
