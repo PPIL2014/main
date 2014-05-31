@@ -161,14 +161,22 @@
                 <br />
 
                 <h:form>
-                    <br />
-                    <h:commandButton value="CHAT" onclick="dlgTypeChat.show()">
-                        <f:ajax execute="@form" render="@none" />
-                    </h:commandButton>
+                    <br/>
+                        <c:choose>
+                            <c:when test="#{profilBean.seulEnAttente == false}">
+                                <h:commandButton value="Chat" onclick="dlgTypeChat.show()">
+                                    <f:ajax execute="@form" render="@none" />
+                                </h:commandButton> 
+                            </c:when>
+                            <c:when test="#{profilBean.seulEnAttente == true}">
+                                <h:commandButton value="Quitter la file d'attente" action="#{profilBean.quitterAttente}">
+                                </h:commandButton> 
+                            </c:when>
+                        </c:choose>
                     <c:if test="#{sessionBean.utilisateurSession.administrateur}">
                         <h:commandButton value="Gestion Site" action="outilsAdmin.xhtml"/>
                     </c:if>
-                    <h:commandButton value="AMIS" action="#{listeAmisBean.afficherAmis}"></h:commandButton>
+                    <h:commandButton value="Amis" action="#{listeAmisBean.afficherAmis}"></h:commandButton>
   		    <h:button value="Répondre aux questionnaires" outcome="liste-questionnaire.xhtml"/>
 
                     <p:confirmDialog id="dlgChoixChat" message="Quel mode voulez-vous utiliser ?" header="Quel mode" widgetVar="dlgTypeChat">
@@ -185,7 +193,7 @@
                     var dlgTypeChat;
 
                     updatePage(null, null, null);
-
+                    
                     function updatePage(xhr, status, args) {
                         if (xhr != null)
                         {

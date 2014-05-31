@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package control;
 
 import java.util.ArrayList;
@@ -17,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+import model.Affinite;
 import model.SessionChat;
 import model.Utilisateur;
 import org.primefaces.context.RequestContext;
@@ -110,9 +105,20 @@ public class ProfilBean {
         Utilisateur u = getUtilisateurSession () ;
         return ( listeAttente.contains(u) || listeAttente60s.contains(u) ) ;
     }
-  
+    
+    public void quitterAttente(){
+        Utilisateur u = getUtilisateurSession();
+        getListeAffinite().remove(u);
+        getListeUtilisateurAttente().remove(u);
+        getListeUtilisateurAttente60s().remove(u);
+    }
     //Affiche un message à l'utilisateur si il est seul en attente. 
     public void addInfo() {  
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Vous êtes en attente !", "Vous serez redirigé(e) automatiquement lorsque quelqu'un d'autre arrivera !"));  
+    }
+    
+    public ArrayList<Affinite> getListeAffinite () {
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        return (ArrayList<Affinite>) servletContext.getAttribute("listeAffinite") ;
     }
 }
