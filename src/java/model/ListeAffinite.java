@@ -44,6 +44,7 @@ public class ListeAffinite {
         }
         return null;
     }
+    
     public void ajouterUtilisateur(Utilisateur u1){
         if (!listeUtilisateur.contains(u1))
         {
@@ -62,5 +63,4 @@ public class ListeAffinite {
                 toDel.add(a);
         listeAffinite.removeAll(toDel);
     }
-    
 }

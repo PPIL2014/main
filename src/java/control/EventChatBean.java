@@ -41,6 +41,7 @@ public class EventChatBean implements Serializable {
     private Date lastSignOutUpdate;
     private Date lastQuitUpdate;
     
+    
     @PersistenceContext 
     private EntityManager em;
 
@@ -93,8 +94,7 @@ public class EventChatBean implements Serializable {
 
             c = null ;
             while (m == null && endChat == false && utilDeco == false && nbBoucle < 5) 
-            {
-                
+            {                
                 //Recherche un eventuelle nouveau message
                 c = getChat() ;
                 if (c == null)
@@ -126,16 +126,7 @@ public class EventChatBean implements Serializable {
                 nbBoucle++;
             }
         }
-
-        /*if (c == null) {
-            ctx.addCallbackParam("ok", true);
-            ctx.addCallbackParam("type", "stop");
-        } else*/ 
-        if (chat60s == true)
-        {
-            Date d = new Date();
-            ctx.addCallbackParam("duree", String.valueOf((d.getTime()- c.getDebut().getTime())/1000)) ;
-        }
+        
         if (m != null)
         {
             lastMessageUpdate = m.getDate();         
@@ -146,7 +137,18 @@ public class EventChatBean implements Serializable {
             DateFormat shortDateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT);
             ctx.addCallbackParam("dateSent", shortDateFormat.format(m.getDate())); 
             ctx.addCallbackParam("text", m.getContenu());
+            if (chat60s == true)
+            {
+                Date d = new Date();
+                ctx.addCallbackParam("duree", String.valueOf((d.getTime()- c.getDebut().getTime())/1000)) ;
+            }
         } 
+        else if (chat60s == true)
+        {
+            Date d = new Date();
+            ctx.addCallbackParam("ok", true);
+            ctx.addCallbackParam("duree", String.valueOf((d.getTime()- c.getDebut().getTime())/1000)) ;
+        }
         else if( endChat == true)
         {
             lastQuitUpdate = new Date();
