@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class ListeAffinite {
     private ArrayList<Utilisateur> listeUtilisateur;
     private ArrayList<Affinite> listeAffinite;
-    
+
     public ListeAffinite(){
         listeAffinite = new ArrayList<Affinite>();
         listeUtilisateur = new ArrayList<Utilisateur>();
@@ -18,12 +18,13 @@ public class ListeAffinite {
     public Utilisateur getCorrespondant(Utilisateur u1, ArrayList<Utilisateur> listeAttente)
     {
         Affinite max = null;
+
         for (Affinite a : listeAffinite)
         {
             Utilisateur u2 = null;
             if (a.getUtilisateur1().equals(u1))
                 u2 = a.getUtilisateur2();
-            else if (a.getUtilisateur2().equals(u2))
+            else if (a.getUtilisateur2().equals(u1))
                 u2 = a.getUtilisateur1();
             
             if (listeAttente.contains(u2))

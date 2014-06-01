@@ -3,6 +3,7 @@ package control;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -12,6 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.transaction.HeuristicMixedException;
@@ -121,8 +123,10 @@ public class ChatBean implements Serializable {
         else if (type == SessionChat.Type.ALEATOIRE)
             listeAttente = (ArrayList<Utilisateur>)servletContext.getAttribute("listeUtilisateursAttenteAlea") ;
         
+        
         Utilisateur u1 = getUtilisateurSession() ;
         Utilisateur u2 = null ;
+                               
          
         //Normalement cela ne doit jamais ce produire
         if (u1 == null)
@@ -150,7 +154,8 @@ public class ChatBean implements Serializable {
         
         // on récupère ou on crée le chat
         sessionChat = obtenirChat (u1,u2, type) ;
-        
+        listeAttente.remove(u1);
+        listeAttente.remove(u2);
         this.ut.begin();
         sessionChat.setDebutSession(new Date());
         this.em.merge(sessionChat);
@@ -237,6 +242,8 @@ public class ChatBean implements Serializable {
     private Utilisateur obtenirChatteur(Utilisateur u1, SessionChat.Type type) {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
         ArrayList<Utilisateur> listeAttente = null;
+        ArrayList<Utilisateur> listeCandidat = null;
+        
         if (type == SessionChat.Type.AFFNITE)
             listeAttente = (ArrayList<Utilisateur>) servletContext.getAttribute("listeUtilisateursAttente") ;
         else if (type == SessionChat.Type.CHRONO)
@@ -249,17 +256,38 @@ public class ChatBean implements Serializable {
 
         //60s ou affinite, on choisit la personne suivante de la même manière
         
-        if (listeAttente.size() == 1) {
+        if (listeAttente.size() == 1 && (type != SessionChat.Type.ALEATOIRE)) {
             //pas assez de gens, on l'ajoute aussi
             return null ;
         }
+        listeCandidat = (ArrayList<Utilisateur>) listeAttente.clone();
+        /*if (type != SessionChat.Type.ALEATOIRE)
+        {
+            listeCandidat = (ArrayList<Utilisateur>) listeAttente.clone();
+            // On cherche le dernier correspondant avec qui u1 à tchatter et on l'enleve de notre liste d'attente       
+            Query q = em.createQuery("SELECT s FROM SessionChat s WHERE s.utilisateur1.pseudo = :pseudo OR s.utilisateur2.pseudo = :pseudo ORDER BY s.debutSession DESC");
+            q.setParameter("pseudo", u1.getPseudo());
+            List<SessionChat> listChat = q.getResultList();
+            if (listChat.size() > 0)
+            {
+                SessionChat s = listChat.get(0);
+                if (s.getUtilisateur1().equals(u1))
+                    listeCandidat.remove(s.getUtilisateur2());
+                else
+                    listeCandidat.remove(s.getUtilisateur1());
+            }
+        }*/
         
         //On chercher le meilleur correspondant
         Utilisateur chatteur = null;
         if (type == SessionChat.Type.ALEATOIRE)        
             chatteur = getListeUtilisateurAttenteAlea().remove(0);  
         else
-            chatteur = getListeAffinite().getCorrespondant(u1, listeAttente) ;        
+        {
+            chatteur = getListeAffinite().getCorrespondant(u1, listeCandidat) ;       
+           //listeAttente.remove(chatteur);
+        }
+        
         return chatteur ;
         
         /*if (u1.equals(listeAttente.get(0))) {
@@ -484,7 +512,7 @@ public class ChatBean implements Serializable {
             u.getContacts().add(c2);
             this.em.merge(u);
             this.em.merge(getUtilisateurSession());           
-    }else{
+        }else{
             c = new Contact(Contact.Type.ENATTENTE, this.sessionChat.getUtilisateur1());
             getUtilisateurSession().getContacts().add(c); 
             Utilisateur u = em.find(Utilisateur.class, this.sessionChat.getUtilisateur1().getPseudo());
