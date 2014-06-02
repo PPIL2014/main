@@ -20,12 +20,10 @@
 		<div id="menu-wrapper">
 			<div id="menu">
 				<ul>
-					<li><a href="#">Accueil</a></li>
-					<li><a href="#">Ma Page</a></li>
-					<li><a href="#">Contact</a></li>
-					<li><a href="#">Messagerie</a></li>
-					<li><a href="#">Chat</a></li>
-					<li><a href="#">Déconnexion</a></li>				
+                    <li><h:form><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
+                    <li><h:form><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+                    <li><h:form><h:commandLink value="Messagerie" action="Messagerie.xhtml"></h:commandLink></h:form></li>
+                    <li><h:form><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"><f:param name="contenu" value=""/></h:commandLink></h:form></li>					
 				</ul>
 			</div>
 		</div>
@@ -54,30 +52,11 @@
                 
             </div>
        
-        <div id="sidebar">
-				<div class="box2">
-					<div class="title">
-						<h2>Contenu à determiner</h2>
-					</div>					
-						<ul class="style2">
-							<li><a href="#">BlaBla</a></li>
-							<li><a href="#">BlaBla</a></li>
-							<li><a href="#">BlaBla</a></li>
-							<li><a href="#">BlaBla</a></li>
-							<li><a href="#">BlaBla</a></li>
-							<li><a href="#">BlaBla</a></li>
-							<li><a href="#">BlaBla</a></li>
-						</ul>
-					
-				</div>
-			
-        </div> </div>
+ </div>
 	<div id="footer-wrapper">
 			<div id="menu">
-				<ul>
-					<li><a href="#">CGU</a></li>	
-					<li><a href="#">FAQ</a></li>	
-					<li><a href="#">Contactez-nous</a></li>				
+				<ul>	
+					 <li><h:form><h:commandLink value="FAQ" action="faq.xhtml"></h:commandLink></h:form></li>
 				</ul>
 			</div>
 	</div>
