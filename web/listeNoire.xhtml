@@ -19,15 +19,14 @@
                 </div>
             </div>
             <div id="menu-wrapper">
-                <div id="menu" >
+                <div id="menu">
                     <ul>
-                        <li><h:form rendered="false"><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
-                        <li><h:form rendered="false"><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
-                        <li><h:form rendered="false"><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
-                        <li><h:form rendered="false"><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
+                        <li><h:form><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form><h:commandLink value="Messagerie" action="Messagerie.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"><f:param name="contenu" value=""/></h:commandLink></h:form></li>			
                     </ul>
                 </div>
-                <!-- end #menu --> 
             </div>
             <div id="page" class="container">
 

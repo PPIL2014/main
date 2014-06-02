@@ -76,14 +76,14 @@ public class NewServletListener implements ServletContextListener  {
 
         
            Contact c1 = new Contact();
-           c1.setType(Contact.Type.ENATTENTE);
+           c1.setType(Contact.Type.AMI);
            c1.setEstEnContactAvec(aziz);
            Collection cc1 = new ArrayList<Contact>(); 
            cc1.add(c1);
            medi.setContacts(cc1);
            
            Contact c2 = new Contact();
-           c2.setType(Contact.Type.DEMANDE);
+           c2.setType(Contact.Type.AMI);
            c2.setEstEnContactAvec(medi);
            Collection cc2 = new ArrayList<Contact>(); 
            cc2.add(c2);

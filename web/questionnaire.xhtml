@@ -6,82 +6,82 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Facelet Title</title>
-         <link href="default.css" rel="stylesheet" type="text/css" media="screen" />
+        <link href="default.css" rel="stylesheet" type="text/css" media="screen" />
     </h:head>
     <h:body>
-         <div id="header-wrapper">
-			<div id="header">
-				<div id="logo">
-				<h1><a href="#">DateRoulette</a></h1>
-				</div>
-			</div>
-		</div>
-		
-		<div id="menu-wrapper">
-			<div id="menu">
-				<ul>
-				    <li><h:form><h:commandLink value="Questionnaires" action="liste-questionnaire.xhtml"></h:commandLink></h:form></li>
-				    <li><h:form><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
-				    <li><h:form><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
-				    <li><h:form><h:commandLink value="Messagerie" action="Messagerie.xhtml"></h:commandLink></h:form></li>
-				    <li><h:form><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"><f:param name="contenu" value=""/></h:commandLink></h:form></li>						
-				</ul>
-			</div>
-		</div>
-        
+        <div id="header-wrapper">
+            <div id="header">
+                <div id="logo">
+                    <h1><a href="#">DateRoulette</a></h1>
+                </div>
+            </div>
+        </div>
+
+        <div id="menu-wrapper">
+            <div id="menu">
+                <ul>
+                    <li><h:form><h:commandLink value="Questionnaires" action="liste-questionnaire.xhtml"></h:commandLink></h:form></li>
+                    <li><h:form><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
+                    <li><h:form><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+                    <li><h:form><h:commandLink value="Messagerie" action="Messagerie.xhtml"></h:commandLink></h:form></li>
+                    <li><h:form><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"><f:param name="contenu" value=""/></h:commandLink></h:form></li>						
+                </ul>
+            </div>
+        </div>
+
         <div id="page" class = "container">
             <div id = "content">
                 <h1>#{beanQuestionnaire.nomQuestionnaire}</h1>
-        <br></br><br></br>    
-        <h:form>
-            <c:forEach var="questions" items="${beanQuestionnaire.question}">        
-                ${questions.question}<br/>
-                <c:set var="quest" value="${questions.id}"></c:set>
-                <c:set var="type" value="${questions.type}"></c:set>
-                
-                <!-- Cas Textarea -->
-                <c:if test="${type == 'textarea'}">
-                    <h:inputTextarea value="#{beanQuestionnaire.reponse}">
-                    </h:inputTextarea><br/>
-                </c:if>
-                
-                <!-- Cas Une seule réponse -->
-                <c:if test="${type == 'selectone'}">
-                    <h:selectOneMenu value="#{beanQuestionnaire.reponse}">
-                        <f:selectItem itemValue="0" itemLabel=""/>
-                        <c:forEach var="choix" items="${beanQuestionnaire.getChoix(quest)}">
-                            <f:selectItem itemValue="${choix.id}" itemLabel="${choix.reponse}" /> 
-                        </c:forEach>
-                    </h:selectOneMenu><br/>
-                </c:if>
-                
-                <!-- Cas Plusieurs réponses -->
-                <c:if test="${type == 'selectmany'}">
-                    <h:selectManyCheckbox value="#{beanQuestionnaire.reponsesQcm}" >
-                        <c:forEach var="choix" items="${beanQuestionnaire.getChoix(quest)}">
-                            <f:selectItem itemValue="${choix.id}" itemLabel="${choix.reponse}"/> 
-                        </c:forEach>
-                    </h:selectManyCheckbox><br/>
-                </c:if>
-                 <br></br><br></br>
-            </c:forEach>
-            
-            
-            <f:param name="id" value ="#{param['id']}"></f:param>
-            <h:commandButton value="Répondre" action="#{beanQuestionnaire.ajout()}" onclick="return confirm('Etes-vous sûr ?')">
-                <f:param name="id" value ="#{param['id']}"></f:param>
-                <f:param name="pseudo" value="#{profilBean.pseudo}"></f:param>
-            </h:commandButton>
-        </h:form>
-         </div>  
-</div>
-	<div id="footer-wrapper">
-			<div id="menu">
-				<ul>	
-					 <li><h:form><h:commandLink value="FAQ" action="faq.xhtml"></h:commandLink></h:form></li>
-				</ul>
-			</div>
-	</div>
+                <br></br><br></br>    
+                <h:form>
+                    <c:forEach var="questions" items="${beanQuestionnaire.question}">        
+                        ${questions.question}<br/>
+                        <c:set var="quest" value="${questions.id}"></c:set>
+                        <c:set var="type" value="${questions.type}"></c:set>
+
+                        <!-- Cas Textarea -->
+                        <c:if test="${type == 'textarea'}">
+                            <h:inputTextarea value="#{beanQuestionnaire.reponse}">
+                            </h:inputTextarea><br/>
+                        </c:if>
+
+                        <!-- Cas Une seule réponse -->
+                        <c:if test="${type == 'selectone'}">
+                            <h:selectOneMenu value="#{beanQuestionnaire.reponse}">
+                                <f:selectItem itemValue="0" itemLabel=""/>
+                                <c:forEach var="choix" items="${beanQuestionnaire.getChoix(quest)}">
+                                    <f:selectItem itemValue="${choix.id}" itemLabel="${choix.reponse}" /> 
+                                </c:forEach>
+                            </h:selectOneMenu><br/>
+                        </c:if>
+
+                        <!-- Cas Plusieurs réponses -->
+                        <c:if test="${type == 'selectmany'}">
+                            <h:selectManyCheckbox value="#{beanQuestionnaire.reponsesQcm}" >
+                                <c:forEach var="choix" items="${beanQuestionnaire.getChoix(quest)}">
+                                    <f:selectItem itemValue="${choix.id}" itemLabel="${choix.reponse}"/> 
+                                </c:forEach>
+                            </h:selectManyCheckbox><br/>
+                        </c:if>
+                        <br></br><br></br>
+                    </c:forEach>
+
+
+                    <f:param name="id" value ="#{param['id']}"></f:param>
+                    <h:commandButton value="Répondre" action="#{beanQuestionnaire.ajout()}" onclick="return confirm('Etes-vous sûr ?')">
+                        <f:param name="id" value ="#{param['id']}"></f:param>
+                        <f:param name="pseudo" value="#{profilBean.pseudo}"></f:param>
+                    </h:commandButton>
+                </h:form>
+            </div>  
+        </div>
+        <div id="footer-wrapper">
+            <div id="menu">
+                <ul>	
+                    <li><h:form><h:commandLink value="FAQ" action="faq.xhtml"></h:commandLink></h:form></li>
+                </ul>
+            </div>
+        </div>
     </h:body>
 </html>
 

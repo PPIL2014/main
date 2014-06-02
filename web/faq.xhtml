@@ -28,7 +28,6 @@ and open the template in the editor.
                         <c:if test="#{!faqBean.estConnecte()}"><li><h:commandLink value="Connexion" action="index.xhtml"/></li></c:if>
                         <c:if test="#{faqBean.estConnecte()}">
                             <li><h:commandLink value="Ma page" action="profil.xhtml"/></li>
-                            <li><h:commandLink value="Messagerie" action="MessagerieAsynchrone.xhtml"/></li>
                             <li><h:commandLink value="Déconnexion" action="#{sessionBean.deconnecter()}"/></li>
                         </c:if>
                     </ul>

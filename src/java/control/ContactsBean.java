@@ -312,6 +312,34 @@ public class ContactsBean {
         }
     }
     
+       public void favoriser(Contact c){
+        
+        try {
+            
+          
+            c.setType(Contact.Type.FAVORI);
+            
+            ut.begin();
+            em.merge(c);
+            ut.commit();
+            
+            
+        } catch (NotSupportedException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SystemException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RollbackException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HeuristicMixedException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HeuristicRollbackException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalStateException ex) {
+            Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public List<String> autoCompleteListeAmis(String query) {
         
       
@@ -505,5 +533,9 @@ public class ContactsBean {
         } catch (IllegalStateException ex) {
             Logger.getLogger(ContactsBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public String getUrlAvatar (Contact c) {
+        return c.getEstEnContactAvec().getAvatar() == null?"/resources/images/apercu.png":c.getEstEnContactAvec().getAvatar().getUrl() ;
     }
 }

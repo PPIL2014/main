@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <link href="default.css" rel="stylesheet" type="text/css"></link>
+        <title>Date Roulette</title>
+    </h:head>
+    <h:body> 
+        <div id="wrapper">
+            <div id="header-wrapper">
+                <div id="header">
+                    <div id="logo">
+                        <h1><a href="#">DateRoulette</a></h1>
+                    </div>
+                </div>
+            </div>
+            <div id="menu-wrapper">
+                <div id="menu" >
+                    <ul>
+                        <li><h:form rendered="true"><h:commandLink value="Ma page" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="true"><h:commandLink value="Contact" action="listeAmis.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="true"><h:commandLink value="Messagerie" action="profil.xhtml"></h:commandLink></h:form></li>
+                        <li><h:form rendered="true"><h:commandLink value="Deconnexion" action="#{sessionBean.deconnecter()}"></h:commandLink></h:form></li>	
+                    </ul>
+                </div>
+                <!-- end #menu --> 
+            </div>
+            <div id="page" class="container">
+                <p:messages id="messages" showDetail="true" autoUpdate="true" />
+                <h1><h:outputText id="pseudo" value="#{profilAmiBean.ami.pseudo}"></h:outputText></h1>
+                <h:graphicImage value="#{profilAmiBean.urlAvatar}" width="144px" height="144px"/>
+                <br /><br />
+
+                <table>
+
+                    <tr>
+                        <td>
+                            <b>Nom : </b>
+                        </td>
+                        <td>
+                            <h:outputText id="nom" value="#{profilAmiBean.ami.nom}"></h:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>Prenom : </b>
+                        </td>
+                        <td> 
+                            <h:outputText id="prenom" value="#{profilAmiBean.ami.prenom}"></h:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>Date de naissance : </b>
+                        </td>
+                        <td>
+                            <h:outputText id="ddn" value="#{profilAmiBean.ami.ddn.day}/#{profilAmiBean.ami.ddn.month}/#{profilAmiBean.ami.ddn.year}"></h:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>Sexe : </b>
+                        </td>
+                        <td>
+                            <h:outputText id="sexe" value="#{profilAmiBean.ami.sexe}"></h:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>Adresse : </b>
+                        </td>
+                        <td>
+                            <h:outputText id="adresse" value="#{profilAmiBean.ami.adresse}"></h:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>Mail : </b>
+                        </td>
+                        <td>
+                            <h:outputText id="mail" value="#{profilAmiBean.ami.mail}"></h:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>Téléphone :</b>
+                        </td>
+                        <td>
+                            <h:outputText id="telephone" value="#{profilAmiBean.ami.telephone}"></h:outputText>
+                        </td>
+                    </tr>
+                </table>
+
+      </div>
+        </div>
+
+        <div id="footer-wrapper">
+            <div id="footer">
+                <ul>
+                    <li><a href="#">CGU</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contactez-nous</a></li>
+                </ul>
+            </div>
+        </div>
+        <br />
+
+    </h:body>
+</html>

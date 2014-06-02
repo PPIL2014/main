@@ -32,13 +32,13 @@
             <div id="page" class="container">
 
                 <h:form>
-                    
+
                     <h:outputLink value="listeNoire.xhtml">
-                                <h:outputText value="Liste noire " />  
-                            </h:outputLink>
-                    
+                        <h:outputText value="Liste noire " />  
+                    </h:outputLink>
+
                     <center>
-                        
+
                         <fieldset>
                             <legend>Rechercher</legend>
                             <br />
@@ -56,14 +56,15 @@
 
                         <br />
                         <h:dataTable value="#{contactsBean.contactListeAmis}" var="current">  
-
                             <h:column>
                                 <h:commandButton action="#{contactsBean.favoriser(current)}" image="resources/images/pasFavori.png" 
                                                  rendered="#{current.type == 'AMI'}"/>
                                 <h:commandButton action="#{contactsBean.defavoriser(current)}" image="resources/images/favori.png" 
                                                  rendered="#{current.type == 'FAVORI'}"/>
                             </h:column>
-
+                            <h:column>
+                                <h:graphicImage value="#{contactsBean.getUrlAvatar(current)}" width="30px" height="30px"/>
+                            </h:column>
                             <h:column>
                                 <h:commandLink value="#{current.estEnContactAvec.pseudo}" action="profilAmi.xhtml" 
                                                rendered="#{current.type == 'AMI' || current.type == 'FAVORI'}">
@@ -91,8 +92,8 @@
                                 <h:commandButton value="Bloquer" action="#{contactsBean.bloquer(current)}"
                                                  rendered="#{current.type == 'AMI' || current.type == 'FAVORI'}"/>    
                             </h:column>
-                            
-                              <h:column>
+
+                            <h:column>
                                 <h:commandButton value="Supprimer" action="#{contactsBean.supprimer(current)}"
                                                  rendered="#{current.type == 'AMI' || current.type == 'FAVORI'}"/>    
                             </h:column>

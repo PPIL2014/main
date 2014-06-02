@@ -84,7 +84,9 @@ public boolean vide = false;
                 if(rq.getType().equals("selectone")){
                    if(rq.getReponses().toArray()[0] == null ){ 
 			util.retirerReponse(rq); 	 	
-                    } 
+                    }else{
+                       util.ajouterReponseQCM(rq);
+                   }
                 }else{ 	 	
 	                util.ajouterReponseQCM(rq); 	 	
 		} 
