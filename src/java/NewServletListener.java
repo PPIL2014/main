@@ -179,7 +179,80 @@ public class NewServletListener implements ServletContextListener  {
            q15.setQuestionFAQ("Ma question ne se trouve pas ici ?");
            q15.setReponseFAQ("Un formulaire de la page Support permet d'envoyer un message à un administrateur qui vous répondra dans les plus brefs délais.");
        
-     
+     		//Questionnaires
+           Questionnaire q = new Questionnaire();
+           q.setId((long)1);
+           q.setNom("Style de vie");
+           
+           QuestionQCM qu1 = new QuestionQCM();
+           qu1.setId((long)1);
+           qu1.setQuestion("Pratiquez-vous un sport ?");
+           qu1.setType("selectone");
+           
+           Collection<Choix> cc = new ArrayList<Choix>();
+           
+           Choix ch1 = new Choix();
+           ch1.setId((long)1);
+           ch1.setReponse("Oui");
+           ch1.setQuestion(qu1);
+           cc.add(ch1);
+           
+           Choix ch2 = new Choix();
+           ch2.setId((long)2);
+           ch2.setReponse("Non");
+           ch2.setQuestion(qu1);
+           cc.add(ch2);
+           
+           qu1.setChoix(cc);
+           qu1.ajouterQuestionnaire(q);
+           
+           QuestionQCM qu2 = new QuestionQCM();
+           qu2.setId((long)2);
+           qu2.setQuestion("Quels animaux possedez vous ?");
+           qu2.setType("selectmany");
+           
+           Collection<Choix> col = new ArrayList<Choix>();
+           Choix ch3 = new Choix();
+           ch3.setId((long)3);
+           ch3.setReponse("Poisson");
+           ch3.setQuestion(qu2);
+           col.add(ch3);
+          
+           Choix ch4 = new Choix();
+           ch4.setId((long)4);
+           ch4.setReponse("Chien");
+           ch4.setQuestion(qu2);
+           col.add(ch4);
+           
+           Choix ch5 = new Choix();
+           ch5.setId((long)5);
+           ch5.setReponse("Chat");
+           ch5.setQuestion(qu2);
+           col.add(ch5);
+           
+           qu2.setChoix(col);
+           qu2.ajouterQuestionnaire(q);
+           
+           
+           QuestionOuverte qo = new QuestionOuverte();
+           qo.setId((long)3);
+           qo.setQuestion("Quels sont vos loisirs ?");
+           qo.setType("textarea");
+           qo.ajouterQuestionnaire(q);
+           
+           q.setQuestions(new ArrayList<Question>());
+           
+           q.ajouterQuestion(qu1);
+           q.ajouterQuestion(qu2);
+           q.ajouterQuestion(qo);
+           
+           try {
+               ut.begin();
+               em.merge(q);
+               ut.commit();
+           }catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException | SecurityException | IllegalStateException ex) {
+                Logger.getLogger(NewServletListener.class.getName()).log(Level.SEVERE, null, ex);
+           } 
        
 
             try {
