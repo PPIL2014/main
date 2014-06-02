@@ -15,8 +15,13 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
+import model.Choix;
 import model.Contact;
 import model.FAQ;
+import model.Question;
+import model.QuestionOuverte;
+import model.QuestionQCM;
+import model.Questionnaire;
 import model.SignalementUtilisateur;
 import model.Utilisateur;
 
