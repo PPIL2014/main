@@ -261,6 +261,11 @@ public class ChatBean implements Serializable {
             return null ;
         }
         listeCandidat = (ArrayList<Utilisateur>) listeAttente.clone();
+        //On supprime de la liste les personnes avec qui ont est déjà en contact
+        for (Contact c : u1.getContacts())
+        {
+            listeCandidat.remove(c.getEstEnContactAvec());
+        }
         /*if (type != SessionChat.Type.ALEATOIRE)
         {
             listeCandidat = (ArrayList<Utilisateur>) listeAttente.clone();
